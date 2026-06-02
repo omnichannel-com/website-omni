@@ -6,38 +6,52 @@
 <title>Genesys Cloud shrinkage calculator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap");
+
+  @font-face {
+    font-family: "Overpass";
+    src: url("/fonts/Overpass-VariableFont_wght.ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
   :root {
+    --ocx-dark-blue: #1b1464;
+    --ocx-mauve: #aa42dc;
+    --ocx-bright-blue: #0071bc;
+    --ocx-mid-grey: #575757;
     --bg-primary: #ffffff;
-    --bg-secondary: #f5f4ee;
-    --bg-tertiary: #faf9f5;
-    --bg-info: #e6f1fb;
-    --bg-warning: #faeeda;
-    --text-primary: #1f1f1d;
-    --text-secondary: #5f5e5a;
-    --text-tertiary: #888780;
-    --text-info: #0c447c;
+    --bg-secondary: #f6f6f8;
+    --bg-tertiary: #ececf1;
+    --bg-info: #e6edf4;
+    --bg-warning: #f5f0fb;
+    --text-primary: #000000;
+    --text-secondary: #575757;
+    --text-tertiary: #8a8a96;
+    --text-info: #1b1464;
     --text-warning: #854f0b;
-    --border-tertiary: rgba(0,0,0,0.08);
-    --border-secondary: rgba(0,0,0,0.18);
-    --border-info: #378add;
-    --border-warning: #ba7517;
+    --border-tertiary: #d8d8e0;
+    --border-secondary: #b8b8c4;
+    --border-info: #0071bc;
+    --border-warning: #aa42dc;
     --radius-md: 8px;
-    --radius-lg: 12px;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --radius-lg: 14px;
+    --font-sans: "Oxygen", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Overpass", "Helvetica Neue", Arial, sans-serif;
     --font-mono: ui-monospace, "SF Mono", Monaco, Consolas, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg-primary: #1f1f1d;
-      --bg-secondary: #2c2c2a;
-      --bg-tertiary: #1a1a18;
-      --bg-info: #042c53;
-      --bg-warning: #412402;
-      --text-primary: #f5f4ee;
-      --text-secondary: #b4b2a9;
-      --text-tertiary: #888780;
+      --bg-primary: #1b1464;
+      --bg-secondary: #15104f;
+      --bg-tertiary: #14141c;
+      --bg-info: #0c0a2e;
+      --bg-warning: #1a0f2e;
+      --text-primary: #ffffff;
+      --text-secondary: #b8b8c4;
+      --text-tertiary: #8a8a96;
       --text-info: #b5d4f4;
-      --text-warning: #fac775;
+      --text-warning: #c77df0;
       --border-tertiary: rgba(255,255,255,0.12);
       --border-secondary: rgba(255,255,255,0.25);
     }
@@ -47,10 +61,14 @@
   html, body { margin:0; padding:0; background: var(--bg-tertiary); color: var(--text-primary); font-family: var(--font-sans); font-size:15px; line-height:1.6; }
   body { max-width:1100px; margin:0 auto; padding:2rem 1.5rem 3rem; }
 
-  h1 { font-size:24px; font-weight:500; margin:0 0 0.25rem; }
-  h2 { font-size:17px; font-weight:500; margin:1.75rem 0 0.5rem; }
+  h1 { font-family: var(--font-display); font-size:28px; font-weight:700; margin:0 0 0.25rem; color: var(--ocx-dark-blue); letter-spacing: -0.02em; }
+  h2 { font-family: var(--font-display); font-size:18px; font-weight:600; margin:1.75rem 0 0.5rem; color: var(--ocx-dark-blue); }
   .subtitle { color: var(--text-secondary); font-size:14px; margin-bottom:1.75rem; }
   .helper-text { font-size:11px; color: var(--text-tertiary); margin-bottom:0.75rem; }
+  .brand-header { display:flex; align-items:center; gap:12px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:0.5px solid var(--border-tertiary); }
+  .brand-header img { width:32px; height:32px; }
+  .brand-header span { font-family: var(--font-display); font-size:18px; font-weight:700; color: var(--ocx-dark-blue); letter-spacing: -0.02em; }
+  .brand-header span strong { font-weight:800; }
 
   .scenario-btns { display:flex; gap:8px; margin-bottom:1.25rem; flex-wrap:wrap; }
   .scenario-btn {
@@ -102,7 +120,7 @@
   .activity-editor > div { padding:8px 12px; border-bottom:0.5px solid var(--border-tertiary); display:flex; align-items:center; }
   .activity-editor > div.header { background: var(--bg-secondary); font-weight:500; color: var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
   .activity-editor > div.col-flag { justify-content:center; }
-  .activity-editor input[type="checkbox"] { width:14px; height:14px; cursor:pointer; accent-color: var(--text-info); }
+  .activity-editor input[type="checkbox"] { width:14px; height:14px; cursor:pointer; accent-color: var(--ocx-bright-blue); }
   .activity-editor .activity-code-name { font-weight:500; }
   .activity-editor .activity-category-name { color: var(--text-secondary); font-size:11px; }
 
@@ -110,8 +128,8 @@
   .slider-grid label { display:flex; align-items:center; gap:12px; }
   .slider-grid label > span:first-child { min-width:180px; color: var(--text-secondary); }
   input[type="range"] { flex:1; -webkit-appearance:none; appearance:none; background: var(--border-tertiary); height:4px; border-radius:2px; outline:none; }
-  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:16px; height:16px; background: var(--text-info); border-radius:50%; cursor:pointer; }
-  input[type="range"]::-moz-range-thumb { width:16px; height:16px; background: var(--text-info); border-radius:50%; cursor:pointer; border:none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:16px; height:16px; background: var(--ocx-bright-blue); border-radius:50%; cursor:pointer; }
+  input[type="range"]::-moz-range-thumb { width:16px; height:16px; background: var(--ocx-bright-blue); border-radius:50%; cursor:pointer; border:none; }
   .slider-val { min-width:50px; text-align:right; font-variant-numeric: tabular-nums; }
 
   .reset-btn { padding:4px 10px; font-size:11px; background:transparent; border:0.5px solid var(--border-tertiary); border-radius: var(--radius-md); cursor:pointer; color: var(--text-primary); font-family:inherit; margin-left:6px; }
@@ -132,6 +150,11 @@
 </style>
 </head>
 <body>
+
+<div class="brand-header">
+  <img src="/assets/logo-icon-color.png" alt="omnichannel CX logo">
+  <span>omnichannel <strong>CX</strong></span>
+</div>
 
 <h1>Genesys Cloud shrinkage calculator</h1>
 <p class="subtitle">Models the Historical Shrinkage report, including per-category breakdowns, paid/unpaid and planned/unplanned splits, and the effect of logging in early or late.</p>

@@ -6,30 +6,41 @@
 <title>The Physics of Waiting — a queueing theory primer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: "Overpass";
+    src: url("/fonts/Overpass-VariableFont_wght.ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
   :root{
-    --paper:#f4efe4;
-    --panel:#fdfbf4;
-    --panel-2:#f8f3e8;
-    --ink:#221f18;
-    --ink-soft:#5d574a;
-    --ink-faint:#928b79;
-    --clay:#c2552f;
-    --clay-deep:#8d3a1c;
+    --ocx-dark-blue: #1b1464;
+    --ocx-mauve: #aa42dc;
+    --ocx-bright-blue: #0071bc;
+    --paper:#f6f6f8;
+    --panel:#ffffff;
+    --panel-2:#ececf1;
+    --ink:#000000;
+    --ink-soft:#575757;
+    --ink-faint:#8a8a96;
+    --clay:#1b1464;
+    --clay-deep:#15104f;
     --green:#2f7d68;
     --green-soft:#d8e9e2;
     --red:#b23628;
     --red-soft:#f1ddd6;
     --amber:#c98a1f;
-    --blue:#2d6ca8;
-    --blue-deep:#173f68;
-    --blue-soft:#e6eef7;
-    --line:rgba(34,31,24,0.12);
-    --line-soft:rgba(34,31,24,0.07);
-    --shadow:0 1px 2px rgba(34,31,24,.05),0 8px 24px rgba(34,31,24,.06);
-    --serif:"Fraunces",Georgia,"Times New Roman",serif;
-    --sans:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --blue:#0071bc;
+    --blue-deep:#1b1464;
+    --blue-soft:#e6edf4;
+    --line:#d8d8e0;
+    --line-soft:#ececf1;
+    --shadow:0 1px 2px rgba(27,20,100,.06),0 8px 24px rgba(27,20,100,.10);
+    --serif:"Cormorant",Georgia,"Times New Roman",serif;
+    --sans:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --display:"Overpass","Helvetica Neue",Arial,sans-serif;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -37,28 +48,34 @@
     margin:0;background:var(--paper);color:var(--ink);
     font-family:var(--sans);font-size:17px;line-height:1.65;
     -webkit-font-smoothing:antialiased;
-    background-image:radial-gradient(circle at 12% -5%,rgba(194,85,47,.06),transparent 42%),radial-gradient(circle at 95% 8%,rgba(45,108,168,.05),transparent 40%);
+    background-image:radial-gradient(circle at 12% -5%,rgba(170,66,220,.06),transparent 42%),radial-gradient(circle at 95% 8%,rgba(0,113,188,.05),transparent 40%);
   }
   .wrap{max-width:880px;margin:0 auto;padding:0 22px;}
-  ::selection{background:var(--clay);color:#fff;}
+  ::selection{background:var(--ocx-dark-blue);color:#fff;}
+
+  /* ---------- brand header ---------- */
+  .brand-bar{display:flex;align-items:center;gap:12px;padding:22px 0;border-bottom:1px solid var(--line);}
+  .brand-bar img{width:32px;height:32px;}
+  .brand-bar span{font-family:var(--display);font-size:18px;font-weight:700;color:var(--ocx-dark-blue);letter-spacing:-0.02em;}
+  .brand-bar span strong{font-weight:800;}
 
   /* ---------- type ---------- */
-  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-0.01em;line-height:1.08;margin:0;}
-  .kicker{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);}
+  h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-0.02em;line-height:1.08;margin:0;}
+  .kicker{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ocx-mauve);}
   p{margin:0 0 1.1rem;}
-  a{color:var(--clay);}
-  strong{font-weight:600;}
+  a{color:var(--ocx-bright-blue);}
+  strong{font-weight:700;}
   .lead{font-size:21px;line-height:1.55;color:var(--ink);}
   .muted{color:var(--ink-soft);}
 
   /* ---------- hero ---------- */
-  header.hero{padding:72px 0 36px;position:relative;}
+  header.hero{padding:48px 0 36px;position:relative;}
   .hero .kicker{margin-bottom:20px;display:inline-block;}
-  .hero h1{font-size:clamp(44px,8.5vw,82px);font-weight:600;letter-spacing:-0.03em;}
-  .hero h1 em{font-style:italic;color:var(--clay);}
+  .hero h1{font-size:clamp(44px,8.5vw,82px);font-weight:800;letter-spacing:-0.03em;color:var(--ocx-dark-blue);}
+  .hero h1 em{font-style:italic;color:var(--ocx-mauve);}
   .hero .sub{font-size:20px;color:var(--ink-soft);max-width:640px;margin-top:24px;line-height:1.5;}
   .rule{height:1px;background:var(--line);margin:0;border:0;}
-  .rule.thick{height:3px;background:var(--ink);}
+  .rule.thick{height:3px;background:var(--ocx-dark-blue);}
 
   /* ---------- sections ---------- */
   section{padding:54px 0;}
@@ -250,6 +267,10 @@
 <body>
 
 <div class="wrap">
+  <div class="brand-bar">
+    <img src="/assets/logo-icon-color.png" alt="omnichannel CX logo">
+    <span>omnichannel <strong>CX</strong></span>
+  </div>
 
   <!-- ===================== HERO ===================== -->
   <header class="hero fade">

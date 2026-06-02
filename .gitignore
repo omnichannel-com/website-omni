@@ -1,36 +1,107 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# ============================================
+# OS Generated Files
+# ============================================
 .DS_Store
-*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 
-# debug
+# ============================================
+# Editors / Temporary Files
+# ============================================
+*.swp
+*.swo
+*~
+*.tmp
+
+# ============================================
+# Node.js / JavaScript
+# ============================================
+node_modules/
+.pnp
+.pnp.js
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/install-state.gz
+
+# ============================================
+# Next.js
+# ============================================
+.next/
+out/
+build/
+dist/
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env/
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.python-version
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+*.lcov
+.nyc_output
+
+# ============================================
+# Logs
+# ============================================
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
 
-# local env files
+# ============================================
+# Local Environment Files
+# ============================================
 .env*.local
 .env
+!.env.example
 
-# vercel
+# ============================================
+# Vercel
+# ============================================
 .vercel
 
-# typescript
+# ============================================
+# TypeScript
+# ============================================
 *.tsbuildinfo
-next-env.d.ts
+# Note: next-env.d.ts should be committed per Next.js docs
+
+# ============================================
+# Archives / Large Binaries
+# ============================================
+*.zip
+*.tar.gz
+*.tgz
+
+# ============================================
+# Cache / Temp Directories
+# ============================================
+.cache/
+.temp/
+tmp/
