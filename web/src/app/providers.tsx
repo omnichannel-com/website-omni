@@ -2,12 +2,14 @@
 
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
+import { useRef } from 'react';
 
-if (typeof window !== 'undefined') {
+function initPostHog() {
+  if (typeof window === 'undefined') return;
   const apiKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
   const apiHost = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 
-  if (apiKey && apiHost) {
+  if (apiKey && apiHost && !posthog.__loaded) {
     posthog.init(apiKey, {
       api_host: apiHost,
       person_profiles: 'identified_only',
@@ -21,6 +23,13 @@ if (typeof window !== 'undefined') {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const initialized = useRef(false);
+
+  if (!initialized.current) {
+    initialized.current = true;
+    initPostHog();
+  }
+
   return (
     <PostHogProvider client={posthog}>
       {children}

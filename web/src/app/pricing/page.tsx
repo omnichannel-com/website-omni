@@ -1,47 +1,18 @@
 "use client";
+import { useState } from "react";
+import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 import Hero from "@/components/pricing-sections/hero-section";
-import PrimaryNavbar from "@/components/navbars/primary-navbar";
-import SecondaryNavbar from "@/components/navbars/secondary-navbar";
-import { useEffect, useRef, useState, RefObject } from "react";
 import PricePlans from "@/components/pricing-sections/price-plans";
 import Faqs from "@/components/pricing-sections/faqs";
-import Footer from "@/components/landing-sections/footer";
 
 export default function Pricing() {
-  const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
-  const [isSticky, setIsSticky] = useState(false);
-
-  useEffect(() => {
-    const scrollWrapper = scrollWrapperRef.current;
-    
-    const handleScroll = () => {
-      if (scrollWrapper) {
-        const offset = scrollWrapper.scrollTop;
-        setIsSticky(offset > 0);
-      }
-    };
-
-    if (scrollWrapper) {
-      scrollWrapper.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (scrollWrapper) {
-        scrollWrapper.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
-
   const [activePlan, setActivePlan] = useState<'monthly' | 'yearly'>('monthly');
 
   return (
-    <article ref={scrollWrapperRef} className="bg-ocx-bg scroll-wrapper">
-      <PrimaryNavbar />
-      <SecondaryNavbar isSticky={isSticky} />
-      <Hero activePlan={activePlan} setActivePlan={setActivePlan}/>
-      <PricePlans activePlan={activePlan}/>
+    <StickyScrollLayout>
+      <Hero activePlan={activePlan} setActivePlan={setActivePlan} />
+      <PricePlans activePlan={activePlan} />
       <Faqs />
-      <Footer />
-    </article>
+    </StickyScrollLayout>
   );
 }

@@ -7,11 +7,9 @@ export default function ViewPricing() {
     <div className="relative h-[70svh] bg-ocx-bg overflow-hidden flex items-center justify-center">
       <Image
         src="/fifth-section.png"
-        width={1000}
-        height={1000}
-        style={{ objectFit: 'cover'}}
+        fill
         alt="waves image"
-        className="absolute w-full h-full bottom-[-35%]"
+        className="absolute object-cover w-full h-full bottom-[-35%]"
       />
       <div className="relative flex flex-col mt-24 md:mt-0 items-center space-y-4 z-10 text-center px-4 md:px-8 lg:px-16">
 

@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 interface SecondaryNavbarProps {
@@ -18,7 +19,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   const [isPlatformHovered, setIsPlatformHovered] = useState(false);
   const [isDropdownHovered, setIsDropdownHovered] = useState(false);
   const [isBarHovered, setIsBarHovered] = useState(false);
-  const [activePath, setActivePath] = useState("");
+  const activePath = usePathname();
   const isHovered = isPlatformHovered || isDropdownHovered;
 
   useEffect(() => {
@@ -37,10 +38,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   useEffect(() => {
     setIsNavbarSticky(isSticky);
   }, [isSticky]);
-
-  useEffect(() => {
-    setActivePath(window.location.pathname);
-  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

@@ -2,9 +2,13 @@ import { useEffect } from 'react';
 
 const SearchUI = () => {
   useEffect(() => {
+    const existing = document.querySelector('script[data-pagefind-ui]');
+    if (existing) return;
+
     const script = document.createElement('script');
-    script.src = '/_pagefind/pagefind.js';
+    script.src = '/pagefind/pagefind-ui.js';
     script.async = true;
+    script.dataset.pagefindUi = '';
     document.body.appendChild(script);
 
     return () => {

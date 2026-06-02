@@ -32,7 +32,7 @@ const GreenlitModels = () => {
             if (item.type === 'image') {
               return (
                 <div key={index} className='mb-6'>
-                  <Image src={item.src} alt={item.alt} className='w-full' />
+                  <Image src={item.src} alt={item.alt} width={800} height={600} className='w-full' />
                 </div>
               );
             }

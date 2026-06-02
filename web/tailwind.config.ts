@@ -125,9 +125,9 @@ const config: Config = {
       /* ---------- Gradient backgrounds ---------- */
       backgroundImage: {
         "ocx-gradient":
-          "linear-gradient(135deg, #b45fe0 0%, #2a2585 50%, #0086c8 100%)",
+          "linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%)",
         "ocx-gradient-soft":
-          "linear-gradient(135deg, #b45fe022 0%, #2a258522 50%, #0086c822 100%)",
+          "linear-gradient(135deg, #aa42dc22 0%, #1b146422 50%, #0071bc22 100%)",
         "ocx-whisper":
           "radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%)",
         "ocx-tint":
@@ -135,9 +135,9 @@ const config: Config = {
         "ocx-indigo":
           "radial-gradient(110% 80% at 100% 0%, rgba(170,66,220,0.18), transparent 60%), linear-gradient(180deg, #1b1464 0%, #15104f 100%)",
         "ocx-aurora":
-          "radial-gradient(48% 70% at 14% 22%, rgba(180,95,224,0.52) 0%, transparent 60%), radial-gradient(50% 70% at 86% 78%, rgba(0,134,200,0.48) 0%, transparent 60%), linear-gradient(180deg, #1c1660 0%, #14104b 100%)",
+          "radial-gradient(48% 70% at 14% 22%, rgba(170,66,220,0.55) 0%, transparent 60%), radial-gradient(50% 70% at 86% 78%, rgba(0,113,188,0.50) 0%, transparent 60%), linear-gradient(180deg, #1b1464 0%, #15104f 100%)",
         "ocx-signature":
-          "linear-gradient(135deg, #b45fe0 0%, #2a2585 50%, #0086c8 100%)",
+          "linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%)",
       },
     },
   },

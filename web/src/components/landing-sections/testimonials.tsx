@@ -3,7 +3,6 @@ import React, { useState, useEffect, useMemo } from "react";
 
 function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [slideDirection, setSlideDirection] = useState("slide-enter-active");
 
   const testimonials = useMemo(
     () => [
@@ -47,7 +46,6 @@ function Testimonials() {
 
   useEffect(() => {
     const showNextTestimonial = () => {
-      setSlideDirection("slide-enter-active");
       setActiveIndex((prevIndex) =>
         prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
       );
@@ -68,11 +66,11 @@ function Testimonials() {
           <div
             key={index}
             className={`absolute inset-0 transition-transform duration-700 ease-in-out ${
-              index === activeIndex ? slideDirection : "hidden"
+              index === activeIndex ? "slide-enter-active" : "hidden"
             }`}
           >
             <div className="absolute z-50 top-[-24px] left-[50%] transform -translate-x-1/2">
-              <Image src="/Group.svg" alt="" width={60} height={60} />
+              <Image src="/quote-marks.svg" alt="" width={60} height={60} />
             </div>
             <section className="bg-ocx-dark-blue h-[210px] md:h-[270px] z-40 rounded-lg flex self-center mx-auto relative mb-7 text-white overflow-hidden">
               <div className="max-w-screen-xl px-2 md:px-4 pt-8 pb-4 mx-auto text-center lg:pt-16 lg:pb-8 lg:px-6 relative">

@@ -91,11 +91,11 @@ export default function Footer() {
           <li className="hover:text-ocx-bright-blue transition-colors duration-ocx-fast">
             <Link href="/privacy-policy">Privacy Policy</Link>
           </li>
-          <span className="cursor-default">|</span>
+          <li className="cursor-default" aria-hidden="true">|</li>
           <li className="hover:text-ocx-bright-blue transition-colors duration-ocx-fast">
             <Link href="/terms-of-service">Terms of Service</Link>
           </li>
-          <span className="cursor-default">|</span>
+          <li className="cursor-default" aria-hidden="true">|</li>
           <li className="hover:text-ocx-bright-blue transition-colors duration-ocx-fast">
             <Link href="/disclaimer">Disclaimer</Link>
           </li>

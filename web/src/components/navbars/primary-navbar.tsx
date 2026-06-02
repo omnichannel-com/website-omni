@@ -36,8 +36,12 @@ export default function PrimaryNavbar() {
           <li>
             <ThemeToggle />
           </li>
-          <li className="text-xs md:text-sm font-body hover:text-ocx-dark-blue cursor-pointer transition-colors duration-ocx-fast">Help Center</li>
-          <li className="text-xs md:text-sm font-body hover:text-ocx-dark-blue cursor-pointer transition-colors duration-ocx-fast" onClick={() => handleSigninClick("https://app.omnichannel.cx/")}>Log in</li>
+          <li>
+            <button className="text-xs md:text-sm font-body hover:text-ocx-dark-blue cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0">Help Center</button>
+          </li>
+          <li>
+            <button className="text-xs md:text-sm font-body hover:text-ocx-dark-blue cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0" onClick={() => handleSigninClick("https://app.omnichannel.cx/")}>Log in</button>
+          </li>
         </div>
 
         {isOpen && (

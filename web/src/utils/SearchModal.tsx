@@ -17,7 +17,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
         try {
           window.pagefind = await import(
             // @ts-expect-error pagefind.js is generated after build
-            /* webpackIgnore: true */ '/_next/static/chunks/pages/pagefind/pagefind.js'
+            /* webpackIgnore: true */ '/pagefind/pagefind.js'
           );
         } catch (e) {
           window.pagefind = {

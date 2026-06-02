@@ -1,44 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client";
-import React, { useEffect, useRef, useState, RefObject } from "react";
-import PrimaryNavbar from "@/components/navbars/primary-navbar";
-import SecondaryNavbar from "@/components/navbars/secondary-navbar";
-import Footer from "@/components/landing-sections/footer";
+import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 
 export default function PrivacyPolicy() {
-  const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
-  const [isSticky, setIsSticky] = useState(false);
-
-
-  useEffect(() => {
-    const scrollWrapper = scrollWrapperRef.current;
-
-    const handleScroll = () => {
-      if (scrollWrapper) {
-        const offset = scrollWrapper.scrollTop;
-        setIsSticky(offset > 0);
-      }
-    };
-
-    if (scrollWrapper) {
-      scrollWrapper.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (scrollWrapper) {
-        scrollWrapper.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
-
   return (
-<article
-      ref={scrollWrapperRef}
-      className="bg-ocx-bg scroll-wrapper"
-    >
-      <PrimaryNavbar />
-      <SecondaryNavbar isSticky={isSticky} />
-      
+    <StickyScrollLayout>
       <div className="flex flex-col justify-center py-12">
         <h1 className="gradient-text xl:text-[54px] text-[25px] md:text-[35px] font-semibold font-display text-center my-12">
           Privacy Policy
@@ -136,8 +101,7 @@ export default function PrivacyPolicy() {
         </div>
       </div>
 
-      <Footer />
-    </article>
+    </StickyScrollLayout>
   );
 }
 
