@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Type scale</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 18px 28px; }
+  .row { display: grid; grid-template-columns: 80px 1fr 60px; align-items: baseline; gap: 16px; padding: 4px 0; border-bottom: 1px dashed var(--border); }
+  .row:last-child { border-bottom: 0; }
+  .tok { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); }
+  .px { font-family: var(--font-mono); font-size: 10px; color: var(--fg-subtle); text-align: right; }
+  .sample { color: var(--fg-primary); }
+  .display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+  .serif   { font-family: var(--font-serif); font-style: italic; font-weight: 500; line-height: 1.1; }
+  .body    { font-family: var(--font-body); }
+</style></head>
+<body>
+  <div class="row"><div class="tok">--fs-5xl</div><div class="sample display" style="font-size:44px">Display</div><div class="px">88</div></div>
+  <div class="row"><div class="tok">--fs-3xl</div><div class="sample display" style="font-size:36px">Headline</div><div class="px">48</div></div>
+  <div class="row"><div class="tok">--fs-2xl</div><div class="sample serif"  style="font-size:28px"><em>Sub-headline</em></div><div class="px">36</div></div>
+  <div class="row"><div class="tok">--fs-lg</div><div class="sample body"   style="font-size:20px;font-weight:300">Lede paragraph</div><div class="px">22</div></div>
+  <div class="row"><div class="tok">--fs-base</div><div class="sample body" style="font-size:16px">Body · Oxygen Regular</div><div class="px">16</div></div>
+  <div class="row"><div class="tok">--fs-sm</div><div class="sample body"  style="font-size:14px;color:var(--fg-muted)">Small / caption</div><div class="px">14</div></div>
+</body></html>

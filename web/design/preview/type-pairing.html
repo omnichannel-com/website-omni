@@ -1,0 +1,67 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Type pairing</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 24px 28px; display: grid; grid-template-columns: 1fr 240px; gap: 28px; align-items: start; }
+  .specimen { min-width: 0; }
+  .eyebrow { font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ocx-mauve); margin-bottom: 12px; }
+  .h { font-family: var(--font-display); font-weight: 900; font-size: 44px; line-height: 1; letter-spacing: -0.025em; color: var(--fg-primary); margin-bottom: 10px; }
+  .sub { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: 22px; line-height: 1.2; color: var(--fg); margin-bottom: 12px; }
+  .body { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--fg-muted); }
+
+  .audit {
+    border-left: 1px solid var(--border);
+    padding-left: 18px;
+    font-family: var(--font-body);
+  }
+  .audit-title {
+    font-family: var(--font-display); font-weight: 800; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg-subtle);
+    margin-bottom: 10px;
+  }
+  .check {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 11px;
+  }
+  .check:last-child { border-bottom: 0; }
+  .role { color: var(--fg); font-weight: 500; }
+  .ratio { font-family: var(--font-mono); color: var(--fg); font-weight: 700; }
+  .pass {
+    display: inline-block;
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 9px; letter-spacing: 0.08em;
+    padding: 1px 5px; border-radius: 3px;
+    margin-left: 6px;
+    background: rgba(46,184,114,0.14); color: #1f8a5b;
+  }
+  .pass.tight { background: rgba(240,160,32,0.16); color: #b97c0a; }
+  .verdict {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 11px; letter-spacing: 0.06em;
+    color: #1f8a5b;
+  }
+  .note { font-size: 10px; color: var(--fg-muted); line-height: 1.5; margin-top: 6px; font-weight: 400; letter-spacing: 0; font-family: var(--font-body); }
+</style></head>
+<body>
+  <div class="specimen">
+    <div class="eyebrow">PLATFORM</div>
+    <div class="h">One inbox, every channel.</div>
+    <div class="sub"><em>Composed under pressure. Built for teams who care deeply.</em></div>
+    <div class="body">Email, chat, voice, and social, threaded together so your team can answer in the channel the customer chose.</div>
+  </div>
+
+  <div class="audit">
+    <div class="audit-title">WCAG 2.2 AA · contrast</div>
+    <div class="check"><span class="role">Eyebrow · mauve 11px</span><span><span class="ratio">4.61</span><span class="pass tight">AA</span></span></div>
+    <div class="check"><span class="role">Headline · dark blue 44px</span><span><span class="ratio">15.6</span><span class="pass">AAA</span></span></div>
+    <div class="check"><span class="role">Sub · black 22px italic</span><span><span class="ratio">21.0</span><span class="pass">AAA</span></span></div>
+    <div class="check"><span class="role">Body · mid-grey 14px</span><span><span class="ratio">7.29</span><span class="pass">AAA</span></span></div>
+    <div class="verdict">✓ COMPLIANT</div>
+    <div class="note">All on white. Mauve eyebrow clears AA (4.5:1) by a thin margin; keep it ≥11px and never put it on tinted backgrounds. Other tokens clear AAA.</div>
+  </div>
+</body></html>

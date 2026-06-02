@@ -1,0 +1,277 @@
+/* ============================================================
+   omnichannel CX — Colors & Type
+   Source: omnichannel CX Brand Guide
+   ============================================================ */
+
+/* Cormorant + Oxygen still loaded from Google Fonts (no files supplied).
+   Overpass is loaded from the brand-supplied variable TTFs in /fonts. */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Oxygen:wght@300;400;700&display=swap");
+
+@font-face {
+  font-family: "Overpass";
+  src: url("fonts/Overpass-VariableFont_wght.ttf") format("truetype-variations"),
+       url("fonts/Overpass-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Overpass";
+  src: url("fonts/Overpass-Italic-VariableFont_wght.ttf") format("truetype-variations"),
+       url("fonts/Overpass-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Brand colors ---------- */
+  --ocx-dark-blue:   #1b1464; /* primary */
+  --ocx-mauve:       #aa42dc; /* accent — use sparingly */
+  --ocx-bright-blue: #0071bc; /* accent — use sparingly */
+  --ocx-mid-grey:    #575757;
+  --ocx-black:       #000000;
+  --ocx-white:       #ffffff;
+
+  /* Supporting neutrals (derived) */
+  --ocx-grey-50:  #f6f6f8;
+  --ocx-grey-100: #ececf1;
+  --ocx-grey-200: #d8d8e0;
+  --ocx-grey-300: #b8b8c4;
+  --ocx-grey-400: #8a8a96;
+  --ocx-grey-700: #3a3a48;
+  --ocx-grey-900: #14141c;
+
+  /* Tints of dark blue for surfaces / hovers */
+  --ocx-dark-blue-90: #2a2280;
+  --ocx-dark-blue-12: rgba(27, 20, 100, 0.12);
+  --ocx-dark-blue-08: rgba(27, 20, 100, 0.08);
+  --ocx-dark-blue-04: rgba(27, 20, 100, 0.04);
+
+  /* ---------- Signature gradient ----------
+     Pulled from the icon mark. The full-strength ramp is the canonical
+     "Aurora indigo" used once per surface. */
+  --ocx-gradient: linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%);
+  --ocx-gradient-soft: linear-gradient(135deg, #aa42dc22 0%, #1b146422 50%, #0071bc22 100%);
+
+  /* ---------- Standard gradient BACKGROUNDS ----------
+     Use these — don't roll your own. Each has a defined role; the rule
+     is still "one signature gradient per surface". Pick the tier that
+     fits the surface, never stack two on top of each other. */
+
+  /* TIER 1 — Whisper. Off-white surface with the faintest brand
+     warmth from one corner. Composed, not decorative. Body stays
+     black. */
+  --ocx-bg-whisper:
+    radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%);
+
+  /* TIER 2 — Tint. A single quiet wash from indigo to a hint of
+     blue, low saturation. Marketing cards, callouts, feature
+     blocks. Body stays dark. */
+  --ocx-bg-tint:
+    linear-gradient(160deg, #ecebf6 0%, #e6edf4 100%);
+
+  /* TIER 3 — Indigo. Solid dark-blue with one soft accent halo —
+     not two. The accent recedes; the surface is the message. */
+  --ocx-bg-indigo:
+    radial-gradient(110% 80% at 100% 0%, rgba(170,66,220,0.18), transparent 60%),
+    linear-gradient(180deg, #1b1464 0%, #15104f 100%);
+
+  /* TIER 4 — Aurora. The signature surface for hero moments —
+     restrained mesh, generous breathing room. Two accents, not
+     three; saturation pulled back so type sits over it cleanly. */
+  --ocx-bg-aurora:
+    radial-gradient(48% 70% at 14% 22%, rgba(170,66,220,0.55) 0%, transparent 60%),
+    radial-gradient(50% 70% at 86% 78%, rgba(0,113,188,0.50) 0%, transparent 60%),
+    linear-gradient(180deg, #1b1464 0%, #15104f 100%);
+
+  /* TIER 5 — Signature. The canonical 135° linear ramp. Use for
+     primary CTA backgrounds, the app icon, and tightly-cropped
+     accents like avatar fills — not as a full-width background. */
+  --ocx-bg-signature: var(--ocx-gradient);
+
+  /* ---------- Semantic foreground / background ---------- */
+  --bg:           var(--ocx-white);
+  --bg-subtle:    var(--ocx-grey-50);
+  --bg-muted:     var(--ocx-grey-100);
+  --bg-inverse:   var(--ocx-dark-blue);
+
+  --fg:           var(--ocx-black);
+  --fg-muted:     var(--ocx-mid-grey);
+  --fg-subtle:    var(--ocx-grey-400);
+  --fg-inverse:   var(--ocx-white);
+  --fg-link:      var(--ocx-bright-blue);
+  --fg-accent:    var(--ocx-mauve);
+  --fg-primary:   var(--ocx-dark-blue);
+
+  --border:       var(--ocx-grey-200);
+  --border-strong:var(--ocx-grey-300);
+
+  /* ---------- Type families ---------- */
+  --font-display: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  --font-serif:   "Cormorant", "Cormorant Garamond", Georgia, serif;
+  --font-body:    "Oxygen", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- Type scale ---------- */
+  --fs-xs:   12px;
+  --fs-sm:   14px;
+  --fs-base: 16px;
+  --fs-md:   18px;
+  --fs-lg:   22px;
+  --fs-xl:   28px;
+  --fs-2xl:  36px;
+  --fs-3xl:  48px;
+  --fs-4xl:  64px;
+  --fs-5xl:  88px;
+  --fs-6xl:  120px;
+
+  --lh-tight: 1.05;
+  --lh-snug:  1.2;
+  --lh-base:  1.55;
+  --lh-loose: 1.75;
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-caps:   0.12em;
+
+  /* ---------- Spacing scale ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  24px;
+  --sp-6:  32px;
+  --sp-7:  48px;
+  --sp-8:  64px;
+  --sp-9:  96px;
+  --sp-10: 128px;
+
+  /* ---------- Radii ---------- */
+  --r-sm:  4px;
+  --r-md:  8px;
+  --r-lg:  14px;
+  --r-xl:  22px;
+  --r-pill: 999px;
+
+  /* ---------- Shadows / elevation ---------- */
+  --shadow-xs: 0 1px 2px rgba(27, 20, 100, 0.06);
+  --shadow-sm: 0 2px 6px rgba(27, 20, 100, 0.08);
+  --shadow-md: 0 8px 24px rgba(27, 20, 100, 0.10);
+  --shadow-lg: 0 20px 48px rgba(27, 20, 100, 0.16);
+  --shadow-glow: 0 12px 40px rgba(170, 66, 220, 0.28);
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 380ms;
+}
+
+/* ============================================================
+   Semantic typography presets
+   ============================================================ */
+
+.ocx-display,
+.ocx-h0 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(56px, 8vw, var(--fs-6xl));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: balance;
+}
+
+.ocx-h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 5.5vw, var(--fs-4xl));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: balance;
+}
+
+.ocx-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: balance;
+}
+
+.ocx-subhead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.ocx-h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+.ocx-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.ocx-lede {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-base);
+  color: var(--fg);
+}
+
+.ocx-p,
+.ocx-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--fg);
+}
+
+.ocx-small {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+  color: var(--fg-muted);
+}
+
+.ocx-mono,
+.ocx-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--fg);
+  background: var(--bg-muted);
+  padding: 0.1em 0.4em;
+  border-radius: var(--r-sm);
+}
+
+/* Helper: gradient brand text */
+.ocx-gradient-text {
+  background: var(--ocx-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

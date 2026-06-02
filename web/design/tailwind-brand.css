@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Oxygen:wght@300;400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   omnichannel CX — Tailwind brand entry point
+   Source: omnichannel CX Brand Guide
+   ============================================================ */
+
+@layer base {
+  @font-face {
+    font-family: "Overpass";
+    src: url("fonts/Overpass-VariableFont_wght.ttf") format("truetype-variations"),
+         url("fonts/Overpass-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Overpass";
+    src: url("fonts/Overpass-Italic-VariableFont_wght.ttf") format("truetype-variations"),
+         url("fonts/Overpass-Italic-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply font-body text-ocx-fg bg-ocx-bg;
+  }
+}
+
+@layer components {
+  /* Eyebrow — ALL-CAPS label with wide tracking */
+  .ocx-eyebrow {
+    @apply font-display font-bold text-ocx-xs tracking-ocx-caps uppercase text-ocx-fg-muted;
+  }
+
+  /* Primary button */
+  .ocx-btn-primary {
+    @apply inline-flex items-center gap-ocx-2 font-display font-bold text-ocx-sm
+           bg-ocx-dark-blue text-white rounded-ocx-md px-[18px] py-[10px]
+           transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-btn-primary:hover {
+    @apply bg-[#2a2280] -translate-y-px shadow-ocx-md;
+  }
+  .ocx-btn-primary:active {
+    @apply scale-[0.98] shadow-ocx-sm;
+  }
+
+  /* Accent button (signature gradient) */
+  .ocx-btn-accent {
+    @apply inline-flex items-center gap-ocx-2 font-display font-bold text-ocx-sm
+           bg-ocx-gradient text-white rounded-ocx-md px-[18px] py-[10px]
+           shadow-ocx-glow transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-btn-accent:hover {
+    @apply -translate-y-px shadow-ocx-md;
+  }
+  .ocx-btn-accent:active {
+    @apply scale-[0.98] shadow-ocx-sm;
+  }
+
+  /* Secondary button */
+  .ocx-btn-secondary {
+    @apply inline-flex items-center gap-ocx-2 font-display font-bold text-ocx-sm
+           bg-white text-ocx-fg-primary border border-ocx-border-strong rounded-ocx-md
+           px-[18px] py-[10px] transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-btn-secondary:hover {
+    @apply border-ocx-dark-blue;
+  }
+
+  /* Ghost button */
+  .ocx-btn-ghost {
+    @apply inline-flex items-center gap-ocx-2 font-display font-bold text-ocx-sm
+           bg-transparent text-ocx-fg-primary rounded-ocx-md px-[12px] py-[10px]
+           transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-btn-ghost:hover {
+    @apply bg-[rgba(27,20,100,0.08)];
+  }
+
+  /* Link button */
+  .ocx-btn-link {
+    @apply inline-flex items-center gap-ocx-2 font-body text-ocx-base
+           text-ocx-fg-link bg-transparent border-0 px-1 py-[10px]
+           transition-colors duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-btn-link:hover {
+    @apply underline text-ocx-dark-blue;
+  }
+
+  /* Card (light) */
+  .ocx-card {
+    @apply bg-white border border-ocx-border-strong rounded-ocx-lg shadow-ocx-sm
+           p-[18px_20px] transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-card:hover {
+    @apply shadow-ocx-md -translate-y-[2px];
+  }
+
+  /* Card (dark / inverse) */
+  .ocx-card-inverse {
+    @apply bg-ocx-dark-blue border-transparent rounded-ocx-lg shadow-ocx-sm
+           p-[18px_20px] text-white transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-card-inverse:hover {
+    @apply shadow-ocx-md -translate-y-[2px];
+  }
+
+  /* Input */
+  .ocx-input {
+    @apply font-body text-ocx-sm px-[14px] py-[10px] w-full
+           bg-white text-ocx-fg border border-ocx-border-strong rounded-ocx-md
+           outline-none transition-all duration-ocx-base ease-ocx-standard;
+  }
+  .ocx-input:focus {
+    @apply border-ocx-bright-blue;
+    box-shadow: 0 0 0 3px rgba(0, 113, 188, 0.18);
+  }
+
+  /* Badge / pill */
+  .ocx-badge {
+    @apply inline-flex items-center font-display font-bold text-[11px] tracking-wide uppercase
+           px-[10px] py-[4px] rounded-ocx-pill border border-transparent;
+  }
+
+  /* Avatar */
+  .ocx-avatar {
+    @apply flex items-center justify-center font-display font-bold text-sm text-white
+           rounded-full flex-shrink-0 bg-ocx-gradient;
+  }
+}
+
+@layer utilities {
+  /* Gradient text (clip) */
+  .ocx-gradient-text {
+    background: linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Focus ring (WCAG-compliant) */
+  .ocx-focus-ring:focus-visible {
+    @apply outline-none;
+    outline: 2px solid #0071bc;
+    outline-offset: 2px;
+  }
+
+  /* Backdrop scrim for modals */
+  .ocx-scrim {
+    background: rgba(27, 20, 100, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Glass surface (rare — over photography only) */
+  .ocx-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Inverse divider */
+  .ocx-divider-inverse {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}

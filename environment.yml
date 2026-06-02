@@ -1,0 +1,16 @@
+name: website-omni
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.14
+  - pip
+  # --- Optional tooling for static-site workflows ---
+  # Uncomment if you add a build step, linter, or local preview server:
+  # - nodejs
+  # - http-server          # npm: npx http-server
+  # - beautifulsoup4       # HTML parsing / scraping
+  # - jinja2               # templating engine
+  # - markdown             # Markdown → HTML
+  # - Pillow               # image optimization
+  # - requests             # HTTP for deployment scripts

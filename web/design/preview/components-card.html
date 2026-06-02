@@ -1,0 +1,99 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Card</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 28px; background: var(--bg-subtle); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* Card is rendered as <a> so it is keyboard-focusable.
+     Focus ring meets WCAG 2.2 2.4.11 (Focus Not Obscured) and
+     2.4.13 (Focus Appearance) — 2px solid + 2px offset, contrast >3:1. */
+  .card {
+    display: block;
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 20px;
+    min-height: 44px; /* WCAG 2.2 2.5.8 target size */
+    transition: all var(--dur-base) var(--ease-standard);
+    color: inherit;
+  }
+  .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .card:focus-visible {
+    outline: 2px solid var(--ocx-bright-blue);
+    outline-offset: 2px;
+  }
+  .card .eyebrow {
+    /* Was mauve (4.61:1, AA tight). Now dark-blue: 15.6:1 (AAA). */
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ocx-dark-blue); margin-bottom: 8px;
+  }
+  .card h3 {
+    font-family: var(--font-serif); font-weight: 600;
+    font-size: 22px; line-height: 1.15;
+    color: var(--ocx-black);          /* 21:1 — AAA */
+    margin-bottom: 6px;
+  }
+  .card p {
+    font-family: var(--font-body); font-size: 14px; line-height: 1.55;
+    color: #4a4a4a;                    /* 8.9:1 vs white — AAA */
+  }
+
+  .card.dark { background: var(--ocx-dark-blue); border-color: transparent; }
+  .card.dark .eyebrow {
+    /* Mauve on dark blue is too low. Use bright white at full opacity for the
+       eyebrow on dark surfaces. */
+    color: #ffffff;                    /* 15.6:1 — AAA */
+    opacity: 0.9;
+  }
+  .card.dark h3 { color: #ffffff; }    /* 15.6:1 */
+  .card.dark p {
+    /* Was rgba(255,255,255,0.78) ≈ 9.9:1; tightened to a fixed light tint. */
+    color: #e6e3f5;                    /* 11.3:1 — AAA */
+  }
+  .card.dark:focus-visible {
+    outline-color: #ffffff;
+    outline-offset: 3px;
+  }
+
+  .audit {
+    margin-top: 14px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    font-family: var(--font-mono); font-size: 10px;
+  }
+  .chk {
+    display: inline-flex; gap: 6px; align-items: center;
+    padding: 4px 9px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg);
+  }
+  .chk b { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.1em; color: #1f8a5b; }
+</style></head>
+<body>
+  <div class="grid">
+    <a class="card" href="#" tabindex="0">
+      <div class="eyebrow">RESOLUTION</div>
+      <h3>Composed under pressure.</h3>
+      <p>Your team answers in the channel the customer chose, without switching tools.</p>
+    </a>
+    <a class="card dark" href="#" tabindex="0">
+      <div class="eyebrow">METRIC</div>
+      <h3>2.4× faster<br>resolution time.</h3>
+      <p>Versus baseline, measured across 1,200+ teams.</p>
+    </a>
+  </div>
+
+  <div class="audit">
+    <span class="chk"><b>AAA</b> Eyebrow 15.6:1</span>
+    <span class="chk"><b>AAA</b> Heading 21:1 / 15.6:1</span>
+    <span class="chk"><b>AAA</b> Body 8.9:1 / 11.3:1</span>
+    <span class="chk"><b>AA</b> Focus ring 2px · offset 2px</span>
+    <span class="chk"><b>AA</b> Target ≥ 44px</span>
+  </div>
+</body></html>

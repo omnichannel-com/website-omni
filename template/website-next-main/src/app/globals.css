@@ -1,0 +1,338 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+:root {
+  --bg-color: #F8F3EE;
+  --bg-color-op: rgba(248, 243, 238, 0.8);
+  --text-color: #232426;
+  --primary-color: #F45615;
+  --secondary-color: #202021;
+  --card-color: #ffffff;
+  --card-color-Op: rgba(255, 255, 255, 0.8);
+  --background-blur: blur(5px);
+}
+.dark {
+  --bg-color: #232426;
+  --bg-color-op:  rgba(35, 36, 38, 0.8);
+  --text-color: #F8F3EE;
+  --primary-color: #F45615;
+  --secondary-color: #202021;
+  --card-color: #19191A;
+  --card-color-op: rgba(25, 25, 26, 0.8);
+  --background-blur: blur(5px);
+}
+
+@font-face {
+  font-family: "MyFont";
+  src: url("/fonts/nunito/static/Nunito-Regular.ttf") format("truetype");
+}
+
+body {
+  font-family: "Nunito", sans-serif !important;
+
+}
+p {
+  font-family: "Nunito", sans-serif !important;
+}
+/* body {
+  font-family: 'Nunito', sans-serif;
+} */
+
+.primary-active-nav {
+  @apply relative;
+}
+
+.primary-nav > li {
+  @apply py-1 px-3 rounded-md cursor-pointer;
+}
+
+.primary-login {
+  @apply relative font-semibold;
+}
+/* .primary-active-nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background-color: #ef6351;
+  transform: translateY(10px);
+} */
+.primary-login::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(-10px);
+}
+.primary-nav > li:hover {
+  @apply bg-[#5f5e5e] bg-opacity-35;
+}
+
+/* .secondary-nav-item > li {
+  @apply gap-2 items-center flex cursor-pointer;
+} */
+
+.icon {
+  @apply bottom-0 left-0 transition-all duration-200 transform rotate-0 group-hover:rotate-180;
+}
+
+/* .secondary-nav:hover > .buttons .signup-button {
+  @apply text-white;
+} */
+.secondary-nav:hover .navitems {
+  @apply text-textClr;
+}
+
+/* .secondary-nav:hover > .buttons .demo-button {
+  @apply border-black;
+} */
+
+.secondary-nav-border {
+  @apply absolute bottom-[-10px] left-0 w-0 h-[2px] bg-[#ef6351] transition-all duration-300 ease-in-out origin-left transform group-hover:w-full;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent inline-block;
+}
+
+.gradient-input {
+  @apply outline-none bg-gradient-to-r from-[#464545] to-primaryColor placeholder-white;
+}
+.gradient-input-light {
+  @apply outline-none bg-backgroundClr placeholder-primaryColor;
+}
+
+.gradient-button {
+  @apply bg-secondaryColor text-white rounded-full py-2 px-4 cursor-pointer;
+}
+
+.transition-top {
+  @apply transition-all;
+}
+
+.vanish-element {
+  @apply overflow-x-hidden transition-all duration-500 ease-in-out;
+}
+
+.fourth-list li {
+  @apply hover:bg-secondaryColor hover:text-white rounded-xl md:text-[0.975rem] px-3 py-2 cursor-pointer transition-all duration-150;
+}
+.fourth-list li.active {
+  @apply bg-secondaryColor text-white;
+}
+
+.shadow-text {
+  color: white;
+  text-shadow: 2px 2px 2px black;
+}
+.gradient-text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  @apply bg-gradient-to-r from-[#F84E02] to-[#D0326D];
+}
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-[4px] h-[4px];
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-secondaryColor border-r-[10px];
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+div[data-slot="tabList"] {
+  /* @apply bg-[#1a2a30] mt-5; */
+  @apply bg-[var(--card-color)] mt-5;
+}
+button[data-slot="tab"] {
+  @apply !opacity-100;
+}
+
+.secondary-navbar {
+  background-color: "var(--bg-color-op)";
+  color: "var(--text-color)";
+}
+
+.secondary-navbar:hover {
+  background-color: "var(--card-color)";
+  color: "var(--text-color)"
+}
+
+.scroll-wrapper {
+  height: 100svh;
+  overflow-y: auto;
+  /* scroll-snap-type: y proximity; */
+  scroll-behavior: smooth;
+}
+
+
+.scroll-section {
+  /* height: 100%; */
+  scroll-snap-align: start;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+.scroll-section-1 {
+  scroll-snap-align: start;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.scroll-section-nav {
+  scroll-snap-align: start;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-section {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease-in-out;
+}
+
+.secondary-nav {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.vanish-element {
+  transition: width 0.3s ease-in-out;
+}
+
+.vanish-element-icon {
+  transition: width 0.3s ease-in-out;
+}
+/* styles.css */
+.quote-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.quote-slide {
+  position: absolute;
+  width: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide-enter {
+  transform: translateX(100%);
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+}
+
+.slide-exit {
+  transform: translateX(0);
+}
+
+.slide-exit-active {
+  transform: translateX(-100%);
+}
+
+.price-button {
+  width: auto;
+  display: inline-block;
+}
+
+.border-gr-white{
+    border: 1px solid;
+    border-image: linear-gradient(135deg, white, #ffffff00) 1;
+    border-radius: 16px;
+}
+.border-gradient {
+  border-width: 4px; /* Adjust the border width as needed */
+  border-style: solid;
+  border-image: linear-gradient(135deg, #FF5733, #FFC300) 1; /* Adjust the gradient colors as needed */
+  border-radius: 16px; /* Adjust the border-radius as needed */
+}
+.text-shadow{
+  text-shadow: 0px 6px 6px rgba(0, 0, 0, 0.4);
+}
+
+.backgroundBlur {
+  backdrop-filter: blur(5px);
+  opacity: 0.5;
+}
+.input-field{
+  width: 100%;
+  margin-bottom: 1rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  background-color: white;
+  color: var(--text-clr);
+}
+.input-bg {
+  background-color: #F8F3EE;
+}
+
+select {
+  -webkit-appearance: none; /* Remove default appearance in WebKit browsers */
+  -moz-appearance: none;    /* Remove default appearance in Firefox */
+  appearance: none;         /* Remove default appearance */
+}
+
+option {
+  background-color: var(--card-color); /* Use custom background color */
+  color: var(--text-color);            /* Use custom text color */
+  padding: 0.5rem;                     /* Add padding */
+}
+
+/* Custom hover styles for options are limited */
+select:hover option {
+  background-color: var(--bg-color); /* Custom hover background */
+  color: var(--text-color);                    /* Custom hover text color */
+}
+
+
+@media only screen and (max-width: 812px) and (orientation: landscape) {
+  .alter-ego-section {
+    height: 100%;
+    padding-bottom: 1rem;
+  }
+
+  .alter-ego-section .py-14 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .alter-ego-section .w-full {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .alter-ego-section .grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+}
+
+.ResultHeight {
+  height: 60vh;
+}
