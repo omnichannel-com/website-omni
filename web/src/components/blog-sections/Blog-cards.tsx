@@ -9,17 +9,12 @@ import { Blog } from '@/declarations';
 const BlogCards: React.FC = () => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [sortOrder, setSortOrder] = useState<string>('newest');
     
     const blogs: Blog[] = getBlogs();
 
     const handleViewMore = (id: number) => {
         router.push(`/blog/${id}`);
-    };
-
-    const handleResetDate = () => {
-        setSelectedDate(null);
     };
 
     const truncateText = (text: string, maxLength: number) => {
@@ -31,12 +26,6 @@ const BlogCards: React.FC = () => {
 
     const filteredBlogs = blogs
         .filter(blog => blog.title.toLowerCase().includes(searchTerm.toLowerCase()))
-        .filter(blog => {
-            if (!blog.timestamp) return true; // Skip filtering if timestamp is missing
-            const blogDate = new Date(blog.timestamp);
-            const selectedDateValue = selectedDate ? selectedDate.toDateString() : null;
-            return !selectedDateValue || blogDate.toDateString() === selectedDateValue;
-        })
         .sort((a, b) => {
             const dateA = a.timestamp ? new Date(a.timestamp) : new Date();
             const dateB = b.timestamp ? new Date(b.timestamp) : new Date();
@@ -56,7 +45,7 @@ const BlogCards: React.FC = () => {
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     {/* Search Icon */}
-                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-ocx-fg-muted">
                         <Search className="w-5 h-5" strokeWidth={2} />
                     </div>
                 </div>

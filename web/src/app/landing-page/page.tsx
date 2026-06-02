@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, RefObject } from "react";
 import PrimaryNavbar from "@/components/navbars/primary-navbar";
 import SecondaryNavbar from "@/components/navbars/secondary-navbar";
 import HeroSection from "@/components/landing-sections/hero";
@@ -8,8 +8,6 @@ import TestimonialSection from "@/components/landing-sections/testimonial-sectio
 import FeaturesSection from "@/components/landing-sections/alteregos";
 import ViewPricing from "@/components/landing-sections/viewPricing";
 import Footer from "@/components/landing-sections/footer";
-import { RefObject } from "react";
-import Testimonials from "@/components/landing-sections/testimonials";
 
 export default function LandingPage() {
   const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
@@ -43,12 +41,12 @@ export default function LandingPage() {
       className="bg-ocx-bg scroll-wrapper"
     >
       <PrimaryNavbar />
-      <SecondaryNavbar setISticky={isSticky} />
+      <SecondaryNavbar isSticky={isSticky} />
       <HeroSection />
       <ImageSection />
       <TestimonialSection />
       <FeaturesSection />
-      <section className="md:h-md:scroll-section">
+      <section className="scroll-section">
         <ViewPricing />
         <Footer />
       </section>

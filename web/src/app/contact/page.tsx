@@ -3,8 +3,7 @@ import PrimaryNavbar from "@/components/navbars/primary-navbar";
 import SecondaryNavbar from "@/components/navbars/secondary-navbar";
 
 import Footer from "@/components/landing-sections/footer";
-import { useEffect, useRef, useState } from "react";
-import { RefObject } from "react";
+import { useEffect, useRef, useState, RefObject } from "react";
 import ContactHero from "@/components/contact-sections/contact-hero";
 
 export default function ContactPage() {
@@ -35,7 +34,7 @@ export default function ContactPage() {
   return (
     <article ref={scrollWrapperRef} className="bg-ocx-bg scroll-wrapper">
       <PrimaryNavbar />
-        <SecondaryNavbar setISticky={isSticky} />
+        <SecondaryNavbar isSticky={isSticky} />
           <ContactHero/>      
         <Footer />
     </article>

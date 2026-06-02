@@ -11,11 +11,7 @@ export default function Footer() {
 
   useEffect(() => {
     setMounted(true);
-  }, [theme]);
-
-  if (!mounted) {
-    return null;
-  }
+  }, []);
 
   const handleSocialClick = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
@@ -28,11 +24,12 @@ export default function Footer() {
         <div className="flex justify-center md:justify-start order-1 md:order-none col-span-1">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src={theme === "dark" ? "/assets/logo-icon-white.png" : "/assets/logo-icon-color.png"}
+              src={mounted && theme === "dark" ? "/assets/logo-icon-white.png" : "/assets/logo-icon-color.png"}
               alt="omnichannel CX Logo"
               width={32}
               height={32}
               className="w-8 h-8"
+              suppressHydrationWarning
             />
             <span className="font-display text-ocx-dark-blue text-2xl font-bold tracking-ocx-tight">
               omnichannel <span className="font-extrabold">CX</span>

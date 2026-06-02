@@ -8,26 +8,26 @@
   a {
     font-family: var(--font-body);
     font-size: 15px;
-    color: var(--ocx-bright-blue);
+    color: var(--fg-link);
     text-decoration: none;
     border-bottom: 1px solid currentColor;
     padding-bottom: 1px;
     transition: color var(--dur-base) var(--ease-standard);
   }
-  a:hover { color: var(--ocx-dark-blue); }
+  a:hover { color: var(--fg-primary); }
   a.subtle { color: var(--fg); border-bottom-color: var(--border-strong); }
   a.subtle:hover { border-bottom-color: var(--fg); }
   .arrow {
     font-family: var(--font-display);
     font-weight: 700;
-    color: var(--ocx-mauve);
+    color: var(--fg-accent);
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     border-bottom: 0;
     display: inline-flex; align-items: center; gap: 6px;
   }
-  .arrow:hover { color: var(--ocx-dark-blue); }
+  .arrow:hover { color: var(--fg-primary); }
   .arrow .a { transition: transform var(--dur-base) var(--ease-standard); }
   .arrow:hover .a { transform: translateX(3px); }
 </style></head>
@@ -40,6 +40,7 @@
   <div class="row">
     <div class="label">CTA</div>
     <a href="#" class="arrow">Read the case study <span class="a">→</span></a>
-    <a href="#" class="arrow" style="color:var(--ocx-bright-blue)">Open dashboard <span class="a">→</span></a>
+    <a href="#" class="arrow" style="color:var(--fg-link)">Open dashboard <span class="a">→</span></a>
   </div>
+  <script src="_card.js"></script>
 </body></html>

@@ -16,11 +16,11 @@
     border: 1px solid transparent;
   }
   .b-neutral { background: var(--bg-muted); color: var(--fg-primary); }
-  .b-primary { background: var(--ocx-dark-blue); color: #fff; }
+  .b-primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
   .b-accent  { background: var(--ocx-mauve); color: #fff; }
   .b-blue    { background: var(--ocx-bright-blue); color: #fff; }
-  .b-soft    { background: rgba(170,66,220,0.12); color: var(--ocx-mauve); }
-  .b-outline { background: #fff; color: var(--fg-primary); border-color: var(--border-strong); }
+  .b-soft    { background: color-mix(in oklab, var(--fg-accent) 15%, transparent); color: var(--fg-accent); }
+  .b-outline { background: var(--surface); color: var(--fg-primary); border-color: var(--border-strong); }
   .b-dot::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 999px; background: currentColor; margin-right: 6px; vertical-align: middle; }
 </style></head>
 <body>
@@ -37,4 +37,5 @@
     <span class="badge b-outline">Outline</span>
     <span class="badge b-neutral">Neutral</span>
   </div>
+  <script src="_card.js"></script>
 </body></html>

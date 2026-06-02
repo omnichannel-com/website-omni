@@ -3,11 +3,9 @@ import PrimaryNavbar from "@/components/navbars/primary-navbar";
 import SecondaryNavbar from "@/components/navbars/secondary-navbar";
 
 import Footer from "@/components/landing-sections/footer";
-import { useEffect, useRef, useState } from "react";
-import { RefObject } from "react";
+import { useEffect, useRef, useState, RefObject } from "react";
 import BlogHero from "@/components/blog-sections/blog-hero";
 import BlogCards from "@/components/blog-sections/Blog-cards";
-import BlogComingSoon from "@/components/blog-sections/blog-commingsoon";
 
 export default function BlogsPage() {
   const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
@@ -37,7 +35,7 @@ export default function BlogsPage() {
   return (
     <article ref={scrollWrapperRef} className="bg-ocx-bg scroll-wrapper">
       <PrimaryNavbar />
-      <SecondaryNavbar setISticky={isSticky} />
+      <SecondaryNavbar isSticky={isSticky} />
       <BlogHero />
       <BlogCards/>      
         <Footer />

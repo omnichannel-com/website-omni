@@ -39,7 +39,7 @@ export default function AboutLayout({
     return (
         <article className="bg-ocx-bg scroll-wrapper">
       <PrimaryNavbar />
-      <SecondaryNavbar setISticky={isSticky} />
+      <SecondaryNavbar isSticky={isSticky} />
 
       {children}
       

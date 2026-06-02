@@ -1,10 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, RefObject } from "react";
 import PrimaryNavbar from "@/components/navbars/primary-navbar";
 import SecondaryNavbar from "@/components/navbars/secondary-navbar";
 import Footer from "@/components/landing-sections/footer";
-import { RefObject } from "react";
 
 export default function PrivacyPolicy() {
   const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
@@ -38,7 +37,7 @@ export default function PrivacyPolicy() {
       className="bg-ocx-bg scroll-wrapper"
     >
       <PrimaryNavbar />
-      <SecondaryNavbar setISticky={isSticky}/>
+      <SecondaryNavbar isSticky={isSticky} />
       
       <div className="flex flex-col justify-center py-12">
         <h1 className="gradient-text xl:text-[54px] text-[25px] md:text-[35px] font-semibold font-display text-center my-12">

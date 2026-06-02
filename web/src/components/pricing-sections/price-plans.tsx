@@ -17,7 +17,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
     starter: 'Free',
     professional: '$30',
     premium: '$45',
-    suffix: '/ Per Month',
+    suffix: '/ Per Month (billed annually)',
   };
 
   const prices = activePlan === 'monthly' ? monthlyPrices : yearlyPrices;
@@ -34,7 +34,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
       </div>
       <div className="container mx-auto flex flex-col md:flex-row gap-6 justify-between relative z-10">
 
-        <div className="bg-gradient-to-t from-white/0 to-white/15 backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Starter Plan</h3>
             <h1 className="text-4xl font-bold text-ocx-mauve">{prices.starter}</h1>
@@ -64,7 +64,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
               <button className="price-button px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-dark-blue hover:text-ocx-dark-blue" >Get Started</button>
             </div>
           </div>
-          <div className="border-gray-300 border-b-2"></div>
+          <div className="border-ocx-border border-b-2"></div>
           <div>
             <ul className="flex flex-col gap-4 text-sm text-ocx-fg">
               <li>Supports up to 10 active profiles</li>
@@ -76,7 +76,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
           </div>
         </div>
 
-        <div className="bg-gradient-to-t from-white/0 to-white/15 backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Premium Plan</h3>
             <h1 className="text-4xl font-bold text-ocx-mauve">{prices.premium} <span className="text-ocx-fg text-base font-medium ">{prices.suffix}</span></h1>

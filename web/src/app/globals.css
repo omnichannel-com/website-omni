@@ -23,16 +23,16 @@
 }
 
 :root {
-  /* Brand colors */
-  --ocx-dark-blue: #1b1464;
-  --ocx-mauve: #aa42dc;
+  /* ---------- Brand colors ---------- */
+  --ocx-dark-blue:   #1b1464;
+  --ocx-mauve:       #aa42dc;
   --ocx-bright-blue: #0071bc;
-  --ocx-mid-grey: #575757;
-  --ocx-black: #000000;
-  --ocx-white: #ffffff;
+  --ocx-mid-grey:    #575757;
+  --ocx-black:       #000000;
+  --ocx-white:       #ffffff;
 
-  /* Neutrals */
-  --ocx-grey-50: #f6f6f8;
+  /* Supporting neutrals (derived) */
+  --ocx-grey-50:  #f6f6f8;
   --ocx-grey-100: #ececf1;
   --ocx-grey-200: #d8d8e0;
   --ocx-grey-300: #b8b8c4;
@@ -40,49 +40,236 @@
   --ocx-grey-700: #3a3a48;
   --ocx-grey-900: #14141c;
 
-  /* Surfaces */
-  --bg: #ffffff;
-  --bg-subtle: #f6f6f8;
-  --bg-muted: #ececf1;
-  --bg-inverse: #1b1464;
+  /* Tints of dark blue for surfaces / hovers */
+  --ocx-dark-blue-90: #2a2280;
+  --ocx-dark-blue-12: rgba(27, 20, 100, 0.12);
+  --ocx-dark-blue-08: rgba(27, 20, 100, 0.08);
+  --ocx-dark-blue-04: rgba(27, 20, 100, 0.04);
 
-  /* Foreground */
-  --fg: #000000;
-  --fg-muted: #575757;
-  --fg-subtle: #8a8a96;
-  --fg-inverse: #ffffff;
-  --fg-link: #0071bc;
-  --fg-accent: #aa42dc;
-  --fg-primary: #1b1464;
+  /* ---------- Signature gradient ---------- */
+  --ocx-gradient:      linear-gradient(135deg, #b45fe0 0%, #2a2585 50%, #0086c8 100%);
+  --ocx-gradient-soft: linear-gradient(135deg, #b45fe022 0%, #2a258522 50%, #0086c822 100%);
 
-  /* Borders */
-  --border: #d8d8e0;
-  --border-strong: #b8b8c4;
+  /* Signature · dark — deep indigo-black field with orchid + azure halos */
+  --ocx-gradient-dark:
+    radial-gradient(60% 75% at 16% 16%, rgba(180,95,224,0.40) 0%, transparent 56%),
+    radial-gradient(62% 78% at 88% 86%, rgba(0,134,200,0.36) 0%, transparent 58%),
+    linear-gradient(140deg, #1c1660 0%, #0d0a2e 100%);
 
-  /* Shadows */
+  /* Signature · light — pale lavender→ice-blue with whisper-soft orchid + azure glows */
+  --ocx-gradient-light:
+    radial-gradient(58% 72% at 14% 16%, rgba(180,95,224,0.16) 0%, transparent 58%),
+    radial-gradient(60% 74% at 88% 86%, rgba(0,134,200,0.14) 0%, transparent 58%),
+    linear-gradient(140deg, #faf6fe 0%, #edf3fb 100%);
+
+  /* ---------- Standard gradient BACKGROUNDS ---------- */
+  --ocx-bg-whisper:
+    radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%);
+  --ocx-bg-tint:
+    linear-gradient(160deg, #ecebf6 0%, #e6edf4 100%);
+  --ocx-bg-indigo:
+    radial-gradient(110% 80% at 100% 0%, rgba(170,66,220,0.18), transparent 60%),
+    linear-gradient(180deg, #1b1464 0%, #15104f 100%);
+  --ocx-bg-aurora:
+    radial-gradient(48% 70% at 14% 22%, rgba(180,95,224,0.52) 0%, transparent 60%),
+    radial-gradient(50% 70% at 86% 78%, rgba(0,134,200,0.48) 0%, transparent 60%),
+    linear-gradient(180deg, #1c1660 0%, #14104b 100%);
+  --ocx-bg-signature: var(--ocx-gradient);
+
+  /* ---------- Semantic foreground / background ---------- */
+  --bg:           var(--ocx-white);
+  --bg-subtle:    var(--ocx-grey-50);
+  --bg-muted:     var(--ocx-grey-100);
+  --bg-inverse:   var(--ocx-dark-blue);
+
+  --fg:           var(--ocx-black);
+  --fg-muted:     var(--ocx-mid-grey);
+  --fg-subtle:    var(--ocx-grey-400);
+  --fg-inverse:   var(--ocx-white);
+  --fg-link:      var(--ocx-bright-blue);
+  --fg-accent:    var(--ocx-mauve);
+  --fg-primary:   var(--ocx-dark-blue);
+
+  --border:       var(--ocx-grey-200);
+  --border-strong:var(--ocx-grey-300);
+
+  /* ---------- Shadows / elevation ---------- */
   --shadow-xs: 0 1px 2px rgba(27, 20, 100, 0.06);
   --shadow-sm: 0 2px 6px rgba(27, 20, 100, 0.08);
   --shadow-md: 0 8px 24px rgba(27, 20, 100, 0.10);
   --shadow-lg: 0 20px 48px rgba(27, 20, 100, 0.16);
   --shadow-glow: 0 12px 40px rgba(170, 66, 220, 0.28);
+
+  /* ---------- Component / interaction tokens ---------- */
+  --surface:            var(--ocx-white);
+  --surface-2:          var(--ocx-grey-50);
+  --field-bg:           var(--ocx-white);
+  --btn-primary-bg:       var(--ocx-dark-blue);
+  --btn-primary-bg-hover: var(--ocx-dark-blue-90);
+  --btn-primary-fg:       #ffffff;
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 380ms;
+
+  color-scheme: light;
 }
 
-.dark {
-  --bg: #1b1464;
-  --bg-subtle: #15104f;
-  --bg-muted: #14141c;
-  --bg-inverse: #ffffff;
+/* Explicit light — re-asserts the light semantic layer so a pinned
+   [data-theme="light"] always wins, even when the OS prefers dark. */
+[data-theme="light"] {
+  color-scheme: light;
 
-  --fg: #ffffff;
-  --fg-muted: #b8b8c4;
-  --fg-subtle: #8a8a96;
-  --fg-inverse: #000000;
-  --fg-link: #4da3e6;
-  --fg-accent: #c77df0;
+  --bg:         var(--ocx-white);
+  --bg-subtle:  var(--ocx-grey-50);
+  --bg-muted:   var(--ocx-grey-100);
+  --bg-inverse: var(--ocx-dark-blue);
+
+  --fg:         var(--ocx-black);
+  --fg-muted:   var(--ocx-mid-grey);
+  --fg-subtle:  var(--ocx-grey-400);
+  --fg-inverse: var(--ocx-white);
+  --fg-link:    var(--ocx-bright-blue);
+  --fg-accent:  var(--ocx-mauve);
+  --fg-primary: var(--ocx-dark-blue);
+
+  --border:        var(--ocx-grey-200);
+  --border-strong: var(--ocx-grey-300);
+
+  --ocx-dark-blue-12: rgba(27, 20, 100, 0.12);
+  --ocx-dark-blue-08: rgba(27, 20, 100, 0.08);
+  --ocx-dark-blue-04: rgba(27, 20, 100, 0.04);
+
+  --shadow-xs: 0 1px 2px rgba(27, 20, 100, 0.06);
+  --shadow-sm: 0 2px 6px rgba(27, 20, 100, 0.08);
+  --shadow-md: 0 8px 24px rgba(27, 20, 100, 0.10);
+  --shadow-lg: 0 20px 48px rgba(27, 20, 100, 0.16);
+  --shadow-glow: 0 12px 40px rgba(170, 66, 220, 0.28);
+
+  --ocx-bg-whisper:
+    radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%);
+  --ocx-bg-tint:
+    linear-gradient(160deg, #ecebf6 0%, #e6edf4 100%);
+
+  --surface:              var(--ocx-white);
+  --surface-2:            var(--ocx-grey-50);
+  --field-bg:             var(--ocx-white);
+  --btn-primary-bg:       var(--ocx-dark-blue);
+  --btn-primary-bg-hover: var(--ocx-dark-blue-90);
+  --btn-primary-fg:       #ffffff;
+}
+
+[data-theme="dark"],
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Indigo-tinted dark surface ramp */
+  --ocx-surface-0: #0c0922;
+  --ocx-surface-1: #131046;
+  --ocx-surface-2: #1b1664;
+  --ocx-surface-3: #251f78;
+
+  /* Accents lifted for contrast on dark */
+  --ocx-mauve-bright:  #c98be8;
+  --ocx-blue-bright:   #5aa9e8;
+
+  /* Semantic surfaces */
+  --bg:         var(--ocx-surface-0);
+  --bg-subtle:  var(--ocx-surface-1);
+  --bg-muted:   var(--ocx-surface-2);
+  --bg-inverse: var(--ocx-grey-50);
+
+  /* Semantic foregrounds */
+  --fg:         #eceaf7;
+  --fg-muted:   #a8a4cc;
+  --fg-subtle:  #7975a4;
+  --fg-inverse: var(--ocx-dark-blue);
+  --fg-link:    var(--ocx-blue-bright);
+  --fg-accent:  var(--ocx-mauve-bright);
   --fg-primary: #ffffff;
 
-  --border: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.20);
+  /* Borders — white-based on dark */
+  --border:        rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.26);
+
+  /* Dark-blue tint helpers flip to white-based */
+  --ocx-dark-blue-12: rgba(255, 255, 255, 0.14);
+  --ocx-dark-blue-08: rgba(255, 255, 255, 0.09);
+  --ocx-dark-blue-04: rgba(255, 255, 255, 0.06);
+
+  /* Shadows go black-based and deeper */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.50);
+  --shadow-lg: 0 22px 52px rgba(0, 0, 0, 0.62);
+  --shadow-glow: 0 12px 44px rgba(170, 66, 220, 0.42);
+
+  /* The two LIGHT gradient surfaces re-cast for dark */
+  --ocx-bg-whisper:
+    radial-gradient(120% 90% at 100% 0%, #15104f 0%, #0c0922 62%);
+  --ocx-bg-tint:
+    linear-gradient(160deg, #1a1556 0%, #12173f 100%);
+
+  --surface:              var(--ocx-surface-2);
+  --surface-2:            var(--ocx-surface-3);
+  --field-bg:             var(--ocx-surface-1);
+  --btn-primary-bg:       #5b4ee0;
+  --btn-primary-bg-hover: #6c5fef;
+  --btn-primary-fg:       #ffffff;
+}
+
+/* Auto dark via OS preference — unless the user pinned light/dark explicitly. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+
+    --ocx-surface-0: #0c0922;
+    --ocx-surface-1: #131046;
+    --ocx-surface-2: #1b1664;
+    --ocx-surface-3: #251f78;
+    --ocx-mauve-bright:  #c98be8;
+    --ocx-blue-bright:   #5aa9e8;
+
+    --bg:         var(--ocx-surface-0);
+    --bg-subtle:  var(--ocx-surface-1);
+    --bg-muted:   var(--ocx-surface-2);
+    --bg-inverse: var(--ocx-grey-50);
+
+    --fg:         #eceaf7;
+    --fg-muted:   #a8a4cc;
+    --fg-subtle:  #7975a4;
+    --fg-inverse: var(--ocx-dark-blue);
+    --fg-link:    var(--ocx-blue-bright);
+    --fg-accent:  var(--ocx-mauve-bright);
+    --fg-primary: #ffffff;
+
+    --border:        rgba(255, 255, 255, 0.14);
+    --border-strong: rgba(255, 255, 255, 0.26);
+    --ocx-dark-blue-12: rgba(255, 255, 255, 0.14);
+    --ocx-dark-blue-08: rgba(255, 255, 255, 0.09);
+    --ocx-dark-blue-04: rgba(255, 255, 255, 0.06);
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.40);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.50);
+    --shadow-lg: 0 22px 52px rgba(0, 0, 0, 0.62);
+    --shadow-glow: 0 12px 44px rgba(170, 66, 220, 0.42);
+
+    --ocx-bg-whisper:
+      radial-gradient(120% 90% at 100% 0%, #15104f 0%, #0c0922 62%);
+    --ocx-bg-tint:
+      linear-gradient(160deg, #1a1556 0%, #12173f 100%);
+
+    --surface:              var(--ocx-surface-2);
+    --surface-2:            var(--ocx-surface-3);
+    --field-bg:             var(--ocx-surface-1);
+    --btn-primary-bg:       #5b4ee0;
+    --btn-primary-bg-hover: #6c5fef;
+    --btn-primary-fg:       #ffffff;
+  }
 }
 
 body {
@@ -116,7 +303,7 @@ html {
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%);
+  background: linear-gradient(135deg, #b45fe0 0%, #2a2585 50%, #0086c8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -203,4 +390,8 @@ html {
     grid-template-columns: 1fr !important;
     gap: 1rem;
   }
+}
+
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }

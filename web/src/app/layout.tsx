@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="font-body antialiased">
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
             <main data-pagefind-body>
               {children}
             </main>

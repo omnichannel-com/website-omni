@@ -25,7 +25,7 @@ function Faqs() {
       answer: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.',
     },
     {
-      question: 'What support options are available?',
+      question: 'What industries does omnichannel CX serve?',
       answer: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.',
     },
   ];
@@ -50,10 +50,10 @@ function Faqs() {
                 <span className="text-base text-left md:text-lg font-bold text-ocx-fg">{faq.question}</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-6 w-6 transform mx-2 transition-transform duration-300 ${activeIndex === index ? 'rotate-90' : 'rotate-0'}`}
+                  className={`h-6 w-6 transform mx-2 transition-transform duration-300 text-ocx-bright-blue ${activeIndex === index ? 'rotate-90' : 'rotate-0'}`}
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="#F45615"
+                  stroke="currentColor"
                 >
                   <path
                     strokeLinecap="round"

@@ -1,5 +1,5 @@
 // components/SearchModal.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { X } from "lucide-react";
 import SearchField from './SearchField';
 import SearchResults from './SearchResults';
@@ -29,14 +29,14 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
     loadPagefind();
   }, []);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = useCallback(async (query: string) => {
     if (window.pagefind && query) {
       const search = await window.pagefind.search(query);
       setResults(search.results);
     } else {
       setResults([]);
     }
-  };
+  }, []);
 
   return (
     <div className="fixed inset-0 top-0 flex items-center justify-center bg-ocx-bg/50 backdrop-blur-sm z-[200]">

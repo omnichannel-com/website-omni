@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface HeroProps {
   activePlan: "monthly" | "yearly";
@@ -6,7 +6,6 @@ interface HeroProps {
 }
 
 function Hero({ activePlan, setActivePlan }: HeroProps) {
-  const [active, setActive] = useState<"monthly" | "yearly">("monthly");
 
   return (
     <section className="relative z-10 py-4 scroll-section-1">

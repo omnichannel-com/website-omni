@@ -23,12 +23,12 @@
 
   .av.lg { width: 56px; height: 56px; font-size: 18px; }
   .av.sm { width: 28px; height: 28px; font-size: 11px; }
-  .av .dot { position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-radius: 999px; border: 2px solid #fff; }
+  .av .dot { position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-radius: 999px; border: 2px solid var(--bg); }
   .dot.on { background: #2eb872; }
   .dot.away { background: #f0a020; }
   .dot.off { background: var(--ocx-grey-300); }
   .stack { display: flex; }
-  .stack .av { margin-left: -8px; border: 2px solid #fff; }
+  .stack .av { margin-left: -8px; border: 2px solid var(--bg); }
   .stack .av:first-child { margin-left: 0; }
   .note { font-family: var(--font-body); font-size: 11px; color: var(--fg-muted); margin-top: 4px; }
   .note code { font-family: var(--font-mono); color: var(--fg-primary); background: var(--bg-muted); padding: 1px 5px; border-radius: 3px; }
@@ -52,4 +52,5 @@
     </div>
   </div>
   <div class="note">Always the signature gradient (<code>--ocx-gradient</code>). Vary the angle (135°, 200°, 60°, 310°, 160°) per user so adjacent avatars feel distinct; never substitute solid brand colors.</div>
+  <script src="_card.js"></script>
 </body></html>

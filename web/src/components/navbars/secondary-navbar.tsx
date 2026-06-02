@@ -7,10 +7,10 @@ import Link from "next/link";
 import clsx from "clsx";
 
 interface SecondaryNavbarProps {
-  setISticky: boolean;
+  isSticky: boolean;
 }
 
-const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ setISticky }) => {
+const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -35,8 +35,8 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ setISticky }) => {
   }, []);
 
   useEffect(() => {
-    setIsNavbarSticky(setISticky);
-  }, [setISticky]);
+    setIsNavbarSticky(isSticky);
+  }, [isSticky]);
 
   useEffect(() => {
     setActivePath(window.location.pathname);

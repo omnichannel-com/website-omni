@@ -210,10 +210,10 @@ The brand guide does **not** specify an icon system, and no codebase was provide
 ## Font sources
 
 - **Overpass** — brand-supplied variable TTFs in `fonts/` (`Overpass-VariableFont_wght.ttf` + italic). Loaded via `@font-face` in `colors_and_type.css`.
-- **Cormorant** — loaded from Google Fonts. _🚩 Substitution — no brand files supplied._
-- **Oxygen** — loaded from Google Fonts. _🚩 Substitution — no brand files supplied._
+- **Cormorant** — brand-supplied variable TTFs in `fonts/` (`Cormorant-VariableFont_wght.ttf` + italic). Loaded via `@font-face` in `colors_and_type.css`.
+- **Oxygen** — brand-supplied static TTFs in `fonts/` (`Oxygen-Light.ttf`, `Oxygen-Regular.ttf`, `Oxygen-Bold.ttf`). Loaded via `@font-face` in `colors_and_type.css`.
 
-If the brand team has hand-tuned WOFF2/TTF files for Cormorant or Oxygen, drop them in `fonts/` and we'll swap the `@import` for `@font-face` declarations.
+All three families are now self-hosted from `fonts/` — no Google Fonts dependency.
 
 ---
 

@@ -9,9 +9,43 @@ function ContactHero() {
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    company: "",
+    mobile: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleMenuClose = (plan: string) => {
     setSelectedPlan(plan);
     setMenuOpen(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    const payload = { ...formData, inquiryType: selectedPlan };
+    // TODO: Replace with actual API endpoint (e.g., Formspree, Webhook, or custom endpoint)
+    // eslint-disable-next-line no-console
+    console.log("Contact form submission:", payload);
+
+    // Simulate async submission
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsSubmitting(false);
+    setSubmitStatus("success");
+    setFormData({ fullName: "", email: "", company: "", mobile: "", message: "" });
+    setSelectedPlan("How can we help you?");
+    setTimeout(() => setSubmitStatus("idle"), 3000);
   };
 
   return (
@@ -70,13 +104,17 @@ function ContactHero() {
               <X className="w-5 h-5" strokeWidth={2} />
             </button>
             <h3 className="text-xl font-bold mb-4 font-display text-ocx-dark-blue">Contact Us</h3>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <label className="block text-ocx-fg-muted text-sm font-body mb-1">Full Name</label>
                   <input
                     type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
                     placeholder="Full Name"
+                    required
                     className="w-full py-2 px-4 border border-ocx-border rounded-ocx-pill bg-ocx-bg-subtle focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent placeholder:text-ocx-fg-subtle text-ocx-fg font-body text-sm"
                   />
                 </div>
@@ -84,7 +122,11 @@ function ContactHero() {
                   <label className="block text-ocx-fg-muted text-sm font-body mb-1">Your Email</label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder="Your Email"
+                    required
                     className="w-full py-2 px-4 border border-ocx-border rounded-ocx-pill bg-ocx-bg-subtle focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent placeholder:text-ocx-fg-subtle text-ocx-fg font-body text-sm"
                   />
                 </div>
@@ -94,6 +136,9 @@ function ContactHero() {
                   <label className="block text-ocx-fg-muted text-sm font-body mb-1">Company Name</label>
                   <input
                     type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleInputChange}
                     placeholder="Company Name"
                     className="w-full py-2 px-4 border border-ocx-border rounded-ocx-pill bg-ocx-bg-subtle focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent placeholder:text-ocx-fg-subtle text-ocx-fg font-body text-sm"
                   />
@@ -102,7 +147,11 @@ function ContactHero() {
                   <label className="block text-ocx-fg-muted text-sm font-body mb-1">Mobile Number</label>
                   <input
                     type="tel"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleInputChange}
                     placeholder="Mobile Number"
+                    pattern="[\+\d\s\-\(\)]{7,20}"
                     className="w-full py-2 px-4 border border-ocx-border rounded-ocx-pill bg-ocx-bg-subtle focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent placeholder:text-ocx-fg-subtle text-ocx-fg font-body text-sm"
                   />
                 </div>
@@ -137,19 +186,26 @@ function ContactHero() {
                 <div className="flex-1">
                   <label className="block text-ocx-fg-muted text-sm font-body mb-1">Message</label>
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     placeholder="Message"
+                    required
                     className="w-full py-2 px-4 border border-ocx-border rounded-ocx-lg bg-ocx-bg-subtle focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent placeholder:text-ocx-fg-subtle text-ocx-fg font-body text-sm resize-none"
                     rows={4}
                   />
                 </div>
               </div>
+              {submitStatus === "success" && (
+                <p className="text-ocx-bright-blue text-sm font-body text-center">Thank you! Your message has been received.</p>
+              )}
               <div className="flex justify-end">
                 <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-8 py-2.5 rounded-ocx-pill hover:bg-ocx-mauve transition-colors duration-ocx-fast"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-8 py-2.5 rounded-ocx-pill hover:bg-ocx-mauve transition-colors duration-ocx-fast disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit
+                  {isSubmitting ? "Sending..." : "Submit"}
                 </button>
               </div>
             </form>

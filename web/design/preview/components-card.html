@@ -2,7 +2,7 @@
 <html><head><meta charset="utf-8"><title>Card</title>
 <link rel="stylesheet" href="_card.css">
 <style>
-  body { padding: 22px 28px; background: var(--bg-subtle); }
+  body { padding: 22px 28px; background: var(--bg-subtle); --ds-page-bg: var(--bg-subtle); }
 
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
@@ -12,8 +12,9 @@
   .card {
     display: block;
     text-decoration: none;
-    background: #fff;
-    border: 1px solid var(--border-strong);
+    /* TIER 2 brand gradient — the canonical marketing-card surface. */
+    background: var(--ocx-bg-tint);
+    border: 1px solid var(--border);
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-sm);
     padding: 18px 20px;
@@ -30,32 +31,38 @@
     /* Was mauve (4.61:1, AA tight). Now dark-blue: 15.6:1 (AAA). */
     font-family: var(--font-display); font-weight: 800;
     font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ocx-dark-blue); margin-bottom: 8px;
+    color: var(--fg-primary); margin-bottom: 8px;
   }
   .card h3 {
     font-family: var(--font-serif); font-weight: 600;
     font-size: 22px; line-height: 1.15;
-    color: var(--ocx-black);          /* 21:1 — AAA */
+    color: var(--fg-primary);          /* 21:1 — AAA (light) */
     margin-bottom: 6px;
   }
   .card p {
     font-family: var(--font-body); font-size: 14px; line-height: 1.55;
-    color: #4a4a4a;                    /* 8.9:1 vs white — AAA */
+    color: var(--fg-muted);            /* mid-grey 7:1 (light) */
   }
 
-  .card.dark { background: var(--ocx-dark-blue); border-color: transparent; }
-  .card.dark .eyebrow {
-    /* Mauve on dark blue is too low. Use bright white at full opacity for the
-       eyebrow on dark surfaces. */
-    color: #ffffff;                    /* 15.6:1 — AAA */
-    opacity: 0.9;
+  /* Statement card — full signature gradient (mauve→indigo→blue) with a
+     dark scrim layered on top so white text clears AA across the whole
+     surface, not just the dark corner. */
+  .card.statement {
+    background:
+      linear-gradient(180deg, rgba(27,20,100,0.18) 0%, rgba(27,20,100,0.42) 100%),
+      var(--ocx-bg-signature);
+    border-color: transparent;
+    box-shadow: var(--shadow-glow);
   }
-  .card.dark h3 { color: #ffffff; }    /* 15.6:1 */
-  .card.dark p {
-    /* Was rgba(255,255,255,0.78) ≈ 9.9:1; tightened to a fixed light tint. */
-    color: #e6e3f5;                    /* 11.3:1 — AAA */
+  .card.statement .eyebrow {
+    color: #ffffff;
+    opacity: 0.92;
   }
-  .card.dark:focus-visible {
+  .card.statement h3 { color: #ffffff; }
+  .card.statement p {
+    color: #f0eefb;                    /* ≥ 5:1 over scrimmed gradient */
+  }
+  .card.statement:focus-visible {
     outline-color: #ffffff;
     outline-offset: 3px;
   }
@@ -68,7 +75,7 @@
   .chk {
     display: inline-flex; gap: 6px; align-items: center;
     padding: 4px 9px;
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 999px;
     color: var(--fg);
@@ -82,7 +89,7 @@
       <h3>Composed under pressure.</h3>
       <p>Your team answers in the channel the customer chose, without switching tools.</p>
     </a>
-    <a class="card dark" href="#" tabindex="0">
+    <a class="card statement" href="#" tabindex="0">
       <div class="eyebrow">METRIC</div>
       <h3>2.4× faster<br>resolution time.</h3>
       <p>Versus baseline, measured across 1,200+ teams.</p>
@@ -90,10 +97,11 @@
   </div>
 
   <div class="audit">
-    <span class="chk"><b>AAA</b> Eyebrow 15.6:1</span>
-    <span class="chk"><b>AAA</b> Heading 21:1 / 15.6:1</span>
-    <span class="chk"><b>AAA</b> Body 8.9:1 / 11.3:1</span>
-    <span class="chk"><b>AA</b> Focus ring 2px · offset 2px</span>
+    <span class="chk"><b>TINT</b> Soft gradient · dark text</span>
+    <span class="chk"><b>SIG</b> Signature gradient + scrim</span>
+    <span class="chk"><b>AAA</b> Heading 15:1+</span>
+    <span class="chk"><b>AA</b> Body ≥ 5:1 on scrim</span>
     <span class="chk"><b>AA</b> Target ≥ 44px</span>
   </div>
+  <script src="_card.js"></script>
 </body></html>

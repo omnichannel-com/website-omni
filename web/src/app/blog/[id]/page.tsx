@@ -13,11 +13,11 @@ export function generateStaticParams() {
     return Array.from(uniqueIds).map((id) => ({ id }));
 }
 
-// Simple HTML sanitizer: only allow specific safe tags
+// Simple HTML sanitizer: only allow specific safe tags, strip all attributes
 const sanitizeHtml = (html: string): string => {
     return html.replace(/<(\/?)(\w+)[^>]*>/g, (match, slash, tag) => {
         const allowed = ['span', 'strong', 'em', 'b', 'i', 'br', 'p'];
-        return allowed.includes(tag.toLowerCase()) ? match : '';
+        return allowed.includes(tag.toLowerCase()) ? `<${slash}${tag.toLowerCase()}>` : '';
     });
 };
 

@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, RefObject } from "react";
 import PrimaryNavbar from "@/components/navbars/primary-navbar";
 import SecondaryNavbar from "@/components/navbars/secondary-navbar";
 import Footer from "@/components/landing-sections/footer";
-import { RefObject } from "react";
 
 export default function Disclaimer() {
   const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
@@ -37,7 +36,7 @@ export default function Disclaimer() {
       className="bg-ocx-bg scroll-wrapper"
     >
     <PrimaryNavbar />
-    <SecondaryNavbar setISticky={isSticky} />
+    <SecondaryNavbar isSticky={isSticky} />
       
         <div className="flex flex-col justify-center py-12">
 

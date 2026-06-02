@@ -1,0 +1,178 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Light &amp; dark mode</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 24px; }
+
+  .head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .head .title {
+    font-family: var(--font-display); font-weight: 800; font-size: 15px;
+    letter-spacing: -0.01em; color: var(--ocx-dark-blue);
+  }
+  .head .note {
+    font-family: var(--font-body); font-size: 11px; color: var(--ocx-mid-grey);
+    line-height: 1.5; max-width: 46ch; text-align: right;
+  }
+  .head code {
+    font-family: var(--font-mono); font-size: 10.5px;
+    background: var(--ocx-grey-100); padding: 0.1em 0.4em; border-radius: 4px;
+    color: var(--ocx-dark-blue);
+  }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* Each panel is a fully self-contained themed surface. Tokens
+     resolve from the data-theme attribute on the panel root. */
+  .panel {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--sp-5) var(--sp-5) var(--sp-5);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .panel .ribbon {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  }
+  .panel .ribbon .dot {
+    width: 9px; height: 9px; border-radius: 999px; background: var(--ocx-bg-signature);
+  }
+  .panel .ribbon .lbl {
+    font-family: var(--font-display); font-weight: 700; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-subtle);
+  }
+
+  .eyebrow {
+    font-family: var(--font-display); font-weight: 700; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted);
+    margin-bottom: 8px;
+  }
+  .h {
+    font-family: var(--font-display); font-weight: 800; font-size: 27px;
+    line-height: 1.08; letter-spacing: -0.02em; color: var(--fg-primary);
+    text-wrap: balance; margin-bottom: 8px;
+  }
+  .sub {
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 18px; line-height: 1.25; color: var(--fg); margin-bottom: 12px;
+  }
+  .body {
+    font-family: var(--font-body); font-weight: 400; font-size: 13.5px;
+    line-height: 1.6; color: var(--fg); margin-bottom: 16px; max-width: 46ch;
+  }
+
+  .btns { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; }
+  .btn {
+    font-family: var(--font-display); font-weight: 700; font-size: 13px;
+    letter-spacing: -0.005em; border: 1px solid transparent; border-radius: var(--r-md);
+    height: 36px; padding: 0 15px; cursor: default;
+    display: inline-flex; align-items: center; gap: 7px; line-height: 1; white-space: nowrap;
+  }
+  .btn svg { width: 15px; height: 15px; stroke-width: 1.25; flex-shrink: 0; }
+  .btn-primary { background: var(--ocx-bg-signature); color: #fff; box-shadow: var(--shadow-glow); }
+  .btn-ghost {
+    background: var(--ocx-dark-blue-04); color: var(--fg-primary);
+    border-color: var(--ocx-dark-blue-12);
+  }
+
+  /* Nested surface — uses bg-subtle so the elevation step is visible in both modes */
+  .inner {
+    background: var(--bg-subtle); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 14px;
+  }
+  .inner .row1 { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+  .inner .nm { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--fg-primary); }
+  .inner .meta { font-family: var(--font-body); font-size: 12px; color: var(--fg-muted); line-height: 1.5; }
+  .badges { display: flex; gap: 6px; }
+  .badge {
+    font-family: var(--font-display); font-weight: 700; font-size: 10px;
+    letter-spacing: 0.04em; padding: 3px 9px; border-radius: 999px;
+  }
+  .badge.open { background: color-mix(in oklab, var(--fg-link) 18%, transparent); color: var(--fg-link); }
+  .badge.acc  { background: color-mix(in oklab, var(--fg-accent) 18%, transparent); color: var(--fg-accent); }
+
+  .divider { height: 1px; background: var(--border); margin: 0 0 12px; }
+  .foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    font-family: var(--font-body); font-size: 12px; color: var(--fg-muted);
+  }
+  .foot a { color: var(--fg-link); text-decoration: none; font-weight: 700; }
+
+  /* token strip */
+  .tokens { display: flex; gap: 6px; margin-top: 14px; }
+  .tok { flex: 1; height: 28px; border-radius: 6px; border: 1px solid var(--border); }
+  .tok.bg { background: var(--bg); }
+  .tok.sub { background: var(--bg-subtle); }
+  .tok.mut { background: var(--bg-muted); }
+  .tok.pri { background: var(--ocx-dark-blue); border-color: transparent; }
+  .tok.mau { background: var(--ocx-mauve); border-color: transparent; }
+  .tok.blu { background: var(--ocx-bright-blue); border-color: transparent; }
+</style></head>
+<body>
+  <div class="head">
+    <div class="title">Light &amp; dark mode</div>
+    <div class="note">
+      One token layer, two themes. Dark re-maps only the semantic tokens
+      (<code>--bg*</code>, <code>--fg*</code>, <code>--border*</code>, shadows);
+      brand colors never change. Toggle with <code>[data-theme="dark"]</code> or let
+      <code>prefers-color-scheme</code> decide.
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- LIGHT -->
+    <div class="panel" data-theme="light">
+      <div class="ribbon"><span class="dot"></span><span class="lbl">Light · default</span></div>
+      <div class="eyebrow">Platform</div>
+      <div class="h">One inbox, every channel.</div>
+      <div class="sub">Composed under pressure.</div>
+      <div class="body">Route, prioritise, and resolve every conversation from a single pane. Your team responds fast and stays in flow.</div>
+      <div class="btns">
+        <span class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Get started
+        </span>
+        <span class="btn btn-ghost">Learn more</span>
+      </div>
+      <div class="inner">
+        <div class="row1">
+          <span class="nm">Priya · WhatsApp</span>
+          <span class="badges"><span class="badge open">Open</span><span class="badge acc">VIP</span></span>
+        </div>
+        <div class="meta">Refund status for order #4821. Replied 2 minutes ago.</div>
+      </div>
+      <div class="divider"></div>
+      <div class="foot"><span>12 conversations in queue</span><a href="#">Open inbox</a></div>
+      <div class="tokens"><span class="tok bg"></span><span class="tok sub"></span><span class="tok mut"></span><span class="tok pri"></span><span class="tok mau"></span><span class="tok blu"></span></div>
+    </div>
+
+    <!-- DARK -->
+    <div class="panel" data-theme="dark">
+      <div class="ribbon"><span class="dot"></span><span class="lbl">Dark</span></div>
+      <div class="eyebrow">Platform</div>
+      <div class="h">One inbox, every channel.</div>
+      <div class="sub">Composed under pressure.</div>
+      <div class="body">Route, prioritise, and resolve every conversation from a single pane. Your team responds fast and stays in flow.</div>
+      <div class="btns">
+        <span class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Get started
+        </span>
+        <span class="btn btn-ghost">Learn more</span>
+      </div>
+      <div class="inner">
+        <div class="row1">
+          <span class="nm">Priya · WhatsApp</span>
+          <span class="badges"><span class="badge open">Open</span><span class="badge acc">VIP</span></span>
+        </div>
+        <div class="meta">Refund status for order #4821. Replied 2 minutes ago.</div>
+      </div>
+      <div class="divider"></div>
+      <div class="foot"><span>12 conversations in queue</span><a href="#">Open inbox</a></div>
+      <div class="tokens"><span class="tok bg"></span><span class="tok sub"></span><span class="tok mut"></span><span class="tok pri"></span><span class="tok mau"></span><span class="tok blu"></span></div>
+    </div>
+  </div>
+</body></html>

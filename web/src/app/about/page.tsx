@@ -2,8 +2,7 @@
 import PrimaryNavbar from "@/components/navbars/primary-navbar";
 import SecondaryNavbar from "@/components/navbars/secondary-navbar";
 import Footer from "@/components/landing-sections/footer";
-import { useEffect, useRef, useState } from "react";
-import { RefObject } from "react";
+import { useEffect, useRef, useState, RefObject } from "react";
 
 export default function AboutPage() {
   const scrollWrapperRef: RefObject<HTMLDivElement> = useRef(null);
@@ -33,7 +32,7 @@ export default function AboutPage() {
   return (
     <article ref={scrollWrapperRef} className="bg-ocx-bg scroll-wrapper">
       <PrimaryNavbar />
-      <SecondaryNavbar setISticky={isSticky} />
+      <SecondaryNavbar isSticky={isSticky} />
       <section className="container mx-auto py-16 px-4">
         <h1 className="text-4xl md:text-5xl font-display font-extrabold text-ocx-dark-blue text-center mb-8">
           About omnichannel CX
