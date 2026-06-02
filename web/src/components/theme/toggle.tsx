@@ -24,7 +24,7 @@ const ThemeToggle = () => {
     <button
       onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="p-1 hover:text-ocx-dark-blue transition-colors duration-ocx-fast"
+      className="p-1 hover:text-ocx-fg-primary transition-colors duration-ocx-fast"
     >
       {theme === "dark" ? (
         <Sun className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />

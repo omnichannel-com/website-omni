@@ -209,6 +209,10 @@
   --ocx-bg-tint:
     linear-gradient(160deg, #1a1556 0%, #12173f 100%);
 
+  /* Soft gradient — lifted opacity so it reads on dark surfaces */
+  --ocx-gradient-soft:
+    linear-gradient(135deg, #b45fe055 0%, #2a258555 50%, #0086c855 100%);
+
   --surface:              var(--ocx-surface-2);
   --surface-2:            var(--ocx-surface-3);
   --field-bg:             var(--ocx-surface-1);
@@ -256,6 +260,10 @@
       radial-gradient(120% 90% at 100% 0%, #15104f 0%, #0c0922 62%);
     --ocx-bg-tint:
       linear-gradient(160deg, #1a1556 0%, #12173f 100%);
+
+    /* Soft gradient — lifted opacity so it reads on dark surfaces */
+    --ocx-gradient-soft:
+      linear-gradient(135deg, #b45fe055 0%, #2a258555 50%, #0086c855 100%);
 
     --surface:              var(--ocx-surface-2);
     --surface-2:            var(--ocx-surface-3);

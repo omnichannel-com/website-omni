@@ -1,8 +1,7 @@
-"use client";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function AlterEgoSection() {
-
   const features = [
     "Unify every channel into one intelligent inbox",
     "Give agents full customer context instantly",
@@ -12,28 +11,33 @@ export default function AlterEgoSection() {
   ];
 
   return (
-    <section className="relative z-10 py-16 md:py-24 bg-ocx-bg-subtle">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center text-center gap-8 mb-12">
+    <section className="relative z-10 py-16 md:py-24 lg:py-32 bg-ocx-tint">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+        {/* Type pairing — brand pack style */}
+        <div className="max-w-5xl mx-auto mb-16 md:mb-20">
           <span className="font-display text-ocx-mauve text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
             Why omnichannel CX
           </span>
-          <h2 className="font-display text-ocx-dark-blue text-3xl md:text-4xl lg:text-ocx-3xl font-extrabold tracking-ocx-tight leading-ocx-tight max-w-[20ch]">
+          <h2 className="font-display text-ocx-fg-primary text-3xl md:text-4xl lg:text-ocx-3xl font-black tracking-ocx-tight leading-ocx-tight mt-6 mb-4 max-w-[20ch]">
             Built for teams who care
           </h2>
-          <p className="font-body text-ocx-fg-muted text-lg md:text-xl max-w-[50ch] leading-ocx-base">
+          <p className="font-serif italic font-medium text-xl md:text-2xl lg:text-ocx-2xl text-ocx-fg leading-ocx-snug mb-6 max-w-3xl">
             Every feature is designed to help your team respond faster, stay informed, and deliver a consistently great customer experience.
+          </p>
+          <p className="font-body text-ocx-fg-muted text-base md:text-lg leading-ocx-base max-w-2xl">
+            From the first message to resolution, your team has everything they need in one place.
           </p>
         </div>
 
+        {/* Feature cards — brand pack style with top border accent */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {features.map((feature, idx) => (
             <div
               key={idx}
               className="bg-ocx-bg border border-ocx-border rounded-ocx-lg p-6 md:p-8 shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-0.5 transition-all duration-ocx-fast"
             >
-              <div className="w-10 h-10 rounded-ocx-md bg-ocx-gradient-soft flex items-center justify-center mb-4">
-                <span className="font-display text-ocx-dark-blue font-bold text-sm">{String(idx + 1).padStart(2, "0")}</span>
+              <div className="border-t-2 border-ocx-fg-primary pt-4 mb-4">
+                <span className="font-display text-ocx-fg-primary font-bold text-sm">{String(idx + 1).padStart(2, "0")}</span>
               </div>
               <p className="font-body text-ocx-fg text-base leading-ocx-base">{feature}</p>
             </div>
@@ -43,8 +47,9 @@ export default function AlterEgoSection() {
         <div className="flex justify-center mt-12">
           <Link
             href="/about"
-            className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-8 py-3 rounded-ocx-pill hover:bg-ocx-mauve transition-all duration-ocx-fast shadow-ocx-md hover:shadow-ocx-lg"
+            className="group inline-flex items-center gap-3 bg-ocx-dark-blue text-white font-display font-bold text-sm px-8 py-4 rounded-ocx-lg hover:bg-ocx-dark-blue-90 transition-all duration-ocx-fast shadow-ocx-md"
           >
+            <ArrowRight className="w-5 h-5 stroke-[1.25]" />
             Explore the platform
           </Link>
         </div>

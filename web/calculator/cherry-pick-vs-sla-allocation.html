@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cherry-picking vs Service Level Allocation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161d;
+    --surface-2: #1a1e28;
+    --surface-3: #222737;
+    --border: rgba(255,255,255,0.07);
+    --border-soft: rgba(255,255,255,0.04);
+    --ink: #e8eaf0;
+    --ink-soft: #8b90a0;
+    --ink-faint: #4a4f60;
+
+    --red: #e8533a;
+    --red-soft: rgba(232,83,58,0.12);
+    --red-border: rgba(232,83,58,0.3);
+    --amber: #e8a93a;
+    --amber-soft: rgba(232,169,58,0.12);
+    --amber-border: rgba(232,169,58,0.3);
+    --green: #3abf7e;
+    --green-soft: rgba(58,191,126,0.12);
+    --green-border: rgba(58,191,126,0.3);
+    --blue: #4f8ef7;
+    --blue-soft: rgba(79,142,247,0.12);
+    --blue-border: rgba(79,142,247,0.3);
+    --purple: #9b6cf7;
+
+    /* work item colours */
+    --c-p1: #e8533a;
+    --c-p2: #e8a93a;
+    --c-p3: #4f8ef7;
+    --c-p4: #8b90a0;
+
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+
+    --shadow: 0 2px 4px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.2);
+    --shadow-pop: 0 4px 12px rgba(0,0,0,0.4), 0 16px 40px rgba(0,0,0,0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(79,142,247,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 10%, rgba(155,108,247,0.05) 0%, transparent 45%);
+  }
+
+  ::selection { background: var(--blue); color: #fff; }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- typography ---- */
+  h1, h2, h3 { margin: 0; line-height: 1.1; }
+  h1 { font-family: var(--serif); font-weight: 900; }
+  h2 { font-family: var(--serif); font-weight: 700; }
+  h3 { font-family: var(--sans); font-weight: 700; }
+  p { margin: 0 0 1rem; }
+  strong { font-weight: 600; }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .lead { font-size: 19px; line-height: 1.6; color: var(--ink-soft); }
+  .muted { color: var(--ink-soft); }
+
+  /* ---- hero ---- */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero .kicker { margin-bottom: 20px; display: block; }
+  .hero h1 {
+    font-size: clamp(42px, 8vw, 80px);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.0;
+  }
+  .hero h1 em { font-style: italic; color: var(--red); }
+  .hero h1 .vs {
+    font-family: var(--mono);
+    font-size: 0.4em;
+    font-weight: 400;
+    color: var(--ink-faint);
+    vertical-align: middle;
+    padding: 0 12px;
+    letter-spacing: 0;
+  }
+  .hero h1 .good { color: var(--green); }
+  .hero .sub {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin-top: 24px;
+    line-height: 1.6;
+  }
+
+  /* ---- sections ---- */
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .sec-head { margin-bottom: 28px; }
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .sec-head h2 { font-size: clamp(28px, 4.5vw, 42px); letter-spacing: -0.02em; }
+
+  /* ---- panels ---- */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 26px;
+    box-shadow: var(--shadow);
+  }
+  .panel + .panel { margin-top: 14px; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width: 640px) { .twocol { grid-template-columns: 1fr; } }
+
+  .callout {
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    border: 1px solid;
+  }
+  .callout.warn { background: var(--red-soft); border-color: var(--red-border); }
+  .callout.warn .ct { color: var(--red); }
+  .callout.good { background: var(--green-soft); border-color: var(--green-border); }
+  .callout.good .ct { color: var(--green); }
+  .callout.info { background: var(--blue-soft); border-color: var(--blue-border); }
+  .callout.info .ct { color: var(--blue); }
+  .callout .ct {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+
+  /* ---- work item chips ---- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px 3px 6px;
+    border-radius: 6px;
+    border: 1px solid;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .chip-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .chip.p1 { color: var(--c-p1); border-color: rgba(232,83,58,0.35); background: rgba(232,83,58,0.1); }
+  .chip.p2 { color: var(--c-p2); border-color: rgba(232,169,58,0.35); background: rgba(232,169,58,0.1); }
+  .chip.p3 { color: var(--c-p3); border-color: rgba(79,142,247,0.35); background: rgba(79,142,247,0.1); }
+  .chip.p4 { color: var(--c-p4); border-color: rgba(139,144,160,0.35); background: rgba(139,144,160,0.08); }
+  .chip.p1 .chip-dot { background: var(--c-p1); }
+  .chip.p2 .chip-dot { background: var(--c-p2); }
+  .chip.p3 .chip-dot { background: var(--c-p3); }
+  .chip.p4 .chip-dot { background: var(--c-p4); }
+
+  /* ---- worker skill badges ---- */
+  .skill-pill {
+    font-size: 10px;
+    font-family: var(--mono);
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+  }
+
+  /* ---- the big lab block ---- */
+  .lab {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 28px 24px;
+    margin: 28px 0;
+  }
+  .lab .lab-kick {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple);
+    font-weight: 500;
+  }
+  .lab h3 { font-size: 24px; color: var(--ink); margin: 8px 0 4px; letter-spacing: -0.02em; }
+  .lab .lab-sub { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 22px; line-height: 1.55; }
+
+  /* ---- stat row ---- */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  @media(max-width:640px){ .stat-row { grid-template-columns: repeat(2,1fr); } }
+  .stat {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent, var(--blue));
+  }
+  .stat .s-label { font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; font-family: var(--mono); }
+  .stat .s-val { font-family: var(--mono); font-size: 26px; font-weight: 500; line-height: 1; color: var(--ink); }
+  .stat .s-sub { font-size: 11px; color: var(--ink-faint); margin-top: 3px; }
+  .stat.good { --accent: var(--green); }
+  .stat.good .s-val { color: var(--green); }
+  .stat.warn { --accent: var(--amber); }
+  .stat.warn .s-val { color: var(--amber); }
+  .stat.danger { --accent: var(--red); }
+  .stat.danger .s-val { color: var(--red); }
+
+  /* ---- sim stage ---- */
+  .sim-stage {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .stage-label {
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  /* workers row */
+  .workers-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .worker {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    min-width: 76px;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    cursor: default;
+  }
+  .worker .w-name { font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 4px; }
+  .worker .w-skills { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 5px; }
+  .worker .w-task {
+    font-size: 11px;
+    font-family: var(--mono);
+    min-height: 16px;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+  .worker.busy-p1 { background: rgba(232,83,58,0.14); border-color: rgba(232,83,58,0.4); }
+  .worker.busy-p1 .w-task { color: var(--c-p1); font-style: normal; }
+  .worker.busy-p2 { background: rgba(232,169,58,0.14); border-color: rgba(232,169,58,0.4); }
+  .worker.busy-p2 .w-task { color: var(--c-p2); font-style: normal; }
+  .worker.busy-p3 { background: rgba(79,142,247,0.14); border-color: rgba(79,142,247,0.4); }
+  .worker.busy-p3 .w-task { color: var(--c-p3); font-style: normal; }
+  .worker.busy-p4 { background: rgba(139,144,160,0.1); border-color: rgba(139,144,160,0.25); }
+  .worker.busy-p4 .w-task { color: var(--c-p4); font-style: normal; }
+
+  /* queue area */
+  .queue-area {
+    min-height: 52px;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 0;
+  }
+  .q-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    animation: qpop 0.2s ease;
+    position: relative;
+  }
+  @keyframes qpop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .q-dot {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .q-dot.p1 { background: var(--c-p1); }
+  .q-dot.p2 { background: var(--c-p2); }
+  .q-dot.p3 { background: var(--c-p3); }
+  .q-dot.p4 { background: var(--c-p4); }
+  .q-age {
+    font-size: 9px;
+    font-family: var(--mono);
+    color: var(--ink-faint);
+    line-height: 1;
+  }
+  .q-age.breach { color: var(--red); font-weight: 600; }
+  .q-empty { color: var(--ink-faint); font-size: 13px; font-style: italic; }
+
+  /* ---- controls ---- */
+  .sim-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .btn-play {
+    background: var(--green);
+    color: #0a1a10;
+    border: 0;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-play.paused { background: var(--surface-3); color: var(--ink-soft); border: 1px solid var(--border); }
+  .btn-play:hover { opacity: 0.85; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-ghost:hover { border-color: var(--ink-soft); color: var(--ink); }
+
+  .seg {
+    display: inline-flex;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .seg button {
+    background: transparent;
+    border: 0;
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .seg button.on { background: var(--surface-3); color: var(--ink); border: 1px solid var(--border); }
+
+  /* ---- lab note ---- */
+  .lab-note {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+  .lab-note b { color: var(--amber); font-weight: 600; }
+
+  /* ---- SLA legend ---- */
+  .sla-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 8px 0 14px;
+    align-items: center;
+  }
+  .sla-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .sla-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex-shrink: 0; }
+
+  /* ---- speed dial/slider ---- */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .slider-row label { font-size: 13px; color: var(--ink-soft); min-width: 130px; }
+  .slider-row input[type=range] {
+    flex: 1;
+    min-width: 140px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface-3);
+    outline: none;
+  }
+  .slider-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--blue);
+    cursor: pointer;
+    border: 2px solid var(--bg);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+  .slider-row .sv {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 80px;
+    text-align: right;
+    color: var(--ink);
+  }
+
+  /* ---- breach ticker ---- */
+  .breach-ticker {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    z-index: 100;
+    letter-spacing: 0.03em;
+  }
+  .breach-ticker.show { opacity: 1; transform: translateY(0); }
+
+  /* ---- chart area ---- */
+  .chart-wrap {
+    margin: 16px 0 8px;
+    position: relative;
+  }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-label {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    margin-bottom: 4px;
+  }
+
+  /* ---- comparison table ---- */
+  .cmp-wrap { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .cmp-title { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); font-family: var(--mono); margin-bottom: 10px; }
+  table.cmp { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.cmp th, table.cmp td { padding: 8px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  table.cmp th { font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); font-family: var(--mono); font-weight: 500; text-align: right; }
+  table.cmp th:first-child { text-align: left; }
+  table.cmp td:first-child { color: var(--ink); font-weight: 500; }
+  table.cmp td { text-align: right; color: var(--ink-soft); }
+  table.cmp .cherry-col { color: var(--red); }
+  table.cmp .sla-col { color: var(--green); }
+  table.cmp tr:last-child td { border-bottom: 0; }
+  .dot-legend { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  /* ---- priority reference ---- */
+  .priority-ref {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+  @media(max-width:640px){ .priority-ref { grid-template-columns: repeat(2,1fr); } }
+  .priority-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .priority-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--pc-color, var(--ink-faint)); }
+  .priority-card .pc-label { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--pc-color, var(--ink-faint)); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .priority-card .pc-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .priority-card .pc-sla { font-size: 12px; color: var(--ink-soft); }
+  .priority-card .pc-desc { font-size: 11.5px; color: var(--ink-faint); margin-top: 4px; }
+  .priority-card.p1 { --pc-color: var(--c-p1); }
+  .priority-card.p2 { --pc-color: var(--c-p2); }
+  .priority-card.p3 { --pc-color: var(--c-p3); }
+  .priority-card.p4 { --pc-color: var(--c-p4); }
+
+  /* ---- rules list ---- */
+  ol.rules { list-style: none; padding: 0; margin: 0; counter-reset: r; }
+  ol.rules li {
+    counter-increment: r;
+    position: relative;
+    padding: 16px 0 16px 50px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+  ol.rules li:last-child { border-bottom: 0; }
+  ol.rules li::before {
+    content: counter(r);
+    position: absolute;
+    left: 0; top: 14px;
+    width: 30px; height: 30px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+  }
+  ol.rules li b { color: var(--ink); font-weight: 600; }
+
+  /* ---- load animation ---- */
+  .fade { opacity: 0; transform: translateY(16px); animation: fu 0.65s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+  @keyframes fu { to { opacity: 1; transform: none; } }
+
+  /* ---- breach pulse ---- */
+  @keyframes breach-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(232,83,58,0.4); } 50% { box-shadow: 0 0 0 6px rgba(232,83,58,0); } }
+  .breaching { animation: breach-pulse 1.2s infinite; }
+
+  footer {
+    padding: 40px 0 60px;
+    color: var(--ink-faint);
+    font-size: 13.5px;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===== HERO ===== -->
+  <header class="hero fade">
+    <span class="kicker">Workforce &amp; Backlog Management</span>
+    <h1>
+      <em>Cherry-picking</em>
+      <span class="vs">vs</span>
+      <span class="good">SL-based allocation</span>
+    </h1>
+    <p class="sub">One queue. Same people. Wildly different outcomes depending on how work finds the right person.</p>
+  </header>
+
+  <!-- ===== THE PROBLEM ===== -->
+  <section class="fade" style="animation-delay:0.06s">
+    <div class="sec-head">
+      <div class="sec-num">01 / the problem</div>
+      <h2>Everyone's busy. The important stuff is still waiting.</h2>
+    </div>
+
+    <p>Here's something that happens in almost every team with a shared backlog. You've got ten people. The queue is full. Nobody's obviously slacking. And yet... a P1 that came in this morning still hasn't been touched. Meanwhile, three people are deep in P3 items they picked up an hour ago.</p>
+
+    <p>That's cherry-picking. Not malicious — mostly it's not even conscious. People scan the queue, see something they know how to do, and start. The quick wins feel productive. The gnarly, high-pressure stuff stays in the pile because nobody wants to be the one to take it. And the pile grows in exactly the wrong place.</p>
+
+    <div class="callout warn">
+      <div class="ct">Cherry-picking optimises for the worker, not the customer.</div>
+      <p>When people self-select from a queue, they gravitate toward familiar, low-effort, low-pressure work. SLA breaches creep up on the items that matter most, while the team stays busy looking productive on items that could have waited.</p>
+    </div>
+
+    <p>Service level-based allocation flips this. Instead of letting people choose <em>what</em> they pick up, the system chooses <em>for</em> them — based on what's most at risk right now. Oldest P1 first. Then oldest P2. Skills matched. Nothing sits and quietly dies.</p>
+  </section>
+
+  <!-- ===== WHAT SLA ALLOCATION ACTUALLY MEANS ===== -->
+  <section class="fade" style="animation-delay:0.1s">
+    <div class="sec-head">
+      <div class="sec-num">02 / the model</div>
+      <h2>Four tiers. One queue. Sorted by urgency.</h2>
+    </div>
+
+    <p>The core idea is simple: every piece of work has a priority, and each priority has a service level target — the time you've committed to resolving it in. The queue isn't a list, it's a ranked set of commitments. Your job is to drain it in the right order.</p>
+
+    <div class="priority-ref">
+      <div class="priority-card p1">
+        <div class="pc-label">P1</div>
+        <div class="pc-name">Critical</div>
+        <div class="pc-sla">SLA: 2 hours</div>
+        <div class="pc-desc">Live outage / data loss / total blocker</div>
+      </div>
+      <div class="priority-card p2">
+        <div class="pc-label">P2</div>
+        <div class="pc-name">High</div>
+        <div class="pc-sla">SLA: 8 hours</div>
+        <div class="pc-desc">Major degradation, workaround exists</div>
+      </div>
+      <div class="priority-card p3">
+        <div class="pc-label">P3</div>
+        <div class="pc-name">Medium</div>
+        <div class="pc-sla">SLA: 3 days</div>
+        <div class="pc-desc">Non-blocking bug, feature request</div>
+      </div>
+      <div class="priority-card p4">
+        <div class="pc-label">P4</div>
+        <div class="pc-name">Low</div>
+        <div class="pc-sla">SLA: 2 weeks</div>
+        <div class="pc-desc">Cosmetic, nice-to-have, backlog grooming</div>
+      </div>
+    </div>
+
+    <p>The allocation logic has two rules. First: work is assigned to the person with the right skills who's free right now. Second: among all the work that person could take, pick the one whose SLA is closest to breaching. Not the easiest. Not the most familiar. The most urgent.</p>
+
+    <div class="callout info">
+      <div class="ct">Age matters, not just priority.</div>
+      <p>A P2 that's been sitting for 7 hours and 45 minutes should beat a P1 that just arrived 20 minutes ago. SLA-based allocation tracks remaining time against target, not just raw priority level. The queue sorts by "time until breach", ascending.</p>
+    </div>
+  </section>
+
+  <!-- ===== THE INTERACTIVE SIM ===== -->
+  <section class="fade" style="animation-delay:0.14s" id="sim">
+    <div class="sec-head">
+      <div class="sec-num">03 / run it yourself</div>
+      <h2>The same queue, the same team. Two very different systems.</h2>
+    </div>
+
+    <p>Six workers. A live stream of incoming work. All items need someone with the right skill set. Press play and let it run for a minute — then flip between Cherry-pick mode and SLA-allocation mode and watch what happens to breach rates and queue depth at each priority level.</p>
+
+    <div class="lab">
+      <span class="lab-kick">Interactive · live simulation</span>
+      <h3>One backlog. Two ways of assigning it.</h3>
+      <p class="lab-sub">Observe where work piles up, which SLAs get breached, and which workers end up idle.</p>
+
+      <div class="sim-controls">
+        <button class="btn-play" id="sim-play">▶ Play</button>
+        <button class="btn-ghost" id="sim-reset">Reset</button>
+        <div class="seg" id="mode-seg">
+          <button data-mode="cherry" class="on">Cherry-pick</button>
+          <button data-mode="sla">SLA allocation</button>
+        </div>
+      </div>
+
+      <div class="stat-row" id="stat-row">
+        <div class="stat" id="stat-breach">
+          <div class="s-label">SLA Breaches</div>
+          <div class="s-val" id="v-breach">0</div>
+          <div class="s-sub">items past deadline</div>
+        </div>
+        <div class="stat" id="stat-p1-wait">
+          <div class="s-label">Oldest P1 Age</div>
+          <div class="s-val" id="v-p1wait">—</div>
+          <div class="s-sub">in queue, unassigned</div>
+        </div>
+        <div class="stat" id="stat-p3-done">
+          <div class="s-label">P3/P4 Done</div>
+          <div class="s-val" id="v-p3done">0</div>
+          <div class="s-sub">lower-pri completed</div>
+        </div>
+        <div class="stat" id="stat-throughput">
+          <div class="s-label">Total Done</div>
+          <div class="s-val" id="v-throughput">0</div>
+          <div class="s-sub">all priorities</div>
+        </div>
+      </div>
+
+      <div class="sim-stage">
+        <div class="stage-label">Workers <span id="worker-count" style="color:var(--ink-faint)"></span></div>
+        <div class="workers-row" id="workers-row"></div>
+        <div class="stage-label">Queue — waiting for assignment <span id="q-count" style="color:var(--ink-faint)"></span></div>
+        <div class="queue-area" id="queue-area"></div>
+      </div>
+
+      <div class="sla-legend">
+        <span><i style="background:var(--c-p1);border-radius:3px;"></i> P1 Critical</span>
+        <span><i style="background:var(--c-p2);border-radius:3px;"></i> P2 High</span>
+        <span><i style="background:var(--c-p3);border-radius:3px;"></i> P3 Medium</span>
+        <span><i style="background:var(--c-p4);border-radius:3px;"></i> P4 Low</span>
+        <span style="color:var(--red);font-family:var(--mono);font-size:12px;">age shown in red = SLA breached</span>
+      </div>
+
+      <div class="slider-row">
+        <label>Arrival rate</label>
+        <input type="range" id="arrival-rate" min="0.5" max="4" value="2.6" step="0.1">
+        <span class="sv" id="v-arrival">2.6 / min</span>
+      </div>
+
+      <div class="cmp-wrap">
+        <div class="cmp-title">Session comparison — totals since last reset</div>
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="cherry-col">Cherry-pick</th>
+              <th class="sla-col">SLA allocation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>SLA Breaches (P1+P2)</td>
+              <td class="cherry-col" id="cmp-breach-c">—</td>
+              <td class="sla-col" id="cmp-breach-s">—</td>
+            </tr>
+            <tr>
+              <td>Avg P1 wait (queue)</td>
+              <td class="cherry-col" id="cmp-p1-c">—</td>
+              <td class="sla-col" id="cmp-p1-s">—</td>
+            </tr>
+            <tr>
+              <td>% low-pri done early</td>
+              <td class="cherry-col" id="cmp-lowpri-c">—</td>
+              <td class="sla-col" id="cmp-lowpri-s">—</td>
+            </tr>
+            <tr>
+              <td>Total throughput</td>
+              <td class="cherry-col" id="cmp-through-c">—</td>
+              <td class="sla-col" id="cmp-through-s">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chart-label" style="margin-top:16px;">SLA breach trend</div>
+      <div class="chart-wrap">
+        <svg id="breach-chart" viewBox="0 0 700 100" aria-label="Running SLA breach count over time"></svg>
+      </div>
+
+      <div class="lab-note">
+        <b>What to look for.</b> In Cherry-pick mode, watch P3/P4 items drain quickly while P1/P2 items age in the queue. The breach count climbs. Flip to SLA allocation — same people, same arrival rate. P1s and P2s get snatched first. P3/P4 completions slow down, but SLA health improves sharply. <b style="color:var(--green)">Try cranking the arrival rate up</b> until the team is overwhelmed, then compare how each mode fails.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY IT FEELS WRONG TO MANAGERS ===== -->
+  <section class="fade" style="animation-delay:0.18s">
+    <div class="sec-head">
+      <div class="sec-num">04 / the objections</div>
+      <h2>It looks worse before it looks better. That's the point.</h2>
+    </div>
+
+    <p>SLA-based allocation has one really uncomfortable side effect that catches managers off-guard: your P3/P4 throughput <em>will drop</em> when you first switch. Workers who were ploughing through easy tasks get redirected to hard, uncertain work. Velocity metrics dip. Someone will say the new system is making things worse.</p>
+
+    <p>They're measuring the wrong thing. Throughput isn't the goal — <em>SLA health</em> is the goal. A team that closes 40 tickets a day while letting 3 P1s breach has worse outcomes than a team that closes 28 tickets and keeps all P1/P2 targets green.</p>
+
+    <div class="twocol">
+      <div class="panel">
+        <h3 style="font-size:16px;color:var(--red);margin-bottom:8px;">Cherry-pick looks like</h3>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0;">High ticket closure numbers. Team always appears busy. Lots of P3/P4 completions. But SLA breach rate climbs slowly, and executives hear about it from customers first.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:16px;color:var(--green);margin-bottom:8px;">SLA allocation looks like</h3>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0;">Slightly lower raw throughput. Some P4s age for weeks. But zero P1 breaches. Customers with critical issues get responses on time. That's the actual product.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;">The other objection is about autonomy. "My team are professionals — they know what needs doing." Maybe. But cognitive load is real. When someone opens a queue with 80 items, they default to familiarity. A good allocation system isn't distrust — it's cognitive offload. The system does the triage so the team can do the work.</p>
+  </section>
+
+  <!-- ===== THE SIX RULES ===== -->
+  <section class="fade" style="animation-delay:0.22s">
+    <div class="sec-head">
+      <div class="sec-num">05 / what actually works</div>
+      <h2>Six things worth printing out and putting on the wall.</h2>
+    </div>
+    <div class="panel">
+      <ol class="rules">
+        <li><b>Sort by time-to-breach, not priority label.</b> A P2 with 15 minutes left beats a P1 with 90 minutes left. The urgency is in the remaining SLA window, not the number.</li>
+        <li><b>Match skills first, then urgency.</b> Routing a P1 to someone without the right skills isn't faster — it's just movement. Skill matching is the constraint; urgency sorts within that constraint.</li>
+        <li><b>Make the breach risk visible.</b> People cherry-pick partly because they can't easily see which items are about to breach. Surface that data prominently. Moral pressure is real and it's free.</li>
+        <li><b>Don't let low-priority work disappear entirely.</b> SLA allocation should deprioritise P3/P4 when there's high-urgency work — but if nobody's free and a P4 has been waiting two weeks, someone should touch it. SLA targets exist for every tier.</li>
+        <li><b>Review skill coverage, not just headcount.</b> If P1 items keep waiting it might not be a capacity problem — it might be that only one person can handle them. Breadth of skills is a queue-health lever just as much as headcount.</li>
+        <li><b>Measure SLA compliance, not ticket count.</b> The KPI you report on is the KPI you get. Teams optimise for what's measured. If you track tickets closed, you'll get cherry-picking. If you track SLA compliance by priority, you'll get allocation discipline.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="fade" style="animation-delay:0.26s">
+    <p>The single thing worth carrying out of here: <strong>a full queue with good discipline beats a slow queue with bad discipline.</strong> The work doesn't drain itself. How you assign it is as important as having enough people to do it.</p>
+  </footer>
+
+</div>
+
+<!-- breach ticker toast -->
+<div class="breach-ticker" id="breach-ticker">⚠ SLA Breached</div>
+
+<script>
+// ============================================================
+//  CONFIG
+// ============================================================
+// SLA targets (sim-seconds).
+// Handle times are set so a worker handles ~1 item per SLA window at best —
+// meaning any queue depth on P1/P2 in cherry-pick mode causes breaches.
+// P1: 60s SLA, handle 35-65s → one item barely fits; two in queue = breach
+// P2: 240s SLA, handle 80-140s → queue depth of 2 already risky
+const SLA_SIM = { p1: 60, p2: 240, p3: 900, p4: 3600 };
+// Handle times long enough that 6 workers can't keep up with arrival pressure
+const HANDLE_SIM = { p1: [35,65], p2: [80,140], p3: [60,110], p4: [40,80] };
+// Priority mix: more P1/P2 than feels comfortable — that's the point
+const PRIORITY_MIX = [
+  { pri: 'p1', weight: 0.14 },
+  { pri: 'p2', weight: 0.26 },
+  { pri: 'p3', weight: 0.38 },
+  { pri: 'p4', weight: 0.22 },
+];
+const PRIORITY_ORDER = ['p1','p2','p3','p4'];
+
+// Workers with skill sets
+const WORKER_DEFS = [
+  { id: 'w1', name: 'Alex',   skills: ['backend', 'db'] },
+  { id: 'w2', name: 'Bilal',  skills: ['frontend', 'design'] },
+  { id: 'w3', name: 'Caro',   skills: ['backend', 'infra'] },
+  { id: 'w4', name: 'Dev',    skills: ['frontend', 'backend'] },
+  { id: 'w5', name: 'Erin',   skills: ['infra', 'db'] },
+  { id: 'w6', name: 'Femi',   skills: ['design', 'frontend', 'backend'] },
+];
+// Each work item requires one of these skills (randomly assigned at arrival)
+const ALL_SKILLS = ['backend', 'db', 'frontend', 'design', 'infra'];
+
+// ============================================================
+//  STATE
+// ============================================================
+let mode = 'cherry'; // 'cherry' | 'sla'
+let running = false;
+let simTime = 0; // sim-seconds elapsed
+let nextItemId = 1;
+let nextArrivalAt = 0;
+let arrivalRate = 2.6; // items/sim-minute
+
+let queue = [];   // { id, pri, skill, arrivedAt, slaTarget }
+let workers = []; // { ...def, busyUntil, taskId, taskPri }
+let stats = {
+  breaches: 0,
+  p1WaitSamples: [],
+  lowPriDone: 0,
+  total: 0,
+};
+// Per-mode accumulators (reset when switching)
+let modeStats = {
+  cherry: { breaches: 0, p1Wait: [], lowPriDone: 0, total: 0 },
+  sla:    { breaches: 0, p1Wait: [], lowPriDone: 0, total: 0 },
+};
+let breachHistory = { cherry: [], sla: [] };
+let lastBreachFlash = -999;
+let RAF;
+
+// ============================================================
+//  INIT
+// ============================================================
+function initWorkers() {
+  workers = WORKER_DEFS.map(d => ({ ...d, busyUntil: 0, taskId: null, taskPri: null }));
+}
+
+function randBetween(a, b) { return a + Math.random() * (b - a); }
+
+function pickPriority() {
+  const r = Math.random();
+  let acc = 0;
+  for (const { pri, weight } of PRIORITY_MIX) {
+    acc += weight;
+    if (r <= acc) return pri;
+  }
+  return 'p4';
+}
+
+function pickSkill() { return ALL_SKILLS[Math.floor(Math.random() * ALL_SKILLS.length)]; }
+
+function spawnItem() {
+  const pri = pickPriority();
+  const skill = pickSkill();
+  const item = {
+    id: nextItemId++,
+    pri,
+    skill,
+    arrivedAt: simTime,
+    slaTarget: SLA_SIM[pri],
+  };
+  queue.push(item);
+}
+
+function itemAge(item) { return simTime - item.arrivedAt; }
+function slaRemaining(item) { return item.slaTarget - itemAge(item); }
+function isSLABreached(item) { return slaRemaining(item) < 0; }
+
+// ============================================================
+//  ASSIGNMENT LOGIC
+// ============================================================
+function tryAssignWork() {
+  // For each free worker, find best work item
+  for (const w of workers) {
+    if (simTime < w.busyUntil || !queue.length) continue;
+
+    // Eligible items (skill match)
+    const eligible = queue.filter(item => w.skills.includes(item.skill));
+    if (!eligible.length) continue;
+
+    let chosen;
+
+    if (mode === 'cherry') {
+      // Cherry-pick: strongly avoid P1/P2. Workers take P3/P4 every time one exists.
+      // Only touch P1/P2 if literally nothing else is available.
+      const lowPri = eligible.filter(i => i.pri === 'p3' || i.pri === 'p4');
+      const highPri = eligible.filter(i => i.pri === 'p1' || i.pri === 'p2');
+      const pool = lowPri.length ? lowPri : highPri;
+      const byPriScore = { p1: 4, p2: 3, p3: 2, p4: 1 };
+      pool.sort((a, b) => {
+        const pDiff = byPriScore[a.pri] - byPriScore[b.pri];
+        if (pDiff !== 0) return pDiff;
+        return b.arrivedAt - a.arrivedAt;
+      });
+      chosen = pool[0];
+    } else {
+      // SLA allocation: pick item with least SLA remaining (most urgent)
+      eligible.sort((a, b) => slaRemaining(a) - slaRemaining(b));
+      chosen = eligible[0];
+    }
+
+    if (!chosen) continue;
+
+    // Assign
+    const [minH, maxH] = HANDLE_SIM[chosen.pri];
+    const handleTime = randBetween(minH, maxH);
+
+    w.busyUntil = simTime + handleTime;
+    w.taskId = chosen.id;
+    w.taskPri = chosen.pri;
+
+    // Track p1 wait time
+    if (chosen.pri === 'p1') {
+      modeStats[mode].p1Wait.push(itemAge(chosen));
+    }
+    // Track throughput
+    modeStats[mode].total++;
+    if (chosen.pri === 'p3' || chosen.pri === 'p4') {
+      modeStats[mode].lowPriDone++;
+    }
+
+    queue = queue.filter(i => i.id !== chosen.id);
+  }
+}
+
+function checkWorkerCompletion() {
+  for (const w of workers) {
+    if (w.taskId && simTime >= w.busyUntil) {
+      w.taskId = null;
+      w.taskPri = null;
+    }
+  }
+}
+
+function checkBreaches() {
+  for (const item of queue) {
+    if (isSLABreached(item) && !item._breached) {
+      item._breached = true;
+      stats.breaches++;
+      modeStats[mode].breaches++;
+      // Flash
+      if (simTime - lastBreachFlash > 3) {
+        lastBreachFlash = simTime;
+        showBreachFlash(item.pri);
+      }
+    }
+  }
+}
+
+function showBreachFlash(pri) {
+  const el = document.getElementById('breach-ticker');
+  el.textContent = `⚠ ${pri.toUpperCase()} SLA Breached`;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ============================================================
+//  SIM TICK
+// ============================================================
+const TICK_MS = 40;     // wall-clock ms per frame
+const SIM_SPEED = 0.15;  // sim-seconds per wall-clock ms — slower so queue depth builds
+
+let lastWall = null;
+function tick(wall) {
+  if (!running) return;
+  if (lastWall === null) lastWall = wall;
+  const dt = Math.min((wall - lastWall) * SIM_SPEED, 5); // cap jump
+  lastWall = wall;
+  simTime += dt;
+
+  // Spawn arrivals
+  const intervalSim = 60 / arrivalRate;
+  while (nextArrivalAt <= simTime) {
+    spawnItem();
+    nextArrivalAt += randBetween(intervalSim * 0.3, intervalSim * 1.7);
+  }
+
+  checkWorkerCompletion();
+  tryAssignWork();
+  checkBreaches();
+
+  // Record breach history
+  if (Math.floor(simTime) % 10 === 0) {
+    const hist = breachHistory[mode];
+    if (!hist.length || hist[hist.length - 1].t !== Math.floor(simTime)) {
+      hist.push({ t: Math.floor(simTime), b: modeStats[mode].breaches });
+    }
+  }
+
+  renderAll();
+  RAF = requestAnimationFrame(tick);
+}
+
+// ============================================================
+//  RENDER
+// ============================================================
+function fmtAge(sec) {
+  if (sec < 60) return Math.round(sec) + 's';
+  if (sec < 3600) return Math.round(sec / 60) + 'm';
+  return (sec / 3600).toFixed(1) + 'h';
+}
+
+function renderWorkers() {
+  const row = document.getElementById('workers-row');
+  let html = '';
+  for (const w of workers) {
+    const busy = w.taskId !== null;
+    const cls = busy ? `worker busy-${w.taskPri}` : 'worker';
+    const skillPills = w.skills.map(s => `<span class="skill-pill">${s}</span>`).join('');
+    const taskText = busy ? `${w.taskPri.toUpperCase()} #${w.taskId}` : 'idle';
+    html += `
+      <div class="${cls}">
+        <div class="w-name">${w.name}</div>
+        <div class="w-skills">${skillPills}</div>
+        <div class="w-task">${taskText}</div>
+      </div>`;
+  }
+  row.innerHTML = html;
+  const busyCount = workers.filter(w => w.taskId).length;
+  document.getElementById('worker-count').textContent = `(${busyCount}/${workers.length} busy)`;
+}
+
+function renderQueue() {
+  const area = document.getElementById('queue-area');
+  if (!queue.length) {
+    area.innerHTML = '<span class="q-empty">Queue is empty</span>';
+    document.getElementById('q-count').textContent = '';
+    return;
+  }
+  document.getElementById('q-count').textContent = `(${queue.length} items)`;
+
+  // Sort display: by urgency if SLA mode, by priority+newest if cherry
+  const display = [...queue];
+  if (mode === 'sla') {
+    display.sort((a, b) => slaRemaining(a) - slaRemaining(b));
+  } else {
+    display.sort((a, b) => {
+      const p = PRIORITY_ORDER.indexOf(a.pri) - PRIORITY_ORDER.indexOf(b.pri);
+      if (p !== 0) return p;
+      return a.arrivedAt - b.arrivedAt;
+    });
+  }
+
+  let html = '';
+  for (const item of display.slice(0, 60)) {
+    const age = itemAge(item);
+    const breached = isSLABreached(item);
+    const ageCls = breached ? 'q-age breach' : 'q-age';
+    html += `<div class="q-item"><div class="q-dot ${item.pri}"></div><div class="${ageCls}">${fmtAge(age)}</div></div>`;
+  }
+  if (display.length > 60) {
+    html += `<div class="q-item"><div style="font-size:10px;color:var(--ink-faint);font-family:var(--mono);align-self:center">+${display.length - 60}</div></div>`;
+  }
+  area.innerHTML = html;
+}
+
+function renderStats() {
+  const ms = modeStats[mode];
+
+  // Breach count
+  const bc = document.getElementById('v-breach');
+  bc.textContent = ms.breaches;
+  const bCard = document.getElementById('stat-breach');
+  bCard.className = 'stat ' + (ms.breaches === 0 ? 'good' : ms.breaches < 3 ? 'warn' : 'danger');
+
+  // Oldest P1 in queue
+  const p1Items = queue.filter(i => i.pri === 'p1');
+  const oldestP1 = p1Items.length ? Math.max(...p1Items.map(i => itemAge(i))) : null;
+  const p1WaitEl = document.getElementById('v-p1wait');
+  const p1Card = document.getElementById('stat-p1-wait');
+  if (oldestP1 !== null) {
+    p1WaitEl.textContent = fmtAge(oldestP1);
+    const ratio = oldestP1 / SLA_SIM.p1;
+    p1Card.className = 'stat ' + (ratio < 0.5 ? 'good' : ratio < 0.85 ? 'warn' : 'danger');
+    if (ratio >= 1) p1Card.classList.add('breaching');
+    else p1Card.classList.remove('breaching');
+  } else {
+    p1WaitEl.textContent = '—';
+    p1Card.className = 'stat good';
+    p1Card.classList.remove('breaching');
+  }
+
+  document.getElementById('v-p3done').textContent = ms.lowPriDone;
+  document.getElementById('v-throughput').textContent = ms.total;
+}
+
+function renderComparison() {
+  const c = modeStats.cherry;
+  const s = modeStats.sla;
+  const avgWait = (arr) => arr.length ? fmtAge(arr.reduce((a, b) => a + b, 0) / arr.length) : '—';
+  const pct = (n, d) => d ? Math.round(n / d * 100) + '%' : '—';
+
+  document.getElementById('cmp-breach-c').textContent = c.breaches;
+  document.getElementById('cmp-breach-s').textContent = s.breaches;
+  document.getElementById('cmp-p1-c').textContent = avgWait(c.p1Wait);
+  document.getElementById('cmp-p1-s').textContent = avgWait(s.p1Wait);
+  document.getElementById('cmp-lowpri-c').textContent = pct(c.lowPriDone, c.total);
+  document.getElementById('cmp-lowpri-s').textContent = pct(s.lowPriDone, s.total);
+  document.getElementById('cmp-through-c').textContent = c.total;
+  document.getElementById('cmp-through-s').textContent = s.total;
+}
+
+function renderBreachChart() {
+  const svg = document.getElementById('breach-chart');
+  const W = 700, H = 100, ml = 36, mr = 8, mt = 8, mb = 24;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  const cherry = breachHistory.cherry;
+  const sla = breachHistory.sla;
+  const allPts = [...cherry, ...sla];
+  const maxB = Math.max(1, ...allPts.map(p => p.b));
+  const maxT = Math.max(1, simTime);
+
+  const xOfT = t => ml + (t / maxT) * pw;
+  const yOfB = b => mt + ph - (b / maxB) * ph;
+
+  let s = '';
+  // grid
+  for (let g = 0; g <= maxB; g += Math.max(1, Math.ceil(maxB / 4))) {
+    const y = yOfB(g);
+    s += `<line x1="${ml}" y1="${y.toFixed(1)}" x2="${ml + pw}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.05)"/>`;
+    s += `<text x="${ml - 4}" y="${(y + 4).toFixed(1)}" text-anchor="end" font-family="DM Mono,monospace" font-size="9.5" fill="rgba(139,144,160,0.7)">${g}</text>`;
+  }
+
+  function makePath(history, color) {
+    if (history.length < 2) return '';
+    let d = '';
+    for (let i = 0; i < history.length; i++) {
+      const x = xOfT(history[i].t).toFixed(1);
+      const y = yOfB(history[i].b).toFixed(1);
+      d += (i === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
+    }
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>`;
+  }
+
+  s += makePath(cherry, '#e8533a');
+  s += makePath(sla, '#3abf7e');
+
+  // legend inside chart
+  s += `<circle cx="${ml + 10}" cy="${mt + 8}" r="4" fill="#e8533a" opacity="0.9"/>`;
+  s += `<text x="${ml + 18}" y="${mt + 12}" font-family="DM Mono,monospace" font-size="9.5" fill="rgba(232,83,58,0.85)">cherry-pick</text>`;
+  s += `<circle cx="${ml + 90}" cy="${mt + 8}" r="4" fill="#3abf7e" opacity="0.9"/>`;
+  s += `<text x="${ml + 98}" y="${mt + 12}" font-family="DM Mono,monospace" font-size="9.5" fill="rgba(58,191,126,0.85)">SLA alloc</text>`;
+
+  // axes
+  s += `<line x1="${ml}" y1="${mt}" x2="${ml}" y2="${mt + ph}" stroke="rgba(255,255,255,0.1)"/>`;
+  s += `<line x1="${ml}" y1="${mt + ph}" x2="${ml + pw}" y2="${mt + ph}" stroke="rgba(255,255,255,0.1)"/>`;
+
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = s;
+}
+
+function renderAll() {
+  renderWorkers();
+  renderQueue();
+  renderStats();
+  renderComparison();
+  renderBreachChart();
+}
+
+// ============================================================
+//  CONTROLS
+// ============================================================
+document.getElementById('sim-play').addEventListener('click', () => {
+  running = !running;
+  const btn = document.getElementById('sim-play');
+  if (running) {
+    btn.textContent = '⏸ Pause';
+    btn.classList.remove('paused');
+    lastWall = null;
+    RAF = requestAnimationFrame(tick);
+  } else {
+    btn.textContent = '▶ Play';
+    btn.classList.add('paused');
+    cancelAnimationFrame(RAF);
+  }
+});
+
+document.getElementById('sim-reset').addEventListener('click', () => {
+  running = false;
+  cancelAnimationFrame(RAF);
+  simTime = 0;
+  queue = [];
+  nextItemId = 1;
+  nextArrivalAt = 0;
+  stats = { breaches: 0, p1WaitSamples: [], lowPriDone: 0, total: 0 };
+  modeStats = {
+    cherry: { breaches: 0, p1Wait: [], lowPriDone: 0, total: 0 },
+    sla:    { breaches: 0, p1Wait: [], lowPriDone: 0, total: 0 },
+  };
+  breachHistory = { cherry: [], sla: [] };
+  lastBreachFlash = -999;
+  initWorkers();
+  const btn = document.getElementById('sim-play');
+  btn.textContent = '▶ Play';
+  btn.classList.add('paused');
+  renderAll();
+});
+
+document.querySelectorAll('#mode-seg button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#mode-seg button').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    mode = btn.dataset.mode;
+    // reassign queue display order immediately
+    renderAll();
+  });
+});
+
+document.getElementById('arrival-rate').addEventListener('input', function() {
+  arrivalRate = parseFloat(this.value);
+  document.getElementById('v-arrival').textContent = arrivalRate.toFixed(1) + ' / min';
+});
+
+// ============================================================
+//  BOOT
+// ============================================================
+initWorkers();
+renderAll();
+
+// stagger load-in
+document.querySelectorAll('.fade').forEach((el, i) => {
+  el.style.animationDelay = (i * 0.05) + 's';
+});
+</script>
+</body>
+</html>

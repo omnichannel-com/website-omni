@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>omnichannel CX · Brand Pack</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<script src="deck-stage.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #0b0a1a; }
+
+  /* ---------- Slide canvas ---------- */
+  deck-stage section {
+    width: 1920px; height: 1080px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    color: var(--fg);
+    background: #ffffff;
+  }
+  deck-stage section.dark {
+    background: var(--ocx-bg-indigo);
+    color: #fff;
+  }
+  deck-stage section.aurora {
+    background: var(--ocx-bg-aurora);
+    color: #fff;
+  }
+  deck-stage section.tint {
+    background: var(--ocx-bg-tint);
+  }
+  deck-stage section.whisper {
+    background: var(--ocx-bg-whisper);
+  }
+
+  /* ---------- Page chrome ---------- */
+  .page {
+    position: absolute; inset: 0;
+    padding: 100px 120px;
+    display: flex; flex-direction: column;
+    box-sizing: border-box;
+  }
+  .eyebrow {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 18px; letter-spacing: 0.18em;
+    text-transform: uppercase; opacity: 0.6;
+    margin-bottom: 28px;
+  }
+  .dark .eyebrow, .aurora .eyebrow { opacity: 0.75; }
+  .title {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: 110px; line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--fg-primary);
+    margin: 0 0 28px;
+  }
+  .dark .title, .aurora .title { color: #ffffff; }
+  .subtitle {
+    font-family: var(--font-serif); font-style: italic;
+    font-weight: 500; font-size: 44px; line-height: 1.15;
+    color: var(--fg);
+    margin: 0 0 40px;
+    max-width: 1100px;
+  }
+  .dark .subtitle, .aurora .subtitle { color: rgba(255,255,255,0.92); }
+  .body {
+    font-family: var(--font-body); font-weight: 400;
+    font-size: 24px; line-height: 1.55;
+    color: var(--fg);
+    max-width: 1080px;
+  }
+  .dark .body, .aurora .body { color: rgba(255,255,255,0.85); }
+  .footer {
+    position: absolute; left: 120px; right: 120px; bottom: 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  /* ---------- COVER ---------- */
+  .cover {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 120px 140px;
+  }
+  .cover .logo-mark {
+    width: 240px; height: 240px;
+    background: var(--ocx-bg-signature);
+    border-radius: 48px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 60px;
+    box-shadow: 0 40px 120px rgba(170,66,220,0.45);
+  }
+  .cover .logo-mark img { width: 70%; height: 70%; object-fit: contain; }
+  .cover .title { font-size: 160px; }
+  .cover .meta {
+    margin-top: 80px;
+    display: flex; gap: 48px;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* ---------- COLOR PALETTE ---------- */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 28px;
+    margin-top: 24px;
+  }
+  .swatch {
+    border-radius: 16px;
+    height: 480px;
+    padding: 28px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    color: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .swatch.light { color: var(--fg); }
+  .swatch .name {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 26px; margin-bottom: 6px;
+  }
+  .swatch .hex {
+    font-family: "Courier New", monospace;
+    font-size: 18px; opacity: 0.85; letter-spacing: 0.04em;
+  }
+  .swatch .role {
+    font-family: var(--font-body); font-size: 16px;
+    margin-top: 14px; opacity: 0.85; line-height: 1.4;
+  }
+
+  /* ---------- GRADIENT BACKGROUNDS ---------- */
+  .grad-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .grad-tile {
+    border-radius: 18px;
+    height: 360px;
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: space-between;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .grad-tile .tier {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .grad-tile .label {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 32px; line-height: 1.05;
+  }
+  .grad-tile .use {
+    font-family: var(--font-body); font-size: 15px;
+    line-height: 1.4; opacity: 0.85; margin-top: 8px;
+  }
+
+  /* ---------- TYPE SPECIMEN ---------- */
+  .type-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 56px;
+    margin-top: 24px;
+  }
+  .type-card {
+    border-top: 2px solid var(--fg-primary);
+    padding-top: 24px;
+  }
+  .type-card .glyph {
+    font-size: 240px; line-height: 0.9;
+    color: var(--fg-primary);
+    margin-bottom: 24px;
+  }
+  .type-card.serif .glyph { font-family: var(--font-serif); font-style: italic; font-weight: 600; }
+  .type-card.display .glyph { font-family: var(--font-display); font-weight: 900; letter-spacing: -0.03em; }
+  .type-card.body .glyph { font-family: var(--font-body); font-weight: 400; }
+  .type-card .face {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 28px; margin-bottom: 8px;
+  }
+  .type-card .role {
+    font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+    color: var(--fg-muted);
+  }
+
+  /* ---------- TYPE PAIRING ---------- */
+  .pair {
+    margin-top: 24px;
+    padding: 64px 80px;
+    border-radius: 22px;
+    background: var(--ocx-grey-50);
+  }
+  .pair .e {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ocx-mauve);
+    margin-bottom: 28px;
+  }
+  .pair .h {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: 96px; line-height: 0.98; letter-spacing: -0.025em;
+    color: var(--ocx-dark-blue);
+    margin-bottom: 24px;
+  }
+  .pair .s {
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 40px; line-height: 1.2;
+    color: var(--ocx-black);
+    margin-bottom: 28px;
+  }
+  .pair .b {
+    font-family: var(--font-body); font-weight: 400;
+    font-size: 22px; line-height: 1.55;
+    color: var(--ocx-mid-grey);
+    max-width: 1100px;
+  }
+
+  /* ---------- LOGO SLIDE ---------- */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+  .logo-tile {
+    border-radius: 22px;
+    height: 360px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border);
+  }
+  .logo-tile.light { background: #fff; }
+  .logo-tile.dark  { background: var(--ocx-dark-blue); border-color: rgba(255,255,255,0.12); }
+  .logo-tile.signature { background: var(--ocx-bg-signature); border-color: transparent; }
+  .logo-tile img { max-width: 60%; max-height: 60%; object-fit: contain; }
+
+  /* ---------- COMPONENTS ---------- */
+  .comp-row {
+    display: flex; flex-wrap: wrap; gap: 20px;
+    margin-top: 32px; align-items: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 18px; line-height: 1;
+    padding: 18px 32px; border-radius: 12px;
+    text-decoration: none; cursor: pointer;
+    border: none;
+  }
+  .btn svg { width: 20px; height: 20px; flex-shrink: 0; stroke-width: 1.25; }
+  .btn.primary  { background: var(--ocx-dark-blue); color: #fff; }
+  .btn.gradient { background: var(--ocx-bg-signature); color: #fff; }
+  .btn.ghost    { background: transparent; color: var(--ocx-dark-blue); border: 2px solid var(--ocx-dark-blue); }
+  .btn.text     { background: transparent; color: var(--ocx-bright-blue); padding: 0; }
+
+  .pill-row { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+  .pill {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 14px; letter-spacing: 0.06em;
+    padding: 8px 18px; border-radius: 999px;
+    background: var(--bg-muted); color: var(--fg-primary);
+  }
+  .pill.live { background: rgba(31,138,91,0.12); color: #1f8a5b; }
+  .pill.warn { background: rgba(214,140,40,0.14); color: #b07a1d; }
+  .pill.brand { background: var(--ocx-dark-blue-08); color: var(--ocx-dark-blue); }
+
+  /* ---------- AVATARS ---------- */
+  .avatars { display: flex; gap: 28px; margin-top: 40px; }
+  .av {
+    width: 120px; height: 120px;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-family: var(--font-display); font-weight: 800; font-size: 44px;
+    box-shadow: 0 12px 28px rgba(170,66,220,0.25);
+  }
+  .av.r1 { background: linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%); }
+  .av.r2 { background: linear-gradient(200deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%); }
+  .av.r3 { background: linear-gradient( 60deg, #aa42dc 0%, #1b1464 55%, #0071bc 100%); }
+  .av.r4 { background: linear-gradient(310deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%); }
+  .av.r5 { background: linear-gradient(160deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%); }
+
+  /* ---------- VOICE ---------- */
+  .voice-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; margin-top: 32px;
+  }
+  .voice-panel {
+    padding: 40px 44px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+  .voice-panel.good { border-color: rgba(31,138,91,0.4); background: rgba(31,138,91,0.04); }
+  .voice-panel.bad  { border-color: rgba(176,52,52,0.4); background: rgba(176,52,52,0.04); }
+  .voice-panel .tag {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .good .tag { color: #1f8a5b; }
+  .bad  .tag { color: #b03434; }
+  .voice-panel p {
+    font-family: var(--font-body); font-size: 28px; line-height: 1.4;
+    color: var(--fg); margin: 0;
+  }
+  .voice-rules {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    margin-top: 32px;
+  }
+
+  /* ---------- SPACING / RADII ---------- */
+  .system-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; margin-top: 24px;
+  }
+  .system-grid h3 {
+    font-family: var(--font-serif); font-style: italic; font-weight: 600;
+    font-size: 36px; margin: 0 0 24px; color: var(--fg-primary);
+  }
+  .sp-row { display: flex; align-items: center; gap: 20px; margin-bottom: 14px; }
+  .sp-bar { background: var(--ocx-dark-blue); height: 14px; border-radius: 4px; }
+  .sp-token {
+    font-family: "Courier New", monospace; font-size: 16px;
+    color: var(--fg-muted); width: 120px;
+  }
+  .sp-px { font-family: var(--font-body); font-size: 16px; color: var(--fg-muted); }
+
+  .radii { display: flex; gap: 24px; margin-top: 16px; align-items: flex-end; }
+  .radius {
+    width: 120px; height: 120px;
+    background: var(--ocx-dark-blue); color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  }
+  .radius span:last-child { font-family: "Courier New", monospace; font-size: 12px; opacity: 0.75; margin-top: 4px; }
+  .radius.r-sm { border-radius: 4px; }
+  .radius.r-md { border-radius: 8px; }
+  .radius.r-lg { border-radius: 14px; }
+  .radius.r-xl { border-radius: 22px; }
+  .radius.r-pill { border-radius: 999px; width: 200px; }
+
+  /* ---------- CLOSING ---------- */
+  .closing {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 140px 160px;
+  }
+  .closing .title { font-size: 96px; }
+  .closing ul {
+    list-style: none; padding: 0; margin: 40px 0 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px 64px;
+  }
+  .closing li {
+    font-family: var(--font-body); font-size: 22px; line-height: 1.5;
+    padding-left: 32px; position: relative;
+    color: rgba(255,255,255,0.85);
+  }
+  .closing li::before {
+    content: ""; position: absolute; left: 0; top: 14px;
+    width: 16px; height: 2px; background: var(--ocx-mauve);
+  }
+  .closing li b { color: #fff; font-family: var(--font-display); font-weight: 800; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+<deck-stage>
+
+  <!-- 1. COVER -->
+  <section class="aurora cover" data-screen-label="01 Cover">
+    <div class="logo-mark">
+      <img src="assets/logo-icon-large.png" alt="">
+    </div>
+    <div class="eyebrow" style="opacity:0.85">Brand pack · v1.0</div>
+    <h1 class="title">omnichannel<br>CX</h1>
+    <p class="subtitle" style="max-width:1200px">Composed under pressure. Built for teams who care deeply.</p>
+    <div class="meta">
+      <span>Logo</span><span>Color</span><span>Type</span><span>Voice</span><span>Components</span>
+    </div>
+  </section>
+
+  <!-- 2. COLOR PALETTE -->
+  <section data-screen-label="02 Brand colors">
+    <div class="page">
+      <div class="eyebrow">02 · Color</div>
+      <h2 class="title" style="font-size:88px">Five core hues.<br>Bright sparingly.</h2>
+      <div class="palette">
+        <div class="swatch" style="background:#1b1464">
+          <div class="name">Dark Blue</div>
+          <div class="hex">#1B1464</div>
+          <div class="role">Primary. Headings, primary buttons, dark surfaces.</div>
+        </div>
+        <div class="swatch" style="background:#aa42dc">
+          <div class="name">Mauve</div>
+          <div class="hex">#AA42DC</div>
+          <div class="role">Accent. Highlights, gradient terminus.</div>
+        </div>
+        <div class="swatch" style="background:#0071bc">
+          <div class="name">Bright Blue</div>
+          <div class="hex">#0071BC</div>
+          <div class="role">Accent. Links, gradient terminus.</div>
+        </div>
+        <div class="swatch" style="background:#575757">
+          <div class="name">Mid Grey</div>
+          <div class="hex">#575757</div>
+          <div class="role">Body / muted foreground.</div>
+        </div>
+        <div class="swatch light" style="background:#f6f6f8;border:1px solid #e3e3ea">
+          <div class="name" style="color:#1b1464">Black + Neutrals</div>
+          <div class="hex" style="color:#575757">#000 · #F6F6F8</div>
+          <div class="role" style="color:#575757">Text on light. Surface tints. Borders.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>02</span></div>
+  </section>
+
+  <!-- 3. GRADIENT BACKGROUNDS -->
+  <section data-screen-label="03 Gradient backgrounds">
+    <div class="page">
+      <div class="eyebrow">03 · Surface system</div>
+      <h2 class="title" style="font-size:88px">Five background tiers.<br>One per surface.</h2>
+      <div class="grad-grid">
+        <div class="grad-tile" style="background:var(--ocx-bg-whisper);color:var(--fg)">
+          <div class="tier">T1 · Whisper</div>
+          <div>
+            <div class="label">Subtle wash</div>
+            <div class="use">Section dividers, empty states, subtle hovers.</div>
+          </div>
+        </div>
+        <div class="grad-tile" style="background:var(--ocx-bg-tint);color:var(--fg)">
+          <div class="tier">T2 · Tint</div>
+          <div>
+            <div class="label">Brand-light</div>
+            <div class="use">Marketing cards, callouts, feature blocks.</div>
+          </div>
+        </div>
+        <div class="grad-tile" style="background:var(--ocx-bg-indigo);color:#fff;border-color:transparent">
+          <div class="tier">T3 · Indigo</div>
+          <div>
+            <div class="label">Default dark</div>
+            <div class="use">Inverse surface. Dark blue with halo.</div>
+          </div>
+        </div>
+        <div class="grad-tile" style="background:var(--ocx-bg-aurora);color:#fff;border-color:transparent">
+          <div class="tier">T4 · Aurora</div>
+          <div>
+            <div class="label">Mesh hero</div>
+            <div class="use">Once per page. Reserved for the hero.</div>
+          </div>
+        </div>
+        <div class="grad-tile" style="background:var(--ocx-bg-signature);color:#fff;border-color:transparent">
+          <div class="tier">T5 · Signature</div>
+          <div>
+            <div class="label">135° ramp</div>
+            <div class="use">CTA fills, app icon, avatars.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>03</span></div>
+  </section>
+
+  <!-- 4. TYPE SYSTEM -->
+  <section data-screen-label="04 Typography system">
+    <div class="page">
+      <div class="eyebrow">04 · Typography</div>
+      <h2 class="title" style="font-size:88px">Three voices.<br>One conversation.</h2>
+      <div class="type-row">
+        <div class="type-card display">
+          <div class="glyph">Aa</div>
+          <div class="face">Overpass</div>
+          <div class="role">Display. BIG BOLD statements and headings. 700 / 800 / 900.</div>
+        </div>
+        <div class="type-card serif">
+          <div class="glyph">Aa</div>
+          <div class="face">Cormorant</div>
+          <div class="role">Sub-headings, often italic. Clean and well-styled.</div>
+        </div>
+        <div class="type-card body">
+          <div class="glyph">Aa</div>
+          <div class="face">Oxygen</div>
+          <div class="role">Body copy and longform. Italic + bold to break sections.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>04</span></div>
+  </section>
+
+  <!-- 5. TYPE PAIRING -->
+  <section data-screen-label="05 Type pairing">
+    <div class="page">
+      <div class="eyebrow">05 · Type in action</div>
+      <h2 class="title" style="font-size:64px;margin-bottom:0">How the system speaks.</h2>
+      <div class="pair">
+        <div class="e">PLATFORM</div>
+        <div class="h">One inbox,<br>every channel.</div>
+        <div class="s"><em>Composed under pressure. Built for teams who care deeply.</em></div>
+        <div class="b">Email, chat, voice, and social, threaded together so your team can answer in the channel the customer chose. Every conversation, one pane.</div>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>05</span></div>
+  </section>
+
+  <!-- 6. LOGO -->
+  <section data-screen-label="06 Logo">
+    <div class="page">
+      <div class="eyebrow">06 · Logo</div>
+      <h2 class="title" style="font-size:88px">The mark and<br>its surfaces.</h2>
+      <div class="logo-grid">
+        <div class="logo-tile light"><img src="assets/logo-full-color.png" alt=""></div>
+        <div class="logo-tile dark"><img src="assets/logo-full-white.png" alt=""></div>
+        <div class="logo-tile light"><img src="assets/logo-icon-large.png" alt="" style="max-width:32%"></div>
+        <div class="logo-tile signature"><img src="assets/logo-icon-large.png" alt="" style="max-width:32%;filter:brightness(0) invert(1)"></div>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>06</span></div>
+  </section>
+
+  <!-- 7. COMPONENTS · BUTTONS -->
+  <section data-screen-label="07 Buttons">
+    <div class="page">
+      <div class="eyebrow">07 · Buttons</div>
+      <h2 class="title" style="font-size:88px">Icons always lead.<br>Sentence case. One verb.</h2>
+      <div class="comp-row">
+        <button class="btn primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Resolve conversation
+        </button>
+        <button class="btn gradient">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Get started
+        </button>
+        <button class="btn ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Cancel
+        </button>
+        <a class="btn text" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          Open inbox
+        </a>
+      </div>
+      <div class="pill-row">
+        <span class="pill brand">PRIMARY</span>
+        <span class="pill brand">GRADIENT (1× per page)</span>
+        <span class="pill brand">GHOST</span>
+        <span class="pill brand">TEXT LINK</span>
+      </div>
+      <p class="body" style="margin-top:48px;max-width:1200px">
+        Sentence case. One verb, one object: "Resolve conversation," not "Resolve your conversations now!". No exclamation, no emoji, no em-dash. Icons always lead at 16px (14px small) with 1.25 stroke.
+      </p>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>07</span></div>
+  </section>
+
+  <!-- 8. AVATARS + STATUS -->
+  <section data-screen-label="08 Avatars and status">
+    <div class="page">
+      <div class="eyebrow">08 · Avatars · Presence</div>
+      <h2 class="title" style="font-size:88px">Always the gradient.<br>Vary the angle.</h2>
+      <div class="avatars">
+        <div class="av r1">RC</div>
+        <div class="av r2">AM</div>
+        <div class="av r3">JT</div>
+        <div class="av r4">SK</div>
+        <div class="av r5">PV</div>
+      </div>
+      <div class="pill-row" style="margin-top:64px">
+        <span class="pill live">● ONLINE</span>
+        <span class="pill warn">● AWAY</span>
+        <span class="pill">● OFFLINE</span>
+        <span class="pill brand">2 NEW</span>
+        <span class="pill brand">RESOLVED</span>
+      </div>
+      <p class="body" style="margin-top:48px;max-width:1200px">
+        Avatars use the signature gradient at five rotations (135°, 200°, 60°, 310°, 160°) so adjacent users feel distinct. Never substitute a flat brand color.
+      </p>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>08</span></div>
+  </section>
+
+  <!-- 9. VOICE & TONE -->
+  <section class="whisper" data-screen-label="09 Voice and tone">
+    <div class="page">
+      <div class="eyebrow">09 · Voice &amp; tone</div>
+      <h2 class="title" style="font-size:88px">Calm. Confident.<br>Composed.</h2>
+      <div class="voice-grid">
+        <div class="voice-panel good">
+          <div class="tag">✓ On-brand</div>
+          <p>Resolve every conversation in one pane.</p>
+        </div>
+        <div class="voice-panel bad">
+          <div class="tag">✗ Off-brand</div>
+          <p>Resolve EVERY conversation, in JUST one pane! 🚀</p>
+        </div>
+      </div>
+      <div class="voice-rules">
+        <span class="pill">Sentence case</span>
+        <span class="pill">"You" not "users"</span>
+        <span class="pill">No emoji</span>
+        <span class="pill">No exclamation</span>
+        <span class="pill">No em-dash</span>
+        <span class="pill">Oxford comma</span>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>09</span></div>
+  </section>
+
+  <!-- 10. SYSTEM (SPACING + RADII) -->
+  <section data-screen-label="10 Spacing and radii">
+    <div class="page">
+      <div class="eyebrow">10 · Spacing · Radii</div>
+      <h2 class="title" style="font-size:88px">A 4 / 8 grid.<br>Generous corners.</h2>
+      <div class="system-grid">
+        <div>
+          <h3>Spacing</h3>
+          <div class="sp-row"><div class="sp-token">--sp-1</div><div class="sp-bar" style="width:4px"></div><div class="sp-px">4 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-2</div><div class="sp-bar" style="width:8px"></div><div class="sp-px">8 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-3</div><div class="sp-bar" style="width:12px"></div><div class="sp-px">12 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-4</div><div class="sp-bar" style="width:16px"></div><div class="sp-px">16 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-5</div><div class="sp-bar" style="width:24px"></div><div class="sp-px">24 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-6</div><div class="sp-bar" style="width:32px"></div><div class="sp-px">32 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-7</div><div class="sp-bar" style="width:48px"></div><div class="sp-px">48 px</div></div>
+          <div class="sp-row"><div class="sp-token">--sp-8</div><div class="sp-bar" style="width:64px"></div><div class="sp-px">64 px</div></div>
+        </div>
+        <div>
+          <h3>Radii</h3>
+          <div class="radii">
+            <div class="radius r-sm"><span>SM</span><span>4</span></div>
+            <div class="radius r-md"><span>MD</span><span>8</span></div>
+            <div class="radius r-lg"><span>LG</span><span>14</span></div>
+            <div class="radius r-xl"><span>XL</span><span>22</span></div>
+          </div>
+          <div class="radii" style="margin-top:24px">
+            <div class="radius r-pill"><span>PILL</span><span>999</span></div>
+          </div>
+          <p class="body" style="font-size:18px;margin-top:32px;max-width:520px">
+            The icon's flowing curves echo into generous radii. Never sharp 90° corners on interactive elements.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>omnichannel CX · Brand Pack</span><span>10</span></div>
+  </section>
+
+  <!-- 11. CLOSING -->
+  <section class="dark closing" data-screen-label="11 Open questions">
+    <div class="eyebrow" style="opacity:0.7;color:#fff">Where this goes next</div>
+    <h2 class="title">What we still<br>need to lock down.</h2>
+    <ul>
+      <li><b>UI kit</b><br>Need codebase or Figma to build accurate web/mobile components.</li>
+      <li><b>Icon system</b><br>Lucide @ 1.25 stroke is a placeholder. Confirm or replace.</li>
+      <li><b>Photography</b><br>Style direction, stock library, or illustration system?</li>
+      <li><b>Charts &amp; data viz</b><br>Categorical palette and chart styling needed.</li>
+      <li><b>Voice samples</b><br>Real product copy will tighten the tone beyond inference.</li>
+      <li><b>Oxygen</b><br>Currently from Google Fonts. Brand-supplied file preferred.</li>
+    </ul>
+  </section>
+
+</deck-stage>
+
+<script type="application/json" id="speaker-notes">
+[
+  "This is the omnichannel CX brand pack, version one. Built from the brand guide PDF and the supplied logo files. Visual identity is anchored by the heart-knot mark and the purple-to-indigo-to-blue gradient.",
+  "Five core hues. Dark Blue is the primary. Mauve and Bright Blue are accents, used sparingly per the brand guide. Mid Grey carries body copy. Black plus a small neutral scale handles the rest.",
+  "Backgrounds are a five-tier system. Each surface uses exactly one tier. Whisper and Tint are light. Indigo and Aurora are dark. Signature is the linear ramp, reserved for the single CTA per page.",
+  "Three type families. Overpass for display headlines. Cormorant for italic sub-headings, the warm human voice. Oxygen for body. Pair Overpass with Oxygen, or stack all three with Cormorant in the middle.",
+  "Type pairing in action. Eyebrow, headline, italic sub, body. The serif italic is what makes the system feel composed instead of corporate.",
+  "Logo lives on four surfaces. Light, dark, color icon on white, and white icon on the signature gradient. Never recolor, squish, or place under one hundred seventy-five pixels wide.",
+  "Buttons. Icons always lead at sixteen pixels, one point two five stroke. Sentence case. One verb, one object. Primary is solid dark blue. Gradient is the hero CTA, used once per page.",
+  "Avatars are always the signature gradient. Vary the rotation per user so adjacent avatars feel distinct. Status pills follow the same disciplined accent system: green for online, amber for away, neutral for offline.",
+  "Voice. Calm, confident, composed. Sentence case. No emoji. No exclamation. No em-dash. The good example reads as one clear thought. The bad example shouts and panics.",
+  "Spacing on a four-eight grid. Radii are generous, echoing the icon's curves. Pill radius for tags and chips. Cards at fourteen, hero cards at twenty-two.",
+  "Open questions. We still need the product codebase or Figma to build real UI kits. The icon library is a placeholder. Photography direction, chart styling, and real product copy are all on the wish list."
+]
+</script>
+
+<script>
+(async () => {
+  try { await customElements.whenDefined('deck-stage'); } catch (e) {}
+  const ds = document.querySelector('deck-stage');
+  if (ds) {
+    // Weigh only slide children — same filter as deck-stage.length. Skipping
+    // slotted script/style/template keeps inline Babel/CSS from registering
+    // as stable "content" before the framework has mounted anything.
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of ds.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll('img,svg,canvas,video').length;
+      }
+      return text + media * 100;
+    };
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      if (n > 0 && n === last) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  try { await document.fonts.ready; } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

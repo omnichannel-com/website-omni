@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { X, ChevronDown } from "lucide-react";
 
@@ -53,7 +55,7 @@ function ContactHero() {
       <section className="relative z-10 py-4 min-h-screen">
         <div className="container mx-auto">
           <div className="lg:px-16 px-4 h-full flex flex-col text-ocx-fg relative top-[2%] space-y-6">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl text-center lg:text-left font-display font-semibold py-2 text-ocx-dark-blue">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl text-center lg:text-left font-display font-semibold py-2 text-ocx-fg-primary">
               Contact <span className="text-ocx-mauve">omnichannel CX</span>
             </h1>
 
@@ -98,12 +100,12 @@ function ContactHero() {
           <div className="bg-ocx-bg rounded-ocx-xl p-6 md:p-8 w-full max-w-2xl mx-auto relative border border-ocx-border shadow-ocx-lg">
             <button
               onClick={handleModalClose}
-              className="absolute top-4 right-4 p-1 bg-ocx-bg-subtle rounded-ocx-md text-ocx-fg hover:text-ocx-dark-blue transition-colors duration-ocx-fast"
+              className="absolute top-4 right-4 p-1 bg-ocx-bg-subtle rounded-ocx-md text-ocx-fg hover:text-ocx-fg-primary transition-colors duration-ocx-fast"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" strokeWidth={2} />
             </button>
-            <h3 className="text-xl font-bold mb-4 font-display text-ocx-dark-blue">Contact Us</h3>
+            <h3 className="text-xl font-bold mb-4 font-display text-ocx-fg-primary">Contact Us</h3>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
@@ -175,7 +177,7 @@ function ContactHero() {
                         <div
                           key={option}
                           onClick={() => handleMenuClose(option)}
-                          className="p-2.5 cursor-pointer hover:bg-ocx-bg-muted hover:text-ocx-dark-blue font-body text-sm transition-colors duration-ocx-fast"
+                          className="p-2.5 cursor-pointer hover:bg-ocx-bg-muted hover:text-ocx-fg-primary font-body text-sm transition-colors duration-ocx-fast"
                         >
                           {option}
                         </div>

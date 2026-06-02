@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Badges &amp; pills</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .label { width: 96px; font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); }
+  .badge {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+  .b-neutral { background: var(--bg-muted); color: var(--fg-primary); }
+  .b-primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
+  .b-accent  { background: var(--ocx-mauve); color: #fff; }
+  .b-blue    { background: var(--ocx-bright-blue); color: #fff; }
+  .b-soft    { background: color-mix(in oklab, var(--fg-accent) 15%, transparent); color: var(--fg-accent); }
+  .b-outline { background: var(--surface); color: var(--fg-primary); border-color: var(--border-strong); }
+  .b-dot::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 999px; background: currentColor; margin-right: 6px; vertical-align: middle; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="label">Status</div>
+    <span class="badge b-primary b-dot">Resolved</span>
+    <span class="badge b-accent b-dot">Live</span>
+    <span class="badge b-blue b-dot">In review</span>
+    <span class="badge b-neutral b-dot">Draft</span>
+  </div>
+  <div class="row">
+    <div class="label">Tags</div>
+    <span class="badge b-soft">Mauve</span>
+    <span class="badge b-outline">Outline</span>
+    <span class="badge b-neutral">Neutral</span>
+  </div>
+  <script src="_card.js"></script>
+</body></html>

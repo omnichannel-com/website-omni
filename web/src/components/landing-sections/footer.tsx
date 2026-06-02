@@ -31,7 +31,7 @@ export default function Footer() {
               className="w-8 h-8"
               suppressHydrationWarning
             />
-            <span className="font-display text-ocx-dark-blue text-2xl font-bold tracking-ocx-tight">
+            <span className="font-display text-ocx-fg-primary text-2xl font-bold tracking-ocx-tight">
               omnichannel <span className="font-extrabold">CX</span>
             </span>
           </Link>
@@ -50,7 +50,7 @@ export default function Footer() {
 
         {/* Newsletter */}
         <div className="flex flex-col items-center order-3 md:order-none col-span-3 space-y-4">
-          <p className="text-lg font-display font-semibold text-center text-ocx-dark-blue">Stay updated</p>
+          <p className="text-lg font-display font-semibold text-center text-ocx-fg-primary">Stay updated</p>
 
           <form className="relative flex items-center w-full max-w-md mx-auto mt-4" onSubmit={(e) => e.preventDefault()}>
             <input

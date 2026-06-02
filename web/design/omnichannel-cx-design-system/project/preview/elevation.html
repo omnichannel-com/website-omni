@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Elevation / shadows</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 28px 28px 32px; background: var(--bg-subtle); --ds-page-bg: var(--bg-subtle); }
+  .row { display: flex; gap: 22px; align-items: flex-end; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .box {
+    background: var(--surface);
+    width: 110px; height: 80px;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border);
+  }
+  .xs { box-shadow: var(--shadow-xs); }
+  .sm { box-shadow: var(--shadow-sm); }
+  .md { box-shadow: var(--shadow-md); }
+  .lg { box-shadow: var(--shadow-lg); }
+  .glow { box-shadow: var(--shadow-glow); border-color: transparent; background: var(--btn-primary-bg); }
+  .tok { font-family: var(--font-mono); font-size: 11px; color: var(--fg); }
+</style></head>
+<body>
+  <div class="row">
+    <div class="item"><div class="box xs"></div><div class="tok">--shadow-xs</div></div>
+    <div class="item"><div class="box sm"></div><div class="tok">--shadow-sm</div></div>
+    <div class="item"><div class="box md"></div><div class="tok">--shadow-md</div></div>
+    <div class="item"><div class="box lg"></div><div class="tok">--shadow-lg</div></div>
+    <div class="item"><div class="box glow"></div><div class="tok">--shadow-glow</div></div>
+  </div>
+  <script src="_card.js"></script>
+</body></html>

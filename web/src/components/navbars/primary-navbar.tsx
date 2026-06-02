@@ -29,7 +29,7 @@ export default function PrimaryNavbar() {
         </div>
         <div className="flex primary-nav list-none gap-2 px-1 md:px-2 justify-center items-center">
           <li className="relative">
-            <button onClick={openModal} aria-label="Toggle Search" className="p-1 hover:text-ocx-dark-blue transition-colors duration-ocx-fast">
+            <button onClick={openModal} aria-label="Toggle Search" className="p-1 hover:text-ocx-fg-primary transition-colors duration-ocx-fast">
               <Search className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
             </button>
           </li>
@@ -37,10 +37,10 @@ export default function PrimaryNavbar() {
             <ThemeToggle />
           </li>
           <li>
-            <button className="text-xs md:text-sm font-body hover:text-ocx-dark-blue cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0">Help Center</button>
+            <button className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0">Help Center</button>
           </li>
           <li>
-            <button className="text-xs md:text-sm font-body hover:text-ocx-dark-blue cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0" onClick={() => handleSigninClick("https://app.omnichannel.cx/")}>Log in</button>
+            <button className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0" onClick={() => handleSigninClick("https://app.omnichannel.cx/")}>Log in</button>
           </li>
         </div>
 

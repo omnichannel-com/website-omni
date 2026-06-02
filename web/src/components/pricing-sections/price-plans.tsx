@@ -41,7 +41,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <h1 className="text-4xl font-bold text-ocx-mauve">{prices.starter}</h1>
             <p className="text-ocx-fg">Perfect for getting started and trying out the omnichannel CX platform to access best Ai functionalities.</p>
             <div>
-              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-dark-blue hover:text-ocx-dark-blue">Get Started</Link>
+              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-fg-primary hover:text-ocx-fg-primary">Get Started</Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
@@ -62,7 +62,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <h1 className="text-4xl font-bold text-ocx-fg">{prices.professional} <span className="text-base font-medium ">{prices.suffix}</span></h1>
             <p className="text-ocx-fg">Elevate your business with full access, priority support, & seamless integration.</p>
             <div>
-              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-dark-blue hover:text-ocx-dark-blue">Get Started</Link>
+              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-fg-primary hover:text-ocx-fg-primary">Get Started</Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
@@ -83,7 +83,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <h1 className="text-4xl font-bold text-ocx-mauve">{prices.premium} <span className="text-ocx-fg text-base font-medium ">{prices.suffix}</span></h1>
             <p className="text-ocx-fg">Maximize your potential with unlimited profiles, advanced customization, & analytics.</p>
             <div>
-              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-dark-blue hover:text-ocx-dark-blue">Get Started</Link>
+              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-fg-primary hover:text-ocx-fg-primary">Get Started</Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>

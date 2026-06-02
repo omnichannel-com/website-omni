@@ -1,0 +1,56 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Avatars &amp; presence</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 12px; align-items: center; }
+  .label { width: 96px; font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); }
+  .av {
+    width: 40px; height: 40px; border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 14px; color: #fff;
+    position: relative;
+    flex-shrink: 0;
+    background: var(--ocx-gradient);
+  }
+  /* Per-initial rotation of the gradient so adjacent avatars feel distinct
+     without breaking the "always gradient" rule. */
+  .av.r1 { background: linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%); }
+  .av.r2 { background: linear-gradient(200deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%); }
+  .av.r3 { background: linear-gradient( 60deg, #aa42dc 0%, #1b1464 55%, #0071bc 100%); }
+  .av.r4 { background: linear-gradient(310deg, #0071bc 0%, #1b1464 50%, #aa42dc 100%); }
+  .av.r5 { background: linear-gradient(160deg, #0071bc 0%, #1b1464 55%, #aa42dc 100%); }
+
+  .av.lg { width: 56px; height: 56px; font-size: 18px; }
+  .av.sm { width: 28px; height: 28px; font-size: 11px; }
+  .av .dot { position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; border-radius: 999px; border: 2px solid var(--bg); }
+  .dot.on { background: #2eb872; }
+  .dot.away { background: #f0a020; }
+  .dot.off { background: var(--ocx-grey-300); }
+  .stack { display: flex; }
+  .stack .av { margin-left: -8px; border: 2px solid var(--bg); }
+  .stack .av:first-child { margin-left: 0; }
+  .note { font-family: var(--font-body); font-size: 11px; color: var(--fg-muted); margin-top: 4px; }
+  .note code { font-family: var(--font-mono); color: var(--fg-primary); background: var(--bg-muted); padding: 1px 5px; border-radius: 3px; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="label">Sizes</div>
+    <div class="av sm r1">AC</div>
+    <div class="av r1">AC<span class="dot on"></span></div>
+    <div class="av lg r1">AC<span class="dot on"></span></div>
+    <div class="av r2">JS<span class="dot away"></span></div>
+    <div class="av r3">RP<span class="dot off"></span></div>
+  </div>
+  <div class="row">
+    <div class="label">Stack</div>
+    <div class="stack">
+      <div class="av r1">AC</div>
+      <div class="av r2">JS</div>
+      <div class="av r3">RP</div>
+      <div class="av r4">+4</div>
+    </div>
+  </div>
+  <div class="note">Always the signature gradient (<code>--ocx-gradient</code>). Vary the angle (135°, 200°, 60°, 310°, 160°) per user so adjacent avatars feel distinct; never substitute solid brand colors.</div>
+  <script src="_card.js"></script>
+</body></html>

@@ -99,7 +99,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                 height={40}
                 width={40}
               />
-              <span className="font-display text-ocx-dark-blue text-xl md:text-2xl font-bold tracking-ocx-tight">
+              <span className="font-display text-ocx-fg-primary text-xl md:text-2xl font-bold tracking-ocx-tight">
                 omnichannel <span className="font-extrabold">CX</span>
               </span>
             </div>
@@ -111,12 +111,12 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
               isMobileMenuOpen ? (
                 <X
                   onClick={toggleMobileMenu}
-                  className="text-ocx-dark-blue w-6 h-6 cursor-pointer"
+                  className="text-ocx-fg-primary w-6 h-6 cursor-pointer"
                 />
               ) : (
                 <Menu
                   onClick={toggleMobileMenu}
-                  className="text-ocx-dark-blue w-6 h-6 cursor-pointer"
+                  className="text-ocx-fg-primary w-6 h-6 cursor-pointer"
                 />
               )
             ) : (
@@ -129,7 +129,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                       className={clsx(
                         "relative navitems group text-sm font-body",
                         { "hover:text-ocx-bright-blue": item.name === "About" },
-                        { "text-ocx-dark-blue font-bold": isActive }
+                        { "text-ocx-fg-primary font-bold": isActive }
                       )}
                       onMouseEnter={() => {
                         if (item.name === "About") setIsPlatformHovered(true);
@@ -168,7 +168,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                   key={index}
                   className={clsx("py-2 relative", {
                     "border-b border-ocx-border": activeSubMenu === item.name,
-                    "text-ocx-dark-blue font-bold": isActive,
+                    "text-ocx-fg-primary font-bold": isActive,
                   })}
                 >
                   <div className="flex items-center justify-between w-full">

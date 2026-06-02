@@ -1,0 +1,121 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Gradient backgrounds</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 24px; }
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+  .row {
+    display: grid;
+    grid-template-columns: 96px 1fr 220px;
+    gap: 14px;
+    align-items: center;
+  }
+  .swatch {
+    height: 64px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .s1 { background: var(--ocx-bg-whisper); }
+  .s2 { background: var(--ocx-bg-tint); }
+  .s3 { background: var(--ocx-bg-indigo); border-color: transparent; }
+  .s4 { background: var(--ocx-bg-aurora); border-color: transparent; }
+  .s5 { background: var(--ocx-bg-signature); border-color: transparent; }
+
+  .name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: -0.005em;
+    color: var(--fg-primary);
+  }
+  .name .tier {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    background: var(--bg-muted);
+    color: var(--fg-muted);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+  .role {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--fg-muted);
+    line-height: 1.45;
+    margin-top: 2px;
+  }
+  .token {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg);
+    text-align: right;
+  }
+  .token .fg { color: var(--fg-muted); }
+
+  .rule {
+    margin-top: 14px;
+    padding: 10px 12px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--r-md);
+    font-family: var(--font-body);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--fg-muted);
+  }
+  .rule strong { color: var(--fg-primary); font-family: var(--font-display); font-weight: 800; }
+</style></head>
+<body>
+  <div class="stack">
+    <div class="row">
+      <div class="swatch s1"></div>
+      <div>
+        <div class="name"><span class="tier">T1</span>Whisper</div>
+        <div class="role">Off-white with a hint of warmth from one corner. Quiet by design.</div>
+      </div>
+      <div class="token">--ocx-bg-whisper<br><span class="fg">on light · fg: black</span></div>
+    </div>
+
+    <div class="row">
+      <div class="swatch s2"></div>
+      <div>
+        <div class="name"><span class="tier">T2</span>Tint</div>
+        <div class="role">A single restrained wash. Marketing cards, callouts, feature blocks.</div>
+      </div>
+      <div class="token">--ocx-bg-tint<br><span class="fg">on light · fg: dark-blue</span></div>
+    </div>
+
+    <div class="row">
+      <div class="swatch s3"></div>
+      <div>
+        <div class="name"><span class="tier">T3</span>Indigo</div>
+        <div class="role">Dark-blue surface with one soft accent. The surface is the message.</div>
+      </div>
+      <div class="token">--ocx-bg-indigo<br><span class="fg">inverse · fg: white</span></div>
+    </div>
+
+    <div class="row">
+      <div class="swatch s4"></div>
+      <div>
+        <div class="name"><span class="tier">T4</span>Aurora</div>
+        <div class="role">Hero moment, restrained. Two accents on indigo with room for type.</div>
+      </div>
+      <div class="token">--ocx-bg-aurora<br><span class="fg">inverse · fg: white</span></div>
+    </div>
+
+    <div class="row">
+      <div class="swatch s5"></div>
+      <div>
+        <div class="name"><span class="tier">T5</span>Signature</div>
+        <div class="role">The canonical 135° ramp. Reserve for CTA fills, app icon, avatars.</div>
+      </div>
+      <div class="token">--ocx-bg-signature<br><span class="fg">accent · fg: white</span></div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <strong>Composed, not decorative.</strong> Bright colors are accents, used sparingly. One tier per surface, never stacked. Light tiers keep dark text; inverse tiers go white. If a gradient is competing with the content, drop a tier.
+  </div>
+</body></html>

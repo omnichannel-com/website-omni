@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Ensure correct import for client-side router
@@ -80,7 +82,7 @@ const BlogCards: React.FC = () => {
                                     {blog.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : 'Date not available'}
                                 </p>
                                 <p className='mb-4'>{blog.description ? truncateText(blog.description, 300) : 'No description available'}</p>
-                                <button className="bg-ocx-mauve text-white px-6 py-2 rounded-full outline outline-0 hover:bg-white hover:text-ocx-dark-blue hover:outline-2 hover:outline-ocx-dark-blue duration-300" onClick={() => handleViewMore(blog.id)}>Read more</button>
+                                <button className="bg-ocx-mauve text-white px-6 py-2 rounded-full outline outline-0 hover:bg-white hover:text-ocx-fg-primary hover:outline-2 hover:outline-ocx-fg-primary duration-300" onClick={() => handleViewMore(blog.id)}>Read more</button>
                             </div>
                         </div>
                     </div>

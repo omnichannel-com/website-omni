@@ -1,0 +1,107 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Card</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 28px; background: var(--bg-subtle); --ds-page-bg: var(--bg-subtle); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* Card is rendered as <a> so it is keyboard-focusable.
+     Focus ring meets WCAG 2.2 2.4.11 (Focus Not Obscured) and
+     2.4.13 (Focus Appearance) — 2px solid + 2px offset, contrast >3:1. */
+  .card {
+    display: block;
+    text-decoration: none;
+    /* TIER 2 brand gradient — the canonical marketing-card surface. */
+    background: var(--ocx-bg-tint);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 20px;
+    min-height: 44px; /* WCAG 2.2 2.5.8 target size */
+    transition: all var(--dur-base) var(--ease-standard);
+    color: inherit;
+  }
+  .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .card:focus-visible {
+    outline: 2px solid var(--ocx-bright-blue);
+    outline-offset: 2px;
+  }
+  .card .eyebrow {
+    /* Was mauve (4.61:1, AA tight). Now dark-blue: 15.6:1 (AAA). */
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-primary); margin-bottom: 8px;
+  }
+  .card h3 {
+    font-family: var(--font-serif); font-weight: 600;
+    font-size: 22px; line-height: 1.15;
+    color: var(--fg-primary);          /* 21:1 — AAA (light) */
+    margin-bottom: 6px;
+  }
+  .card p {
+    font-family: var(--font-body); font-size: 14px; line-height: 1.55;
+    color: var(--fg-muted);            /* mid-grey 7:1 (light) */
+  }
+
+  /* Statement card — full signature gradient (mauve→indigo→blue) with a
+     dark scrim layered on top so white text clears AA across the whole
+     surface, not just the dark corner. */
+  .card.statement {
+    background:
+      linear-gradient(180deg, rgba(27,20,100,0.18) 0%, rgba(27,20,100,0.42) 100%),
+      var(--ocx-bg-signature);
+    border-color: transparent;
+    box-shadow: var(--shadow-glow);
+  }
+  .card.statement .eyebrow {
+    color: #ffffff;
+    opacity: 0.92;
+  }
+  .card.statement h3 { color: #ffffff; }
+  .card.statement p {
+    color: #f0eefb;                    /* ≥ 5:1 over scrimmed gradient */
+  }
+  .card.statement:focus-visible {
+    outline-color: #ffffff;
+    outline-offset: 3px;
+  }
+
+  .audit {
+    margin-top: 14px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    font-family: var(--font-mono); font-size: 10px;
+  }
+  .chk {
+    display: inline-flex; gap: 6px; align-items: center;
+    padding: 4px 9px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg);
+  }
+  .chk b { font-family: var(--font-display); font-size: 9px; letter-spacing: 0.1em; color: #1f8a5b; }
+</style></head>
+<body>
+  <div class="grid">
+    <a class="card" href="#" tabindex="0">
+      <div class="eyebrow">RESOLUTION</div>
+      <h3>Composed under pressure.</h3>
+      <p>Your team answers in the channel the customer chose, without switching tools.</p>
+    </a>
+    <a class="card statement" href="#" tabindex="0">
+      <div class="eyebrow">METRIC</div>
+      <h3>2.4× faster<br>resolution time.</h3>
+      <p>Versus baseline, measured across 1,200+ teams.</p>
+    </a>
+  </div>
+
+  <div class="audit">
+    <span class="chk"><b>TINT</b> Soft gradient · dark text</span>
+    <span class="chk"><b>SIG</b> Signature gradient + scrim</span>
+    <span class="chk"><b>AAA</b> Heading 15:1+</span>
+    <span class="chk"><b>AA</b> Body ≥ 5:1 on scrim</span>
+    <span class="chk"><b>AA</b> Target ≥ 44px</span>
+  </div>
+  <script src="_card.js"></script>
+</body></html>

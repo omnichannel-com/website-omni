@@ -1,38 +1,50 @@
-interface RoundedButtonProps {
+import React from "react";
+
+interface ButtonProps {
   text: string;
-  size: "small" | "large";
-  color: "orange" | "white" | "black";
-  hover: "orange" | "white" | "filledOrange" | "black";
+  variant?: "primary" | "gradient" | "ghost" | "text";
+  size?: "sm" | "md" | "lg";
+  icon?: React.ReactNode;
   customClass?: string;
+  onClick?: () => void;
 }
-const RoundedButton: React.FC<RoundedButtonProps> = ({
+
+const Button: React.FC<ButtonProps> = ({
   text,
-  color,
-  hover,
-  size,
-  customClass,
+  variant = "primary",
+  size = "md",
+  icon,
+  customClass = "",
+  onClick,
 }) => {
-  const hoverClass =
-    hover === "orange"
-      ? "hover:text-black hover:bg-transparent hover:border-ocx-mauve"
-      : hover === "white"
-      ? "hover:text-black hover:bg-white hover:outline-black"
-      : hover === "black"
-      ? "hover:text-white hover:bg-black hover:outline-black"
-      : "hover:text-white hover:bg-ocx-mauve hover:outline-ocx-mauve hover:outline-0";
+  const base =
+    "inline-flex items-center gap-3 font-display font-bold transition-all duration-ocx-fast cursor-pointer";
+
+  const sizeClasses = {
+    sm: "text-xs px-5 py-2.5 rounded-ocx-md",
+    md: "text-sm px-8 py-4 rounded-ocx-lg",
+    lg: "text-base px-10 py-5 rounded-ocx-lg",
+  };
+
+  const variantClasses = {
+    primary:
+      "bg-ocx-dark-blue text-white hover:bg-ocx-dark-blue-90 shadow-ocx-md",
+    gradient:
+      "bg-ocx-gradient text-white hover:shadow-ocx-glow",
+    ghost:
+      "bg-transparent text-ocx-fg-primary border-2 border-ocx-fg-primary hover:bg-ocx-fg-primary/5",
+    text: "bg-transparent text-ocx-bright-blue hover:text-ocx-fg-primary px-0 py-2",
+  };
+
   return (
     <button
-      className={`rounded-full ${
-        customClass ? customClass : ""
-      } transition-all duration-300 font-medium box-content py-1  lg:py-3  outline outline-2 ${hoverClass} ${
-        color === "orange"
-          ? "outline-ocx-mauve  bg-ocx-mauve text-white "
-          : "outline-black bg-white text-black "
-      } ${size === "small" ? "lg:px-10 px-4" : "lg:px-16 px-7"} `}
+      onClick={onClick}
+      className={`${base} ${sizeClasses[size]} ${variantClasses[variant]} ${customClass}`}
     >
+      {icon && <span className="w-5 h-5 flex items-center justify-center">{icon}</span>}
       {text}
     </button>
   );
 };
 
-export default RoundedButton;
+export default Button;

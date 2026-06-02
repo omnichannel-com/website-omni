@@ -26,19 +26,19 @@ const config: Config = {
           900: "#14141c",
         },
         ocx: {
-          bg: "#ffffff",
-          "bg-subtle": "#f6f6f8",
-          "bg-muted": "#ececf1",
-          "bg-inverse": "#1b1464",
-          fg: "#000000",
-          "fg-muted": "#575757",
-          "fg-subtle": "#8a8a96",
-          "fg-inverse": "#ffffff",
-          "fg-link": "#0071bc",
-          "fg-accent": "#aa42dc",
-          "fg-primary": "#1b1464",
-          border: "#d8d8e0",
-          "border-strong": "#b8b8c4",
+          bg: "var(--bg)",
+          "bg-subtle": "var(--bg-subtle)",
+          "bg-muted": "var(--bg-muted)",
+          "bg-inverse": "var(--bg-inverse)",
+          fg: "var(--fg)",
+          "fg-muted": "var(--fg-muted)",
+          "fg-subtle": "var(--fg-subtle)",
+          "fg-inverse": "var(--fg-inverse)",
+          "fg-link": "var(--fg-link)",
+          "fg-accent": "var(--fg-accent)",
+          "fg-primary": "var(--fg-primary)",
+          border: "var(--border)",
+          "border-strong": "var(--border-strong)",
         },
       },
 
@@ -126,8 +126,7 @@ const config: Config = {
       backgroundImage: {
         "ocx-gradient":
           "linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%)",
-        "ocx-gradient-soft":
-          "linear-gradient(135deg, #aa42dc22 0%, #1b146422 50%, #0071bc22 100%)",
+        "ocx-gradient-soft": "var(--ocx-gradient-soft)",
         "ocx-whisper":
           "radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%)",
         "ocx-tint":
