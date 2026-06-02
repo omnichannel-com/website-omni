@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { X, ChevronDown } from "lucide-react";
 
 function ContactHero() {
@@ -8,8 +8,20 @@ function ContactHero() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("How can we help you?");
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleModalClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    modalRef.current?.focus();
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen]);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -96,8 +108,8 @@ function ContactHero() {
       </section>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-          <div className="bg-ocx-bg rounded-ocx-xl p-6 md:p-8 w-full max-w-2xl mx-auto relative border border-ocx-border shadow-ocx-lg">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+          <div ref={modalRef} tabIndex={-1} className="bg-ocx-bg rounded-ocx-xl p-6 md:p-8 w-full max-w-2xl mx-auto relative border border-ocx-border shadow-ocx-lg outline-none">
             <button
               onClick={handleModalClose}
               className="absolute top-4 right-4 p-1 bg-ocx-bg-subtle rounded-ocx-md text-ocx-fg hover:text-ocx-fg-primary transition-colors duration-ocx-fast"
@@ -105,7 +117,7 @@ function ContactHero() {
             >
               <X className="w-5 h-5" strokeWidth={2} />
             </button>
-            <h3 className="text-xl font-bold mb-4 font-display text-ocx-fg-primary">Contact Us</h3>
+            <h3 id="contact-modal-title" className="text-xl font-bold mb-4 font-display text-ocx-fg-primary">Contact Us</h3>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">

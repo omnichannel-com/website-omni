@@ -25,7 +25,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
 
   return (
     <section className="relative scroll-section-1 bg-transparent pb-10 md:pb-20  landscape:pt-20">
-      <div className="absolute bottom-0 z-0 w-full">
+      <div className="absolute bottom-0 z-0 w-full h-64 md:h-96">
         <Image
           src="/waves.png"
           fill

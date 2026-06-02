@@ -2,19 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Footer() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [email, setEmail] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleSocialClick = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isValidEmail(email)) {
+      setSubmitStatus("error");
+      return;
+    }
+    setSubmitStatus("success");
+    setEmail("");
+    setTimeout(() => setSubmitStatus("idle"), 3000);
   };
 
   return (
@@ -24,12 +32,12 @@ export default function Footer() {
         <div className="flex justify-center md:justify-start order-1 md:order-none col-span-1">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src={mounted && theme === "dark" ? "/assets/logo-icon-white.png" : "/assets/logo-icon-color.png"}
+              src="/assets/logo-icon-color.png"
               alt="omnichannel CX Logo"
               width={32}
               height={32}
               className="w-8 h-8"
-              suppressHydrationWarning
+              sizes="32px"
             />
             <span className="font-display text-ocx-fg-primary text-2xl font-bold tracking-ocx-tight">
               omnichannel <span className="font-extrabold">CX</span>
@@ -52,17 +60,26 @@ export default function Footer() {
         <div className="flex flex-col items-center order-3 md:order-none col-span-3 space-y-4">
           <p className="text-lg font-display font-semibold text-center text-ocx-fg-primary">Stay updated</p>
 
-          <form className="relative flex items-center w-full max-w-md mx-auto mt-4" onSubmit={(e) => e.preventDefault()}>
+          <form className="relative flex items-center w-full max-w-md mx-auto mt-4" onSubmit={handleSubscribe}>
             <input
               type="email"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); setSubmitStatus("idle"); }}
               className="relative flex-grow py-3 px-5 rounded-ocx-pill bg-ocx-bg border border-ocx-border focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent font-body text-sm"
               placeholder="Enter your email"
               aria-label="Email address for newsletter"
+              aria-invalid={submitStatus === "error"}
             />
             <button type="submit" className="absolute right-1.5 min-w-[80px] bg-ocx-dark-blue cursor-pointer text-white font-display font-semibold text-sm rounded-ocx-pill px-5 py-2 hover:bg-ocx-mauve transition-colors duration-ocx-fast">
               Subscribe
             </button>
           </form>
+          {submitStatus === "error" && (
+            <p className="text-red-500 text-xs font-body mt-1">Please enter a valid email address.</p>
+          )}
+          {submitStatus === "success" && (
+            <p className="text-ocx-bright-blue text-xs font-body mt-1">Thanks for subscribing!</p>
+          )}
           <div className="flex gap-6 pt-2">
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
               <Image

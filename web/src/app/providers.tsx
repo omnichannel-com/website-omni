@@ -2,7 +2,7 @@
 
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 function initPostHog() {
   if (typeof window === 'undefined') return;
@@ -25,10 +25,12 @@ function initPostHog() {
 export function Providers({ children }: { children: React.ReactNode }) {
   const initialized = useRef(false);
 
-  if (!initialized.current) {
-    initialized.current = true;
-    initPostHog();
-  }
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      initPostHog();
+    }
+  }, []);
 
   return (
     <PostHogProvider client={posthog}>

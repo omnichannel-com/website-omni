@@ -1,62 +1,59 @@
 import Image from "next/image";
-import React, { useState, useEffect, useMemo } from "react";
+import { Pause, Play } from "lucide-react";
+import React, { useState, useEffect, useCallback } from "react";
 
 function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const testimonials = useMemo(
-    () => [
-      {
-        quote:
-          "Our robust AI engine meticulously handles all your routine business tasks, allowing your AI assistants to ensure everything runs smoothly.",
-        author: "Michael Gough",
-        position: "CEO at Google",
-      },
-      {
-        quote:
-          "With our innovative AI solutions, your business can reach new heights of efficiency and productivity.",
-        author: "Michael Gough",
-        position: "CEO at Google",
-      },
-      {
-        quote:
-          "Our AI technology empowers enterprises to harness the full potential of their data, driving smarter decisions.",
-        author: "Michael Gough",
-        position: "CEO at Google",
-      },
-      {
-        quote:
-          "Leveraging AI, we streamline complex processes, ensuring your business operates with unparalleled precision.",
-        author: "Michael Gough",
-        position: "CEO at Google",
-      },
-      {
-        quote:
-          "The future of customer experience is here, and it's powered by intelligent automation that truly understands your needs.",
-        author: "Sarah Chen",
-        position: "CTO at Amazon",
-      },
-    ],
-    []
-  );
+  const testimonials = [
+    {
+      quote:
+        "Our robust AI engine meticulously handles all your routine business tasks, allowing your AI assistants to ensure everything runs smoothly.",
+      author: "Michael Gough",
+      position: "CEO at Google",
+    },
+    {
+      quote:
+        "With our innovative AI solutions, your business can reach new heights of efficiency and productivity.",
+      author: "Michael Gough",
+      position: "CEO at Google",
+    },
+    {
+      quote:
+        "Our AI technology empowers enterprises to harness the full potential of their data, driving smarter decisions.",
+      author: "Michael Gough",
+      position: "CEO at Google",
+    },
+    {
+      quote:
+        "Leveraging AI, we streamline complex processes, ensuring your business operates with unparalleled precision.",
+      author: "Michael Gough",
+      position: "CEO at Google",
+    },
+    {
+      quote:
+        "The future of customer experience is here, and it's powered by intelligent automation that truly understands your needs.",
+      author: "Sarah Chen",
+      position: "CTO at Amazon",
+    },
+  ];
 
-  const showTestimonial = (index: number) => {
+  const showTestimonial = useCallback((index: number) => {
     setActiveIndex(index);
-  };
+  }, []);
 
   useEffect(() => {
-    const showNextTestimonial = () => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
       setActiveIndex((prevIndex) =>
         prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
       );
-    };
+    }, 3000);
 
-    const interval = setInterval(showNextTestimonial, 3000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [testimonials]);
+    return () => clearInterval(interval);
+  }, [isPaused, testimonials.length]);
 
   return (
     <div id="indicators-carousel" className="relative w-full">
@@ -97,21 +94,31 @@ function Testimonials() {
         ))}
       </div>
 
-      <div className="absolute z-30 mt-3 -translate-x-1/2 space-x-3 rtl:space-x-reverse left-1/2">
-        {testimonials.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            className={`w-3 h-3 rounded-full ${
-              index === activeIndex
-                ? "bg-ocx-mauve"
-                : "bg-ocx-mauve bg-opacity-15"
-            }`}
-            aria-current={index === activeIndex}
-            aria-label={`Slide ${index + 1}`}
-            onClick={() => showTestimonial(index)}
-          ></button>
-        ))}
+      <div className="absolute z-30 mt-3 -translate-x-1/2 left-1/2 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setIsPaused((p) => !p)}
+          aria-label={isPaused ? "Play carousel" : "Pause carousel"}
+          className="text-ocx-mauve hover:text-ocx-dark-blue transition-colors duration-ocx-fast"
+        >
+          {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+        </button>
+        <div className="space-x-3 rtl:space-x-reverse">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={`w-3 h-3 rounded-full ${
+                index === activeIndex
+                  ? "bg-ocx-mauve"
+                  : "bg-ocx-mauve bg-opacity-15"
+              }`}
+              aria-current={index === activeIndex}
+              aria-label={`Slide ${index + 1}`}
+              onClick={() => showTestimonial(index)}
+            ></button>
+          ))}
+        </div>
       </div>
     </div>
   );

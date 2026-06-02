@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 const CALCULATORS = [
   { path: "/calculator/genesys-shrinkage-calculator.html", name: "Genesys Shrinkage Calculator" },
   { path: "/calculator/queueing-theory-explainer.html", name: "Queueing Theory Explainer" },
+  { path: "/calculator/cherry-pick-vs-sla-allocation.html", name: "Cherry Pick vs SLA Allocation" },
 ];
 
 test.describe("Calculators", () => {

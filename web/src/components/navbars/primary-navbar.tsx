@@ -24,10 +24,10 @@ export default function PrimaryNavbar() {
   return (
     <>
       <section className="z-[200] text-ocx-fg-muted border-b border-ocx-border/30 leading-4 py-3 scroll-section-nav list-none items-center h-[5svh] flex justify-between text-sm px-4 md:px-12 bg-ocx-bg">
-        <div className="primary-nav py-2 flex flex-row gap-0 md:gap-2">
+        <ul className="primary-nav py-2 flex flex-row gap-0 md:gap-2">
           <li className="text-xs md:text-sm font-body">{greeting}</li>
-        </div>
-        <div className="flex primary-nav list-none gap-2 px-1 md:px-2 justify-center items-center">
+        </ul>
+        <ul className="flex primary-nav list-none gap-2 px-1 md:px-2 justify-center items-center">
           <li className="relative">
             <button onClick={openModal} aria-label="Toggle Search" className="p-1 hover:text-ocx-fg-primary transition-colors duration-ocx-fast">
               <Search className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
@@ -42,12 +42,12 @@ export default function PrimaryNavbar() {
           <li>
             <button className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0" onClick={() => handleSigninClick("https://app.omnichannel.cx/")}>Log in</button>
           </li>
-        </div>
-
-        {isOpen && (
-          <SearchModal onClose={closeModal} />
-        )}
+        </ul>
       </section>
+
+      {isOpen && (
+        <SearchModal onClose={closeModal} />
+      )}
     </>
   );
 }

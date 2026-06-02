@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Oxygen:wght@300;400;700&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,6 +17,48 @@
        url("/fonts/Overpass-Italic-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/Cormorant-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Cormorant-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/Cormorant-Italic-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Cormorant-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oxygen";
+  src: url("/fonts/Oxygen-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oxygen";
+  src: url("/fonts/Oxygen-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oxygen";
+  src: url("/fonts/Oxygen-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -46,34 +86,64 @@
   --ocx-dark-blue-08: rgba(27, 20, 100, 0.08);
   --ocx-dark-blue-04: rgba(27, 20, 100, 0.04);
 
-  /* ---------- Signature gradient ---------- */
-  --ocx-gradient:      linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%);
-  --ocx-gradient-soft: linear-gradient(135deg, #aa42dc22 0%, #1b146422 50%, #0071bc22 100%);
+  /* ---------- Signature gradient ----------
+     Sampled directly from the logo ribbon: orchid purple (#b45fe0) flows
+     through a deep indigo-violet crossing (#2a2585) into azure blue
+     (#0086c8). Richer and more violet than a flat mauve→navy→blue ramp,
+     so it actually reads as the mark. The 3-stop is the canonical
+     "Aurora indigo" — used once per surface. */
+  --ocx-gradient:      linear-gradient(135deg, #b45fe0 0%, #2a2585 50%, #0086c8 100%);
+  --ocx-gradient-soft: linear-gradient(135deg, #b45fe022 0%, #2a258522 50%, #0086c822 100%);
 
-  /* Signature · dark — deep indigo-black field with orchid + azure halos */
+  /* Signature · dark — deep indigo-black field with orchid + azure halos
+     echoing the ribbon. For dark hero surfaces; carries white text. */
   --ocx-gradient-dark:
-    radial-gradient(60% 75% at 16% 16%, rgba(170,66,220,0.40) 0%, transparent 56%),
-    radial-gradient(62% 78% at 88% 86%, rgba(0,113,188,0.36) 0%, transparent 58%),
-    linear-gradient(140deg, #1b1464 0%, #0d0a2e 100%);
+    radial-gradient(60% 75% at 16% 16%, rgba(180,95,224,0.40) 0%, transparent 56%),
+    radial-gradient(62% 78% at 88% 86%, rgba(0,134,200,0.36) 0%, transparent 58%),
+    linear-gradient(140deg, #1c1660 0%, #0d0a2e 100%);
 
-  /* Signature · light — pale lavender→ice-blue with whisper-soft orchid + azure glows */
+  /* Signature · light — pale lavender→ice-blue with whisper-soft orchid
+     and azure glows. For light marketing surfaces; carries dark text. */
   --ocx-gradient-light:
-    radial-gradient(58% 72% at 14% 16%, rgba(170,66,220,0.16) 0%, transparent 58%),
-    radial-gradient(60% 74% at 88% 86%, rgba(0,113,188,0.14) 0%, transparent 58%),
+    radial-gradient(58% 72% at 14% 16%, rgba(180,95,224,0.16) 0%, transparent 58%),
+    radial-gradient(60% 74% at 88% 86%, rgba(0,134,200,0.14) 0%, transparent 58%),
     linear-gradient(140deg, #faf6fe 0%, #edf3fb 100%);
 
-  /* ---------- Standard gradient BACKGROUNDS ---------- */
+  /* ---------- Standard gradient BACKGROUNDS ----------
+     Use these — don't roll your own. Each has a defined role; the rule
+     is still "one signature gradient per surface". Pick the tier that
+     fits the surface, never stack two on top of each other. */
+
+  /* TIER 1 — Whisper. Off-white surface with the faintest brand
+     warmth from one corner. Composed, not decorative. Body stays
+     black. */
   --ocx-bg-whisper:
     radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%);
+
+  /* TIER 2 — Tint. A single quiet wash from indigo to a hint of
+     blue, low saturation. Marketing cards, callouts, feature
+     blocks. Body stays dark. */
   --ocx-bg-tint:
     linear-gradient(160deg, #ecebf6 0%, #e6edf4 100%);
+
+  /* TIER 3 — Indigo. Solid dark-blue with one soft accent halo —
+     not two. The accent recedes; the surface is the message. */
   --ocx-bg-indigo:
     radial-gradient(110% 80% at 100% 0%, rgba(170,66,220,0.18), transparent 60%),
     linear-gradient(180deg, #1b1464 0%, #15104f 100%);
+
+  /* TIER 4 — Aurora. The signature surface for hero moments —
+     restrained mesh, generous breathing room. Two accents, not
+     three; saturation pulled back so type sits over it cleanly.
+     Logo-aligned orchid + azure halos over the indigo-violet field. */
   --ocx-bg-aurora:
-    radial-gradient(48% 70% at 14% 22%, rgba(170,66,220,0.55) 0%, transparent 60%),
-    radial-gradient(50% 70% at 86% 78%, rgba(0,113,188,0.50) 0%, transparent 60%),
-    linear-gradient(180deg, #1b1464 0%, #15104f 100%);
+    radial-gradient(48% 70% at 14% 22%, rgba(180,95,224,0.52) 0%, transparent 60%),
+    radial-gradient(50% 70% at 86% 78%, rgba(0,134,200,0.48) 0%, transparent 60%),
+    linear-gradient(180deg, #1c1660 0%, #14104b 100%);
+
+  /* TIER 5 — Signature. The canonical 135° linear ramp. Use for
+     primary CTA backgrounds, the app icon, and tightly-cropped
+     accents like avatar fills — not as a full-width background. */
   --ocx-bg-signature: var(--ocx-gradient);
 
   /* ---------- Semantic foreground / background ---------- */
@@ -99,6 +169,54 @@
   --shadow-md: 0 8px 24px rgba(27, 20, 100, 0.10);
   --shadow-lg: 0 20px 48px rgba(27, 20, 100, 0.16);
   --shadow-glow: 0 12px 40px rgba(170, 66, 220, 0.28);
+
+  /* ---------- Type families ---------- */
+  --font-display: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  --font-serif:   "Cormorant", "Cormorant Garamond", Georgia, serif;
+  --font-body:    "Oxygen", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- Type scale ---------- */
+  --fs-xs:   12px;
+  --fs-sm:   14px;
+  --fs-base: 16px;
+  --fs-md:   18px;
+  --fs-lg:   22px;
+  --fs-xl:   28px;
+  --fs-2xl:  36px;
+  --fs-3xl:  48px;
+  --fs-4xl:  64px;
+  --fs-5xl:  88px;
+  --fs-6xl:  120px;
+
+  --lh-tight: 1.05;
+  --lh-snug:  1.2;
+  --lh-base:  1.55;
+  --lh-loose: 1.75;
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-caps:   0.12em;
+
+  /* ---------- Spacing scale ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  24px;
+  --sp-6:  32px;
+  --sp-7:  48px;
+  --sp-8:  64px;
+  --sp-9:  96px;
+  --sp-10: 128px;
+
+  /* ---------- Radii ---------- */
+  --r-sm:  4px;
+  --r-md:  8px;
+  --r-lg:  14px;
+  --r-xl:  22px;
+  --r-pill: 999px;
 
   /* ---------- Component / interaction tokens ---------- */
   --surface:            var(--ocx-white);
@@ -166,44 +284,49 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Indigo-tinted dark surface ramp */
-  --ocx-surface-0: #0c0922;
-  --ocx-surface-1: #131046;
-  --ocx-surface-2: #1b1664;
-  --ocx-surface-3: #251f78;
+  /* Indigo-tinted dark surface ramp (darkest → raised) */
+  --ocx-surface-0: #0c0922;  /* app background */
+  --ocx-surface-1: #131046;  /* panel / section */
+  --ocx-surface-2: #1b1664;  /* card */
+  --ocx-surface-3: #251f78;  /* raised / hover */
+
+  /* Accents lifted for contrast on dark */
+  --ocx-mauve-bright:  #c98be8;
+  --ocx-blue-bright:   #5aa9e8;
 
   /* Semantic surfaces */
   --bg:         var(--ocx-surface-0);
   --bg-subtle:  var(--ocx-surface-1);
   --bg-muted:   var(--ocx-surface-2);
-  --bg-inverse: var(--ocx-grey-50);
+  --bg-inverse: var(--ocx-grey-50);   /* inverse flips to light */
 
-  /* Semantic foregrounds — brand colors retained for consistency */
-  --fg:         #eceaf7;
+  /* Semantic foregrounds */
+  --fg:         #eceaf7;              /* body — near-white, faint lavender */
   --fg-muted:   #a8a4cc;
   --fg-subtle:  #7975a4;
-  --fg-inverse: var(--ocx-dark-blue);
-  --fg-link:    var(--ocx-bright-blue);
-  --fg-accent:  var(--ocx-mauve);
-  --fg-primary: #ffffff;
+  --fg-inverse: var(--ocx-dark-blue); /* dark text for light inverse surface */
+  --fg-link:    var(--ocx-blue-bright);
+  --fg-accent:  var(--ocx-mauve-bright);
+  --fg-primary: #ffffff;              /* headings / primary text go light */
 
   /* Borders — white-based on dark */
   --border:        rgba(255, 255, 255, 0.14);
   --border-strong: rgba(255, 255, 255, 0.26);
 
-  /* Dark-blue tint helpers flip to white-based */
+  /* Dark-blue tint helpers flip to white-based so fills stay visible */
   --ocx-dark-blue-12: rgba(255, 255, 255, 0.14);
   --ocx-dark-blue-08: rgba(255, 255, 255, 0.09);
   --ocx-dark-blue-04: rgba(255, 255, 255, 0.06);
 
-  /* Shadows go black-based and deeper */
+  /* Shadows go black-based and deeper — indigo tint reads as mud on dark */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.40);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.50);
   --shadow-lg: 0 22px 52px rgba(0, 0, 0, 0.62);
   --shadow-glow: 0 12px 44px rgba(170, 66, 220, 0.42);
 
-  /* The two LIGHT gradient surfaces re-cast for dark */
+  /* The two LIGHT gradient surfaces re-cast for dark.
+     (indigo / aurora / signature are already dark — untouched.) */
   --ocx-bg-whisper:
     radial-gradient(120% 90% at 100% 0%, #15104f 0%, #0c0922 62%);
   --ocx-bg-tint:
@@ -213,11 +336,11 @@
   --ocx-gradient-soft:
     linear-gradient(135deg, #b45fe055 0%, #2a258555 50%, #0086c855 100%);
 
-  --surface:              var(--ocx-surface-2);
-  --surface-2:            var(--ocx-surface-3);
-  --field-bg:             var(--ocx-surface-1);
-  --btn-primary-bg:       var(--ocx-mauve);
-  --btn-primary-bg-hover: #c26fe8;
+  --surface:              var(--ocx-surface-2);  /* #1b1664 — card lifts off bg */
+  --surface-2:            var(--ocx-surface-3);  /* #251f78 — nested / hover */
+  --field-bg:             var(--ocx-surface-1);  /* #131046 — inputs */
+  --btn-primary-bg:       #5b4ee0;               /* lifted indigo, reads on dark */
+  --btn-primary-bg-hover: #6c5fef;
   --btn-primary-fg:       #ffffff;
 }
 
@@ -230,6 +353,8 @@
     --ocx-surface-1: #131046;
     --ocx-surface-2: #1b1664;
     --ocx-surface-3: #251f78;
+    --ocx-mauve-bright:  #c98be8;
+    --ocx-blue-bright:   #5aa9e8;
 
     --bg:         var(--ocx-surface-0);
     --bg-subtle:  var(--ocx-surface-1);
@@ -240,8 +365,8 @@
     --fg-muted:   #a8a4cc;
     --fg-subtle:  #7975a4;
     --fg-inverse: var(--ocx-dark-blue);
-    --fg-link:    var(--ocx-bright-blue);
-    --fg-accent:  var(--ocx-mauve);
+    --fg-link:    var(--ocx-blue-bright);
+    --fg-accent:  var(--ocx-mauve-bright);
     --fg-primary: #ffffff;
 
     --border:        rgba(255, 255, 255, 0.14);
@@ -268,8 +393,8 @@
     --surface:              var(--ocx-surface-2);
     --surface-2:            var(--ocx-surface-3);
     --field-bg:             var(--ocx-surface-1);
-    --btn-primary-bg:       var(--ocx-mauve);
-    --btn-primary-bg-hover: #c26fe8;
+    --btn-primary-bg:       #5b4ee0;
+    --btn-primary-bg-hover: #6c5fef;
     --btn-primary-fg:       #ffffff;
   }
 }
@@ -305,7 +430,7 @@ html {
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%);
+  background: var(--ocx-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -387,4 +512,121 @@ html {
 
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   Semantic typography presets
+   ============================================================ */
+
+.ocx-display,
+.ocx-h0 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(56px, 8vw, var(--fs-6xl));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: balance;
+}
+
+.ocx-h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 5.5vw, var(--fs-4xl));
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: balance;
+}
+
+.ocx-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  text-wrap: balance;
+}
+
+.ocx-subhead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.ocx-h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+.ocx-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.ocx-lede {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-base);
+  color: var(--fg);
+}
+
+.ocx-p,
+.ocx-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--fg);
+}
+
+.ocx-small {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+  color: var(--fg-muted);
+}
+
+.ocx-mono,
+.ocx-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--fg);
+  background: var(--bg-muted);
+  padding: 0.1em 0.4em;
+  border-radius: var(--r-sm);
+}
+
+/* Scroll-snap wrapper */
+.scroll-wrapper {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+}
+
+.scroll-section,
+.scroll-section-1 {
+  scroll-snap-align: start;
+}
+
+/* Helper: gradient brand text */
+.ocx-gradient-text {
+  background: var(--ocx-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

@@ -10,7 +10,10 @@ const config: Config = {
     extend: {
       /* ---------- Brand colors ---------- */
       colors: {
-        "ocx-dark-blue": "#1b1464",
+        "ocx-dark-blue": {
+          DEFAULT: "#1b1464",
+          90: "#2a2280",
+        },
         "ocx-mauve": "#aa42dc",
         "ocx-bright-blue": "#0071bc",
         "ocx-mid-grey": "#575757",
@@ -124,19 +127,13 @@ const config: Config = {
 
       /* ---------- Gradient backgrounds ---------- */
       backgroundImage: {
-        "ocx-gradient":
-          "linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%)",
+        "ocx-gradient": "var(--ocx-gradient)",
         "ocx-gradient-soft": "var(--ocx-gradient-soft)",
-        "ocx-whisper":
-          "radial-gradient(120% 90% at 100% 0%, #f5f0fb 0%, #ffffff 60%)",
-        "ocx-tint":
-          "linear-gradient(160deg, #ecebf6 0%, #e6edf4 100%)",
-        "ocx-indigo":
-          "radial-gradient(110% 80% at 100% 0%, rgba(170,66,220,0.18), transparent 60%), linear-gradient(180deg, #1b1464 0%, #15104f 100%)",
-        "ocx-aurora":
-          "radial-gradient(48% 70% at 14% 22%, rgba(170,66,220,0.55) 0%, transparent 60%), radial-gradient(50% 70% at 86% 78%, rgba(0,113,188,0.50) 0%, transparent 60%), linear-gradient(180deg, #1b1464 0%, #15104f 100%)",
-        "ocx-signature":
-          "linear-gradient(135deg, #aa42dc 0%, #1b1464 50%, #0071bc 100%)",
+        "ocx-whisper": "var(--ocx-bg-whisper)",
+        "ocx-tint": "var(--ocx-bg-tint)",
+        "ocx-indigo": "var(--ocx-bg-indigo)",
+        "ocx-aurora": "var(--ocx-bg-aurora)",
+        "ocx-signature": "var(--ocx-bg-signature)",
       },
     },
   },

@@ -20,10 +20,10 @@ const BlogCards: React.FC = () => {
     };
 
     const truncateText = (text: string, maxLength: number) => {
-        if (text.length <= maxLength) {
-            return text;
-        }
-        return text.substring(0, maxLength) + '...';
+        if (text.length <= maxLength) return text;
+        const trimmed = text.slice(0, maxLength);
+        const lastSpace = trimmed.lastIndexOf(' ');
+        return (lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed) + '...';
     };
 
     const filteredBlogs = blogs

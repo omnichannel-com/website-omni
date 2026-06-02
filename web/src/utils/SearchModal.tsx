@@ -4,12 +4,22 @@ import { X } from "lucide-react";
 import SearchField from './SearchField';
 import SearchResults from './SearchResults';
 
+interface SearchResultItem {
+  id: string;
+  data: () => Promise<{
+    id: string;
+    url: string;
+    meta: { title: string };
+    excerpt: string;
+  }>;
+}
+
 interface SearchModalProps {
   onClose: () => void;
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<SearchResultItem[]>([]);
 
   useEffect(() => {
     async function loadPagefind() {

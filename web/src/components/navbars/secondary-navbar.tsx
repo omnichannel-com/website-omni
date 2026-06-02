@@ -18,7 +18,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   const [isNavbarSticky, setIsNavbarSticky] = useState(false);
   const [isPlatformHovered, setIsPlatformHovered] = useState(false);
   const [isDropdownHovered, setIsDropdownHovered] = useState(false);
-  const [isBarHovered, setIsBarHovered] = useState(false);
   const activePath = usePathname();
   const isHovered = isPlatformHovered || isDropdownHovered;
 
@@ -47,12 +46,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
     setActiveSubMenu((prev) => (prev === itemName ? null : itemName));
   };
 
-  const [isDDOpen, setIsDDOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDDOpen(!isDDOpen);
-  };
-
   const navItems = [
     { name: "About", link: "/about" },
     { name: "Pricing", link: "/pricing" },
@@ -79,8 +72,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   return (
     <div className="sticky top-0 z-[50] transition-all duration-150">
       <div
-        onMouseEnter={() => setIsBarHovered(true)}
-        onMouseLeave={() => setIsBarHovered(false)}
         className={clsx(
           "py-6 md:py-4 landscape:py-8 items-center backdrop-blur-md z-[50] h-[7svh] md:h-[10svh] transition-all duration-150 flex justify-between text-md px-6 md:px-12",
           {
@@ -179,17 +170,14 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                     </Link>
                     {item.name === "About" && (
                       <ChevronDown
-                        onClick={() => {
-                          toggleDropdown();
-                          toggleSubMenu(item.name);
-                        }}
+                        onClick={() => toggleSubMenu(item.name)}
                         className={clsx("w-5 h-5 transition-transform", {
                           "transform rotate-180": activeSubMenu === item.name,
                         })}
                       />
                     )}
                   </div>
-                  {isDDOpen && activeSubMenu === item.name && (
+                  {activeSubMenu === item.name && (
                     <div className="nav-drop text-sm z-[50] w-full bg-ocx-bg-subtle overflow-y-auto transition-all duration-700 ease-in-out">
                       <div className="text-ocx-fg px-4 py-2">
                         <div className="grid grid-cols-2 gap-4">
@@ -235,9 +223,9 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
           onMouseEnter={() => setIsDropdownHovered(true)}
           onMouseLeave={() => setIsDropdownHovered(false)}
           className={clsx(
-            "nav-drop scrollbar-hide absolute text-sm z-[50] w-full bg-ocx-bg h-[100svh] overflow-y-auto overflow-hidden transition-all duration-700 ease-in-out",
+            "nav-drop scrollbar-hide absolute text-sm z-[50] w-full bg-ocx-bg overflow-hidden transition-all duration-700 ease-in-out",
             {
-              "max-h-[100svh]": isHovered,
+              "max-h-80": isHovered,
               "max-h-0": !isHovered,
             }
           )}

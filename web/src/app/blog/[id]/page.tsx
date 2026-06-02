@@ -15,9 +15,9 @@ export function generateStaticParams() {
 
 // Simple HTML sanitizer: only allow specific safe tags, strip all attributes
 const sanitizeHtml = (html: string): string => {
-    return html.replace(/<(\/?)(\w+)[^>]*>/g, (match, slash, tag) => {
+    return html.replace(/<(\/?)(\w+)[^>]*>/g, (_match, slash, tag) => {
         const allowed = ['span', 'strong', 'em', 'b', 'i', 'br', 'p'];
-        return allowed.includes(tag.toLowerCase()) ? `<${slash}${tag.toLowerCase()}>` : '';
+        return allowed.includes(tag.toLowerCase()) ? `<${slash || ''}${tag.toLowerCase()}>` : '';
     });
 };
 

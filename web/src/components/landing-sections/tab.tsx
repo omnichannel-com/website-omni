@@ -48,7 +48,7 @@ export default function TabSection({
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {data[selected]?.map((user, idx) => (
                 <div
-                  key={idx}
+                  key={`${user.name}-${idx}`}
                   className="p-5 text-center bg-ocx-bg-subtle text-ocx-fg shadow-ocx-sm rounded-ocx-lg border border-ocx-border hover:shadow-ocx-md hover:-translate-y-0.5 transition-all duration-ocx-fast"
                 >
                   <div className="flex flex-col gap-4 py-2">
@@ -59,6 +59,7 @@ export default function TabSection({
                           src={user.image}
                           alt={user.name}
                           fill
+                          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                           className="object-cover"
                         />
                       ) : (

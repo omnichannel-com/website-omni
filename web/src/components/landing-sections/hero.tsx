@@ -13,14 +13,15 @@ export default function HeroSection() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
         <div className="flex flex-col items-start justify-center max-w-5xl mx-auto py-20 md:py-28 lg:py-32">
-          {/* Logo mark with glow */}
+          {/* App icon with glow */}
           <div className="w-24 h-24 md:w-32 md:h-32 mb-8 md:mb-12 drop-shadow-[0_20px_60px_rgba(170,66,220,0.45)]">
             <Image
-              src="/assets/logo-icon-color.png"
+              src="/assets/logo-icon-app.png"
               alt="omnichannel CX"
               width={128}
               height={128}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain rounded-2xl"
+              sizes="(min-width: 768px) 128px, 96px"
               priority
             />
           </div>

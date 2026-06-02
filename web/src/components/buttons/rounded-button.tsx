@@ -33,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
       "bg-ocx-gradient text-white hover:shadow-ocx-glow",
     ghost:
       "bg-transparent text-ocx-fg-primary border-2 border-ocx-fg-primary hover:bg-ocx-fg-primary/5",
-    text: "bg-transparent text-ocx-bright-blue hover:text-ocx-fg-primary px-0 py-2",
+    text: "bg-transparent text-ocx-bright-blue hover:text-ocx-fg-primary",
   };
 
   return (
