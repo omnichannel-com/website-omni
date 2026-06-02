@@ -97,7 +97,7 @@ A visitor using a mobile device, keyboard navigation, or screen reader can fully
 
 ### Functional Requirements
 
-- **FR-001**: All source files from `template/website-next-main/` MUST be migrated into `web/` (or a suitable subdirectory such as `web/site/`) preserving the Next.js app structure.
+- **FR-001**: All source files from `template/website-next-main/` MUST be migrated into `web/` directly, preserving the Next.js app structure. The site will live at the `web/` root alongside existing `web/calculator/` and `web/design/` directories. [CLARIFIED: Option A — site root at `web/`]
 - **FR-002**: Every visible reference to "2ai", "AlterEgo", "AI-enhanced AlterEgos", or related product copy MUST be replaced with "omnichannel CX" and appropriate CX-focused copy.
 - **FR-003**: The Tailwind configuration MUST be updated to use omnichannel CX brand colors, typography, spacing, radii, and shadow tokens as defined in `web/design/tailwind.config.js` and `web/design/colors_and_type.css`.
 - **FR-004**: The global CSS (`globals.css`) MUST import the brand font system: Overpass (self-hosted from `web/design/fonts/`), Cormorant and Oxygen (Google Fonts with `display=swap`).
@@ -108,7 +108,8 @@ A visitor using a mobile device, keyboard navigation, or screen reader can fully
 - **FR-009**: All interactive elements MUST retain visible focus states (2px `--ocx-bright-blue` outline, 2px offset) and meet WCAG 2.1 AA contrast requirements.
 - **FR-010**: The site MUST remain fully responsive; no page should introduce horizontal scroll on viewports ≥ 320px.
 - **FR-011**: The blog section, including Pagefind search integration, MUST be preserved and functional after migration.
-- **FR-012**: Dark mode support MUST be retained, mapped to the brand's inverse surface palette (`--ocx-dark-blue` background, white foreground).
+- **FR-012**: Dark mode support MUST be retained and mapped to the brand's inverse surface palette (`--ocx-dark-blue` background, white foreground). All components, pages, and calculators MUST support both light and dark variants. [CLARIFIED: Option A — keep dark mode toggle, map to brand inverse surfaces]
+- **FR-013**: The `/pricing` page MUST be replaced with a single CTA page directing visitors to contact for pricing information, rather than displaying specific product tiers. The template pricing page structure may be reused for layout but all tier-specific copy and pricing data must be removed. [CLARIFIED: Option D — replace with 'Contact us for pricing' CTA page]
 
 ### Key Entities
 
@@ -136,3 +137,5 @@ A visitor using a mobile device, keyboard navigation, or screen reader can fully
 - **Calculator logic**: The JavaScript logic inside both calculators is correct and complete; only visual styling will change.
 - **Hosting**: The deployment target supports Next.js static export or server-side rendering; the exact hosting mechanism is out of scope for this spec.
 - **No new features**: This is a migration and rebrand. No new pages, components, or functionality beyond what exists in the template will be added.
+- **Third-party UI libraries**: NextUI and MUI will be removed and replaced with Tailwind CSS + brand tokens. The heading design from the template will be preserved and adapted to use Overpass display typography. [CLARIFIED: Option B — remove NextUI/MUI, keep heading design adapted to brand]
+- **Animation**: All typewriter effect libraries will be removed. Hero text will use a single subtle fade-in on page load (220ms, standard easing) instead of idle decorative animation. [CLARIFIED: Option C — remove typewriters, single subtle fade-in on load only]
