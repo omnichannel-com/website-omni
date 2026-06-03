@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/assets/logo-icon-color.png" type="image/png" />
+        <link rel="icon" href="/assets/omnichannel-cx-icon-large.svg" type="image/svg+xml" />
       </head>
       <body className="font-body antialiased">
         <Providers>

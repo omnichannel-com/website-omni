@@ -1,4 +1,11 @@
-import Image from "next/image";
+import { Mail, MessageCircle, Phone, Hash, Inbox } from "lucide-react";
+
+const channels = [
+  { icon: Mail, label: "Email" },
+  { icon: MessageCircle, label: "Chat" },
+  { icon: Phone, label: "Voice" },
+  { icon: Hash, label: "Social" },
+];
 
 export default function ImageSection() {
   return (
@@ -16,17 +23,33 @@ export default function ImageSection() {
           </p>
         </div>
 
-        {/* Large image with brand-aligned border radius */}
-        <div className="relative w-full aspect-[16/9] rounded-ocx-xl overflow-hidden border border-ocx-border shadow-ocx-md">
-          <Image
-            src="/second-section.png"
-            alt="Unified omnichannel experience"
-            fill
-            className="object-cover"
-            quality={100}
-          />
-          {/* Subtle overlay for text contrast if needed */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+        {/* Branded visual: every channel converges into one inbox */}
+        <div className="relative w-full aspect-[16/9] rounded-ocx-xl overflow-hidden border border-ocx-border shadow-ocx-md bg-ocx-aurora">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 md:gap-10 p-6 md:p-10">
+            {/* Channel chips */}
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5">
+              {channels.map(({ icon: Icon, label }) => (
+                <div
+                  key={label}
+                  className="inline-flex items-center gap-2 rounded-ocx-pill bg-white/10 border border-white/15 px-4 py-2 backdrop-blur-sm"
+                >
+                  <Icon className="w-5 h-5 stroke-[1.25] text-white" />
+                  <span className="font-display text-sm font-bold text-white">{label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Connector */}
+            <div className="h-8 md:h-12 w-px bg-white/25" />
+
+            {/* Unified inbox */}
+            <div className="inline-flex items-center gap-3 rounded-ocx-lg bg-white/95 px-6 py-4 shadow-ocx-lg">
+              <Inbox className="w-6 h-6 stroke-[1.25] text-ocx-dark-blue" />
+              <span className="font-display text-base md:text-lg font-black tracking-ocx-tight text-ocx-dark-blue">
+                One inbox
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

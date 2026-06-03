@@ -1,10 +1,10 @@
 // app/blog/[id]/page.tsx
 
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import { format } from 'date-fns';
 import { getBlogs } from '@/utils/getBlogs';
 import { Blog } from '@/declarations';
+import BlogCover from '@/components/blog-sections/blog-cover';
 
 // Generate static params for all blog posts
 export function generateStaticParams() {
@@ -67,28 +67,20 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
             <h1 className='text-5xl font-bold font-display gradient-text text-center'>{blog?.title}</h1>
             <p className='text-ocx-mauve text-center text-xl px-4'>{blog?.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : ''}</p>
             </div>
-            {blog?.image && (
-                <div className='relative my-8 w-full flex justify-center items-center'>
-                    <Image
-                        src={blog.image}
-                        alt={blog.title}
-                        width={800}
-                        height={600}
-                        className='rounded-lg object-cover'
-                    />
-                </div>
-            )}
+            <div className='relative my-8 w-full flex justify-center items-center'>
+                <BlogCover className='rounded-ocx-xl w-full max-w-3xl aspect-[16/9] shadow-ocx-md' />
+            </div>
             <div className='flex flex-col gap-4 '>
                 {blog?.content.map((section, index) => (
                     section.type === 'text' ? (
                         <div key={index} className='px-4 '>
-                            {section.subheading && <h2 className='text-3xl font-bold font-display text-ocx-mauve mb-0 leading-none'>{section.subheading}</h2>}
+                            {section.subheading && <h2 className='text-3xl font-bold font-display text-ocx-fg-primary mb-0 leading-none'>{section.subheading}</h2>}
                             {parseContent(section.content)}
                         </div>
                         
                     ) : section.type === 'list' ? (
                         <div key={index} className='px-4'>
-                            {section.heading && <h2 className='text-3xl font-bold font-display text-ocx-mauve'>{section.heading}</h2>}
+                            {section.heading && <h2 className='text-3xl font-bold font-display text-ocx-fg-primary'>{section.heading}</h2>}
                             <ul className='list-disc pl-6'>
                                 {section.items.map((item, itemIndex) => (
                                     <li key={itemIndex} className='text-xl text-left custom-list-item' dangerouslySetInnerHTML={{ __html: sanitizeHtml(item) }}></li>
@@ -97,13 +89,7 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
                         </div>
                     ) : (
                         <div key={index} className='relative my-8 w-full flex justify-center items-center'>
-                            <Image
-                                src={section.src ?? ''}
-                                alt={section.alt ?? ''}
-                                width={800}
-                                height={600}
-                                className='rounded-lg object-cover'
-                            />
+                            <BlogCover className='rounded-ocx-xl w-full max-w-3xl aspect-[16/9] shadow-ocx-md' />
                         </div>
                     )
                 ))}

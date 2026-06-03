@@ -1,6 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+
+const planButtonClass =
+  "inline-flex items-center justify-center px-6 py-3 bg-ocx-dark-blue text-white font-display font-bold text-sm rounded-ocx-md mt-6 shadow-ocx-sm hover:bg-ocx-dark-blue-90 hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base";
 
 interface PricePlansProps {
   activePlan: string;
@@ -25,23 +27,15 @@ function PricePlans({ activePlan }: PricePlansProps) {
 
   return (
     <section className="relative scroll-section-1 bg-transparent pb-10 md:pb-20  landscape:pt-20">
-      <div className="absolute bottom-0 z-0 w-full h-64 md:h-96">
-        <Image
-          src="/waves.png"
-          fill
-          alt="background-waves"
-          className="object-cover"
-        />
-      </div>
       <div className="container mx-auto flex flex-col md:flex-row gap-6 justify-between relative z-10">
 
-        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Starter Plan</h3>
-            <h1 className="text-4xl font-bold text-ocx-mauve">{prices.starter}</h1>
-            <p className="text-ocx-fg">Perfect for getting started and trying out the omnichannel CX platform to access best Ai functionalities.</p>
+            <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.starter}</h1>
+            <p className="text-ocx-fg">Perfect for getting started and trying out the omnichannel CX platform to access the best AI functionalities.</p>
             <div>
-              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-fg-primary hover:text-ocx-fg-primary">Get Started</Link>
+              <Link href="/contact" className={planButtonClass}>Get started</Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
@@ -56,13 +50,13 @@ function PricePlans({ activePlan }: PricePlansProps) {
           </div>
         </div>
 
-        <div className="bg-gradient-to-t from-ocx-bg-subtle to-ocx-bg-subtle backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg-subtle to-ocx-bg-subtle backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Professional Plan</h3>
-            <h1 className="text-4xl font-bold text-ocx-fg">{prices.professional} <span className="text-base font-medium ">{prices.suffix}</span></h1>
-            <p className="text-ocx-fg">Elevate your business with full access, priority support, & seamless integration.</p>
+            <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.professional} <span className="text-ocx-fg text-base font-medium">{prices.suffix}</span></h1>
+            <p className="text-ocx-fg">Elevate your business with full access, priority support, and seamless integration.</p>
             <div>
-              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-fg-primary hover:text-ocx-fg-primary">Get Started</Link>
+              <Link href="/contact" className={planButtonClass}>Get started</Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
@@ -77,13 +71,13 @@ function PricePlans({ activePlan }: PricePlansProps) {
           </div>
         </div>
 
-        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-lg border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-xl flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Premium Plan</h3>
-            <h1 className="text-4xl font-bold text-ocx-mauve">{prices.premium} <span className="text-ocx-fg text-base font-medium ">{prices.suffix}</span></h1>
-            <p className="text-ocx-fg">Maximize your potential with unlimited profiles, advanced customization, & analytics.</p>
+            <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.premium} <span className="text-ocx-fg text-base font-medium">{prices.suffix}</span></h1>
+            <p className="text-ocx-fg">Maximize your potential with unlimited profiles, advanced customization, and analytics.</p>
             <div>
-              <Link href="/contact" className="price-button inline-block px-4 py-2 bg-ocx-mauve rounded-full mt-6 outline outline-0 text-white hover:bg-white hover:outline-2 hover:outline-ocx-fg-primary hover:text-ocx-fg-primary">Get Started</Link>
+              <Link href="/contact" className={planButtonClass}>Get started</Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
