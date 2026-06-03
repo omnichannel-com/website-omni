@@ -22,7 +22,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ onSearch }) => {
       placeholder="Search..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
-      className="w-full p-3 border border-ocx-border rounded mb-4 bg-ocx-bg text-ocx-dark-blue"
+      className="w-full p-3 border border-ocx-border rounded mb-4 bg-ocx-bg text-ocx-fg"
     />
   );
 };

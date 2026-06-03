@@ -99,7 +99,7 @@ function Testimonials() {
           type="button"
           onClick={() => setIsPaused((p) => !p)}
           aria-label={isPaused ? "Play carousel" : "Pause carousel"}
-          className="text-ocx-mauve hover:text-ocx-dark-blue transition-colors duration-ocx-fast"
+          className="text-ocx-mauve hover:text-ocx-fg-primary transition-colors duration-ocx-fast"
         >
           {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
         </button>
