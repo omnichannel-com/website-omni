@@ -67,12 +67,13 @@ const BlogCards: React.FC = () => {
                         <div className='bg-ocx-bg-subtle border-2 border-ocx-border/30 text-ocx-fg p-5 flex flex-col gap-4 h-full rounded-2xl'>
                             <div className='flex-grow cursor-pointer' onClick={() => handleViewMore(blog.id)}>
                                 {blog.image && (
-                                    <Image 
-                                        src={blog.image} 
-                                        alt={blog.title || 'Blog Image'} 
-                                        width={400} 
-                                        height={300} 
-                                        className='rounded-lg object-cover w-full h-auto' 
+                                    <Image
+                                        src={blog.image}
+                                        alt={blog.title || 'Blog Image'}
+                                        width={400}
+                                        height={300}
+                                        className='rounded-lg object-cover w-full h-auto'
+                                        priority
                                     />
                                 )}
                             </div>

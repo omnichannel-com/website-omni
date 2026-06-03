@@ -57,7 +57,7 @@ const Result: React.FC<{ result: SearchResultItem }> = ({ result }) => {
       <h3 className="text-lg font-semibold text-ocx-mauve">
         {data.meta.title}
       </h3>
-      <p className="text-sm text-ocx-dark-blue">
+      <p className="text-sm text-ocx-fg-muted">
         {data.excerpt}
       </p>
     </Link>
