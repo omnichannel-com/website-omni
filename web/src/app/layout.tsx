@@ -24,7 +24,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/assets/omnichannel-cx-icon-large.svg" type="image/svg+xml" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased" suppressHydrationWarning>
         <Providers>
           <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
             <main data-pagefind-body>
