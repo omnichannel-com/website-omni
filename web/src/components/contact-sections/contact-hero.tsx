@@ -217,7 +217,7 @@ function ContactHero() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-8 py-2.5 rounded-ocx-pill hover:bg-ocx-mauve transition-colors duration-ocx-fast disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-8 py-2.5 rounded-ocx-pill hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending..." : "Submit"}
                 </button>

@@ -70,7 +70,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   };
 
   return (
-    <div className="sticky top-0 z-[50] transition-all duration-150">
+    <header className="sticky top-0 z-[50] transition-all duration-150">
       <div
         className={clsx(
           "py-6 md:py-4 landscape:py-8 items-center backdrop-blur-md z-[50] h-[7svh] md:h-[10svh] transition-all duration-150 flex justify-between text-md px-6 md:px-12",
@@ -84,8 +84,8 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
           <Link href="/">
             <div className="flex items-center gap-2">
               <Image
-                src="/assets/logo-icon-color.png"
-                className="w-8 h-8 md:w-10 md:h-10"
+                src="/assets/omnichannel-cx-icon-large.svg"
+                className="w-8 h-8 md:w-10 md:h-10 object-contain"
                 alt="omnichannel CX logo"
                 height={40}
                 width={40}
@@ -139,7 +139,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
 
                 <button
                   onClick={() => signUpHandler("https://app.omnichannel.cx/")}
-                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-6 py-2 rounded-ocx-pill hover:bg-ocx-mauve transition-colors duration-ocx-fast"
+                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-6 py-2 rounded-ocx-pill hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast"
                 >
                   Get started
                 </button>
@@ -262,7 +262,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
           </div>
         </div>
       )}
-    </div>
+    </header>
   );
 };
 

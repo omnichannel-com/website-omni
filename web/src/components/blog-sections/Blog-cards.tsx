@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Ensure correct import for client-side router
 import { format } from 'date-fns';
 import { getBlogs } from '@/utils/getBlogs';
-import { Search } from "lucide-react";
+import { Search, ArrowRight } from "lucide-react";
 import { Blog } from '@/declarations';
+import BlogCover from './blog-cover';
 
 const BlogCards: React.FC = () => {
     const router = useRouter();
@@ -64,25 +64,17 @@ const BlogCards: React.FC = () => {
             <div className='flex flex-wrap -mx-4 justify-center'>
                 {filteredBlogs.map(blog => (
                     <div key={blog.id} className='w-full md:w-1/2 lg:w-1/2 px-4 mb-8'>
-                        <div className='bg-ocx-bg-subtle border-2 border-ocx-border/30 text-ocx-fg p-5 flex flex-col gap-4 h-full rounded-2xl'>
+                        <div className='bg-ocx-bg-subtle border border-ocx-border text-ocx-fg p-5 flex flex-col gap-4 h-full rounded-ocx-lg shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-px transition-all duration-ocx-base'>
                             <div className='flex-grow cursor-pointer' onClick={() => handleViewMore(blog.id)}>
-                                {blog.image && (
-                                    <Image 
-                                        src={blog.image} 
-                                        alt={blog.title || 'Blog Image'} 
-                                        width={400} 
-                                        height={300} 
-                                        className='rounded-lg object-cover w-full h-auto' 
-                                    />
-                                )}
+                                <BlogCover className='rounded-ocx-md w-full aspect-[4/3]' />
                             </div>
                             <div>
                                 <h2 className='text-xl font-semibold mb-2'>{blog.title}</h2>
-                                <p className='text-ocx-mauve text-sm mb-2'>
+                                <p className='text-ocx-fg-muted text-sm mb-2'>
                                     {blog.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : 'Date not available'}
                                 </p>
                                 <p className='mb-4'>{blog.description ? truncateText(blog.description, 300) : 'No description available'}</p>
-                                <button className="bg-ocx-mauve text-white px-6 py-2 rounded-full outline outline-0 hover:bg-white hover:text-ocx-fg-primary hover:outline-2 hover:outline-ocx-fg-primary duration-300" onClick={() => handleViewMore(blog.id)}>Read more</button>
+                                <button className="inline-flex items-center gap-2 bg-ocx-dark-blue text-white font-display font-bold text-sm px-6 py-2.5 rounded-ocx-md shadow-ocx-sm hover:bg-ocx-dark-blue-90 hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base" onClick={() => handleViewMore(blog.id)}><ArrowRight className="w-4 h-4 stroke-[1.5]" />Read more</button>
                             </div>
                         </div>
                     </div>

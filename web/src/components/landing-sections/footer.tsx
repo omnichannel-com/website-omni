@@ -32,11 +32,11 @@ export default function Footer() {
         <div className="flex justify-center md:justify-start order-1 md:order-none col-span-1">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="/assets/logo-icon-color.png"
+              src="/assets/omnichannel-cx-icon-large.svg"
               alt="omnichannel CX Logo"
               width={32}
               height={32}
-              className="w-8 h-8"
+              className="w-8 h-8 object-contain"
               sizes="32px"
             />
             <span className="font-display text-ocx-fg-primary text-2xl font-bold tracking-ocx-tight">
@@ -70,7 +70,7 @@ export default function Footer() {
               aria-label="Email address for newsletter"
               aria-invalid={submitStatus === "error"}
             />
-            <button type="submit" className="absolute right-1.5 min-w-[80px] bg-ocx-dark-blue cursor-pointer text-white font-display font-semibold text-sm rounded-ocx-pill px-5 py-2 hover:bg-ocx-mauve transition-colors duration-ocx-fast">
+            <button type="submit" className="absolute right-1.5 min-w-[80px] bg-ocx-dark-blue cursor-pointer text-white font-display font-semibold text-sm rounded-ocx-pill px-5 py-2 hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast">
               Subscribe
             </button>
           </form>

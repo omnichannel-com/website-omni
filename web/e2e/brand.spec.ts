@@ -24,3 +24,53 @@ test.describe("Brand Consistency", () => {
     expect(bodyText.toLowerCase()).toContain("customer experience");
   });
 });
+
+test.describe("Design System Compliance", () => {
+  // Off-brand warm/template imagery that violates the cool-toned imagery rule.
+  const FORBIDDEN_IMAGES = [
+    "second-section.png",
+    "waves.png",
+    "fourth-section.png",
+    "fifth-section.png",
+    "orange.png",
+    "/blog/blog-1a.png",
+    "/blog/blog-1b.png",
+    "/blog/blog-1c.png",
+    "/blog/blog-2a.png",
+  ];
+  const IMAGE_PAGES = ["/", "/pricing", "/blog", "/blog/1", "/blog/2", "/about"];
+
+  for (const pagePath of IMAGE_PAGES) {
+    test(`page ${pagePath} renders no off-brand template imagery`, async ({ page }) => {
+      await page.goto(pagePath);
+      const srcs = await page.locator("img").evaluateAll((imgs) =>
+        imgs.map((img) => (img as HTMLImageElement).getAttribute("src") || "")
+      );
+      for (const src of srcs) {
+        for (const forbidden of FORBIDDEN_IMAGES) {
+          expect(src).not.toContain(forbidden);
+        }
+      }
+    });
+  }
+
+  test("no placeholder Lorem Ipsum copy on pricing FAQ", async ({ page }) => {
+    await page.goto("/pricing");
+    const bodyText = (await page.locator("body").innerText()).toLowerCase();
+    expect(bodyText).not.toContain("lorem ipsum");
+    expect(bodyText).not.toContain("dolor sit amet");
+  });
+
+  test("navbar uses the icon-only logo mark, not the full-logo png", async ({ page }) => {
+    await page.goto("/");
+    const logo = page.locator('header img, nav img, a[href="/"] img').first();
+    await expect(logo).toHaveAttribute("src", /omnichannel-cx-icon-large\.svg/);
+  });
+
+  test("primary CTAs use sentence case, not Title Case", async ({ page }) => {
+    await page.goto("/pricing");
+    const bodyText = await page.locator("body").innerText();
+    expect(bodyText).toContain("Get started");
+    expect(bodyText).not.toContain("Get Started");
+  });
+});

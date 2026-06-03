@@ -33,7 +33,7 @@ export default function HeroSection() {
 
           {/* Title — brand pack style: Overpass 900, tight tracking */}
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-ocx-5xl font-black tracking-ocx-tight leading-ocx-tight mb-6 md:mb-8 text-white">
-            One inbox,<br />every channel.
+            One inbox, <br />every channel.
           </h1>
 
           {/* Subtitle — brand pack style: Cormorant italic */}
