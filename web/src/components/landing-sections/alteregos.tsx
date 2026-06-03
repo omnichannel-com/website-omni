@@ -11,7 +11,7 @@ export default function AlterEgoSection() {
   ];
 
   return (
-    <section className="relative z-10 py-16 md:py-24 lg:py-32 bg-ocx-tint">
+    <section className="relative z-10 py-16 md:py-24 lg:py-32 bg-ocx-bg-subtle">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Type pairing — brand pack style */}
         <div className="max-w-5xl mx-auto mb-16 md:mb-20">
@@ -29,17 +29,19 @@ export default function AlterEgoSection() {
           </p>
         </div>
 
-        {/* Feature cards — brand pack style with top border accent */}
+        {/* Feature cards — TIER 2 tint surface, brand-pack card style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="bg-ocx-bg border border-ocx-border rounded-ocx-lg p-6 md:p-8 shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-0.5 transition-all duration-ocx-fast"
+              className="bg-ocx-tint border border-ocx-border rounded-ocx-lg p-6 md:p-8 shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-0.5 transition-all duration-ocx-base ease-ocx-standard"
             >
-              <div className="border-t-2 border-ocx-fg-primary pt-4 mb-4">
-                <span className="font-display text-ocx-fg-primary font-bold text-sm">{String(idx + 1).padStart(2, "0")}</span>
+              <div className="font-display text-ocx-fg-primary font-extrabold text-xs uppercase tracking-ocx-caps mb-3">
+                {String(idx + 1).padStart(2, "0")}
               </div>
-              <p className="font-body text-ocx-fg text-base leading-ocx-base">{feature}</p>
+              <h3 className="font-serif text-ocx-fg-primary text-xl md:text-2xl font-semibold leading-ocx-snug">
+                {feature}
+              </h3>
             </div>
           ))}
         </div>
