@@ -22,7 +22,7 @@ export default function TermsOfService() {
                 </p>
             </div>
             <div>
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">1</span>THE SOLUTION
       </h1>
       <div className="text-lg font-normal space-y-4">
@@ -42,7 +42,7 @@ export default function TermsOfService() {
       </div>
     </div>
     <div>
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">1.2</span>YOUR SUBSCRIPTION AND THE SOLUTION
       </h1>
       <div className="text-lg font-normal space-y-4">
@@ -92,7 +92,7 @@ export default function TermsOfService() {
     </div>
 
     <div>
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">2</span>SERVICES
       </h1>
 
@@ -146,13 +146,13 @@ export default function TermsOfService() {
           <strong>(b)</strong> Our Privacy Policy contains more information about how we use, disclose and store your information and details how you can access and correct your personal information.
         </p>
         <p>
-          <strong>(c)</strong> By agreeing to these Terms, you agree to be bound by our <Link href="/privacy-policy" className="text-ocx-mauve underline">Privacy Policy</Link>.
+          <strong>(c)</strong> By agreeing to these Terms, you agree to be bound by our <Link href="/privacy-policy" className="text-ocx-fg-accent underline">Privacy Policy</Link>.
         </p>
       </div>
     </div>
 
     <div>
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">3</span>FEES AND PAYMENT
       </h1>
 
@@ -196,7 +196,7 @@ export default function TermsOfService() {
     </div>
     <div>
       {/* Section 4: Cancellation of Your Subscription */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">4</span>CANCELLATION OF YOUR SUBSCRIPTION
       </h1>
       <div className="text-lg font-normal space-y-4">
@@ -207,7 +207,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 5: Upgrade and Downgrades */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">5</span>UPGRADE AND DOWNGRADES
       </h1>
       <div className="text-lg font-normal space-y-4">
@@ -219,7 +219,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 6: Obligations */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">6</span>OBLIGATIONS
       </h1>
       <h2 className="text-xl font-semibold">6.1 YOUR OBLIGATIONS</h2>
@@ -288,7 +288,7 @@ export default function TermsOfService() {
     </div>
     <div>
       {/* Section 7: Posted Material */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">7</span>POSTED MATERIAL
       </h1>
 
@@ -320,7 +320,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 8: Intellectual Property and Data */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">8</span>INTELLECTUAL PROPERTY AND DATA
       </h1>
 
@@ -366,7 +366,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 9: Third Party Software, Terms & Conditions */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">9</span>THIRD PARTY SOFTWARE, TERMS & CONDITIONS
       </h1>
 
@@ -393,7 +393,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 10: Confidentiality and Privacy */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">10</span>CONFIDENTIALITY AND PRIVACY
       </h1>
 
@@ -405,7 +405,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 11: Liability */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">11</span>LIABILITY
       </h1>
 
@@ -455,7 +455,7 @@ export default function TermsOfService() {
     <div className="text-lg font-normal space-y-4">
       
       {/* Section 12: Cancellation, Disputes and Termination */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">12</span>CANCELLATION, DISPUTES AND TERMINATION
       </h1>
 
@@ -487,7 +487,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 13: Force Majeure */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">13</span>FORCE MAJEURE
       </h1>
 
@@ -509,7 +509,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 14: Notices */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">14</span>NOTICES
       </h1>
 
@@ -527,7 +527,7 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 15: General */}
-      <h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4 mt-8">
+      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">15</span>GENERAL
       </h1>
 
@@ -582,7 +582,7 @@ export default function TermsOfService() {
 
     <div className="text-lg font-normal space-y-4">
 
-<h1 className="text-ocx-mauve font-bold font-display text-2xl mb-4">
+<h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
   DEFINITIONS
 </h1>
 

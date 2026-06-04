@@ -23,7 +23,7 @@ const GreenlitModels = () => {
             if (item.type === 'text') {
               return (
                 <div key={index} className='mt-4'>
-                  {item.subheading && <h2 className='text-2xl font-display text-ocx-mauve font-semibold mb-[-1rem]'>{item.subheading}</h2>}
+                  {item.subheading && <h2 className='text-2xl font-display text-ocx-fg-accent font-semibold mb-[-1rem]'>{item.subheading}</h2>}
                   {item.content && <p className='text-base leading-tight m-0'>{item.content}</p>}
                 </div>
               );

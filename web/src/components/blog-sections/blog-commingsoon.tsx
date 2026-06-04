@@ -2,7 +2,7 @@ import React from 'react'
 
 const BlogComingSoon = () => {
   return (
-    <div className='bg-ocx-dark-blue'>
+    <div className='bg-ocx-indigo'>
 
         <div className='h-[50vh] flex flex-col items-center justify-center'>
         <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-display font-semibold text-center py-2">

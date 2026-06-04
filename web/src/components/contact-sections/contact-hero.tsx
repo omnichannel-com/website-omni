@@ -68,7 +68,7 @@ function ContactHero() {
         <div className="container mx-auto">
           <div className="lg:px-16 px-4 h-full flex flex-col text-ocx-fg relative top-[2%] space-y-6">
             <h1 className="text-3xl sm:text-5xl md:text-6xl text-center lg:text-left font-display font-semibold py-2 text-ocx-fg-primary">
-              Contact <span className="text-ocx-mauve">omnichannel CX</span>
+              Contact <span className="text-ocx-fg-accent">omnichannel CX</span>
             </h1>
 
             <div className="w-full flex flex-col pb-12">
@@ -217,7 +217,7 @@ function ContactHero() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-8 py-2.5 rounded-ocx-pill hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-semibold text-sm px-8 py-2.5 rounded-ocx-pill hover:bg-[var(--btn-primary-bg-hover)] transition-colors duration-ocx-fast disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending..." : "Submit"}
                 </button>

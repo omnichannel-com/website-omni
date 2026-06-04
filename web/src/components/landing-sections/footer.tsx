@@ -70,7 +70,7 @@ export default function Footer() {
               aria-label="Email address for newsletter"
               aria-invalid={submitStatus === "error"}
             />
-            <button type="submit" className="absolute right-1.5 min-w-[80px] bg-ocx-dark-blue cursor-pointer text-white font-display font-semibold text-sm rounded-ocx-pill px-5 py-2 hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast">
+            <button type="submit" className="absolute right-1.5 min-w-[80px] bg-[var(--btn-primary-bg)] cursor-pointer text-[var(--btn-primary-fg)] font-display font-semibold text-sm rounded-ocx-pill px-5 py-2 hover:bg-[var(--btn-primary-bg-hover)] transition-colors duration-ocx-fast">
               Subscribe
             </button>
           </form>

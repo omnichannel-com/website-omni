@@ -52,7 +52,7 @@ export default function AboutPage() {
       <section className="scroll-section py-16 md:py-24 lg:py-32 bg-ocx-bg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="max-w-3xl mx-auto">
-            <span className="font-display text-ocx-mauve text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
+            <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
               Our mission
             </span>
             <h2 className="font-display text-ocx-fg-primary text-3xl md:text-4xl lg:text-ocx-3xl font-black tracking-ocx-tight leading-ocx-tight mt-6 mb-6">
@@ -72,7 +72,7 @@ export default function AboutPage() {
       <section className="scroll-section py-16 md:py-24 lg:py-32 bg-ocx-whisper">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="max-w-2xl mb-12 md:mb-16">
-            <span className="font-display text-ocx-mauve text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
+            <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
               What we value
             </span>
             <h2 className="font-display text-ocx-fg-primary text-3xl md:text-4xl lg:text-ocx-3xl font-black tracking-ocx-tight leading-ocx-tight mt-6">

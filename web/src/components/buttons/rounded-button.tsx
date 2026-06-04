@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      "bg-ocx-dark-blue text-white hover:bg-ocx-dark-blue-90 shadow-ocx-md",
+      "bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] hover:bg-[var(--btn-primary-bg-hover)] shadow-ocx-md",
     gradient:
       "bg-ocx-gradient text-white hover:shadow-ocx-glow",
     ghost:

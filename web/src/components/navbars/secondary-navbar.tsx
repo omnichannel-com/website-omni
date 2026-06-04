@@ -139,7 +139,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
 
                 <button
                   onClick={() => signUpHandler("https://app.omnichannel.cx/")}
-                  className="bg-ocx-dark-blue text-white font-display font-semibold text-sm px-6 py-2 rounded-ocx-pill hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast"
+                  className="bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-semibold text-sm px-6 py-2 rounded-ocx-pill hover:bg-[var(--btn-primary-bg-hover)] transition-colors duration-ocx-fast"
                 >
                   Get started
                 </button>
@@ -182,7 +182,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                       <div className="text-ocx-fg px-4 py-2">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <span className="text-ocx-mauve text-xs font-display uppercase tracking-ocx-caps mb-2 block">Platform</span>
+                            <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-2 block">Platform</span>
                             <ul className="space-y-2">
                               {platformItems.map((pItem, listIndex) => (
                                 <li
@@ -195,7 +195,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                             </ul>
                           </div>
                           <div>
-                            <span className="text-ocx-mauve text-xs font-display uppercase tracking-ocx-caps mb-2 block">Company</span>
+                            <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-2 block">Company</span>
                             <ul className="space-y-2">
                               {companyItems.map((cItem, listIndex) => (
                                 <li
@@ -233,7 +233,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
           <div className="text-ocx-fg px-4 md:px-10 lg:px-40">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
               <div>
-                <span className="text-ocx-mauve text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Platform</span>
+                <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Platform</span>
                 <ul className="space-y-2">
                   {platformItems.map((pItem, listIndex) => (
                     <li
@@ -246,7 +246,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                 </ul>
               </div>
               <div>
-                <span className="text-ocx-mauve text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Company</span>
+                <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Company</span>
                 <ul className="space-y-2">
                   {companyItems.map((cItem, listIndex) => (
                     <li

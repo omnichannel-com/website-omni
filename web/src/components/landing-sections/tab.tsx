@@ -33,7 +33,7 @@ export default function TabSection({
               onClick={() => setSelected(category)}
               className={`px-5 py-2.5 rounded-ocx-pill font-display text-sm font-bold transition-all duration-ocx-fast ${
                 selected === category
-                  ? "bg-ocx-dark-blue text-white shadow-ocx-sm"
+                  ? "bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] shadow-ocx-sm"
                   : "bg-ocx-bg-muted text-ocx-fg-primary hover:bg-ocx-bg-subtle border border-ocx-border"
               }`}
             >
@@ -73,7 +73,7 @@ export default function TabSection({
                     </div>
                     <Link
                       href="/contact"
-                      className="inline-flex items-center justify-center gap-2 mt-1 bg-ocx-dark-blue text-white font-display font-bold text-xs px-5 py-2.5 rounded-ocx-lg hover:bg-ocx-dark-blue-90 transition-colors duration-ocx-fast self-center"
+                      className="inline-flex items-center justify-center gap-2 mt-1 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-xs px-5 py-2.5 rounded-ocx-lg hover:bg-[var(--btn-primary-bg-hover)] transition-colors duration-ocx-fast self-center"
                     >
                       <ArrowRight className="w-4 h-4 stroke-[1.25]" />
                       Try now

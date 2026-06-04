@@ -21,7 +21,7 @@ function Hero({ activePlan, setActivePlan }: HeroProps) {
           <div className="relative flex items-center justify-center w-full max-w-xs mt-4">
             <div className="w-full border-2 border-ocx-border rounded-full py-1 px-1 flex relative">
               <div
-                className={`absolute top-0 rounded-full bg-ocx-mauve  transition-transform duration-300 transform ${
+                className={`absolute top-0 rounded-full bg-ocx-fg-accent  transition-transform duration-300 transform ${
                   activePlan === "monthly"
                     ? "translate-x-0"
                     : "translate-x-full"
@@ -36,7 +36,7 @@ function Hero({ activePlan, setActivePlan }: HeroProps) {
               <button
               
                 className={`relative flex-1 px-5 py-2 rounded-full transition-colors duration-300 ${
-                  activePlan === "monthly" ? "text-white" : "text-ocx-mauve"
+                  activePlan === "monthly" ? "text-white" : "text-ocx-fg-accent"
                 }`}
                 onClick={() => setActivePlan("monthly")}
                 style={{ zIndex: 2 }} // Ensure the button text is above the slider
@@ -45,7 +45,7 @@ function Hero({ activePlan, setActivePlan }: HeroProps) {
               </button>
               <button
                 className={`relative flex-1 px-5 py-2 rounded-full transition-colors duration-300 ${
-                  activePlan === "yearly" ? "text-white" : "text-ocx-mauve"
+                  activePlan === "yearly" ? "text-white" : "text-ocx-fg-accent"
                 }`}
                 onClick={() => setActivePlan("yearly")}
                 style={{ zIndex: 2 }} // Ensure the button text is above the slider

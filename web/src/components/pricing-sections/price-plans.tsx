@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const planButtonClass =
-  "inline-flex items-center justify-center px-6 py-3 bg-ocx-dark-blue text-white font-display font-bold text-sm rounded-ocx-md mt-6 shadow-ocx-sm hover:bg-ocx-dark-blue-90 hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base";
+  "inline-flex items-center justify-center px-6 py-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm rounded-ocx-md mt-6 shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base";
 
 interface PricePlansProps {
   activePlan: string;

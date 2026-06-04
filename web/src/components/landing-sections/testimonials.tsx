@@ -69,7 +69,7 @@ function Testimonials() {
             <div className="absolute z-50 top-[-24px] left-[50%] transform -translate-x-1/2">
               <Image src="/quote-marks.svg" alt="" width={60} height={60} />
             </div>
-            <section className="bg-ocx-dark-blue h-[210px] md:h-[270px] z-40 rounded-lg flex self-center mx-auto relative mb-7 text-white overflow-hidden">
+            <section className="bg-ocx-indigo h-[210px] md:h-[270px] z-40 rounded-lg flex self-center mx-auto relative mb-7 text-white overflow-hidden">
               <div className="max-w-screen-xl px-2 md:px-4 pt-8 pb-4 mx-auto text-center lg:pt-16 lg:pb-8 lg:px-6 relative">
                 <figure className="max-w-screen-md mx-auto">
                   <div className="w3-animate-right">
@@ -99,7 +99,7 @@ function Testimonials() {
           type="button"
           onClick={() => setIsPaused((p) => !p)}
           aria-label={isPaused ? "Play carousel" : "Pause carousel"}
-          className="text-ocx-mauve hover:text-ocx-fg-primary transition-colors duration-ocx-fast"
+          className="text-ocx-fg-accent hover:text-ocx-fg-primary transition-colors duration-ocx-fast"
         >
           {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
         </button>
@@ -110,8 +110,8 @@ function Testimonials() {
               type="button"
               className={`w-3 h-3 rounded-full ${
                 index === activeIndex
-                  ? "bg-ocx-mauve"
-                  : "bg-ocx-mauve bg-opacity-15"
+                  ? "bg-ocx-fg-accent"
+                  : "bg-ocx-fg-accent/15"
               }`}
               aria-current={index === activeIndex}
               aria-label={`Slide ${index + 1}`}

@@ -15,7 +15,7 @@ export default function AlterEgoSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Type pairing — brand pack style */}
         <div className="max-w-5xl mx-auto mb-16 md:mb-20">
-          <span className="font-display text-ocx-mauve text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
+          <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
             Why omnichannel CX
           </span>
           <h2 className="font-display text-ocx-fg-primary text-3xl md:text-4xl lg:text-ocx-3xl font-black tracking-ocx-tight leading-ocx-tight mt-6 mb-4 max-w-[20ch]">
@@ -47,7 +47,7 @@ export default function AlterEgoSection() {
         <div className="flex justify-center mt-12">
           <Link
             href="/about"
-            className="group inline-flex items-center gap-3 bg-ocx-dark-blue text-white font-display font-bold text-sm px-8 py-4 rounded-ocx-lg hover:bg-ocx-dark-blue-90 transition-all duration-ocx-fast shadow-ocx-md"
+            className="group inline-flex items-center gap-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-8 py-4 rounded-ocx-lg hover:bg-[var(--btn-primary-bg-hover)] transition-all duration-ocx-fast shadow-ocx-md"
           >
             <ArrowRight className="w-5 h-5 stroke-[1.25]" />
             Explore the platform

@@ -74,7 +74,7 @@ const BlogCards: React.FC = () => {
                                     {blog.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : 'Date not available'}
                                 </p>
                                 <p className='mb-4'>{blog.description ? truncateText(blog.description, 300) : 'No description available'}</p>
-                                <button className="inline-flex items-center gap-2 bg-ocx-dark-blue text-white font-display font-bold text-sm px-6 py-2.5 rounded-ocx-md shadow-ocx-sm hover:bg-ocx-dark-blue-90 hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base" onClick={() => handleViewMore(blog.id)}><ArrowRight className="w-4 h-4 stroke-[1.5]" />Read more</button>
+                                <button className="inline-flex items-center gap-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-6 py-2.5 rounded-ocx-md shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base" onClick={() => handleViewMore(blog.id)}><ArrowRight className="w-4 h-4 stroke-[1.5]" />Read more</button>
                             </div>
                         </div>
                     </div>

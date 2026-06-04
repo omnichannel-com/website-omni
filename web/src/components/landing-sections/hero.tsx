@@ -50,7 +50,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-3 bg-ocx-dark-blue text-white font-display font-bold text-sm md:text-base px-8 py-4 rounded-ocx-lg hover:bg-ocx-dark-blue-90 transition-all duration-ocx-fast shadow-ocx-md"
+              className="group inline-flex items-center gap-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm md:text-base px-8 py-4 rounded-ocx-lg hover:bg-[var(--btn-primary-bg-hover)] transition-all duration-ocx-fast shadow-ocx-md"
             >
               <ArrowRight className="w-5 h-5 stroke-[1.25]" />
               Get started

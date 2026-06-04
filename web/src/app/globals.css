@@ -471,7 +471,7 @@ html {
 }
 
 .primary-nav > li:hover {
-  color: var(--ocx-dark-blue);
+  color: var(--fg-primary);
 }
 
 /* Quote slider */

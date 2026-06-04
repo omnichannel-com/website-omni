@@ -12,7 +12,7 @@ export default function ImageSection() {
     <section className="scroll-section py-16 md:py-24 lg:py-32 bg-ocx-whisper relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-5xl mx-auto">
-          <span className="font-display text-ocx-mauve text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
+          <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
             Unified experience
           </span>
           <h2 className="font-display text-ocx-fg-primary text-3xl md:text-4xl lg:text-ocx-3xl font-black tracking-ocx-tight leading-ocx-tight mt-6 mb-6 max-w-[20ch]">

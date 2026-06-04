@@ -43,10 +43,10 @@ const parseContent = (content: string | undefined) => {
             dangerouslySetInnerHTML={{
                 __html: sanitized.replace(
                     /<span>(.*?)<\/span>/g,
-                    '<span class="text-ocx-mauve font-bold">$1</span>'
+                    '<span class="text-ocx-fg-accent font-bold">$1</span>'
                 ).replace(
                     /<strong>(.*?)<\/strong>/g,
-                    '<strong class="text-ocx-mauve font-bold">$1</strong>'
+                    '<strong class="text-ocx-fg-accent font-bold">$1</strong>'
                 ),
             }}
         />
@@ -65,7 +65,7 @@ const BlogDetails = ({ params }: { params: { id: string } }) => {
         <section className='container mx-auto my-8'>
             <div className='flex flex-col justify-center items-center'>
             <h1 className='text-5xl font-bold font-display gradient-text text-center'>{blog?.title}</h1>
-            <p className='text-ocx-mauve text-center text-xl px-4'>{blog?.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : ''}</p>
+            <p className='text-ocx-fg-accent text-center text-xl px-4'>{blog?.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : ''}</p>
             </div>
             <div className='relative my-8 w-full flex justify-center items-center'>
                 <BlogCover className='rounded-ocx-xl w-full max-w-3xl aspect-[16/9] shadow-ocx-md' />

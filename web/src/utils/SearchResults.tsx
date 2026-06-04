@@ -54,7 +54,7 @@ const Result: React.FC<{ result: SearchResultItem }> = ({ result }) => {
 
   return (
     <Link href={transformedUrl} className="block p-4 mb-2 border border-ocx-border rounded hover:bg-ocx-bg-muted transition-colors duration-ocx-fast">
-      <h3 className="text-lg font-semibold text-ocx-mauve">
+      <h3 className="text-lg font-semibold text-ocx-fg-accent">
         {data.meta.title}
       </h3>
       <p className="text-sm text-ocx-fg-muted">
