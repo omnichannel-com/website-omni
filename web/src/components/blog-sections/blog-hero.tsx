@@ -10,7 +10,7 @@ function BlogHero() {
         <div className="h-full flex flex-col flex-grow items-center justify-center text-ocx-fg relative space-y-3">
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-semibold text-center py-2">
-            omnichannel CX <span className="gradient-text">Insights</span>
+            omnichannel CX <span className="ocx-gradient-text">Insights</span>
           </h1>
 
           <p className="text-lg md:text-2xl text-center px-4 max-w-full md:max-w-[600px]">

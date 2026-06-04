@@ -1,7 +1,4 @@
-import blog1 from '@/blogs/blog-1';
-import blog2 from '@/blogs/blog-2';
+import { getAllPosts } from "@/lib/blog";
+import { BlogPost } from "@/types/blog";
 
-export const getBlogs = () => [
-    blog1,
-    blog2,
-];
+export const getBlogs = (): BlogPost[] => getAllPosts();

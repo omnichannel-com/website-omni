@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 import Hero from "@/components/pricing-sections/hero-section";

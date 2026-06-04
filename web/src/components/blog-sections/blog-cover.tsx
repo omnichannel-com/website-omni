@@ -3,6 +3,7 @@ import Image from "next/image";
 interface BlogCoverProps {
   className?: string;
   label?: string;
+  alt?: string;
 }
 
 /**
@@ -10,15 +11,15 @@ interface BlogCoverProps {
  * Cool-toned signature gradient with the icon mark, per the design system
  * imagery rules (no warm/sepia photography, no textures).
  */
-export default function BlogCover({ className = "", label = "Insights" }: BlogCoverProps) {
+export default function BlogCover({ className = "", label = "Insights", alt }: BlogCoverProps) {
   return (
     <div
       className={`relative bg-ocx-aurora flex items-center justify-center overflow-hidden ${className}`}
     >
       <Image
         src="/assets/omnichannel-cx-icon-large.svg"
-        alt=""
-        aria-hidden
+        alt={alt || ""}
+        aria-hidden={!alt}
         width={120}
         height={120}
         className="w-16 h-16 md:w-24 md:h-24 opacity-95 drop-shadow-[0_8px_24px_rgba(27,20,100,0.35)]"

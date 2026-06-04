@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { openExternal } from "@/utils/navigation";
 
 interface SecondaryNavbarProps {
   isSticky: boolean;
@@ -65,9 +66,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
     { name: "Contact", link: "/contact" },
   ];
 
-  const signUpHandler = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+  const signUpHandler = (url: string) => openExternal(url);
 
   return (
     <header className="sticky top-0 z-[50] transition-all duration-150">
@@ -112,11 +111,11 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
               )
             ) : (
               <>
-                {navItems.map((item, index) => {
+                {navItems.map((item) => {
                   const isActive = activePath === item.link;
                   return (
                     <li
-                      key={index}
+                      key={item.name}
                       className={clsx(
                         "relative navitems group text-sm font-body",
                         { "hover:text-ocx-bright-blue": item.name === "About" },
@@ -152,11 +151,11 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
       {isMobile && isMobileMenuOpen && (
         <div className="bg-ocx-bg px-4 pt-4 overflow-y-auto shadow-ocx-md">
           <ul>
-            {navItems.map((item, index) => {
+            {navItems.map((item) => {
               const isActive = activePath === item.link;
               return (
                 <li
-                  key={index}
+                  key={item.name}
                   className={clsx("py-2 relative", {
                     "border-b border-ocx-border": activeSubMenu === item.name,
                     "text-ocx-fg-primary font-bold": isActive,
@@ -184,10 +183,10 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                           <div>
                             <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-2 block">Platform</span>
                             <ul className="space-y-2">
-                              {platformItems.map((pItem, listIndex) => (
+                              {platformItems.map((pItem) => (
                                 <li
                                   className="py-1 hover:bg-ocx-bg-muted px-2 rounded-ocx-md cursor-pointer font-body text-sm"
-                                  key={listIndex}
+                                  key={pItem.name}
                                 >
                                   <Link href={pItem.link}>{pItem.name}</Link>
                                 </li>
@@ -197,10 +196,10 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                           <div>
                             <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-2 block">Company</span>
                             <ul className="space-y-2">
-                              {companyItems.map((cItem, listIndex) => (
+                              {companyItems.map((cItem) => (
                                 <li
                                   className="py-1 hover:bg-ocx-bg-muted px-2 rounded-ocx-md cursor-pointer font-body text-sm"
-                                  key={listIndex}
+                                  key={cItem.name}
                                 >
                                   <Link href={cItem.link}>{cItem.name}</Link>
                                 </li>
@@ -235,10 +234,10 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
               <div>
                 <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Platform</span>
                 <ul className="space-y-2">
-                  {platformItems.map((pItem, listIndex) => (
+                  {platformItems.map((pItem) => (
                     <li
                       className="py-1 hover:bg-ocx-bg-muted text-ocx-fg-primary hover:text-ocx-bright-blue px-2 rounded-ocx-md cursor-pointer font-body text-sm transition-colors duration-ocx-fast"
-                      key={listIndex}
+                      key={pItem.name}
                     >
                       <Link href={pItem.link}>{pItem.name}</Link>
                     </li>
@@ -248,10 +247,10 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
               <div>
                 <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Company</span>
                 <ul className="space-y-2">
-                  {companyItems.map((cItem, listIndex) => (
+                  {companyItems.map((cItem) => (
                     <li
                       className="py-1 hover:bg-ocx-bg-muted text-ocx-fg-primary hover:text-ocx-bright-blue px-2 rounded-ocx-md cursor-pointer font-body text-sm transition-colors duration-ocx-fast"
-                      key={listIndex}
+                      key={cItem.name}
                     >
                       <Link href={cItem.link}>{cItem.name}</Link>
                     </li>

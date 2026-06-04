@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Physics of Waiting — a queueing theory primer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: "Overpass";
+    src: url("/fonts/Overpass-VariableFont_wght.ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  :root{
+    --ocx-dark-blue: #1b1464;
+    --ocx-mauve: #aa42dc;
+    --ocx-bright-blue: #0071bc;
+    --paper:#f6f6f8;
+    --panel:#ffffff;
+    --panel-2:#ececf1;
+    --ink:#000000;
+    --ink-soft:#575757;
+    --ink-faint:#8a8a96;
+    --clay:#1b1464;
+    --clay-deep:#15104f;
+    --green:#2f7d68;
+    --green-soft:#d8e9e2;
+    --red:#b23628;
+    --red-soft:#f1ddd6;
+    --amber:#c98a1f;
+    --blue:#0071bc;
+    --blue-deep:#1b1464;
+    --blue-soft:#e6edf4;
+    --line:#d8d8e0;
+    --line-soft:#ececf1;
+    --shadow:0 1px 2px rgba(27,20,100,.06),0 8px 24px rgba(27,20,100,.10);
+    --serif:"Cormorant",Georgia,"Times New Roman",serif;
+    --sans:"Oxygen",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --display:"Overpass","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% -5%,rgba(170,66,220,.06),transparent 42%),radial-gradient(circle at 95% 8%,rgba(0,113,188,.05),transparent 40%);
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px;}
+  ::selection{background:var(--ocx-dark-blue);color:#fff;}
+
+  /* ---------- brand header ---------- */
+  .brand-bar{display:flex;align-items:center;gap:12px;padding:22px 0;border-bottom:1px solid var(--line);}
+  .brand-bar img{width:32px;height:32px;}
+  .brand-bar span{font-family:var(--display);font-size:18px;font-weight:700;color:var(--ocx-dark-blue);letter-spacing:-0.02em;}
+  .brand-bar span strong{font-weight:800;}
+
+  /* ---------- type ---------- */
+  h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-0.02em;line-height:1.08;margin:0;}
+  .kicker{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ocx-mauve);}
+  p{margin:0 0 1.1rem;}
+  a{color:var(--ocx-bright-blue);}
+  strong{font-weight:700;}
+  .lead{font-size:21px;line-height:1.55;color:var(--ink);}
+  .muted{color:var(--ink-soft);}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:48px 0 36px;position:relative;}
+  .hero .kicker{margin-bottom:20px;display:inline-block;}
+  .hero h1{font-size:clamp(44px,8.5vw,82px);font-weight:800;letter-spacing:-0.03em;color:var(--ocx-dark-blue);}
+  .hero h1 em{font-style:italic;color:var(--ocx-mauve);}
+  .hero .sub{font-size:20px;color:var(--ink-soft);max-width:640px;margin-top:24px;line-height:1.5;}
+  .rule{height:1px;background:var(--line);margin:0;border:0;}
+  .rule.thick{height:3px;background:var(--ocx-dark-blue);}
+
+  /* ---------- sections ---------- */
+  section{padding:54px 0;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;}
+  .sec-num{font-family:var(--serif);font-size:15px;color:var(--clay);font-weight:600;font-variant-numeric:tabular-nums;border:1.5px solid var(--clay);border-radius:50%;width:34px;height:34px;min-width:34px;display:flex;align-items:center;justify-content:center;}
+  .sec-word{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);}
+  .sec-head h2{font-size:clamp(28px,5vw,40px);margin-top:6px;}
+  .sec-title-block{flex:1;}
+
+  /* ---------- cards / panels ---------- */
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow);}
+  .panel + .panel{margin-top:18px;}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:680px){.twocol{grid-template-columns:1fr;}}
+
+  .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px;}
+  @media(max-width:680px){.metric-grid{grid-template-columns:1fr;}}
+  .metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;}
+  .metric:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--clay);}
+  .metric .biz{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:2px;}
+  .metric .tech{font-size:12px;color:var(--clay);font-weight:600;letter-spacing:.04em;margin-bottom:8px;}
+  .metric .desc{font-size:14.5px;color:var(--ink-soft);line-height:1.5;}
+
+  .callout{border-radius:16px;padding:24px 28px;margin:20px 0;border:1px solid;}
+  .callout.warn{background:var(--red-soft);border-color:rgba(178,54,40,.3);}
+  .callout.warn .ct{color:var(--red);}
+  .callout.good{background:var(--green-soft);border-color:rgba(47,125,104,.3);}
+  .callout.good .ct{color:var(--green);}
+  .callout .ct{font-family:var(--serif);font-weight:600;font-size:19px;margin-bottom:6px;}
+  .callout p{margin:0;font-size:15.5px;line-height:1.55;}
+
+  /* ---------- interactive ---------- */
+  .lab{background:var(--ink);color:#f4efe4;border-radius:18px;padding:30px 30px 26px;margin:26px 0;box-shadow:0 14px 40px rgba(34,31,24,.22);}
+  .lab .lab-kick{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:700;}
+  .lab h3{color:#fdfbf4;font-size:26px;margin:8px 0 4px;}
+  .lab .lab-sub{color:#c8c1b1;font-size:15px;margin-bottom:20px;line-height:1.5;}
+  .lab-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;}
+  @media(max-width:680px){.lab-stats{grid-template-columns:repeat(2,1fr);}}
+  .lab-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;}
+  .lab-stat .ls-label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#a39c8c;margin-bottom:4px;}
+  .lab-stat .ls-val{font-family:var(--serif);font-size:27px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1;}
+  .lab-stat .ls-sub{font-size:11px;color:#a39c8c;margin-top:3px;}
+  .lab-stat.danger{background:rgba(178,54,40,.22);border-color:rgba(216,90,72,.5);}
+  .lab-stat.danger .ls-val{color:#ff9a82;}
+  .lab-stat.ok{background:rgba(47,125,104,.2);border-color:rgba(74,167,138,.45);}
+  .lab-stat.ok .ls-val{color:#7fd9bd;}
+
+  .lab-chart{margin:18px 0 14px;}
+  .lab-chart svg{width:100%;height:auto;display:block;}
+
+  .slider-row{display:flex;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap;}
+  .slider-row label{font-size:13px;color:#c8c1b1;min-width:150px;font-weight:500;}
+  .slider-row input[type=range]{flex:1;min-width:160px;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:rgba(255,255,255,.18);outline:none;}
+  .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--clay);cursor:pointer;border:3px solid #fdfbf4;box-shadow:0 1px 4px rgba(0,0,0,.3);}
+  .slider-row input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--clay);cursor:pointer;border:3px solid #fdfbf4;}
+  .slider-row .sv{font-variant-numeric:tabular-nums;font-weight:600;min-width:96px;text-align:right;color:#fdfbf4;font-size:14px;}
+  .lab-note{font-size:13px;color:#a39c8c;margin-top:14px;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
+  .lab-note b{color:#e9c8a6;font-weight:600;}
+
+  /* pools viz */
+  .pools-viz{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+  .pool-box{border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px;background:rgba(255,255,255,.04);flex:1 1 auto;min-width:0;}
+  .pool-box .pb-dots{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
+  .pb-dot{width:9px;height:9px;border-radius:50%;}
+  .pool-box .pb-cap{font-size:9px;text-align:center;color:#a39c8c;margin-top:5px;letter-spacing:.04em;}
+
+  /* ---------- where: three levers ---------- */
+  .lever{display:grid;grid-template-columns:46px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--line-soft);}
+  .lever:last-child{border-bottom:0;}
+  .lever-ic{width:46px;height:46px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+  .lever-ic svg{width:24px;height:24px;}
+  .lever h3{font-size:21px;margin-bottom:4px;}
+  .lever p{margin:0;font-size:15.5px;color:var(--ink-soft);line-height:1.55;}
+  .lever .rule-of-thumb{margin-top:8px;font-size:14px;color:var(--clay-deep);font-weight:600;}
+
+  /* ---------- cheat sheet ---------- */
+  ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;}
+  ol.rules li{counter-increment:r;position:relative;padding:16px 0 16px 52px;border-bottom:1px solid var(--line-soft);font-size:16px;}
+  ol.rules li:last-child{border-bottom:0;}
+  ol.rules li:before{content:counter(r);position:absolute;left:0;top:14px;font-family:var(--serif);font-weight:600;font-size:18px;color:#fff;background:var(--clay);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  ol.rules li b{font-weight:600;}
+
+  /* ---------- technical ---------- */
+  .tech-zone{background:var(--blue-deep);color:#dde8f3;border-radius:20px;padding:8px 0 0;margin:40px 0;overflow:hidden;}
+  .tech-inner{padding:34px 32px 38px;}
+  .tech-zone .kicker{color:#7fb0e0;}
+  .tech-zone h2{font-family:var(--serif);color:#fff;font-size:30px;margin:10px 0 6px;}
+  .tech-zone p{color:#b9cbe0;font-size:15.5px;}
+  .bridge{width:100%;border-collapse:collapse;font-size:14px;margin:18px 0;}
+  .bridge th,.bridge td{text-align:left;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.12);}
+  .bridge th{font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7fb0e0;}
+  .bridge td:first-child{color:#fff;font-weight:500;}
+  .bridge td .sym{font-family:var(--serif);font-style:italic;color:#9ec3e6;}
+  .bridge tr:last-child td{border-bottom:0;}
+  .formula{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 18px;margin:12px 0;}
+  .formula .fname{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#7fb0e0;font-weight:700;margin-bottom:7px;}
+  .formula .feq{font-family:var(--serif);font-size:21px;color:#fff;font-style:italic;}
+  .formula .fnote{font-size:13px;color:#9fb4cc;margin-top:8px;line-height:1.5;}
+  .tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:680px){.tech-grid{grid-template-columns:1fr;}}
+
+  footer{padding:40px 0 70px;color:var(--ink-faint);font-size:13.5px;line-height:1.7;}
+  footer .rule{margin-bottom:22px;}
+
+  /* load animation */
+  .fade{opacity:0;transform:translateY(14px);animation:fu .7s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes fu{to{opacity:1;transform:none;}}
+
+  /* ---------- overlap diagram ---------- */
+  .overlap-fig{display:flex;align-items:center;justify-content:center;gap:0;margin:6px 0 4px;}
+  .overlap-fig svg{width:100%;max-width:560px;height:auto;}
+
+  /* ---------- simulator ---------- */
+  .sim-controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;align-items:center;}
+  .seg{display:inline-flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:3px;}
+  .seg button{background:transparent;border:0;color:#c8c1b1;font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 13px;border-radius:7px;cursor:pointer;}
+  .seg button.on{background:var(--clay);color:#fff;}
+  .toggle-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#c8c1b1;font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;}
+  .toggle-btn.on{background:var(--amber);color:#26231d;border-color:var(--amber);}
+  .toggle-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .play-btn{background:var(--green);border:0;color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;padding:9px 18px;border-radius:9px;cursor:pointer;}
+  .play-btn.paused{background:var(--clay);}
+  .ghost-btn{background:transparent;border:1px solid rgba(255,255,255,.18);color:#c8c1b1;font-size:13px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;}
+
+  .sim-stage{background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;margin-bottom:6px;}
+  .stage-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#a39c8c;font-weight:700;margin-bottom:10px;}
+  .agents-row{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px;}
+  .agent{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;position:relative;transition:background .15s,border-color .15s;}
+  .agent.vipded{border-color:#f4c542;}
+  .agent.stdded{border-color:#e09a5f;}
+  .agent .who{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.25);}
+  .agent.busy-std{background:#c2552f;border-color:#c2552f;}
+  .agent.busy-vip{background:#f4c542;border-color:#f4c542;}
+  .agent.busy-std .who,.agent.busy-vip .who{background:rgba(255,255,255,.85);}
+  .wait-area{min-height:46px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .wdot{width:14px;height:14px;border-radius:50%;animation:pop .25s ease;}
+  .wdot.std{background:#e09a5f;}
+  .wdot.vip{background:#f4c542;box-shadow:0 0 0 2px rgba(244,197,66,.35);}
+  @keyframes pop{from{transform:scale(0);}to{transform:scale(1);}}
+  .wait-empty{color:#6f6857;font-size:13px;font-style:italic;}
+  .sim-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#a39c8c;margin-top:12px;}
+  .sim-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .sim-legend i{width:11px;height:11px;border-radius:50%;display:inline-block;}
+
+  /* ---------- live schematic (matches the section-07 image palette) ---------- */
+  .sim-schematic{background:#f4efe4;border-radius:14px;padding:16px 18px 10px;margin:0 0 18px;}
+  .schem-title{font-family:var(--sans);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;font-weight:700;margin-bottom:6px;}
+  .sim-schematic svg{width:100%;max-width:620px;height:auto;display:block;margin:0 auto;}
+
+  /* ---------- time-series / "the tape" ---------- */
+  .ts-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#c8c1b1;margin:2px 0 10px;align-items:center;}
+  .ts-legend .lg{display:inline-flex;align-items:center;gap:7px;}
+  .ts-legend .lg .sw{width:20px;height:3px;border-radius:2px;display:inline-block;}
+  .ts-legend .style-note{color:#a39c8c;font-style:italic;}
+  .brush-label{font-size:12.5px;color:#a39c8c;margin:4px 0 6px;display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+  .brush-window{cursor:grab;}
+  .brush-window:active{cursor:grabbing;}
+  .brush-handle{cursor:ew-resize;}
+  .ts-placeholder{display:flex;align-items:center;justify-content:center;height:120px;color:#6f6857;font-style:italic;font-size:14px;border:1px dashed rgba(255,255,255,.14);border-radius:12px;}
+
+  .cmp-wrap{margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
+  .cmp-title{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a39c8c;font-weight:700;margin-bottom:8px;}
+  table.cmp{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.cmp th,table.cmp td{text-align:right;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.08);font-variant-numeric:tabular-nums;}
+  table.cmp th{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#a39c8c;font-weight:700;}
+  table.cmp td:first-child,table.cmp th:first-child{text-align:left;color:#e8e2d4;font-weight:500;}
+  table.cmp .dotk{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle;}
+  table.cmp .shared-col{color:#fdfbf4;}
+  table.cmp .split-col{color:#cdbf9f;}
+
+  /* ---------- caveat ---------- */
+  .caveat-note{background:var(--bg-warning,#faeeda);border:1px solid var(--border-warning,#ba7517);border-left-width:4px;border-radius:12px;padding:16px 20px;margin:24px 0 0;font-size:14.5px;line-height:1.55;color:var(--text-warning,#854f0b);}
+  .caveat-note b{font-weight:600;}
+
+  /* ---------- saved runs ---------- */
+  .runs-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 6px;}
+  .run-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:5px 10px;font-size:12px;color:#e8e2d4;font-weight:500;}
+  .run-chip .rc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .run-chip .rc-x{background:none;border:none;color:#a39c8c;cursor:pointer;font-size:14px;padding:0 0 0 6px;line-height:1;}
+  .run-chip .rc-x:hover{color:#ef6f5e;}
+  .save-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fdfbf4;font-family:var(--sans);font-size:12px;font-weight:700;padding:7px 14px;border-radius:9px;cursor:pointer;}
+  .save-btn:hover{background:rgba(255,255,255,.14);}
+  .save-btn:disabled{opacity:.35;cursor:not-allowed;}
+  .overlay-toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#c8c1b1;cursor:pointer;user-select:none;margin-left:auto;}
+  .overlay-toggle input{accent-color:#f4c542;width:15px;height:15px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="brand-bar">
+    <img src="/assets/logo-icon-color.png" alt="omnichannel CX logo">
+    <span>omnichannel <strong>CX</strong></span>
+  </div>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero fade">
+    <span class="kicker">A field guide for the business</span>
+    <h1>The physics<br>of <em>waiting</em>.</h1>
+    <p class="sub">Why lines form, why your customers give up, and why the same number of agents can deliver brilliant service one day and a meltdown the next. No maths degree required.</p>
+  </header>
+  <hr class="rule thick">
+
+  <!-- ===================== WHY ===================== -->
+  <section class="fade" id="why">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <div class="sec-title-block">
+        <span class="sec-word">Why it matters</span>
+        <h2>Waiting is a property of the system, not a measure of effort.</h2>
+      </div>
+    </div>
+
+    <p class="lead">Here's the uncomfortable truth that queueing theory hands every operations leader: your customers' wait times are mostly decided <em>before the day even starts</em> by how you've arranged things. Not by how hard people work on the phones.</p>
+
+    <p>Two facts drive almost everything that follows, and both cost real money:</p>
+
+    <div class="callout warn">
+      <div class="ct">Long waits don't just annoy. They walk out the door.</div>
+      <p>Every customer who gives up while waiting is a lost sale, a complaint, or a callback that costs you twice. Abandonment is the most expensive number most centres barely look at.</p>
+    </div>
+
+    <div class="callout good">
+      <div class="ct">The same team can be fast or slow depending on how you organise it.</div>
+      <p>Take a fixed group of agents. Slice them up one way and customers wait seconds. Slice them another way, with the exact same headcount, and the queue collapses. The structure is the lever. That's the whole game.</p>
+    </div>
+
+    <p class="muted">Get the structure right and you buy shorter waits, fewer walkaways, and calmer staff without hiring a single extra person. Get it wrong and no amount of effort rescues it. The good news is that the rules are simple and they're below.</p>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== WHAT ===================== -->
+  <section class="fade" id="what">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <div class="sec-title-block">
+        <span class="sec-word">What it actually is</span>
+        <h2>Three ingredients, and the numbers they cook up.</h2>
+      </div>
+    </div>
+
+    <p>Strip away the jargon and a queue is just three things meeting each other: <strong>work that arrives</strong>, <strong>how long each job takes</strong>, and <strong>how many people can do it</strong>. Everything customers feel, the waiting, the giving up, falls out of how those three interact.</p>
+
+    <p>Queueing theory is simply the study of that interaction. The metrics below are what it produces. The business name is the one your board cares about. The technical name is the one your WFM and analytics teams use. They're the same thing wearing different clothes.</p>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="biz">Demand</div>
+        <div class="tech">arrival rate</div>
+        <div class="desc">How many contacts show up, and how bursty they are. Rarely steady. The lumpiness is what hurts you.</div>
+      </div>
+      <div class="metric">
+        <div class="biz">Handle time</div>
+        <div class="tech">service time</div>
+        <div class="desc">How long one contact ties up one agent. Talk time plus the wrap-up afterwards.</div>
+      </div>
+      <div class="metric">
+        <div class="biz">Agents</div>
+        <div class="tech">servers</div>
+        <div class="desc">How many people are eligible to take a given contact. Eligible is the word that matters most.</div>
+      </div>
+      <div class="metric">
+        <div class="biz">How busy they are</div>
+        <div class="tech">occupancy / utilisation</div>
+        <div class="desc">The share of agent time actually spent on contacts. The single most dangerous number on the page.</div>
+      </div>
+      <div class="metric">
+        <div class="biz">Speed of answer</div>
+        <div class="tech">average wait</div>
+        <div class="desc">How long the average customer sits in the queue. What they experience as "good" or "rubbish".</div>
+      </div>
+      <div class="metric">
+        <div class="biz">Walkaways</div>
+        <div class="tech">abandonment</div>
+        <div class="desc">The share who give up before reaching anyone. Rises sharply the longer the wait.</div>
+      </div>
+      <div class="metric">
+        <div class="biz">Service level</div>
+        <div class="tech">SL / grade of service</div>
+        <div class="desc">The promise, e.g. "80% answered in 30 seconds". A headline target, not the full story.</div>
+      </div>
+      <div class="metric">
+        <div class="biz">Work in the system</div>
+        <div class="tech">queue length</div>
+        <div class="desc">How many contacts are waiting or in progress right now. The visible backlog.</div>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== THE CLIFF (interactive 1) ===================== -->
+  <section class="fade" id="cliff">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <div class="sec-title-block">
+        <span class="sec-word">The one chart to remember</span>
+        <h2>Busy is good. Too busy is a cliff.</h2>
+      </div>
+    </div>
+
+    <p>You'd think pushing agents to be busier just makes things gradually a bit slower. It doesn't. Waiting stays low and flat while agents are moderately busy, then near the top it goes vertical. The last sliver of "efficiency" buys you an avalanche of waiting.</p>
+
+    <p>Drag the volume below. Watch the occupancy creep up calmly while the wait sits quiet, then explode. This is why planners aim to keep agents around 80–85% busy, never 100%. That headroom isn't waste. It's what keeps the queue from falling off the cliff.</p>
+
+    <div class="lab">
+      <span class="lab-kick">Interactive · the utilisation cliff</span>
+      <h3>One team of 20 agents</h3>
+      <p class="lab-sub">Five-minute average handle time. Slide the incoming call volume up and down.</p>
+
+      <div class="lab-stats">
+        <div class="lab-stat" id="c-occ-card">
+          <div class="ls-label">How busy</div>
+          <div class="ls-val" id="c-occ">—</div>
+          <div class="ls-sub">occupancy</div>
+        </div>
+        <div class="lab-stat" id="c-asa-card">
+          <div class="ls-label">Avg wait</div>
+          <div class="ls-val" id="c-asa">—</div>
+          <div class="ls-sub">speed of answer</div>
+        </div>
+        <div class="lab-stat" id="c-sl-card">
+          <div class="ls-label">Answered in 30s</div>
+          <div class="ls-val" id="c-sl">—</div>
+          <div class="ls-sub">service level</div>
+        </div>
+        <div class="lab-stat" id="c-ab-card">
+          <div class="ls-label">Walkaways</div>
+          <div class="ls-val" id="c-ab">—</div>
+          <div class="ls-sub">est. abandon</div>
+        </div>
+      </div>
+
+      <div class="lab-chart">
+        <svg id="cliff-svg" viewBox="0 0 700 280" aria-label="Wait time versus how busy agents are"></svg>
+      </div>
+
+      <div class="slider-row">
+        <label>Calls per hour</label>
+        <input type="range" id="c-vol" min="60" max="236" value="180" step="2">
+        <span class="sv" id="c-vol-v">180/hr</span>
+      </div>
+
+      <div class="lab-note"><b>What you're seeing.</b> Below ~80% busy, customers barely wait. Push past ~90% and the wait runs away from you. Same 20 agents the whole time. Nothing changed except how full the pipe got.</div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== WHO ===================== -->
+  <section class="fade" id="who">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <div class="sec-title-block">
+        <span class="sec-word">Who's in the picture</span>
+        <h2>Four players, one shared fate.</h2>
+      </div>
+    </div>
+    <div class="twocol">
+      <div class="panel">
+        <h3 style="font-size:19px;margin-bottom:6px;">Customers</h3>
+        <p class="muted" style="margin:0;font-size:15px;">They have a fixed patience. Cross it and they're gone, often for good. Their wait is the number that defines your reputation.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:19px;margin-bottom:6px;">Agents</h3>
+        <p class="muted" style="margin:0;font-size:15px;">The servers. What matters isn't only how many you have, but how many are <em>allowed</em> to take any given contact.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:19px;margin-bottom:6px;">Planners &amp; WFM</h3>
+        <p class="muted" style="margin:0;font-size:15px;">They forecast demand and staff against it. Bigger, simpler pools are far easier to forecast accurately than many tiny ones.</p>
+      </div>
+      <div class="panel">
+        <h3 style="font-size:19px;margin-bottom:6px;">The business</h3>
+        <p class="muted" style="margin:0;font-size:15px;">Pays for the agents, lives with the walkaways. Queue structure is one of the few levers that moves both cost and experience at once.</p>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== WHERE (the three levers) ===================== -->
+  <section class="fade" id="where">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <div class="sec-title-block">
+        <span class="sec-word">Where you steer it</span>
+        <h2>Three places you decide how the queue behaves.</h2>
+      </div>
+    </div>
+
+    <p>You don't manage waiting on the phones. You design it upstream, in three decisions that most centres make almost by accident. Each one quietly sets how big your pools are, and pool size is everything (you'll see exactly why in the next section).</p>
+
+    <div class="panel" style="padding:8px 28px;">
+      <div class="lever">
+        <div class="lever-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.7"><path d="M12 3v6m0 0l-7 4m7-4l7 4M5 13v5l7 3 7-3v-5"/></svg>
+        </div>
+        <div>
+          <h3>The IVR menu (call steering)</h3>
+          <p>Every menu branch you add chops your demand into a thinner stream that then needs its own little pool of agents. "Press 1 for this, 2 for that, 3 for the other" feels helpful, but each press is a tax on pool size. Over-segmenting the front door is the most common self-inflicted wound in the building.</p>
+          <p class="rule-of-thumb">→ Identify intent fast, route once, and steer to the fewest, broadest sensible destinations.</p>
+        </div>
+      </div>
+      <div class="lever">
+        <div class="lever-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.7"><rect x="3" y="5" width="18" height="4" rx="1"/><rect x="3" y="11" width="13" height="4" rx="1"/><rect x="3" y="17" width="8" height="4" rx="1"/></svg>
+        </div>
+        <div>
+          <h3>Queue design</h3>
+          <p>Fewer, larger queues answer faster than many small ones at the exact same staffing. Splitting a queue so your <em>reports</em> are clearer is fine and often smart. Splitting the <em>agent pool</em> behind it is what quietly costs you waits. Keep those two ideas separate in your head.</p>
+          <p class="rule-of-thumb">→ Report granularly if you like, but pool the people generously.</p>
+        </div>
+      </div>
+      <div class="lever">
+        <div class="lever-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 20c0-2 1-3.7 2.6-4.7"/></svg>
+        </div>
+        <div>
+          <h3>Agent competency (skills)</h3>
+          <p>This is the lever with the most leverage. An agent's "skills" decide which contacts they're allowed to take. Narrow, specialised skills create lots of tiny pools, and in a tiny pool a customer can be waiting while qualified-but-untrained agents sit idle ten feet away. Broaden the skills and those idle agents suddenly become available. Same people, far less waiting.</p>
+          <p class="rule-of-thumb">→ Use the fewest skill groups that still keep each pool comfortably large.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== HOW + WHEN (interactive 2) ===================== -->
+  <section class="fade" id="how">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <div class="sec-title-block">
+        <span class="sec-word">How &amp; when it bites</span>
+        <h2>Pool generously. Fragmenting is a tax you pay in waiting.</h2>
+      </div>
+    </div>
+
+    <p>Here's the principle that surprises everyone: <strong>a few big pools serve people dramatically faster than many small pools, even with the same total headcount.</strong> Think of a bank with one snaking queue feeding ten tellers versus ten separate lines. The snake wins every time, because one slow customer can't trap you behind the wrong wall.</p>
+
+    <p>And it bites hardest exactly <em>when</em> things get busy or bursty. Big pools absorb a sudden rush; small pools choke on it. So the moment you can least afford waiting is the moment fragmentation punishes you most.</p>
+
+    <p>Below: take one team of 48 agents and the same total call volume. Now chop them into more and more separate skill groups. Watch what happens to the wait and the walkaways. Nothing else changes. Only the number of walls between idle agents and waiting customers.</p>
+
+    <div class="lab">
+      <span class="lab-kick">Interactive · the cost of fragmenting</span>
+      <h3>48 agents, one workload, sliced into pieces</h3>
+      <p class="lab-sub">Held at a sensible ~80% busy overall. The only thing you change is how many separate groups the team is split into.</p>
+
+      <div class="lab-stats">
+        <div class="lab-stat" id="p-pools-card">
+          <div class="ls-label">Skill groups</div>
+          <div class="ls-val" id="p-pools">—</div>
+          <div class="ls-sub" id="p-each">— agents each</div>
+        </div>
+        <div class="lab-stat" id="p-asa-card">
+          <div class="ls-label">Avg wait</div>
+          <div class="ls-val" id="p-asa">—</div>
+          <div class="ls-sub">speed of answer</div>
+        </div>
+        <div class="lab-stat" id="p-sl-card">
+          <div class="ls-label">Answered in 30s</div>
+          <div class="ls-val" id="p-sl">—</div>
+          <div class="ls-sub">service level</div>
+        </div>
+        <div class="lab-stat" id="p-ab-card">
+          <div class="ls-label">Walkaways</div>
+          <div class="ls-val" id="p-ab">—</div>
+          <div class="ls-sub">est. abandon</div>
+        </div>
+      </div>
+
+      <div class="lab-chart">
+        <svg id="pool-svg" viewBox="0 0 700 260" aria-label="Wait time versus number of separate skill groups"></svg>
+      </div>
+
+      <div class="pools-viz" id="pools-viz"></div>
+
+      <div class="slider-row">
+        <label>Split into groups</label>
+        <input type="range" id="p-k" min="1" max="16" value="1" step="1">
+        <span class="sv" id="p-k-v">1 group</span>
+      </div>
+
+      <div class="lab-note"><b>The catch worth saying out loud.</b> Broadening skills to keep pools big is powerful, but it isn't free. Push it too far and agents become generalists who handle each contact a little slower and resolve fewer tricky cases first time. The art is the <i>smallest</i> number of skill groups that keeps pools large. When you consolidate, watch handle time and first-contact resolution, not just the wait. Buying speed by quietly losing quality is a trade, not a win.</div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== OVERLAPPING QUEUES + PRIORITY ===================== -->
+  <section class="fade" id="overlap">
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <div class="sec-title-block">
+        <span class="sec-word">When queues share agents</span>
+        <h2>Overlapping queues, and who gets to go first.</h2>
+      </div>
+    </div>
+
+    <p>Real centres rarely have one queue per team. More often, several queues all point at the <strong>same</strong> group of agents. One team quietly serves sales, billing, and complaints all at once. That's overlapping queues, and it's pooling done on purpose: the capacity is shared, so the waits drop. The catch is that those queues now <em>compete</em> for the same people.</p>
+
+    <div class="overlap-fig">
+      <svg viewBox="0 0 560 200" aria-label="Three queues feeding one shared pool of agents">
+        <rect x="6" y="16" width="150" height="34" rx="8" fill="#f1ddd6" stroke="#b23628" stroke-width="1.5"/>
+        <text x="81" y="38" text-anchor="middle" font-family="Hanken Grotesk,sans-serif" font-size="13" font-weight="600" fill="#8d3a1c">Billing queue</text>
+        <rect x="6" y="83" width="150" height="34" rx="8" fill="#fbe8cf" stroke="#c98a1f" stroke-width="1.5"/>
+        <text x="81" y="105" text-anchor="middle" font-family="Hanken Grotesk,sans-serif" font-size="13" font-weight="600" fill="#8a5e08">VIP queue</text>
+        <rect x="6" y="150" width="150" height="34" rx="8" fill="#d8e9e2" stroke="#2f7d68" stroke-width="1.5"/>
+        <text x="81" y="172" text-anchor="middle" font-family="Hanken Grotesk,sans-serif" font-size="13" font-weight="600" fill="#1f5848">Sales queue</text>
+        <path d="M156 33 C 240 33, 240 100, 320 100" fill="none" stroke="#b23628" stroke-width="2"/>
+        <path d="M156 100 L 320 100" fill="none" stroke="#c98a1f" stroke-width="2"/>
+        <path d="M156 167 C 240 167, 240 100, 320 100" fill="none" stroke="#2f7d68" stroke-width="2"/>
+        <rect x="320" y="60" width="170" height="80" rx="12" fill="#fdfbf4" stroke="#221f18" stroke-width="1.8"/>
+        <text x="405" y="88" text-anchor="middle" font-family="Fraunces,serif" font-size="15" font-weight="600" fill="#221f18">One shared</text>
+        <text x="405" y="108" text-anchor="middle" font-family="Fraunces,serif" font-size="15" font-weight="600" fill="#221f18">agent pool</text>
+        <g fill="#c2552f"><circle cx="345" cy="125" r="4"/><circle cx="362" cy="125" r="4"/><circle cx="379" cy="125" r="4"/><circle cx="396" cy="125" r="4"/><circle cx="413" cy="125" r="4"/><circle cx="430" cy="125" r="4"/><circle cx="447" cy="125" r="4"/><circle cx="464" cy="125" r="4"/></g>
+      </svg>
+    </div>
+
+    <p><strong>Priority</strong> is how you settle the competition. Hand one queue priority and its callers jump ahead of the others every time an agent frees up. That's exactly what you want for a VIP line or a vulnerable-customer queue. But it has a sharp edge, and most people don't see it coming:</p>
+
+    <div class="callout warn">
+      <div class="ct">High priority for one queue means starvation risk for another.</div>
+      <p>When the centre gets busy, a priority stream keeps cutting to the front, so the lower-priority queue waits longer and longer. Push it far enough and the low queue effectively stops moving. Priority doesn't create capacity. It just decides who suffers the shortage.</p>
+    </div>
+
+    <p>The elegant middle path is <strong>ring (or "bullseye") routing</strong>: start a contact aimed at the smallest, best-matched group of agents, and widen the eligible pool the longer they wait. Specialists when there's slack, the whole pool when there isn't. You get expertise and pooling, and you decide the trade with a timer instead of a wall.</p>
+
+    <p class="muted">All of this is easier to feel than to read about. So let's actually run it.</p>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== LIVE SIMULATOR ===================== -->
+  <section class="fade" id="sim">
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <div class="sec-title-block">
+        <span class="sec-word">Watch it run</span>
+        <h2>A live queue, one event at a time.</h2>
+      </div>
+    </div>
+
+    <p>This is a proper discrete-event simulation, the same approach the open-source queueing tools use: calls arrive at random, grab a free agent if one's eligible, get served for a random handle time, and give up if they wait past their patience. Nothing here is averaged or pre-baked. It's individual calls and individual agents, playing out in front of you.</p>
+
+    <p>Eight agents. Two kinds of call: everyday <strong style="color:#bf5128">Standard</strong> and impatient <strong style="color:#a9760a">VIP</strong>. Try the experiments below the stage.</p>
+
+    <div class="lab">
+      <span class="lab-kick">Interactive · live discrete-event simulation</span>
+      <h3>One contact centre, running in real time</h3>
+      <p class="lab-sub">Press play. Then push the volume up and watch the queue build. Flip priority on and off. Switch between one shared pool and dedicated splits.</p>
+
+      <div class="sim-controls">
+        <button class="play-btn" id="sim-play">▶ Play</button>
+        <button class="ghost-btn" id="sim-reset">Reset</button>
+        <div class="seg" id="sim-mode">
+          <button data-mode="shared" class="on">Shared pool</button>
+          <button data-mode="split">Dedicated split</button>
+        </div>
+        <button class="toggle-btn on" id="sim-prio">VIP priority: ON</button>
+      </div>
+
+      <div class="sim-schematic">
+        <div class="schem-title">Your current setup — this updates as you change the controls</div>
+        <svg id="schem-svg" viewBox="0 0 620 210" aria-label="Diagram of the current routing structure"></svg>
+      </div>
+
+      <div class="lab-stats" style="grid-template-columns:repeat(4,1fr);">
+        <div class="lab-stat" id="s-load-card">
+          <div class="ls-label">How busy</div>
+          <div class="ls-val" id="s-occ">—</div>
+          <div class="ls-sub">live occupancy</div>
+        </div>
+        <div class="lab-stat" id="s-vipw-card">
+          <div class="ls-label">VIP wait</div>
+          <div class="ls-val" id="s-vipw">—</div>
+          <div class="ls-sub">avg, answered</div>
+        </div>
+        <div class="lab-stat" id="s-stdw-card">
+          <div class="ls-label">Standard wait</div>
+          <div class="ls-val" id="s-stdw">—</div>
+          <div class="ls-sub">avg, answered</div>
+        </div>
+        <div class="lab-stat" id="s-ab-card">
+          <div class="ls-label">Walkaways</div>
+          <div class="ls-val" id="s-ab">—</div>
+          <div class="ls-sub">gave up waiting</div>
+        </div>
+      </div>
+
+      <div class="sim-stage">
+        <div class="stage-label">Agents <span id="s-agentcount" style="color:#6f6857"></span></div>
+        <div class="agents-row" id="sim-agents"></div>
+        <div class="stage-label">Waiting in queue <span id="s-qcount" style="color:#6f6857"></span></div>
+        <div class="wait-area" id="sim-wait"></div>
+      </div>
+
+      <div class="sim-legend">
+        <span><i style="background:#c2552f"></i> Standard call</span>
+        <span><i style="background:#f4c542"></i> VIP call</span>
+        <span><i style="background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.4)"></i> idle agent</span>
+      </div>
+
+      <div class="slider-row">
+        <label>Call volume</label>
+        <input type="range" id="sim-vol" min="0.6" max="3.6" value="2.0" step="0.1">
+        <span class="sv" id="sim-vol-v">2.0/min</span>
+      </div>
+
+      <div class="lab-note"><b>Three experiments worth running.</b> <b style="color:#e9c8a6">One:</b> drag the volume past about 2.7/min, where the eight agents can't keep up, and watch walkaways climb as the queue stops draining. <b style="color:#e9c8a6">Two:</b> at high volume, toggle VIP priority off and on. With it on, VIP waits stay short while Standard waits balloon. That's protection for one queue paid for by the other. <b style="color:#e9c8a6">Three:</b> switch to "Dedicated split" and compare. Carving the same eight agents into a VIP pool and a Standard pool leaves VIP agents idle while Standard callers pile up. The shared pool almost always serves more people, faster.</div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== THE TAPE + CAPACITY CHARTS ===================== -->
+  <section class="fade" id="tape">
+    <div class="sec-head">
+      <span class="sec-num">09</span>
+      <div class="sec-title-block">
+        <span class="sec-word">Read the tape</span>
+        <h2>The same run, replayed as a moving chart.</h2>
+      </div>
+    </div>
+
+    <p>The agent stage above shows you the <em>now</em>. This shows you the <em>story over time</em>, the way a trading screen does. While the simulation up there is playing, these charts record every metric live. <strong>Save a run, change the settings, save another, and see them all from t=0 on the same chart.</strong></p>
+
+    <div class="lab">
+      <span class="lab-kick">Interactive · the live tape</span>
+      <h3>Waits and walkaways, second by second</h3>
+      <p class="lab-sub">Press play on the simulation above first. Save a run when you're happy, then change mode or priority and run another. Saved runs overlay from t=0 so you can compare directly.</p>
+
+      <div class="runs-bar">
+        <button class="save-btn" id="save-run">💾 Save this run</button>
+        <label class="overlay-toggle"><input type="checkbox" id="overlay-on" checked> Overlay saved runs</label>
+      </div>
+      <div class="runs-bar" id="runs-list"></div>
+
+      <div class="ts-legend" id="ts-legend">
+        <span class="lg"><span class="sw" style="background:#f4c542"></span>VIP wait</span>
+        <span class="lg"><span class="sw" style="background:#e98c4a"></span>Standard wait</span>
+        <span class="lg"><span class="sw" style="background:#ef6f5e"></span>Walkaways (right axis)</span>
+        <span class="style-note">— saved runs overlay from t=0 in their own colour</span>
+      </div>
+
+      <div class="lab-chart"><svg id="ts-svg" viewBox="0 0 700 250" aria-label="Live chart of VIP wait, Standard wait and walkaways over time"></svg></div>
+
+      <div class="brush-label">Scrub through time
+        <button id="ts-live" class="ghost-btn" style="padding:4px 11px;font-size:12px;margin-left:8px;">⟲ Jump to live</button>
+      </div>
+      <div class="lab-chart"><svg id="ov-svg" viewBox="0 0 700 64" aria-label="Timeline scrubber"></svg></div>
+
+      <div class="cmp-wrap">
+        <div class="cmp-title">Session comparison — average so far under each structure</div>
+        <table class="cmp" id="cmp-table">
+          <thead><tr><th>Metric</th><th class="shared-col">Shared pool</th><th class="split-col">Dedicated split</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dotk" style="background:#f4c542"></span>VIP wait</td><td class="shared-col" id="cmp-vip-s">—</td><td class="split-col" id="cmp-vip-d">—</td></tr>
+            <tr><td><span class="dotk" style="background:#e98c4a"></span>Standard wait</td><td class="shared-col" id="cmp-std-s">—</td><td class="split-col" id="cmp-std-d">—</td></tr>
+            <tr><td><span class="dotk" style="background:#ef6f5e"></span>Walkaways</td><td class="shared-col" id="cmp-ab-s">—</td><td class="split-col" id="cmp-ab-d">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lab">
+      <span class="lab-kick">Interactive · capacity vs demand</span>
+      <h3>How busy the team is, against the calls coming in</h3>
+      <p class="lab-sub">When the green line pins near the top, you've run out of headroom — and that's exactly when the waits above take off. Same timeline, same scrubber.</p>
+
+      <div class="ts-legend">
+        <span class="lg"><span class="sw" style="background:#6fc6a5"></span>How busy the agents are (left axis)</span>
+        <span class="lg"><span class="sw" style="background:#8fb8e8"></span>Calls arriving (right axis)</span>
+      </div>
+      <div class="lab-chart"><svg id="busy-svg" viewBox="0 0 700 230" aria-label="Live chart of occupancy and call volume over time"></svg></div>
+
+      <div class="brush-label">Scrub through time
+        <button id="ts-live2" class="ghost-btn" style="padding:4px 11px;font-size:12px;margin-left:8px;">⟲ Jump to live</button>
+      </div>
+      <div class="lab-chart"><svg id="ov-svg2" viewBox="0 0 700 64" aria-label="Timeline scrubber"></svg></div>
+    </div>
+
+    <div class="caveat-note">The simulator uses exponential handle times and patience, which is the textbook assumption and fine for teaching the concepts, but real-world handle times are lumpier. For your environment, you'd calibrate against your own data.</div>
+  </section>
+  <hr class="rule">
+
+  <!-- ===================== CHEAT SHEET ===================== -->
+  <section class="fade" id="rules">
+    <div class="sec-head">
+      <span class="sec-num">10</span>
+      <div class="sec-title-block">
+        <span class="sec-word">The pocket version</span>
+        <h2>Six rules of thumb for the next planning meeting.</h2>
+      </div>
+    </div>
+    <div class="panel">
+      <ol class="rules">
+        <li><b>Aim for ~80–85% busy, never 100%.</b> The last slice of utilisation buys you exponential pain. Headroom is the price of a calm queue.</li>
+        <li><b>Merge before you split.</b> When in doubt, pool. Bigger pools are faster, steadier, and easier to forecast.</li>
+        <li><b>Treat every IVR branch as a cost.</b> Each one shrinks a pool. Make every menu option earn its place.</li>
+        <li><b>Separate "report" from "route".</b> You can slice the numbers finely without slicing the people. Granular reporting, generous pooling.</li>
+        <li><b>Skill breadth is pool size.</b> The width of your agents' skills is the most powerful wait-time lever you own. Use it deliberately.</li>
+        <li><b>When you consolidate skills, watch quality.</b> If waits drop but handle time and resolution hold, you got a genuine win. If quality slips, you made a trade, and you should know its size.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== TECHNICAL ZONE ===================== -->
+  <div class="tech-zone fade">
+    <div class="tech-inner">
+      <span class="kicker">For the engine room</span>
+      <h2>The technical translation.</h2>
+      <p>Everything above is the same theory your analysts, WFM team and platform engineers use. Here's the bridge so the business and the engine room are pointing at the same things. Hand this section to whoever builds the routing.</p>
+
+      <table class="bridge">
+        <thead><tr><th>Business term</th><th>Technical term</th><th>Symbol</th></tr></thead>
+        <tbody>
+          <tr><td>Demand / calls arriving</td><td>Arrival rate (Poisson)</td><td><span class="sym">λ</span></td></tr>
+          <tr><td>Handle time</td><td>Mean service time</td><td><span class="sym">1 / μ</span></td></tr>
+          <tr><td>Agents / servers</td><td>Channels</td><td><span class="sym">c</span></td></tr>
+          <tr><td>Offered demand</td><td>Offered load (Erlangs)</td><td><span class="sym">A = λ / μ</span></td></tr>
+          <tr><td>How busy agents are</td><td>Utilisation / traffic intensity</td><td><span class="sym">ρ = A / c</span></td></tr>
+          <tr><td>Chance a customer waits</td><td>Probability of delay (Erlang C)</td><td><span class="sym">P<sub>w</sub></span></td></tr>
+          <tr><td>Average wait / speed of answer</td><td>Mean waiting time in queue</td><td><span class="sym">W<sub>q</sub></span></td></tr>
+          <tr><td>% answered in target</td><td>Service level at time T</td><td><span class="sym">SL(T)</span></td></tr>
+          <tr><td>Work in the system</td><td>Mean number in system</td><td><span class="sym">L</span></td></tr>
+          <tr><td>Walkaways</td><td>Abandonment (Erlang A / patience)</td><td><span class="sym">θ</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="tech-grid">
+        <div class="formula">
+          <div class="fname">Little's Law</div>
+          <div class="feq">L = λ × W</div>
+          <div class="fnote">The backlog you see equals how fast work arrives times how long it stays. Universal, assumption-free, and the sanity check behind every capacity model.</div>
+        </div>
+        <div class="formula">
+          <div class="fname">Utilisation</div>
+          <div class="feq">ρ = λ / (c·μ) = A / c</div>
+          <div class="fnote">The "how busy" gauge. As ρ → 1, queue length and wait → ∞. This is the cliff in chart 03, in one symbol.</div>
+        </div>
+        <div class="formula">
+          <div class="fname">Erlang C — probability of delay</div>
+          <div class="feq">P<sub>w</sub> = Erlang C(c, A)</div>
+          <div class="fnote">The workhorse staffing model. Computed via the stable Erlang-B recursion, then converted. Mean wait W<sub>q</sub> = P<sub>w</sub> · (1/μ) / (c − A).</div>
+        </div>
+        <div class="formula">
+          <div class="fname">Discrete-event simulation</div>
+          <div class="feq">arrive → seize → serve → renege</div>
+          <div class="fnote">The live sim in section 08 is an event-scheduling DES, the same model behind SimPy, Ciw and SIM.JS. Poisson arrivals, exponential service and patience, priority classes, and pooled vs dedicated servers. When the maths gets too gnarly to solve on paper (overlap, priority, abandonment together), you simulate.</div>
+        </div>
+      </div>
+
+      <p style="margin-top:18px;font-size:14px;color:#9fb4cc;"><b style="color:#cfe0f0;">A fair-warning footnote.</b> The classic Erlang C model assumes nobody hangs up. Real customers do. Once you add patience, the proper model is Erlang A (the abandonment column above), which predicts shorter waits than Erlang C because impatient callers leave and relieve the queue. The walkaway figures in the interactives use a simple patience approximation for illustration. For production staffing, model abandonment explicitly. Treat the numbers here as the shape of the truth, not a quote to staff against.</p>
+    </div>
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <hr class="rule">
+    <p><strong>How to read the two interactives.</strong> Both run a live Erlang C calculation in your browser. Chart 03 holds the team fixed and varies how full the pipe gets. Chart 06 holds the workload and total headcount fixed and varies how many walls you put between idle agents and waiting customers. The walkaway estimate assumes an average customer patience of about 90 seconds.</p>
+    <p>Built as a plain-English primer. The one sentence to carry out of the room: <strong>waiting is designed upstream, and bigger pools almost always win.</strong></p>
+  </footer>
+
+</div>
+
+<script>
+// ============================================================
+//  Erlang C engine (stable Erlang-B recursion -> Erlang C)
+// ============================================================
+function erlangC(c, A){
+  c = Math.max(1, Math.round(c));
+  if(A <= 0) return 0;
+  if(A >= c) return 1;                 // unstable: everyone waits
+  let B = 1;                           // Erlang B recursion
+  for(let n=1;n<=c;n++){ B = (A*B)/(n + A*B); }
+  const C = (c*B) / (c - A*(1-B));     // B -> C conversion
+  return Math.min(1, Math.max(0, C));
+}
+
+// returns metrics for c agents, given calls/hr, handle-time(s), patience(s)
+function metrics(c, callsPerHour, ahtSec, patienceSec, slTarget){
+  const A = callsPerHour * ahtSec / 3600;       // offered load (Erlangs)
+  const occ = A / c;
+  if(A >= c){ // saturated
+    return {A, occ:Math.min(1.5,occ), asa:Infinity, sl:0, abandon:1};
+  }
+  const Pw = erlangC(c, A);
+  const asa = Pw * ahtSec / (c - A);            // mean wait, seconds
+  const sl  = 1 - Pw * Math.exp(-(c - A) * slTarget / ahtSec);
+  // walkaway estimate: exp patience vs exp conditional wait -> w/(w+tau)
+  const wCond = ahtSec / (c - A);
+  const abandon = Pw * (wCond / (wCond + patienceSec));
+  return {A, occ, asa, sl:Math.max(0,Math.min(1,sl)), abandon:Math.max(0,Math.min(1,abandon))};
+}
+
+function fmtWait(s){
+  if(!isFinite(s)) return "∞";
+  if(s < 60) return Math.round(s) + "s";
+  const m = Math.floor(s/60), r = Math.round(s%60);
+  return m + "m" + (r? " "+r+"s":"");
+}
+function pct(x){ return Math.round(x*100) + "%"; }
+// safe health setter — never calls classList.add('') which throws
+function setHealth(el, state){ if(!el) return; el.classList.remove('danger','ok'); if(state) el.classList.add(state); }
+
+// ============================================================
+//  helpers for SVG curve drawing
+// ============================================================
+function buildPath(pts){
+  return pts.map((p,i)=> (i? "L":"M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
+}
+
+// ============================================================
+//  CHART 03 — the utilisation cliff
+// ============================================================
+const CLIFF = {c:20, aht:300, patience:90, slT:30};
+const cSvg = document.getElementById('cliff-svg');
+const W=700,H=280, ml=52,mr=18,mt=18,mb=42, capY=560; // capY = wait clamp (s)
+
+function drawCliffBase(){
+  const plotW = W-ml-mr, plotH = H-mt-mb;
+  let s = '';
+  // axes
+  s += `<line x1="${ml}" y1="${mt}" x2="${ml}" y2="${mt+plotH}" stroke="rgba(255,255,255,.25)" stroke-width="1"/>`;
+  s += `<line x1="${ml}" y1="${mt+plotH}" x2="${ml+plotW}" y2="${mt+plotH}" stroke="rgba(255,255,255,.25)" stroke-width="1"/>`;
+  // x gridlines at occupancy 50/60/70/80/90/100
+  for(let o=50;o<=100;o+=10){
+    const x = ml + (o-40)/(100-40)*plotW;
+    s += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${mt+plotH}" stroke="rgba(255,255,255,.08)"/>`;
+    s += `<text x="${x}" y="${mt+plotH+22}" fill="#a39c8c" font-size="12" text-anchor="middle" font-family="Hanken Grotesk,sans-serif">${o}%</text>`;
+  }
+  s += `<text x="${ml+plotW/2}" y="${H-6}" fill="#c8c1b1" font-size="12" text-anchor="middle" font-family="Hanken Grotesk,sans-serif">how busy the agents are</text>`;
+  s += `<text x="${ml-8}" y="${mt+6}" fill="#a39c8c" font-size="11" text-anchor="end" font-family="Hanken Grotesk,sans-serif">long</text>`;
+  s += `<text x="${ml-8}" y="${mt+plotH}" fill="#a39c8c" font-size="11" text-anchor="end" font-family="Hanken Grotesk,sans-serif">0</text>`;
+  s += `<text x="${ml-30}" y="${mt+plotH/2}" fill="#c8c1b1" font-size="12" text-anchor="middle" font-family="Hanken Grotesk,sans-serif" transform="rotate(-90 ${ml-30} ${mt+plotH/2})">average wait</text>`;
+  // the curve
+  const pts=[];
+  for(let occ=0.40; occ<=0.985; occ+=0.005){
+    const calls = occ*CLIFF.c*3600/CLIFF.aht;
+    const m = metrics(CLIFF.c, calls, CLIFF.aht, CLIFF.patience, CLIFF.slT);
+    const wy = Math.min(m.asa, capY);
+    const x = ml + (occ*100-40)/(100-40)*plotW;
+    const y = mt + plotH - (wy/capY)*plotH;
+    pts.push({x,y});
+  }
+  s += `<path d="${buildPath(pts)}" fill="none" stroke="#e09a5f" stroke-width="2.5"/>`;
+  // danger zone shading past 85%
+  const x85 = ml + (85-40)/(100-40)*plotW;
+  s += `<rect x="${x85}" y="${mt}" width="${ml+plotW-x85}" height="${plotH}" fill="rgba(178,54,40,.13)"/>`;
+  s += `<text x="${x85+6}" y="${mt+14}" fill="#ff9a82" font-size="11" font-family="Hanken Grotesk,sans-serif">danger zone</text>`;
+  s += `<circle id="cliff-dot" cx="0" cy="0" r="7" fill="#c2552f" stroke="#fdfbf4" stroke-width="2.5"/>`;
+  cSvg.innerHTML = s;
+}
+function updateCliff(){
+  const calls = +document.getElementById('c-vol').value;
+  document.getElementById('c-vol-v').textContent = calls + "/hr";
+  const m = metrics(CLIFF.c, calls, CLIFF.aht, CLIFF.patience, CLIFF.slT);
+  document.getElementById('c-occ').textContent = pct(m.occ);
+  document.getElementById('c-asa').textContent = fmtWait(m.asa);
+  document.getElementById('c-sl').textContent  = pct(m.sl);
+  document.getElementById('c-ab').textContent  = pct(m.abandon);
+
+  // colour the cards by health
+  const occCard=document.getElementById('c-occ-card'),
+        asaCard=document.getElementById('c-asa-card'),
+        slCard=document.getElementById('c-sl-card'),
+        abCard=document.getElementById('c-ab-card');
+  setHealth(occCard, m.occ>0.87?'danger':(m.occ<0.83?'ok':''));
+  setHealth(asaCard, m.asa>45?'danger':(m.asa<15?'ok':''));
+  setHealth(slCard,  m.sl<0.6 ?'danger':(m.sl>0.85?'ok':''));
+  setHealth(abCard,  m.abandon>0.10?'danger':(m.abandon<0.04?'ok':''));
+
+  // move the dot
+  const plotW=W-ml-mr, plotH=H-mt-mb;
+  const x = ml + (m.occ*100-40)/(100-40)*plotW;
+  const wy = Math.min(m.asa, capY);
+  const y = mt + plotH - (wy/capY)*plotH;
+  const dot = document.getElementById('cliff-dot');
+  if(dot){ dot.setAttribute('cx', Math.max(ml,Math.min(ml+plotW,x))); dot.setAttribute('cy', Math.max(mt,y)); }
+}
+
+// ============================================================
+//  CHART 06 — the cost of fragmenting
+// ============================================================
+const POOL = {totalAgents:48, aht:300, patience:90, slT:30, occTarget:0.80};
+// total calls/hr set so the whole team sits at occTarget
+POOL.totalCalls = POOL.occTarget * POOL.totalAgents * 3600 / POOL.aht;
+
+const pSvg = document.getElementById('pool-svg');
+const PW2=700, PH2=260, pml=52, pmr=18, pmt=18, pmb=42, pCapY=480;
+
+function poolMetrics(k){
+  const agentsEach = POOL.totalAgents / k;        // may be fractional; erlangC rounds
+  const callsEach  = POOL.totalCalls / k;
+  return metrics(Math.round(agentsEach), callsEach, POOL.aht, POOL.patience, POOL.slT);
+}
+
+function drawPoolBase(){
+  const plotW=PW2-pml-pmr, plotH=PH2-pmt-pmb;
+  let s='';
+  s += `<line x1="${pml}" y1="${pmt}" x2="${pml}" y2="${pmt+plotH}" stroke="rgba(255,255,255,.25)"/>`;
+  s += `<line x1="${pml}" y1="${pmt+plotH}" x2="${pml+plotW}" y2="${pmt+plotH}" stroke="rgba(255,255,255,.25)"/>`;
+  for(let k=1;k<=16;k++){
+    const x = pml + (k-1)/(16-1)*plotW;
+    if(k===1||k%2===0||k===16){
+      s += `<text x="${x}" y="${pmt+plotH+22}" fill="#a39c8c" font-size="11" text-anchor="middle" font-family="Hanken Grotesk,sans-serif">${k}</text>`;
+    }
+  }
+  s += `<text x="${pml+plotW/2}" y="${PH2-6}" fill="#c8c1b1" font-size="12" text-anchor="middle" font-family="Hanken Grotesk,sans-serif">number of separate skill groups (same 48 agents)</text>`;
+  s += `<text x="${pml-30}" y="${pmt+plotH/2}" fill="#c8c1b1" font-size="12" text-anchor="middle" font-family="Hanken Grotesk,sans-serif" transform="rotate(-90 ${pml-30} ${pmt+plotH/2})">average wait</text>`;
+  const pts=[];
+  for(let k=1;k<=16;k++){
+    const m = poolMetrics(k);
+    const wy = Math.min(m.asa, pCapY);
+    const x = pml + (k-1)/(16-1)*plotW;
+    const y = pmt + plotH - (wy/pCapY)*plotH;
+    pts.push({x,y});
+  }
+  // area under curve
+  s += `<path d="${buildPath(pts)} L ${pts[pts.length-1].x} ${pmt+plotH} L ${pts[0].x} ${pmt+plotH} Z" fill="rgba(224,154,95,.12)"/>`;
+  s += `<path d="${buildPath(pts)}" fill="none" stroke="#e09a5f" stroke-width="2.5"/>`;
+  pts.forEach(p=>{ s += `<circle cx="${p.x}" cy="${p.y}" r="2.6" fill="#e09a5f"/>`; });
+  s += `<circle id="pool-dot" cx="0" cy="0" r="8" fill="#c2552f" stroke="#fdfbf4" stroke-width="2.5"/>`;
+  pSvg.innerHTML = s;
+}
+
+function drawPoolsViz(k){
+  const wrap = document.getElementById('pools-viz');
+  const agentsEach = Math.round(POOL.totalAgents / k);
+  let html='';
+  for(let i=0;i<k;i++){
+    let dots='';
+    for(let d=0; d<agentsEach; d++){
+      // most agents busy at 80% + a couple idle; colour idle ones differently
+      const idle = (d >= Math.round(agentsEach*0.8));
+      dots += `<span class="pb-dot" style="background:${idle?'#7fd9bd':'rgba(255,255,255,.45)'}"></span>`;
+    }
+    html += `<div class="pool-box"><div class="pb-dots">${dots}</div><div class="pb-cap">${agentsEach}</div></div>`;
+  }
+  wrap.innerHTML = html;
+}
+
+function updatePool(){
+  const k = +document.getElementById('p-k').value;
+  document.getElementById('p-k-v').textContent = k + (k===1?" group":" groups");
+  const agentsEach = Math.round(POOL.totalAgents / k);
+  const m = poolMetrics(k);
+  document.getElementById('p-pools').textContent = k;
+  document.getElementById('p-each').textContent = agentsEach + " agents each";
+  document.getElementById('p-asa').textContent = fmtWait(m.asa);
+  document.getElementById('p-sl').textContent  = pct(m.sl);
+  document.getElementById('p-ab').textContent  = pct(m.abandon);
+
+  const aCard=document.getElementById('p-asa-card'),
+        sCard=document.getElementById('p-sl-card'),
+        bCard=document.getElementById('p-ab-card'),
+        kCard=document.getElementById('p-pools-card');
+  setHealth(aCard, m.asa>45?'danger':(m.asa<15?'ok':''));
+  setHealth(sCard, m.sl<0.6 ?'danger':(m.sl>0.85?'ok':''));
+  setHealth(bCard, m.abandon>0.10?'danger':(m.abandon<0.04?'ok':''));
+  setHealth(kCard, k>=6?'danger':(k<=2?'ok':''));
+
+  const plotW=PW2-pml-pmr, plotH=PH2-pmt-pmb;
+  const x = pml + (k-1)/(16-1)*plotW;
+  const wy = Math.min(m.asa, pCapY);
+  const y = pmt + plotH - (wy/pCapY)*plotH;
+  const dot=document.getElementById('pool-dot');
+  if(dot){ dot.setAttribute('cx',x); dot.setAttribute('cy',Math.max(pmt,y)); }
+
+  drawPoolsViz(k);
+}
+
+// ============================================================
+//  LIVE DISCRETE-EVENT SIMULATION (event-scheduling model,
+//  the same approach used by SimPy / Ciw / SIM.JS — ported to JS)
+//  Calls arrive (Poisson), seize an eligible agent, are served
+//  for a random handle time, and renege if patience is exceeded.
+// ============================================================
+const SIM = {
+  nAgents:8,
+  ahtMin:3.0,        // mean handle time (sim minutes)
+  patienceMin:2.0,   // mean customer patience (sim minutes)
+  slTargetMin:0.5,   // "answered within 30s" target
+  vipFrac:0.30,      // share of calls that are VIP
+  dt:0.05,           // sim minutes advanced per tick
+  tickMs:50,
+  mode:'shared',
+  priority:true,
+  volume:2.0,        // calls per minute
+  running:false
+};
+let simState=null, simTimer=null;
+
+function expRand(mean){ return -mean * Math.log(1 - Math.random()); }
+
+// sampling + history config
+const SAMPLE_EVERY = 4;      // record a sample every N ticks (~200ms)
+const HISTCAP = 600;         // rolling buffer length
+const BR = { winLen: 140, start: 0, followLive: true, dragging:null };
+const modeStats = { shared:{vip:0,std:0,ab:0,n:0}, split:{vip:0,std:0,ab:0,n:0} };
+
+// ---- saved runs for overlay replay ----
+const RUN_COLORS = ['#b065e0','#4da6d9','#e84f6a','#5cc98f','#e8a040','#7a8fe0'];
+const MAX_RUNS = 4;
+let savedRuns = [];   // each: { label, color, history:[] }
+let overlayOn = true;
+
+function saveRun(){
+  if(!simState || simState.history.length < 4) return;
+  if(savedRuns.length >= MAX_RUNS){ savedRuns.shift(); } // rotate oldest out
+  const idx = savedRuns.length;
+  const prioLabel = SIM.priority ? 'prio ON' : 'prio OFF';
+  const label = `${SIM.mode==='shared'?'Shared':'Split'} · ${prioLabel} · ${SIM.volume.toFixed(1)}/min`;
+  // deep-copy the history, rebased to t=0 relative
+  const t0 = simState.history[0].mins;
+  const hist = simState.history.map(h => ({ ...h, mins: h.mins - t0 }));
+  savedRuns.push({ label, color: RUN_COLORS[idx % RUN_COLORS.length], history: hist });
+  renderRunChips();
+}
+function removeRun(i){ savedRuns.splice(i,1); renderRunChips(); }
+function renderRunChips(){
+  const el = document.getElementById('runs-list'); if(!el) return;
+  if(savedRuns.length === 0){ el.innerHTML='<span style="font-size:12px;color:#6f6857;font-style:italic">No saved runs yet. Play the simulation and save one.</span>'; return; }
+  el.innerHTML = savedRuns.map((r,i)=>
+    `<span class="run-chip"><span class="rc-dot" style="background:${r.color}"></span>${r.label}<button class="rc-x" onclick="removeRun(${i})">×</button></span>`
+  ).join('');
+  document.getElementById('save-run').disabled = savedRuns.length >= MAX_RUNS;
+}
+
+function simReset(){
+  const agents=[];
+  // dedicate agents in split mode: ~vipFrac to VIP, rest to Standard
+  const vipAgents = Math.max(1, Math.round(SIM.nAgents*SIM.vipFrac));
+  for(let i=0;i<SIM.nAgents;i++){
+    agents.push({ id:i, busyUntil:null, serving:null, ded:(i<vipAgents?'vip':'std') });
+  }
+  simState={
+    t:0, agents, waiting:[], nextArrival:expRand(1/SIM.volume), nextId:0,
+    answered:0, abandoned:0, vipWaitSum:0, vipAns:0, stdWaitSum:0, stdAns:0,
+    busyTimeAccum:0, lastT:0,
+    // smoothed live metrics (exponential moving averages)
+    occEMA:0, vipWEMA:0, stdWEMA:0, abEMA:0,
+    tickCount:0, sampleNo:0, history:[]
+  };
+  modeStats.shared={vip:0,std:0,ab:0,n:0}; modeStats.split={vip:0,std:0,ab:0,n:0};
+  BR.start=0; BR.followLive=true;
+}
+
+function eligible(agent, call){
+  if(SIM.mode==='shared') return true;       // overlapping queues: any agent serves any call
+  return agent.ded === call.type;            // dedicated split: only matching pool
+}
+
+function simStep(){
+  const S=simState; const dt=SIM.dt; S.t+=dt;
+  // 1. arrivals (Poisson via exponential interarrivals)
+  while(S.t >= S.nextArrival){
+    const type = Math.random() < SIM.vipFrac ? 'vip' : 'std';
+    S.waiting.push({ id:S.nextId++, type, arrive:S.nextArrival, patience:expRand(SIM.patienceMin) });
+    S.nextArrival += expRand(1/SIM.volume);
+  }
+  // 2. service completions
+  for(const a of S.agents){
+    if(a.busyUntil!==null && a.busyUntil<=S.t){ a.busyUntil=null; a.serving=null; }
+  }
+  // 3. reneging (abandonment)
+  S.waiting = S.waiting.filter(c=>{
+    if(S.t - c.arrive > c.patience){ S.abandoned++; S.abEMA = S.abEMA*0.96 + 1*0.04; return false; }
+    return true;
+  });
+  // 4. assignment — for each idle agent, take best eligible waiting call
+  for(const a of S.agents){
+    if(a.busyUntil!==null) continue;
+    let bestIdx=-1, bestScore=-Infinity;
+    for(let i=0;i<S.waiting.length;i++){
+      const c=S.waiting[i];
+      if(!eligible(a,c)) continue;
+      // score: priority first (if enabled), then longest wait (FIFO within class)
+      const prio = (SIM.priority && c.type==='vip') ? 1e6 : 0;
+      const score = prio + (S.t - c.arrive);
+      if(score>bestScore){ bestScore=score; bestIdx=i; }
+    }
+    if(bestIdx>=0){
+      const c=S.waiting.splice(bestIdx,1)[0];
+      const wait=S.t - c.arrive;
+      a.busyUntil = S.t + expRand(SIM.ahtMin);
+      a.serving = c.type;
+      S.answered++;
+      S.abEMA = S.abEMA*0.96 + 0*0.04;   // a resolved-by-answer outcome
+      if(c.type==='vip'){ S.vipWaitSum+=wait; S.vipAns++; S.vipWEMA = S.vipWEMA*0.82 + wait*0.18; }
+      else { S.stdWaitSum+=wait; S.stdAns++; S.stdWEMA = S.stdWEMA*0.82 + wait*0.18; }
+    }
+  }
+  // occupancy bookkeeping (cumulative + smoothed)
+  const busy=S.agents.filter(a=>a.busyUntil!==null).length;
+  S.busyTimeAccum += busy*dt; S.lastT=S.t;
+  S.occEMA = S.occEMA*0.94 + (busy/SIM.nAgents)*0.06;
+
+  // 5. periodic sampling for the tape
+  S.tickCount++;
+  if(S.tickCount % SAMPLE_EVERY === 0){
+    S.history.push({
+      n:S.sampleNo++, mins:S.t, mode:SIM.mode, vol:SIM.volume,
+      occ:S.occEMA, vipW:S.vipWEMA, stdW:S.stdWEMA, ab:S.abEMA
+    });
+    if(S.history.length>HISTCAP) S.history.shift();
+    // accumulate per-mode comparison averages
+    const ms=modeStats[SIM.mode]; ms.vip+=S.vipWEMA; ms.std+=S.stdWEMA; ms.ab+=S.abEMA; ms.n++;
+    // follow the live edge if the window is parked at the right
+    if(BR.followLive) BR.start = Math.max(0, S.history.length - BR.winLen);
+  }
+}
+
+function simRender(){
+  const S=simState;
+  // agents
+  const aw=document.getElementById('sim-agents'); let ah='';
+  for(const a of S.agents){
+    let cls='agent';
+    if(SIM.mode==='split') cls += a.ded==='vip'?' vipded':' stdded';
+    if(a.busyUntil!==null) cls += a.serving==='vip'?' busy-vip':' busy-std';
+    ah += `<div class="${cls}"><span class="who"></span></div>`;
+  }
+  aw.innerHTML=ah;
+  const busy=S.agents.filter(a=>a.busyUntil!==null).length;
+  document.getElementById('s-agentcount').textContent = `· ${busy}/${SIM.nAgents} busy`;
+  // waiting (priority order so the next-served sits leftmost)
+  const order=[...S.waiting].sort((x,y)=>{
+    const px=(SIM.priority&&x.type==='vip')?1:0, py=(SIM.priority&&y.type==='vip')?1:0;
+    if(px!==py) return py-px;
+    return x.arrive-y.arrive;
+  });
+  const ww=document.getElementById('sim-wait');
+  if(order.length===0){ ww.innerHTML='<span class="wait-empty">empty — nobody waiting</span>'; }
+  else{
+    const show=order.slice(0,40);
+    ww.innerHTML = show.map(c=>`<span class="wdot ${c.type}"></span>`).join('') + (order.length>40?`<span class="wait-empty">+${order.length-40}</span>`:'');
+  }
+  document.getElementById('s-qcount').textContent = `· ${S.waiting.length} holding`;
+  // stats
+  const occ = S.t>0 ? S.busyTimeAccum/(SIM.nAgents*S.t) : 0;
+  const vipW = S.vipAns? S.vipWaitSum/S.vipAns : null;
+  const stdW = S.stdAns? S.stdWaitSum/S.stdAns : null;
+  const total=S.answered+S.abandoned;
+  const ab = total? S.abandoned/total : 0;
+  document.getElementById('s-occ').textContent = pct(Math.min(1,occ));
+  document.getElementById('s-vipw').textContent = vipW===null?'—':fmtWait(vipW*60);
+  document.getElementById('s-stdw').textContent = stdW===null?'—':fmtWait(stdW*60);
+  document.getElementById('s-ab').textContent  = total<5?'—':pct(ab);
+  setHealth(document.getElementById('s-load-card'), occ>0.92?'danger':(occ<0.8?'ok':''));
+  setHealth(document.getElementById('s-vipw-card'), vipW>0.75?'danger':(vipW!==null&&vipW<0.3?'ok':''));
+  setHealth(document.getElementById('s-stdw-card'), stdW>0.75?'danger':(stdW!==null&&stdW<0.3?'ok':''));
+  setHealth(document.getElementById('s-ab-card'), ab>0.12&&total>=5?'danger':(ab<0.05&&total>=5?'ok':''));
+}
+
+function simLoop(){ simStep(); simRender(); if(simState.tickCount % SAMPLE_EVERY === 0){ renderTape(); renderBusy(); renderOverview(); renderCompare(); } }
+
+function simPlayPause(){
+  SIM.running=!SIM.running;
+  const btn=document.getElementById('sim-play');
+  if(SIM.running){ btn.textContent='❚❚ Pause'; btn.classList.add('paused'); simTimer=setInterval(simLoop, SIM.tickMs); }
+  else{ btn.textContent='▶ Play'; btn.classList.remove('paused'); clearInterval(simTimer); }
+}
+function simDoReset(){ simReset(); simRender(); }
+
+// wire simulator controls
+document.getElementById('sim-play').addEventListener('click', simPlayPause);
+document.getElementById('sim-reset').addEventListener('click', ()=>{ simDoReset(); renderSchem(); renderTape(); renderBusy(); renderOverview(); renderCompare(); });
+document.getElementById('sim-vol').addEventListener('input', e=>{
+  SIM.volume = +e.target.value;
+  document.getElementById('sim-vol-v').textContent = SIM.volume.toFixed(1)+'/min';
+});
+document.querySelectorAll('#sim-mode button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#sim-mode button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); SIM.mode=b.dataset.mode;
+    const pr=document.getElementById('sim-prio');
+    pr.disabled = (SIM.mode==='split');
+    // soft-switch: keep the tape & comparison so both structures sit side by side
+    if(simState){ simState.agents.forEach(a=>{a.busyUntil=null;a.serving=null;}); simState.waiting=[]; }
+    renderSchem(); simRender();
+  });
+});
+document.getElementById('sim-prio').addEventListener('click', e=>{
+  if(e.target.disabled) return;
+  SIM.priority=!SIM.priority;
+  e.target.classList.toggle('on', SIM.priority);
+  e.target.textContent = 'VIP priority: ' + (SIM.priority?'ON':'OFF');
+  renderSchem();
+});
+
+// ============================================================
+//  SCHEMATIC — structural key, redrawn on mode/priority change.
+//  Palette matches the section-07 image: VIP gold, Standard clay,
+//  shared pool = dark box with clay dots.
+// ============================================================
+const COL = { vip:'#c98a1f', vipFill:'#fbe8cf', vipDot:'#f4c542', std:'#c2552f', stdFill:'#f1ddd6', pool:'#221f18', cream:'#fdfbf4', ink:'#221f18' };
+function poolDots(cx, cy, n, fill){
+  let s=''; const gap=15, x0=cx-((n-1)*gap)/2;
+  for(let i=0;i<n;i++) s+=`<circle cx="${x0+i*gap}" cy="${cy}" r="4.5" fill="${fill}"/>`;
+  return s;
+}
+function renderSchem(){
+  const svg=document.getElementById('schem-svg'); if(!svg) return;
+  const F='font-family="Hanken Grotesk,sans-serif"';
+  let s='';
+  s+=`<rect x="6" y="40" width="150" height="40" rx="9" fill="${COL.vipFill}" stroke="${COL.vip}" stroke-width="1.6"/>`;
+  s+=`<text x="81" y="65" text-anchor="middle" ${F} font-size="14" font-weight="600" fill="#8a5e08">VIP queue</text>`;
+  s+=`<rect x="6" y="128" width="150" height="40" rx="9" fill="${COL.stdFill}" stroke="${COL.std}" stroke-width="1.6"/>`;
+  s+=`<text x="81" y="153" text-anchor="middle" ${F} font-size="14" font-weight="600" fill="#8d3a1c">Standard queue</text>`;
+  if(SIM.mode==='shared'){
+    const pX=410, pY=66, pW=200, pH=80;
+    if(SIM.priority){
+      s+=`<path d="M156 60 C 300 60, 300 86, ${pX} 86" fill="none" stroke="${COL.vipDot}" stroke-width="4"/>`;
+      s+=`<path d="M156 148 C 300 148, 300 126, ${pX} 126" fill="none" stroke="${COL.std}" stroke-width="2"/>`;
+      s+=`<rect x="196" y="20" width="220" height="26" rx="13" fill="#fff7e6" stroke="${COL.vip}" stroke-width="1.2"/>`;
+      s+=`<text x="306" y="37" text-anchor="middle" ${F} font-size="12.5" font-weight="600" fill="#8a5e08">VIP jumps ahead ▸ served first</text>`;
+    } else {
+      s+=`<path d="M156 60 C 300 60, 300 100, ${pX} 100" fill="none" stroke="${COL.vipDot}" stroke-width="2.4"/>`;
+      s+=`<path d="M156 148 C 300 148, 300 106, ${pX} 106" fill="none" stroke="${COL.std}" stroke-width="2.4"/>`;
+      s+=`<rect x="206" y="20" width="200" height="26" rx="13" fill="#f0ece1" stroke="#bdb6a3" stroke-width="1.2"/>`;
+      s+=`<text x="306" y="37" text-anchor="middle" ${F} font-size="12.5" font-weight="600" fill="#5d574a">First come, first served</text>`;
+    }
+    s+=`<rect x="${pX}" y="${pY}" width="${pW}" height="${pH}" rx="13" fill="${COL.cream}" stroke="${COL.pool}" stroke-width="1.9"/>`;
+    s+=`<text x="${pX+pW/2}" y="${pY+30}" text-anchor="middle" font-family="Fraunces,serif" font-size="16" font-weight="600" fill="${COL.ink}">One shared pool</text>`;
+    s+=poolDots(pX+pW/2, pY+56, 8, COL.std);
+  } else {
+    const vipN=Math.max(1,Math.round(SIM.nAgents*SIM.vipFrac)), stdN=SIM.nAgents-vipN;
+    s+=`<path d="M156 60 L 410 60" fill="none" stroke="${COL.vipDot}" stroke-width="2.4"/>`;
+    s+=`<path d="M156 148 L 410 148" fill="none" stroke="${COL.std}" stroke-width="2.4"/>`;
+    s+=`<rect x="410" y="34" width="200" height="52" rx="12" fill="${COL.cream}" stroke="${COL.vip}" stroke-width="1.9"/>`;
+    s+=`<text x="510" y="55" text-anchor="middle" font-family="Fraunces,serif" font-size="14" font-weight="600" fill="${COL.ink}">VIP-only pool</text>`;
+    s+=poolDots(510, 74, vipN, COL.vipDot);
+    s+=`<rect x="410" y="122" width="200" height="52" rx="12" fill="${COL.cream}" stroke="${COL.std}" stroke-width="1.9"/>`;
+    s+=`<text x="510" y="143" text-anchor="middle" font-family="Fraunces,serif" font-size="14" font-weight="600" fill="${COL.ink}">Standard-only pool</text>`;
+    s+=poolDots(510, 162, stdN, COL.std);
+    s+=`<rect x="176" y="92" width="220" height="26" rx="13" fill="#f0ece1" stroke="#bdb6a3" stroke-width="1.2"/>`;
+    s+=`<text x="286" y="109" text-anchor="middle" ${F} font-size="12" font-weight="600" fill="#5d574a">Separate pools · priority doesn't apply</text>`;
+  }
+  svg.innerHTML=s;
+}
+
+// ============================================================
+//  TAPE — waits (left axis, seconds) + walkaways (right axis, %)
+//  solid = shared pool, dashed = dedicated split
+// ============================================================
+const TS={W:700,H:250,l:50,r:54,t:16,b:34, waitMax:120, abMax:60};
+function tsWindow(){
+  const H=simState.history;
+  const start=Math.max(0,Math.min(BR.start, Math.max(0,H.length-1)));
+  const end=Math.min(H.length, start+BR.winLen);
+  return H.slice(start,end);
+}
+function segPaths(slice, xOf, yOf){
+  const segs=[]; let cur=null, curMode=null;
+  slice.forEach((s,i)=>{
+    const y=yOf(s); if(y==null){ if(cur){segs.push({mode:curMode,d:cur});cur=null;curMode=null;} return; }
+    const p=xOf(i).toFixed(1)+' '+y.toFixed(1);
+    if(s.mode!==curMode){ if(cur)segs.push({mode:curMode,d:cur}); cur='M'+p; curMode=s.mode; }
+    else cur+=' L'+p;
+  });
+  if(cur)segs.push({mode:curMode,d:cur});
+  return segs;
+}
+function drawSeries(segs, color, w){
+  return segs.map(sg=>`<path d="${sg.d}" fill="none" stroke="${color}" stroke-width="${w}" ${sg.mode==='split'?'stroke-dasharray="5 4"':''} stroke-linejoin="round" stroke-linecap="round"/>`).join('');
+}
+function renderTape(){
+  const svg=document.getElementById('ts-svg'); if(!svg) return;
+  const slice=tsWindow();
+  if(slice.length<2 && savedRuns.length===0){ svg.innerHTML=`<foreignObject x="0" y="0" width="700" height="250"><div xmlns="http://www.w3.org/1999/xhtml" class="ts-placeholder">Press play on the simulation above — the tape fills as it runs.</div></foreignObject>`; return; }
+  const {W,H,l,r,t,b,waitMax,abMax}=TS, pw=W-l-r, ph=H-t-b, F='font-family="Hanken Grotesk,sans-serif"';
+
+  // determine the visible time window (minutes from start)
+  let tMin=Infinity, tMax=0;
+  if(slice.length>=2){ const t0=slice[0].mins; tMin=0; tMax=slice[slice.length-1].mins-t0; }
+  if(overlayOn) savedRuns.forEach(r=>{ if(r.history.length>=2){ tMin=0; tMax=Math.max(tMax, r.history[r.history.length-1].mins); }});
+  if(tMax<=tMin) tMax=tMin+1;
+
+  const xOfT=tm=> l + (tm-tMin)/(tMax-tMin)*pw;
+  const yWait=v=> t + ph - Math.min(v*60,waitMax)/waitMax*ph;
+  const yAb=v=> t + ph - Math.min(v*100,abMax)/abMax*ph;
+  let s='';
+  // grid
+  for(let g=0;g<=waitMax;g+=30){ const y2=t+ph-g/waitMax*ph; s+=`<line x1="${l}" y1="${y2}" x2="${l+pw}" y2="${y2}" stroke="rgba(255,255,255,.08)"/>`; s+=`<text x="${l-8}" y="${y2+4}" text-anchor="end" ${F} font-size="10.5" fill="#9b937f">${g}s</text>`; }
+  for(let g=0;g<=abMax;g+=20){ const y2=t+ph-g/abMax*ph; s+=`<text x="${l+pw+8}" y="${y2+4}" text-anchor="start" ${F} font-size="10.5" fill="#ce7a6c">${g}%</text>`; }
+  s+=`<text x="${l-32}" y="${t+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#c8c1b1" transform="rotate(-90 ${l-32} ${t+ph/2})">wait (seconds)</text>`;
+  s+=`<text x="${l+pw+36}" y="${t+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#ef6f5e" transform="rotate(90 ${l+pw+36} ${t+ph/2})">walkaways (%)</text>`;
+  // time labels
+  [tMin, (tMin+tMax)/2, tMax].forEach(tm=>{ s+=`<text x="${xOfT(tm)}" y="${t+ph+22}" text-anchor="middle" ${F} font-size="10.5" fill="#9b937f">${tm.toFixed(0)}m</text>`; });
+
+  // helper to draw a run's three metrics
+  function drawRunLines(hist, vipCol, stdCol, abCol, w, opacity, dash){
+    const da=dash?'stroke-dasharray="6 4"':'';
+    let vP='',sP='',aP='';
+    hist.forEach((sp,i)=>{
+      const x=xOfT(sp.mins).toFixed(1);
+      const cmd=i?'L':'M';
+      vP+=cmd+x+' '+yWait(sp.vipW).toFixed(1)+' ';
+      sP+=cmd+x+' '+yWait(sp.stdW).toFixed(1)+' ';
+      aP+=cmd+x+' '+yAb(sp.ab).toFixed(1)+' ';
+    });
+    s+=`<path d="${aP}" fill="none" stroke="${abCol}" stroke-width="${w}" opacity="${opacity}" ${da} stroke-linejoin="round"/>`;
+    s+=`<path d="${sP}" fill="none" stroke="${stdCol}" stroke-width="${w}" opacity="${opacity}" ${da} stroke-linejoin="round"/>`;
+    s+=`<path d="${vP}" fill="none" stroke="${vipCol}" stroke-width="${w}" opacity="${opacity}" ${da} stroke-linejoin="round"/>`;
+  }
+
+  // saved runs (underneath, dashed, in their colour)
+  if(overlayOn){
+    savedRuns.forEach(r=>{
+      if(r.history.length<2) return;
+      drawRunLines(r.history, r.color, r.color, r.color, 2, 0.7, true);
+      // end label
+      const last=r.history[r.history.length-1];
+      const x=xOfT(last.mins), y=yWait(last.vipW);
+      s+=`<circle cx="${x}" cy="${y}" r="3" fill="${r.color}" opacity="0.7"/>`;
+    });
+  }
+
+  // live run (on top, solid, original colours)
+  if(slice.length>=2){
+    const t0=slice[0].mins;
+    const liveHist=slice.map(sp=>({...sp, mins:sp.mins-t0}));
+    drawRunLines(liveHist, '#f4c542', '#e98c4a', '#ef6f5e', 2.5, 1, false);
+    const last=liveHist[liveHist.length-1];
+    s+=`<circle cx="${xOfT(last.mins)}" cy="${yWait(last.vipW)}" r="3.5" fill="#f4c542"/>`;
+    s+=`<circle cx="${xOfT(last.mins)}" cy="${yWait(last.stdW)}" r="3.5" fill="#e98c4a"/>`;
+    s+=`<circle cx="${xOfT(last.mins)}" cy="${yAb(last.ab)}" r="3.5" fill="#ef6f5e"/>`;
+  }
+  svg.innerHTML=s;
+}
+
+// ============================================================
+//  CAPACITY — occupancy (left %, area) + volume (right, calls/min)
+// ============================================================
+const BC={W:700,H:230,l:48,r:52,t:16,b:34, volMax:3.8};
+function renderBusy(){
+  const svg=document.getElementById('busy-svg'); if(!svg) return;
+  const slice=tsWindow();
+  if(slice.length<2 && savedRuns.length===0){ svg.innerHTML=`<foreignObject x="0" y="0" width="700" height="230"><div xmlns="http://www.w3.org/1999/xhtml" class="ts-placeholder">Waiting for the simulation to run…</div></foreignObject>`; return; }
+  const {W,H,l,r,t,b,volMax}=BC, pw=W-l-r, ph=H-t-b, F='font-family="Hanken Grotesk,sans-serif"';
+
+  let tMin=Infinity, tMax=0;
+  if(slice.length>=2){ tMin=0; tMax=slice[slice.length-1].mins-slice[0].mins; }
+  if(overlayOn) savedRuns.forEach(run=>{ if(run.history.length>=2){ tMin=0; tMax=Math.max(tMax, run.history[run.history.length-1].mins); }});
+  if(tMax<=tMin) tMax=tMin+1;
+  const xOfT=tm=> l + (tm-tMin)/(tMax-tMin)*pw;
+  const yOcc=v=> t + ph - Math.min(v,1)*ph;
+  const yVol=v=> t + ph - Math.min(v,volMax)/volMax*ph;
+
+  let s='';
+  s+=`<rect x="${l}" y="${t}" width="${pw}" height="${(1-0.9)*ph}" fill="rgba(178,54,40,.14)"/>`;
+  s+=`<text x="${l+6}" y="${t+12}" ${F} font-size="10.5" fill="#ff9a82">no headroom left</text>`;
+  for(let g=0;g<=100;g+=25){ const y2=t+ph-g/100*ph; s+=`<line x1="${l}" y1="${y2}" x2="${l+pw}" y2="${y2}" stroke="rgba(255,255,255,.08)"/>`; s+=`<text x="${l-8}" y="${y2+4}" text-anchor="end" ${F} font-size="10.5" fill="#9b937f">${g}%</text>`; }
+  for(let g=0;g<=volMax;g+=1){ const y2=t+ph-g/volMax*ph; s+=`<text x="${l+pw+8}" y="${y2+4}" ${F} font-size="10.5" fill="#9bb8db">${g}</text>`; }
+  s+=`<text x="${l-32}" y="${t+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#6fc6a5" transform="rotate(-90 ${l-32} ${t+ph/2})">how busy (%)</text>`;
+  s+=`<text x="${l+pw+36}" y="${t+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#8fb8e8" transform="rotate(90 ${l+pw+36} ${t+ph/2})">calls / min</text>`;
+  [tMin, (tMin+tMax)/2, tMax].forEach(tm=>{ s+=`<text x="${xOfT(tm)}" y="${t+ph+22}" text-anchor="middle" ${F} font-size="10.5" fill="#9b937f">${tm.toFixed(0)}m</text>`; });
+
+  // saved runs (underneath, dashed)
+  if(overlayOn){
+    savedRuns.forEach(run=>{
+      if(run.history.length<2) return;
+      let oP='M', vP='M';
+      run.history.forEach((sp,i)=>{ const cmd=i?'L':'M'; const x=xOfT(sp.mins).toFixed(1); oP+=cmd+x+' '+yOcc(sp.occ).toFixed(1)+' '; vP+=cmd+x+' '+yVol(sp.vol).toFixed(1)+' '; });
+      s+=`<path d="${oP}" fill="none" stroke="${run.color}" stroke-width="2" opacity="0.6" stroke-dasharray="6 4"/>`;
+      s+=`<path d="${vP}" fill="none" stroke="${run.color}" stroke-width="1.5" opacity="0.4" stroke-dasharray="3 3"/>`;
+    });
+  }
+
+  // live run
+  if(slice.length>=2){
+    const t0=slice[0].mins;
+    let occPath='', volPath='';
+    slice.forEach((sp,i)=>{ const cmd=i?'L':'M'; const x=xOfT(sp.mins-t0).toFixed(1); occPath+=cmd+x+' '+yOcc(sp.occ).toFixed(1)+' '; volPath+=cmd+x+' '+yVol(sp.vol).toFixed(1)+' '; });
+    const lastX=xOfT(slice[slice.length-1].mins-t0);
+    s+=`<path d="${occPath} L${lastX.toFixed(1)} ${t+ph} L${xOfT(0).toFixed(1)} ${t+ph} Z" fill="rgba(111,198,165,.16)"/>`;
+    s+=`<path d="${occPath}" fill="none" stroke="#6fc6a5" stroke-width="2.4"/>`;
+    s+=`<path d="${volPath}" fill="none" stroke="#8fb8e8" stroke-width="2"/>`;
+  }
+  svg.innerHTML=s;
+}
+
+
+// ============================================================
+//  OVERVIEW SCRUBBER — renders to BOTH ov-svg and ov-svg2
+// ============================================================
+const OV={W:700,H:64,l:8,r:8,t:8,b:8};
+function ovScaleX(i,L){ const pw=OV.W-OV.l-OV.r; return OV.l + (L<=1?0:i/(L-1))*pw; }
+function renderOverviewTo(svgId){
+  const svg=document.getElementById(svgId); if(!svg) return;
+  const H=simState.history, L=H.length, pw=OV.W-OV.l-OV.r, ph=OV.H-OV.t-OV.b;
+  let s=`<rect x="${OV.l}" y="${OV.t}" width="${pw}" height="${ph}" rx="8" fill="rgba(255,255,255,.04)"/>`;
+  if(L>=2){
+    let p='M'+ovScaleX(0,L)+' '+(OV.t+ph-Math.min(H[0].vipW*60,120)/120*ph);
+    H.forEach((sp,i)=>{ p+=' L'+ovScaleX(i,L)+' '+(OV.t+ph-Math.min(sp.vipW*60,120)/120*ph); });
+    s+=`<path d="${p}" fill="none" stroke="#f4c542" stroke-width="1.3" opacity="0.65"/>`;
+  }
+  const start=Math.max(0,Math.min(BR.start,Math.max(0,L-1)));
+  const end=Math.min(L,start+BR.winLen);
+  const x1=ovScaleX(start,L), x2=ovScaleX(Math.max(start,end-1),L), wWidth=Math.max(10,x2-x1);
+  s+=`<rect class="brush-window" data-br="win" x="${x1}" y="${OV.t}" width="${wWidth}" height="${ph}" rx="6" fill="rgba(244,197,66,.16)" stroke="#f4c542" stroke-width="1.4"/>`;
+  s+=`<rect class="brush-handle" data-br="l" x="${x1-3}" y="${OV.t}" width="7" height="${ph}" rx="3" fill="#f4c542"/>`;
+  s+=`<rect class="brush-handle" data-br="r" x="${x1+wWidth-4}" y="${OV.t}" width="7" height="${ph}" rx="3" fill="#f4c542"/>`;
+  svg.innerHTML=s;
+}
+function renderOverview(){ renderOverviewTo('ov-svg'); renderOverviewTo('ov-svg2'); }
+
+function wireBrushOn(svgId){
+  const svg=document.getElementById(svgId); if(!svg) return;
+  svg.addEventListener('pointerdown', e=>{
+    const br=e.target.dataset && e.target.dataset.br;
+    if(br==='win'||br==='l'||br==='r'){ BR.dragging={mode:br, startX:e.clientX, startStart:BR.start, startLen:BR.winLen, svg:svg}; e.preventDefault(); }
+    else {
+      const L=simState.history.length, rect=svg.getBoundingClientRect();
+      const idx=Math.round(((e.clientX-rect.left)/rect.width*OV.W-OV.l)/(OV.W-OV.l-OV.r)*(L-1));
+      BR.start=Math.max(0,Math.min(idx-Math.floor(BR.winLen/2), Math.max(0,L-BR.winLen)));
+      BR.followLive=(BR.start+BR.winLen>=L); renderOverview(); renderTape(); renderBusy();
+    }
+  });
+}
+window.addEventListener('pointermove', e=>{
+  if(!BR.dragging) return;
+  const L=simState.history.length, pw=OV.W-OV.l-OV.r, rect=BR.dragging.svg.getBoundingClientRect();
+  const dIdx=Math.round((e.clientX-BR.dragging.startX)/rect.width*OV.W/pw*(L-1));
+  if(BR.dragging.mode==='win'){
+    BR.start=Math.max(0,Math.min(BR.dragging.startStart+dIdx, Math.max(0,L-BR.winLen)));
+  } else if(BR.dragging.mode==='l'){
+    const ns=Math.max(0, Math.min(BR.dragging.startStart+dIdx, BR.dragging.startStart+BR.dragging.startLen-12));
+    BR.winLen=BR.dragging.startStart+BR.dragging.startLen-ns; BR.start=ns;
+  } else {
+    BR.winLen=Math.max(12, Math.min(BR.dragging.startLen+dIdx, L-BR.start));
+  }
+  BR.followLive=(BR.start+BR.winLen>=L-1);
+  renderOverview(); renderTape(); renderBusy();
+});
+window.addEventListener('pointerup', ()=>{ BR.dragging=null; });
+wireBrushOn('ov-svg');
+wireBrushOn('ov-svg2');
+
+function jumpToLive(){
+  BR.followLive=true; BR.start=Math.max(0,simState.history.length-BR.winLen);
+  renderOverview(); renderTape(); renderBusy();
+}
+
+// ============================================================
+//  COMPARISON TABLE (session averages per structure)
+// ============================================================
+function renderCompare(){
+  const wait=(ms,key)=> ms.n? fmtWait(ms[key]/ms.n*60) : '\u2014';
+  const abv=(ms)=> ms.n? Math.round(ms.ab/ms.n*100)+'%' : '\u2014';
+  const sh=modeStats.shared, sp=modeStats.split;
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el)el.textContent=v; };
+  set('cmp-vip-s',wait(sh,'vip')); set('cmp-vip-d',wait(sp,'vip'));
+  set('cmp-std-s',wait(sh,'std')); set('cmp-std-d',wait(sp,'std'));
+  set('cmp-ab-s', abv(sh));        set('cmp-ab-d', abv(sp));
+}
+
+// ============================================================
+//  init
+// ============================================================
+drawCliffBase(); updateCliff();
+document.getElementById('c-vol').addEventListener('input', updateCliff);
+
+drawPoolBase(); updatePool();
+document.getElementById('p-k').addEventListener('input', updatePool);
+
+simReset(); simRender(); renderSchem(); renderTape(); renderBusy(); renderOverview(); renderCompare(); renderRunChips();
+
+// wire save + overlay + jump-to-live
+document.getElementById('save-run').addEventListener('click', ()=>{ saveRun(); renderTape(); renderBusy(); });
+document.getElementById('overlay-on').addEventListener('change', e=>{ overlayOn=e.target.checked; renderTape(); renderBusy(); });
+document.getElementById('ts-live').addEventListener('click', jumpToLive);
+document.getElementById('ts-live2').addEventListener('click', jumpToLive);
+
+// stagger the load-in
+document.querySelectorAll('.fade').forEach((el,i)=>{ el.style.animationDelay = (i*0.06)+'s'; });
+
+</script>
+</body>
+</html>

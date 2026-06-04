@@ -1,5 +1,7 @@
-// declarations.d.ts
+// Re-export shared types for backward compatibility
+export type { BlogPost } from "@/types/blog";
 
+// Legacy blog type (retained for existing content files)
 export interface Blog {
   id: number;
   title: string;

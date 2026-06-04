@@ -48,7 +48,14 @@ const Result: React.FC<{ result: SearchResultItem }> = ({ result }) => {
     return () => { cancelled = true; };
   }, [result]);
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="block p-4 mb-2 border border-ocx-border rounded bg-ocx-bg animate-pulse">
+        <div className="h-5 bg-ocx-bg-muted rounded w-1/3 mb-2" />
+        <div className="h-4 bg-ocx-bg-muted rounded w-3/4" />
+      </div>
+    );
+  }
 
   const transformedUrl = transformUrl(data.url);
 

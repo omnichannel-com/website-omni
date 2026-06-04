@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Read the omnichannel CX Terms of Service. These terms govern your subscription and use of our platform.",
+  alternates: {
+    canonical: "/terms-of-service",
+  },
+};
 
 export default function TermsOfService() {
   return (
@@ -22,11 +32,11 @@ export default function TermsOfService() {
                 </p>
             </div>
             <div>
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">1</span>THE SOLUTION
-      </h1>
+      </h2>
       <div className="text-lg font-normal space-y-4">
-        <h2 className="text-xl font-semibold">1.1 ORDER</h2>
+        <h3 className="text-xl font-semibold">1.1 ORDER</h3>
         <p>
           <strong>(a)</strong> By submitting an order for the purchase of a Subscription on the Website, or by responding to a quote from us, indicating that you would like us to provide any goods, software or services to you, including Additional Services (Order), you represent and warrant that:
         </p>
@@ -42,11 +52,11 @@ export default function TermsOfService() {
       </div>
     </div>
     <div>
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">1.2</span>YOUR SUBSCRIPTION AND THE SOLUTION
-      </h1>
+      </h2>
       <div className="text-lg font-normal space-y-4">
-        <h2 className="text-xl font-semibold">1.2 YOUR SUBSCRIPTION AND THE SOLUTION</h2>
+        <h3 className="text-xl font-semibold">1.2 YOUR SUBSCRIPTION AND THE SOLUTION</h3>
         <p>
           <strong>(a)</strong> The Solution includes the Software, the Hosted Services, the Support Services and any agreed Additional Services, to the extent described in your Subscription Tier.
         </p>
@@ -59,7 +69,7 @@ export default function TermsOfService() {
       </div>
 
       <div className="text-lg font-normal space-y-4">
-        <h2 className="text-xl font-semibold">1.3 ACCOUNTS</h2>
+        <h3 className="text-xl font-semibold">1.3 ACCOUNTS</h3>
         <p>
           <strong>(a)</strong> To submit an Order or to use the Solution, you may be required to sign-up, register and receive an account through the Website (an Account).
         </p>
@@ -78,7 +88,7 @@ export default function TermsOfService() {
       </div>
 
       <div className="text-lg font-normal space-y-4">
-        <h2 className="text-xl font-semibold">1.4 THE SOFTWARE</h2>
+        <h3 className="text-xl font-semibold">1.4 THE SOFTWARE</h3>
         <p>
           <strong>(a)</strong> During the Subscription Period, we grant to you a non-exclusive, non-transferable licence to use the Software and Documentation for the Number of Solution Uses. If your Subscription Tier on the Website does not specify a Number of Solution Uses, your licence to use the Solution under this clause will be limited to one (1) use (the Number of Solution Uses will be one (1)).
         </p>
@@ -92,11 +102,11 @@ export default function TermsOfService() {
     </div>
 
     <div>
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">2</span>SERVICES
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">2.1 SERVICES</h2>
+      <h3 className="text-xl font-semibold">2.1 SERVICES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           We will provide you with:
@@ -109,7 +119,7 @@ export default function TermsOfService() {
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">2.2 CLIENT OBLIGATIONS</h2>
+      <h3 className="text-xl font-semibold mt-8">2.2 CLIENT OBLIGATIONS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>You agree to:</p>
         <p>
@@ -120,7 +130,7 @@ export default function TermsOfService() {
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">2.3 CLIENT MATERIAL</h2>
+      <h3 className="text-xl font-semibold mt-8">2.3 CLIENT MATERIAL</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           <strong>(a)</strong> You warrant that all information, documentation and other Material you provide to us for the purpose of receiving the Services is complete, accurate and up-to-date.
@@ -130,14 +140,14 @@ export default function TermsOfService() {
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">2.4 REVIEW OF SERVICES</h2>
+      <h3 className="text-xl font-semibold mt-8">2.4 REVIEW OF SERVICES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           If you review and approve of a Service, then that will constitute acceptance of responsibility for any errors and omissions within that Service (for example, in any copywriting we prepare for you). We will use our best efforts to ensure there are no such errors or omissions.
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">2.5 COLLECTION NOTICE AND PRIVACY</h2>
+      <h3 className="text-xl font-semibold mt-8">2.5 COLLECTION NOTICE AND PRIVACY</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           <strong>(a)</strong> We collect personal information about you in the course of providing you with the Solution, to contact and communicate with you, to respond to your enquiries and for other purposes set out in our Privacy Policy.
@@ -152,42 +162,42 @@ export default function TermsOfService() {
     </div>
 
     <div>
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">3</span>FEES AND PAYMENT
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">3.1 FEES</h2>
+      <h3 className="text-xl font-semibold">3.1 FEES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>You agree to pay the Fees in the amounts, and at the times, set out in the relevant Order.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">3.2 SUBSCRIPTION FEES</h2>
+      <h3 className="text-xl font-semibold mt-8">3.2 SUBSCRIPTION FEES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           You must pay subscription fees to us in the amounts and at the times specified in your Order, or as otherwise agreed in writing (Subscription Fees).
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">3.3 LATE PAYMENTS</h2>
+      <h3 className="text-xl font-semibold mt-8">3.3 LATE PAYMENTS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           We reserve the right to suspend all or part of the Solution for any period while you fail to pay any Fees in accordance with this clause 4.
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">3.4 NO CHANGE OF MIND REFUNDS</h2>
+      <h3 className="text-xl font-semibold mt-8">3.4 NO CHANGE OF MIND REFUNDS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>Our Fees are non-refundable for change of mind.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">3.5 GST</h2>
+      <h3 className="text-xl font-semibold mt-8">3.5 GST</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           Unless otherwise indicated, the Fees do not include GST. In relation to any GST payable for a taxable supply by us, you must pay the GST subject to us providing a tax invoice.
         </p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">3.6 CARD SURCHARGES</h2>
+      <h3 className="text-xl font-semibold mt-8">3.6 CARD SURCHARGES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           We reserve the right to charge credit card surcharges in the event payments are made using a credit, debit or charge card (including Visa, MasterCard or American Express).
@@ -196,9 +206,9 @@ export default function TermsOfService() {
     </div>
     <div>
       {/* Section 4: Cancellation of Your Subscription */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">4</span>CANCELLATION OF YOUR SUBSCRIPTION
-      </h1>
+      </h2>
       <div className="text-lg font-normal space-y-4">
         <p>(a) You may cancel your Subscription by notice to us. Your Subscription will end in the then current billing cycle, and you will be charged for that billing cycle.</p>
         <p>(b) Your licence to the Solution under these Terms will last for the remainder of the then current billing cycle to ensure you have an opportunity to retrieve all data you may need from the Software. Once the then current billing cycle ends, we will have no responsibility to store or otherwise retain any User Data, and you release us in respect of any loss or damage which may arise out of us not retaining any User Data or other Material beyond that point.</p>
@@ -207,9 +217,9 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 5: Upgrade and Downgrades */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">5</span>UPGRADE AND DOWNGRADES
-      </h1>
+      </h2>
       <div className="text-lg font-normal space-y-4">
         <p>(a) You may notify us if you would like to upgrade or downgrade your subscription tier at any time. If you do, we will:</p>
         <p>(i) Take reasonable steps to promptly provide you with access to the new Subscription Tier; and</p>
@@ -219,10 +229,10 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 6: Obligations */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">6</span>OBLIGATIONS
-      </h1>
-      <h2 className="text-xl font-semibold">6.1 YOUR OBLIGATIONS</h2>
+      </h2>
+      <h3 className="text-xl font-semibold">6.1 YOUR OBLIGATIONS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) You must ensure that all Users comply with these Terms at all times. You acknowledge and agree that we will have no liability in respect of any damage, loss or expense which arises in connection with your, your Personnel’s, or any User’s, breach of these Terms, and you indemnify us in respect of any such damage, loss or expense.</p>
         <p>(b) You must not, and must not encourage or permit any User, Personnel or any third party to, without our prior written approval:</p>
@@ -244,7 +254,7 @@ export default function TermsOfService() {
         <p>(c) If you become aware of misuse of your Subscription by any person, any errors in the material on your Subscription or any difficulty in accessing or using your Subscription, you must contact us immediately using the contact details or form provided on our website.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">6.2 USER OBLIGATIONS</h2>
+      <h3 className="text-xl font-semibold mt-8">6.2 USER OBLIGATIONS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>You agree, and you must ensure that all Users agree:</p>
         <ul className="list-disc list-inside ml-6">
@@ -266,7 +276,7 @@ export default function TermsOfService() {
         </ul>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">6.3 HOSTED SERVICES</h2>
+      <h3 className="text-xl font-semibold mt-8">6.3 HOSTED SERVICES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>We will store User Data you upload to the Software using a third party hosting service selected by us (Hosting Service), subject to the following terms:</p>
         <ul className="list-disc list-inside ml-6">
@@ -276,7 +286,7 @@ export default function TermsOfService() {
         </ul>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">6.4 SUPPORT SERVICES</h2>
+      <h3 className="text-xl font-semibold mt-8">6.4 SUPPORT SERVICES</h3>
       <div className="text-lg font-normal space-y-4">
         <p>If the Solution includes us providing you with support, where necessary to resolve technical issues with the Software (Support Services), unless otherwise specifically agreed in writing:</p>
         <ul className="list-disc list-inside ml-6">
@@ -288,11 +298,11 @@ export default function TermsOfService() {
     </div>
     <div>
       {/* Section 7: Posted Material */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
         <span className="pr-4">7</span>POSTED MATERIAL
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">7.1 WARRANTIES AND INDEMNITY</h2>
+      <h3 className="text-xl font-semibold">7.1 WARRANTIES AND INDEMNITY</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           (a) By providing or posting any information, Material or other content in connection with the Software (Posted Material), you represent and warrant that, and must ensure that all Users make equivalent representations and warranties:
@@ -309,7 +319,7 @@ export default function TermsOfService() {
         <p>(b) You indemnify us against all damages, losses, costs and expenses incurred by us arising in connection with any third party claim that Posted Material infringes any third party’s Intellectual Property Rights.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">7.2 REMOVAL</h2>
+      <h3 className="text-xl font-semibold mt-8">7.2 REMOVAL</h3>
       <div className="text-lg font-normal space-y-4">
         <p>
           (a) The Software acts as a passive conduit for the online distribution of Posted Material, and we have no obligation to screen Posted Material. However, we may, in our absolute discretion, review and remove any Posted Material from the Solution at any time without giving any explanation or justification for removing the Posted Material, including if we determine that the Posted Material infringes a third party’s Intellectual Property Rights, or is reasonably likely to.
@@ -320,11 +330,11 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 8: Intellectual Property and Data */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">8</span>INTELLECTUAL PROPERTY AND DATA
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">8.1 INFRINGING CONTENT ON THE SOFTWARE</h2>
+      <h3 className="text-xl font-semibold">8.1 INFRINGING CONTENT ON THE SOFTWARE</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) If you become aware of Posted Material, or other Material, on the Software that infringes the Intellectual Property Rights of any person, or is reasonably likely to, you must contact us immediately.</p>
         <p>
@@ -337,13 +347,13 @@ export default function TermsOfService() {
         </ul>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">8.2 SOFTWARE CONTENT INTELLECTUAL PROPERTY</h2>
+      <h3 className="text-xl font-semibold mt-8">8.2 SOFTWARE CONTENT INTELLECTUAL PROPERTY</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) (Our ownership) We retain ownership of all materials provided to you throughout the course of your Subscription in connection with the Software (including text, graphics, logos, design, icons, images, sound and video recordings, pricing, downloads and software) (Software Content) and reserve all rights in any Intellectual Property Rights owned or licensed by us not expressly granted to you.</p>
         <p>(b) (Licence to you) You are granted a licence to the Software Content, for the Number of Solution Uses, and you may make a temporary electronic copy of the Software Content for the sole purpose of viewing it and using it for the purposes of the Software. You must not otherwise reproduce, transmit, adapt, distribute, sell, modify or publish any Software Content without prior written consent from us or as otherwise permitted by Law.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">8.3 CLIENT DATA</h2>
+      <h3 className="text-xl font-semibold mt-8">8.3 CLIENT DATA</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) You grant to us (and our personnel) a non-exclusive, royalty free, non-transferable, worldwide and irrevocable licence to use Client Data to the extent reasonably required to provide the Solution and to improve the Solution.</p>
         <p>(b) We will:</p>
@@ -366,18 +376,18 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 9: Third Party Software, Terms & Conditions */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">9</span>THIRD PARTY SOFTWARE, TERMS & CONDITIONS
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">9.1 THIRD PARTY TERMS</h2>
+      <h3 className="text-xl font-semibold">9.1 THIRD PARTY TERMS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) You acknowledge and agree that the terms & conditions of third party suppliers of goods or services (Third Party Terms), including those listed below, may apply to your use of the Solution from time to time (including to any Additional Services) and you agree to the Third Party Terms.</p>
         <p>(b) We will not be liable for any loss or damage suffered by you in connection with such Third Party Terms.</p>
         <p>(c) You must immediately notify us if you do not agree to such Third Party Terms and if you do not agree to any Third Party Terms, this may affect our ability to meet any agreed schedules for Service delivery.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">9.2 THIRD PARTY SOFTWARE INTEGRATIONS</h2>
+      <h3 className="text-xl font-semibold mt-8">9.2 THIRD PARTY SOFTWARE INTEGRATIONS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) You acknowledge and agree that issues can arise when data is uploaded to software, when data is transferred between different software programs, and when different software programs are integrated together. We cannot guarantee that integration processes between the Software and other software programs will be free from errors, defects or delay.</p>
         <p>(b) You agree that we will not be liable for the functionality of any third party goods or services, including any third party software, or for the functionality of the Software if you integrate it with third party software, or change or augment the Software, including by making additions or changes to the Software code, and including by incorporating APIs into the Software.</p>
@@ -393,9 +403,9 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 10: Confidentiality and Privacy */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">10</span>CONFIDENTIALITY AND PRIVACY
-      </h1>
+      </h2>
 
       <div className="text-lg font-normal space-y-4">
         <p>(a) Except as contemplated by these Terms, a party must not, and must not permit any of its officers, employees, agents, contractors or related companies to, use or disclose to any person any Confidential Information disclosed to it by the other party without the disclosing party’s prior written consent.</p>
@@ -405,11 +415,11 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 11: Liability */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">11</span>LIABILITY
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">11.1 WARRANTIES AND LIMITATIONS</h2>
+      <h3 className="text-xl font-semibold">11.1 WARRANTIES AND LIMITATIONS</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) (Warranties) We warrant that:</p>
         <ul className="list-disc list-inside ml-6">
@@ -441,7 +451,7 @@ export default function TermsOfService() {
         <p>(f) (Consumer law) Any liability relating to the provision of any service which may not be excluded by the operation of the Australian Consumer Law contained in the Competition and Consumer Act 2010 (Cth) (ACL) shall be limited to the fees otherwise charged by us for the service, or, at our option, to provide the service again.</p>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">11.2 LIMITATION OF LIABILITY</h2>
+      <h3 className="text-xl font-semibold mt-8">11.2 LIMITATION OF LIABILITY</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) (Limitation of liability) Subject to clause 11.1(f), to the maximum extent permitted by applicable law, our maximum aggregate liability to you in respect of loss or damage sustained by you under or in connection with these Terms or the Solution is limited to the total Fees paid to us by you in the 3 months preceding the first event giving rise to the relevant liability.</p>
         <p>(b) (Indemnity) You agree at all times to indemnify and hold harmless omnichannel CX PTY LTD and its officers, employees and agents (“those indemnified”) from and against any loss (including reasonable legal costs) or liability incurred or suffered by any of those indemnified where such loss or liability was caused or contributed to by you or your officers’, employees’ or agents’:</p>
@@ -455,18 +465,18 @@ export default function TermsOfService() {
     <div className="text-lg font-normal space-y-4">
       
       {/* Section 12: Cancellation, Disputes and Termination */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">12</span>CANCELLATION, DISPUTES AND TERMINATION
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">12.1 DISPUTE RESOLUTION</h2>
+      <h3 className="text-xl font-semibold">12.1 DISPUTE RESOLUTION</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) A party claiming that a dispute has arisen under or in connection with this agreement must not commence court proceedings arising from or relating to the dispute, other than a claim for urgent interlocutory relief, unless that party has complied with the requirements of this clause.</p>
         <p>(b) A party that requires resolution of a dispute which arises under or in connection with this agreement must give the other party or parties to the dispute written notice containing reasonable details of the dispute and requiring its resolution under this clause.</p>
         <p>(c) Once the dispute notice has been given, each party to the dispute must then use its best efforts to resolve the dispute in good faith. If the dispute is not resolved within a period of 14 days (or such other period as agreed by the parties in writing) after the date of the notice, any party to the dispute may take legal proceedings to resolve the dispute.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">12.2 TERMINATION BY US</h2>
+      <h3 className="text-xl font-semibold">12.2 TERMINATION BY US</h3>
       <div className="text-lg font-normal space-y-4">
         <p>(a) We may terminate these Terms or any Subscription in whole or in part immediately by written notice to you, at any time for any reason, including if:</p>
         <ul className="list-disc list-inside ml-6">
@@ -476,7 +486,7 @@ export default function TermsOfService() {
         <p>(b) If we terminate these Terms under this clause 13, in circumstances where you have not breached any of these Terms, we will issue you with a refund of a pro rata amount of the current 30 day period’s Subscription Fee, in proportion to the remainder of the 30 day period in which you will not have access to your Subscription.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">12.3 TERMINATION BY CLIENT</h2>
+      <h3 className="text-xl font-semibold">12.3 TERMINATION BY CLIENT</h3>
       <div className="text-lg font-normal space-y-4">
         <p>You may terminate these Terms if:</p>
         <ul className="list-disc list-inside ml-6">
@@ -487,9 +497,9 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 13: Force Majeure */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">13</span>FORCE MAJEURE
-      </h1>
+      </h2>
 
       <div className="text-lg font-normal space-y-4">
         <p>(a) We will not be liable for any delay or failure to perform its obligations under this agreement if such delay or failure arises out of a Force Majeure Event.</p>
@@ -509,9 +519,9 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 14: Notices */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">14</span>NOTICES
-      </h1>
+      </h2>
 
       <div className="text-lg font-normal space-y-4">
         <p>(a) A notice or other communication to a party under these Terms must be:</p>
@@ -527,41 +537,41 @@ export default function TermsOfService() {
       </div>
 
       {/* Section 15: General */}
-      <h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
+      <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4 mt-8">
         <span className="pr-4">15</span>GENERAL
-      </h1>
+      </h2>
 
-      <h2 className="text-xl font-semibold">15.1 GOVERNING LAW AND JURISDICTION</h2>
+      <h3 className="text-xl font-semibold">15.1 GOVERNING LAW AND JURISDICTION</h3>
       <div className="text-lg font-normal space-y-4">
         <p>This agreement is governed by the law applying in New South Wales in Australia. Each party irrevocably submits to the exclusive jurisdiction of the courts of New South Wales and courts of appeal from them in respect of any proceedings arising out of or in connection with this agreement. Each party irrevocably waives any objection to the venue of any legal process on the basis that the process has been brought in an inconvenient forum.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">15.2 WAIVER</h2>
+      <h3 className="text-xl font-semibold">15.2 WAIVER</h3>
       <div className="text-lg font-normal space-y-4">
         <p>No party to this agreement may rely on the words or conduct of any other party as a waiver of any right unless the waiver is in writing and signed by the party granting the waiver.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">15.3 SEVERANCE</h2>
+      <h3 className="text-xl font-semibold">15.3 SEVERANCE</h3>
       <div className="text-lg font-normal space-y-4">
         <p>Any term of this agreement which is wholly or partially void or unenforceable is severed to the extent that it is void or unenforceable. The validity and enforceability of the remainder of this agreement is not limited or otherwise affected.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">15.4 JOINT AND SEVERAL LIABILITY</h2>
+      <h3 className="text-xl font-semibold">15.4 JOINT AND SEVERAL LIABILITY</h3>
       <div className="text-lg font-normal space-y-4">
         <p>An obligation or a liability assumed by, or a right conferred on, two or more persons binds or benefits them jointly and severally.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">15.5 ASSIGNMENT</h2>
+      <h3 className="text-xl font-semibold">15.5 ASSIGNMENT</h3>
       <div className="text-lg font-normal space-y-4">
         <p>A party cannot assign, novate or otherwise transfer any of its rights or obligations under this agreement without the prior written consent of the other party.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">15.6 ENTIRE AGREEMENT</h2>
+      <h3 className="text-xl font-semibold">15.6 ENTIRE AGREEMENT</h3>
       <div className="text-lg font-normal space-y-4">
         <p>This agreement embodies the entire agreement between the parties and supersedes any prior negotiation, conduct, arrangement, understanding or agreement, express or implied, in relation to the subject matter of this agreement.</p>
       </div>
 
-      <h2 className="text-xl font-semibold">15.7 INTERPRETATION</h2>
+      <h3 className="text-xl font-semibold">15.7 INTERPRETATION</h3>
       <div className="text-lg font-normal space-y-4">
         <ul className="list-disc list-inside ml-6">
           <li>(a) (singular and plural) words in the singular includes the plural (and vice versa);</li>
@@ -582,71 +592,71 @@ export default function TermsOfService() {
 
     <div className="text-lg font-normal space-y-4">
 
-<h1 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
+<h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">
   DEFINITIONS
-</h1>
+</h2>
 
-<h2 className="text-xl font-semibold">Client Data</h2>
+<h3 className="text-xl font-semibold">Client Data</h3>
 <p>means any data, document or other Material supplied by you to us under or in connection with these Terms or a Subscription, including any Intellectual Property Rights attaching to those materials.</p>
 
-<h2 className="text-xl font-semibold">Confidential Information</h2>
+<h3 className="text-xl font-semibold">Confidential Information</h3>
 <p>means information of or provided by a party that is by its nature is confidential information, is designated by that party as confidential, or that the other party knows or ought to know is confidential, but does not include information, which is or becomes, without a breach of confidentiality, public knowledge.</p>
 
-<h2 className="text-xl font-semibold">Documentation</h2>
+<h3 className="text-xl font-semibold">Documentation</h3>
 <p>means all manuals, help files and other documents supplied by us to you relating to the Software, whether in electronic or hardcopy form.</p>
 
-<h2 className="text-xl font-semibold">Fees</h2>
+<h3 className="text-xl font-semibold">Fees</h3>
 <p>means the Subscription Fees, fees for Additional Services and any other fees the Client must pay in accordance with an Order.</p>
 
-<h2 className="text-xl font-semibold">Hosted Services</h2>
+<h3 className="text-xl font-semibold">Hosted Services</h3>
 <p>has the meaning given in clause 3.1.</p>
 
-<h2 className="text-xl font-semibold">Intellectual Property Rights</h2>
+<h3 className="text-xl font-semibold">Intellectual Property Rights</h3>
 <p>means any and all present and future intellectual and industrial property rights throughout the world (whether registered or unregistered), including copyright, trademarks, designs, patents, moral rights, semiconductor and circuit layout rights, trade, business, company and domain names, and other proprietary rights, trade secrets, know-how, technical data, confidential information and the right to have information kept confidential, or any rights to registration of such rights (including renewal), whether created before or after the date of this agreement.</p>
 
-<h2 className="text-xl font-semibold">Material</h2>
+<h3 className="text-xl font-semibold">Material</h3>
 <p>means tangible and intangible information, documents, reports, software (including source and object code), inventions, data and other materials in any media whatsoever.</p>
 
-<h2 className="text-xl font-semibold">Number of Solution Uses</h2>
+<h3 className="text-xl font-semibold">Number of Solution Uses</h3>
 <p>means the number of websites, or any other platform or use, that you may use the Solution in respect to, in accordance with your Subscription Tier.</p>
 
-<h2 className="text-xl font-semibold">Personnel</h2>
+<h3 className="text-xl font-semibold">Personnel</h3>
 <p>means, in respect of a party, its officers, employees, contractors (including subcontractors) and agents.</p>
 
-<h2 className="text-xl font-semibold">Services</h2>
+<h3 className="text-xl font-semibold">Services</h3>
 <p>means the Hosted Services, the Support Services, the Additional Services, and any other services we agree in writing to provide.</p>
 
-<h2 className="text-xl font-semibold">Software</h2>
+<h3 className="text-xl font-semibold">Software</h3>
 <p>means the software as described on our Website, and which is licensed to you in accordance with clauses 1.4 and 9.2.</p>
 
-<h2 className="text-xl font-semibold">Software Content</h2>
+<h3 className="text-xl font-semibold">Software Content</h3>
 <p>has the meaning set out in clause 9.2(a).</p>
 
-<h2 className="text-xl font-semibold">Solution</h2>
+<h3 className="text-xl font-semibold">Solution</h3>
 <p>includes the Software and the Services (and any other services to be provided to you under these Terms).</p>
 
-<h2 className="text-xl font-semibold">Subscription</h2>
+<h3 className="text-xl font-semibold">Subscription</h3>
 <p>has the meaning given in the first paragraph of these Terms, and includes the limitations set out on the Website.</p>
 
-<h2 className="text-xl font-semibold">Subscription Fees</h2>
+<h3 className="text-xl font-semibold">Subscription Fees</h3>
 <p>has the meaning set out in clause 4 of these Terms.</p>
 
-<h2 className="text-xl font-semibold">Subscription Period</h2>
+<h3 className="text-xl font-semibold">Subscription Period</h3>
 <p>means the period of your Subscription to the Solution as agreed on the Website.</p>
 
-<h2 className="text-xl font-semibold">Subscription Tier</h2>
+<h3 className="text-xl font-semibold">Subscription Tier</h3>
 <p>has the meaning given in the first paragraph of these Terms.</p>
 
-<h2 className="text-xl font-semibold">Support Services</h2>
+<h3 className="text-xl font-semibold">Support Services</h3>
 <p>has the meaning given in clause 3.2.</p>
 
-<h2 className="text-xl font-semibold">User</h2>
+<h3 className="text-xl font-semibold">User</h3>
 <p>means end users of the Solution and any other third party granted access to the Software by you.</p>
 
-<h2 className="text-xl font-semibold">User Data</h2>
+<h3 className="text-xl font-semibold">User Data</h3>
 <p>means files, data, materials or any other information, which is uploaded to the Software by you or any other User, including any Intellectual Property Rights attaching to those files, data, materials or any other information.</p>
 
-<h2 className="text-xl font-semibold">Website</h2>
+<h3 className="text-xl font-semibold">Website</h3>
 <p>means the website at the URL set out in the first paragraph of these Terms, and any other website operated by us in connection with the Solution.</p>
 
 </div>

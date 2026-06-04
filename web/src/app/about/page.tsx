@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Inbox, Gauge, ShieldCheck, Users } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About us",
+  description:
+    "We build the platform that brings every channel into one calm, capable view. Learn about our mission and principles.",
+  alternates: {
+    canonical: "/about",
+  },
+};
 
 const principles = [
   {

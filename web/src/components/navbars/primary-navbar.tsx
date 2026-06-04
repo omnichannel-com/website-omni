@@ -4,9 +4,10 @@ import { getGreeting } from "@/utils/greeting";
 import { useEffect, useState } from "react";
 import ThemeToggle from "../theme/toggle";
 import SearchModal from "@/utils/SearchModal";
+import { openExternal } from "@/utils/navigation";
 
 export default function PrimaryNavbar() {
-  const [greeting, setGreeting] = useState<string>("");
+  const [greeting, setGreeting] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -14,9 +15,7 @@ export default function PrimaryNavbar() {
     setGreeting(greetingMessage);
   }, []);
 
-  const handleSigninClick = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+  const handleSigninClick = (url: string) => openExternal(url);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);

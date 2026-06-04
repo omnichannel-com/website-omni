@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://omnichannel.cx/sitemap.xml

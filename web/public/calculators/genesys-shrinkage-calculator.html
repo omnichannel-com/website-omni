@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesys Cloud shrinkage calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap");
+
+  @font-face {
+    font-family: "Overpass";
+    src: url("/fonts/Overpass-VariableFont_wght.ttf") format("truetype-variations");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  :root {
+    --ocx-dark-blue: #1b1464;
+    --ocx-mauve: #aa42dc;
+    --ocx-bright-blue: #0071bc;
+    --ocx-mid-grey: #575757;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f6f8;
+    --bg-tertiary: #ececf1;
+    --bg-info: #e6edf4;
+    --bg-warning: #f5f0fb;
+    --text-primary: #000000;
+    --text-secondary: #575757;
+    --text-tertiary: #8a8a96;
+    --text-info: #1b1464;
+    --text-warning: #854f0b;
+    --border-tertiary: #d8d8e0;
+    --border-secondary: #b8b8c4;
+    --border-info: #0071bc;
+    --border-warning: #aa42dc;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+    --font-sans: "Oxygen", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Overpass", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Monaco, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1b1464;
+      --bg-secondary: #15104f;
+      --bg-tertiary: #14141c;
+      --bg-info: #0c0a2e;
+      --bg-warning: #1a0f2e;
+      --text-primary: #ffffff;
+      --text-secondary: #b8b8c4;
+      --text-tertiary: #8a8a96;
+      --text-info: #b5d4f4;
+      --text-warning: #c77df0;
+      --border-tertiary: rgba(255,255,255,0.12);
+      --border-secondary: rgba(255,255,255,0.25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background: var(--bg-tertiary); color: var(--text-primary); font-family: var(--font-sans); font-size:15px; line-height:1.6; }
+  body { max-width:1100px; margin:0 auto; padding:2rem 1.5rem 3rem; }
+
+  h1 { font-family: var(--font-display); font-size:28px; font-weight:700; margin:0 0 0.25rem; color: var(--ocx-dark-blue); letter-spacing: -0.02em; }
+  h2 { font-family: var(--font-display); font-size:18px; font-weight:600; margin:1.75rem 0 0.5rem; color: var(--ocx-dark-blue); }
+  .subtitle { color: var(--text-secondary); font-size:14px; margin-bottom:1.75rem; }
+  .helper-text { font-size:11px; color: var(--text-tertiary); margin-bottom:0.75rem; }
+  .brand-header { display:flex; align-items:center; gap:12px; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:0.5px solid var(--border-tertiary); }
+  .brand-header img { width:32px; height:32px; }
+  .brand-header span { font-family: var(--font-display); font-size:18px; font-weight:700; color: var(--ocx-dark-blue); letter-spacing: -0.02em; }
+  .brand-header span strong { font-weight:800; }
+
+  .scenario-btns { display:flex; gap:8px; margin-bottom:1.25rem; flex-wrap:wrap; }
+  .scenario-btn {
+    padding:6px 14px; font-size:13px; background:transparent;
+    border:0.5px solid var(--border-tertiary); border-radius: var(--radius-md);
+    cursor:pointer; color: var(--text-primary); font-family:inherit;
+  }
+  .scenario-btn:hover { background: var(--bg-secondary); }
+  .scenario-btn.active { background: var(--bg-info); color: var(--text-info); border-color: var(--border-info); }
+
+  #chart { margin-bottom:1.25rem; position:relative; }
+  #chart svg { display:block; width:100%; height:auto; background: var(--bg-primary); border-radius: var(--radius-lg); border:0.5px solid var(--border-tertiary); }
+
+  .stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(125px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .stat-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding:11px 13px; cursor:pointer; border:0.5px solid transparent; transition: border-color 0.15s, background 0.15s; }
+  .stat-card:hover { border-color: var(--border-secondary); }
+  .stat-card.highlight { background: var(--bg-info); }
+  .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: var(--text-info); }
+  .stat-label { font-size:11px; color: var(--text-secondary); margin-bottom:4px; }
+  .stat-value { font-size:18px; font-weight:500; font-variant-numeric: tabular-nums; }
+  .stat-sub { font-size:10px; color: var(--text-tertiary); margin-top:2px; }
+
+  #breakdown-panel { background: var(--bg-info); border-radius: var(--radius-lg); padding:1rem 1.25rem; margin-bottom:1.5rem; display:none; }
+  #breakdown-panel.visible { display:block; }
+  .bd-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+  .bd-title { font-size:14px; font-weight:500; color: var(--text-info); }
+  .bd-close { background:transparent; border:none; cursor:pointer; color: var(--text-info); font-size:18px; padding:0; line-height:1; }
+  .bd-content { font-size:13px; color: var(--text-info); line-height:1.6; }
+  .calc-row { display:flex; justify-content:space-between; padding:3px 0; gap:12px; }
+  .calc-row.total { border-top:0.5px solid currentColor; margin-top:6px; padding-top:8px; font-weight:500; }
+  .calc-formula { font-family: var(--font-mono); font-size:12px; opacity:0.85; margin-top:8px; padding:8px 10px; background:rgba(0,0,0,0.08); border-radius: var(--radius-md); line-height:1.5; }
+  @media (prefers-color-scheme: dark) { .calc-formula { background:rgba(255,255,255,0.08); } }
+
+  .report-table-wrap { background: var(--bg-primary); border-radius: var(--radius-lg); border:0.5px solid var(--border-tertiary); overflow:auto; margin-bottom:1.5rem; }
+  table.report { width:100%; border-collapse:collapse; font-size:13px; }
+  table.report th, table.report td { text-align:left; padding:10px 14px; border-bottom:0.5px solid var(--border-tertiary); }
+  table.report th { background: var(--bg-secondary); font-weight:500; color: var(--text-secondary); font-size:12px; text-transform:uppercase; letter-spacing:0.04em; position:sticky; top:0; }
+  table.report td.num { text-align:right; font-variant-numeric: tabular-nums; }
+  table.report tbody tr:last-child td { border-bottom:none; }
+  table.report tbody tr:hover { background: var(--bg-secondary); }
+  table.report tr.totals { background: var(--bg-secondary); font-weight:500; }
+  table.report tr.totals td { border-top:0.5px solid var(--border-secondary); }
+
+  .controls-panel { background: var(--bg-secondary); border-radius: var(--radius-md); padding:1rem 1.25rem; margin-bottom:1.5rem; }
+  .controls-title { font-size:13px; font-weight:500; margin-bottom:4px; }
+  .controls-desc { font-size:11px; color: var(--text-tertiary); margin-bottom:12px; }
+
+  .activity-editor { display:grid; grid-template-columns:1.5fr 1fr repeat(4,auto); gap:0; font-size:12px; background: var(--bg-primary); border-radius: var(--radius-md); overflow:hidden; border:0.5px solid var(--border-tertiary); }
+  .activity-editor > div { padding:8px 12px; border-bottom:0.5px solid var(--border-tertiary); display:flex; align-items:center; }
+  .activity-editor > div.header { background: var(--bg-secondary); font-weight:500; color: var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .activity-editor > div.col-flag { justify-content:center; }
+  .activity-editor input[type="checkbox"] { width:14px; height:14px; cursor:pointer; accent-color: var(--ocx-bright-blue); }
+  .activity-editor .activity-code-name { font-weight:500; }
+  .activity-editor .activity-category-name { color: var(--text-secondary); font-size:11px; }
+
+  .slider-grid { display:grid; grid-template-columns:1fr auto; gap:8px 16px; align-items:center; font-size:13px; }
+  .slider-grid label { display:flex; align-items:center; gap:12px; }
+  .slider-grid label > span:first-child { min-width:180px; color: var(--text-secondary); }
+  input[type="range"] { flex:1; -webkit-appearance:none; appearance:none; background: var(--border-tertiary); height:4px; border-radius:2px; outline:none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:16px; height:16px; background: var(--ocx-bright-blue); border-radius:50%; cursor:pointer; }
+  input[type="range"]::-moz-range-thumb { width:16px; height:16px; background: var(--ocx-bright-blue); border-radius:50%; cursor:pointer; border:none; }
+  .slider-val { min-width:50px; text-align:right; font-variant-numeric: tabular-nums; }
+
+  .reset-btn { padding:4px 10px; font-size:11px; background:transparent; border:0.5px solid var(--border-tertiary); border-radius: var(--radius-md); cursor:pointer; color: var(--text-primary); font-family:inherit; margin-left:6px; }
+  .reset-btn:hover { background: var(--bg-tertiary); }
+
+  #legend { display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color: var(--text-secondary); margin-bottom:0.5rem; }
+  .legend-item { display:inline-flex; align-items:center; gap:6px; }
+  .legend-swatch { width:12px; height:12px; border-radius:2px; display:inline-block; }
+
+  .bar-segment { transition:opacity 0.15s; cursor:pointer; }
+  .bar-segment:hover { opacity:0.75; }
+  .tooltip { position:absolute; background: var(--bg-primary); border:0.5px solid var(--border-secondary); border-radius: var(--radius-md); padding:8px 12px; font-size:12px; pointer-events:none; opacity:0; transition:opacity 0.15s; box-shadow:0 2px 8px rgba(0,0,0,0.12); z-index:10; max-width:280px; color: var(--text-primary); }
+  .tooltip-meta { color: var(--text-secondary); }
+  .tooltip-note { font-size:11px; color: var(--text-tertiary); margin-top:4px; font-style:italic; }
+
+  .footer { margin-top:2.5rem; padding-top:1.5rem; border-top:0.5px solid var(--border-tertiary); font-size:12px; color: var(--text-tertiary); line-height:1.7; }
+  .footer strong { color: var(--text-secondary); font-weight:500; }
+</style>
+</head>
+<body>
+
+<div class="brand-header">
+  <img src="/assets/logo-icon-color.png" alt="omnichannel CX logo">
+  <span>omnichannel <strong>CX</strong></span>
+</div>
+
+<h1>Genesys Cloud shrinkage calculator</h1>
+<p class="subtitle">Models the Historical Shrinkage report, including per-category breakdowns, paid/unpaid and planned/unplanned splits, and the effect of logging in early or late.</p>
+
+<div class="scenario-btns">
+  <button onclick="loadScenario('typical')" id="btn-typical" class="scenario-btn active">Typical day</button>
+  <button onclick="loadScenario('heavy')" id="btn-heavy" class="scenario-btn">Heavy meeting day</button>
+  <button onclick="loadScenario('idle')" id="btn-idle" class="scenario-btn">Low volume day</button>
+  <button onclick="loadScenario('email')" id="btn-email" class="scenario-btn">Email-heavy day</button>
+  <button onclick="loadScenario('timeoff')" id="btn-timeoff" class="scenario-btn">Partial time off</button>
+  <button onclick="loadScenario('sick')" id="btn-sick" class="scenario-btn">Unplanned sick</button>
+  <button onclick="loadScenario('earlybird')" id="btn-earlybird" class="scenario-btn">Early bird</button>
+  <button onclick="loadScenario('custom')" id="btn-custom" class="scenario-btn">Custom</button>
+</div>
+
+<div id="chart"></div>
+
+<div class="helper-text">Click any stat below for the calculation breakdown.</div>
+
+<div class="stats-grid">
+  <div class="stat-card" onclick="showBreakdown('sched')">
+    <div class="stat-label">Total scheduled</div>
+    <div class="stat-value" id="stat-sched">8.00h</div>
+  </div>
+  <div class="stat-card" onclick="showBreakdown('logged')">
+    <div class="stat-label">Total logged</div>
+    <div class="stat-value" id="stat-logged">8.00h</div>
+    <div class="stat-sub" id="stat-logged-note"></div>
+  </div>
+  <div class="stat-card" onclick="showBreakdown('onq')">
+    <div class="stat-label">On queue</div>
+    <div class="stat-value" id="stat-onq">5.20h</div>
+  </div>
+  <div class="stat-card highlight" onclick="showBreakdown('sched-shrink')">
+    <div class="stat-label">Scheduled shrinkage</div>
+    <div class="stat-value" id="stat-sched-shrink">25.0%</div>
+    <div class="stat-sub" id="stat-sched-shrink-h">2.00h</div>
+  </div>
+  <div class="stat-card highlight" onclick="showBreakdown('actual-shrink')">
+    <div class="stat-label">Actual shrinkage</div>
+    <div class="stat-value" id="stat-actual-shrink">25.0%</div>
+    <div class="stat-sub" id="stat-actual-shrink-h">2.00h</div>
+  </div>
+  <div class="stat-card" onclick="showBreakdown('paid-shrink')">
+    <div class="stat-label">Paid shrinkage</div>
+    <div class="stat-value" id="stat-paid-shrink">1.00h</div>
+    <div class="stat-sub">scheduled, paid</div>
+  </div>
+  <div class="stat-card" onclick="showBreakdown('unpaid-shrink')">
+    <div class="stat-label">Unpaid shrinkage</div>
+    <div class="stat-value" id="stat-unpaid-shrink">1.00h</div>
+    <div class="stat-sub">scheduled, unpaid</div>
+  </div>
+  <div class="stat-card" onclick="showBreakdown('planned-shrink')">
+    <div class="stat-label">Planned shrinkage</div>
+    <div class="stat-value" id="stat-planned-shrink">2.00h</div>
+    <div class="stat-sub">scheduled, planned</div>
+  </div>
+  <div class="stat-card" onclick="showBreakdown('unplanned-shrink')">
+    <div class="stat-label">Unplanned shrinkage</div>
+    <div class="stat-value" id="stat-unplanned-shrink">0.00h</div>
+    <div class="stat-sub">scheduled, unplanned</div>
+  </div>
+</div>
+
+<div id="breakdown-panel">
+  <div class="bd-header">
+    <div class="bd-title" id="bd-title">Breakdown</div>
+    <button class="bd-close" onclick="hideBreakdown()" aria-label="Close">×</button>
+  </div>
+  <div class="bd-content" id="bd-content"></div>
+</div>
+
+<h2>Shrinkage by activity category</h2>
+<p class="helper-text">Mirrors the table in the Genesys Cloud Historical Shrinkage view.</p>
+<div class="report-table-wrap">
+  <table class="report" id="category-report">
+    <thead>
+      <tr>
+        <th>Activity category</th>
+        <th class="num">Scheduled</th>
+        <th class="num">Actual</th>
+        <th class="num">Paid</th>
+        <th class="num">Unpaid</th>
+        <th class="num">Planned</th>
+        <th class="num">Unplanned</th>
+      </tr>
+    </thead>
+    <tbody id="category-tbody"></tbody>
+  </table>
+</div>
+
+<h2>Adjust what actually happened</h2>
+<div class="controls-panel">
+  <div class="controls-title">Shift boundaries</div>
+  <div class="controls-desc">The schedule runs 8:00–16:00 (fixed). These sliders control what happens outside the shift. Non-shrinkage activities (like On Queue) always count in total logged hours. Away/Idle/Offline outside the shift are excluded entirely from shrinkage calculations.</div>
+  <div class="slider-grid">
+    <label>
+      <span>Early login (on queue)</span>
+      <input type="range" id="s-early" min="0" max="60" value="0" step="5" oninput="updateFromSliders()">
+    </label>
+    <span id="v-early" class="slider-val">0 min</span>
+    <label>
+      <span>Late logoff (on queue)</span>
+      <input type="range" id="s-late" min="0" max="60" value="0" step="5" oninput="updateFromSliders()">
+    </label>
+    <span id="v-late" class="slider-val">0 min</span>
+  </div>
+</div>
+<div class="controls-panel">
+  <div class="controls-title">During scheduled on-queue blocks</div>
+  <div class="controls-desc">The schedule is fixed. These sliders change what the agent actually did during the 360 minutes of scheduled on-queue time.</div>
+  <div class="slider-grid">
+    <label>
+      <span>Idle (on queue, waiting)</span>
+      <input type="range" id="s-idle" min="0" max="240" value="48" step="6" oninput="updateFromSliders()">
+    </label>
+    <span id="v-idle" class="slider-val">48 min</span>
+    <label>
+      <span>Away (system presence)</span>
+      <input type="range" id="s-away" min="0" max="120" value="0" step="5" oninput="updateFromSliders()">
+    </label>
+    <span id="v-away" class="slider-val">0 min</span>
+    <label>
+      <span>Off queue (Available/Busy)</span>
+      <input type="range" id="s-offqueue" min="0" max="120" value="0" step="5" oninput="updateFromSliders()">
+    </label>
+    <span id="v-offqueue" class="slider-val">0 min</span>
+    <label>
+      <span>Voice share of interacting</span>
+      <input type="range" id="s-voice-share" min="0" max="100" value="60" step="5" oninput="updateFromSliders()">
+    </label>
+    <span id="v-voice-share" class="slider-val">60%</span>
+    <label>
+      <span>Email share of interacting</span>
+      <input type="range" id="s-email-share" min="0" max="100" value="25" step="5" oninput="updateFromSliders()">
+    </label>
+    <span id="v-email-share" class="slider-val">25%</span>
+  </div>
+</div>
+
+<h2>Activity codes</h2>
+<p class="helper-text">Each code has Category, Shrinkage flag, Paid flag, and Planned flag. Edit to see how config changes shape the numbers. <button class="reset-btn" onclick="resetActivityCodes()">Reset to Genesys defaults</button></p>
+<div class="activity-editor" id="activity-editor"></div>
+
+<div style="margin-top:1.5rem"></div>
+<div id="legend"></div>
+
+<div class="footer">
+  <strong>How Genesys calculates this.</strong> Scheduled shrinkage = scheduled hours of flagged activities ÷ total scheduled. Actual shrinkage = actual hours of flagged presences ÷ total logged hours. Paid/Unpaid and Planned/Unplanned are properties of the activity code config.
+  <br><br>
+  <strong>Total logged hours.</strong> All activity category durations are included EXCEPT Offline, Away, and Idle (system presence) — those three are included only if the activity occurs within the scheduled shift. On Queue, Meeting, Training, Break, Off Queue all count regardless of whether they fall inside or outside the shift.
+  <br><br>
+  <strong>The two Idles.</strong> The routing-status Idle (agent on queue, waiting for a contact) is NOT shrinkage — it's productive on-queue time. The system-presence Idle (screen locked) maps to Unavailable and IS shrinkage.
+  <br><br>
+  <strong>Early login / late logoff.</strong> If an agent logs in early and goes On Queue, that time counts in total logged hours (increasing the denominator) but doesn't add shrinkage — so actual shrinkage % goes down. If they log in early and sit in Away, that time is completely excluded (outside shift). Same rules for late logoff.
+</div>
+
+<script>
+// ============================================================
+// GENESYS CLOUD SHRINKAGE MODEL — with outside-shift handling
+// ============================================================
+
+const colors = {
+  voice:'#185FA5', email:'#1D9E75', chat:'#534AB7', idle:'#9FE1CB',
+  meeting:'#EF9F27', training:'#BA7517', break:'#7F77DD', meal:'#B4B2A9',
+  timeoff:'#E24B4A', away:'#D85A30', offqueue:'#888780', sick:'#D14520'
+};
+const schedColors = {
+  on_queue_work:'#AFA9EC', meeting:'#EF9F27', training:'#BA7517',
+  break:'#7F77DD', meal:'#B4B2A9', timeoff:'#F09595', sick:'#D14520'
+};
+const labels = {
+  voice:'On queue – voice', email:'On queue – email', chat:'On queue – chat',
+  idle:'On queue – idle (waiting)', meeting:'Meeting', training:'Training',
+  break:'Break', meal:'Meal', timeoff:'Time off', away:'Away (system presence)',
+  offqueue:'Off queue (Available/Busy)', sick:'Sick (unplanned time off)',
+  on_queue_work:'On queue work'
+};
+
+const CATEGORIES = {
+  on_queue_work:'On Queue Work', off_queue:'Off Queue Work', break:'Break',
+  meal:'Meal', meeting:'Meeting', timeoff:'Time Off', training:'Training',
+  unavailable:'Unavailable'
+};
+
+let ACTIVITY_CODES = [
+  { code:'on_queue_work', name:'On queue work', category:'on_queue_work', shrinkage:false, paid:true,  planned:true  },
+  { code:'meeting',       name:'Team meeting',  category:'meeting',       shrinkage:true,  paid:true,  planned:true  },
+  { code:'training',      name:'Training',      category:'training',      shrinkage:true,  paid:true,  planned:true  },
+  { code:'break',         name:'Break',         category:'break',         shrinkage:true,  paid:true,  planned:true  },
+  { code:'meal',          name:'Lunch',         category:'meal',          shrinkage:true,  paid:false, planned:true  },
+  { code:'timeoff',       name:'Vacation',      category:'timeoff',       shrinkage:true,  paid:true,  planned:true  },
+  { code:'sick',          name:'Sick time',     category:'timeoff',       shrinkage:true,  paid:true,  planned:false },
+  { code:'away',          name:'Away',          category:'unavailable',   shrinkage:true,  paid:true,  planned:false },
+  { code:'offqueue',      name:'Off queue',     category:'off_queue',     shrinkage:true,  paid:true,  planned:false }
+];
+const ACTIVITY_DEFAULTS = JSON.parse(JSON.stringify(ACTIVITY_CODES));
+function resetActivityCodes() { ACTIVITY_CODES = JSON.parse(JSON.stringify(ACTIVITY_DEFAULTS)); renderActivityEditor(); refresh(); }
+function getCode(c) { return ACTIVITY_CODES.find(a => a.code === c); }
+
+// The categories excluded from total logged hours UNLESS within the shift
+const EXCLUDED_OUTSIDE_SHIFT = ['unavailable'];
+
+// Fixed schedule (8:00–16:00 = minute 0 to 480 in schedule-relative time)
+// In absolute timeline terms, shiftStart is always at minute 0 of the schedule
+const SHIFT_START = 0;
+const SHIFT_DUR = 480;
+let SCHEDULE = [];
+
+const DEFAULT_SCHEDULE = [
+  { code:'on_queue_work', start:0,   dur:90  },
+  { code:'break',         start:90,  dur:15  },
+  { code:'on_queue_work', start:105, dur:105 },
+  { code:'meeting',       start:210, dur:30  },
+  { code:'meal',          start:240, dur:60  },
+  { code:'on_queue_work', start:300, dur:165 },
+  { code:'break',         start:465, dur:15  }
+];
+
+const TIMEOFF_SCHEDULE = [
+  { code:'on_queue_work', start:0,   dur:90  },
+  { code:'break',         start:90,  dur:15  },
+  { code:'on_queue_work', start:105, dur:105 },
+  { code:'meal',          start:210, dur:30  },
+  { code:'timeoff',       start:240, dur:240 }
+];
+
+const scenarios = {
+  typical:   { schedule:DEFAULT_SCHEDULE, idle:48,  away:0,  offqueue:0, voiceShare:60, emailShare:25, earlyLogin:0,  lateLogoff:0  },
+  heavy:     { schedule:DEFAULT_SCHEDULE, idle:30,  away:30, offqueue:0, voiceShare:55, emailShare:20, earlyLogin:0,  lateLogoff:0, extraMeeting:30, extraTraining:90 },
+  idle:      { schedule:DEFAULT_SCHEDULE, idle:240, away:0,  offqueue:0, voiceShare:65, emailShare:20, earlyLogin:0,  lateLogoff:0  },
+  email:     { schedule:DEFAULT_SCHEDULE, idle:30,  away:0,  offqueue:0, voiceShare:25, emailShare:60, earlyLogin:0,  lateLogoff:0  },
+  timeoff:   { schedule:TIMEOFF_SCHEDULE, idle:30,  away:0,  offqueue:0, voiceShare:60, emailShare:25, earlyLogin:0,  lateLogoff:0  },
+  sick:      { schedule:DEFAULT_SCHEDULE, idle:30,  away:0,  offqueue:0, voiceShare:60, emailShare:25, earlyLogin:0,  lateLogoff:0, extraSick:180 },
+  earlybird: { schedule:DEFAULT_SCHEDULE, idle:48,  away:0,  offqueue:0, voiceShare:60, emailShare:25, earlyLogin:30, lateLogoff:15 }
+};
+
+let current = 'typical';
+let segments = []; // Each: { code, actual, start, dur, withinShift }
+const mediaTypes = ['voice','email','chat'];
+
+function getScheduledOnQueue() { return SCHEDULE.filter(s => s.code === 'on_queue_work').reduce((a,s)=>a+s.dur,0); }
+function getScheduledTotal() { return SCHEDULE.reduce((a,s)=>a+s.dur,0); }
+
+// ============================================================
+// BUILD SEGMENTS — schedule blocks + pre/post-shift activity
+// ============================================================
+
+function buildSegmentsFromScenario(cfg) {
+  const segs = [];
+  const SCHED_OQ = getScheduledOnQueue();
+  let onQueueHandled = SCHED_OQ - cfg.idle - cfg.away - (cfg.offqueue||0) - (cfg.extraMeeting||0) - (cfg.extraTraining||0) - (cfg.extraSick||0);
+  onQueueHandled = Math.max(0, onQueueHandled);
+
+  const voiceMin = Math.round(onQueueHandled * cfg.voiceShare / 100);
+  const emailMin = Math.round(onQueueHandled * cfg.emailShare / 100);
+  const chatMin = Math.max(0, onQueueHandled - voiceMin - emailMin);
+
+  const actualsPlan = [];
+  if (voiceMin > 0) actualsPlan.push({ actual:'voice', dur:voiceMin });
+  if (emailMin > 0) actualsPlan.push({ actual:'email', dur:emailMin });
+  if (chatMin > 0) actualsPlan.push({ actual:'chat', dur:chatMin });
+  if (cfg.idle > 0) actualsPlan.push({ actual:'idle', dur:cfg.idle });
+  if (cfg.away > 0) actualsPlan.push({ actual:'away', dur:cfg.away });
+  if (cfg.offqueue) actualsPlan.push({ actual:'offqueue', dur:cfg.offqueue });
+  if (cfg.extraMeeting) actualsPlan.push({ actual:'meeting', dur:cfg.extraMeeting });
+  if (cfg.extraTraining) actualsPlan.push({ actual:'training', dur:cfg.extraTraining });
+  if (cfg.extraSick) actualsPlan.push({ actual:'sick', dur:cfg.extraSick });
+
+  let planCursor = 0;
+  let planRemaining = actualsPlan[0] ? actualsPlan[0].dur : 0;
+
+  // Pre-shift (early login) — agent is on queue before the shift
+  const earlyLogin = cfg.earlyLogin || 0;
+  if (earlyLogin > 0) {
+    // All early time is on-queue. Split between voice/email/chat proportionally.
+    const earlyVoice = Math.round(earlyLogin * cfg.voiceShare / 100);
+    const earlyEmail = Math.round(earlyLogin * cfg.emailShare / 100);
+    const earlyChat = Math.max(0, earlyLogin - earlyVoice - earlyEmail);
+    let c = -earlyLogin; // negative = before shift start
+    if (earlyVoice > 0) { segs.push({ scheduledAs:null, actual:'voice', start:c, dur:earlyVoice, withinShift:false }); c += earlyVoice; }
+    if (earlyEmail > 0) { segs.push({ scheduledAs:null, actual:'email', start:c, dur:earlyEmail, withinShift:false }); c += earlyEmail; }
+    if (earlyChat > 0) { segs.push({ scheduledAs:null, actual:'chat', start:c, dur:earlyChat, withinShift:false }); c += earlyChat; }
+  }
+
+  // Within-shift segments (schedule blocks)
+  for (const sched of SCHEDULE) {
+    if (sched.code !== 'on_queue_work') {
+      segs.push({ scheduledAs:sched.code, actual:sched.code, start:sched.start, dur:sched.dur, withinShift:true });
+      continue;
+    }
+    let blockRemaining = sched.dur;
+    let blockCursor = sched.start;
+    while (blockRemaining > 0 && planCursor < actualsPlan.length) {
+      const take = Math.min(blockRemaining, planRemaining);
+      if (take > 0) {
+        segs.push({ scheduledAs:'on_queue_work', actual:actualsPlan[planCursor].actual, start:blockCursor, dur:take, withinShift:true });
+        blockCursor += take;
+        blockRemaining -= take;
+        planRemaining -= take;
+      }
+      if (planRemaining <= 0) { planCursor += 1; planRemaining = actualsPlan[planCursor] ? actualsPlan[planCursor].dur : 0; }
+    }
+    if (blockRemaining > 0) {
+      segs.push({ scheduledAs:'on_queue_work', actual:'idle', start:blockCursor, dur:blockRemaining, withinShift:true });
+    }
+  }
+
+  // Post-shift (late logoff) — agent stays on queue after shift
+  const lateLogoff = cfg.lateLogoff || 0;
+  if (lateLogoff > 0) {
+    const lateVoice = Math.round(lateLogoff * cfg.voiceShare / 100);
+    const lateEmail = Math.round(lateLogoff * cfg.emailShare / 100);
+    const lateChat = Math.max(0, lateLogoff - lateVoice - lateEmail);
+    let c = SHIFT_DUR;
+    if (lateVoice > 0) { segs.push({ scheduledAs:null, actual:'voice', start:c, dur:lateVoice, withinShift:false }); c += lateVoice; }
+    if (lateEmail > 0) { segs.push({ scheduledAs:null, actual:'email', start:c, dur:lateEmail, withinShift:false }); c += lateEmail; }
+    if (lateChat > 0) { segs.push({ scheduledAs:null, actual:'chat', start:c, dur:lateChat, withinShift:false }); c += lateChat; }
+  }
+
+  return segs;
+}
+
+// ============================================================
+// STATS — Genesys formula with outside-shift handling
+// ============================================================
+
+function calcStats() {
+  const schedByCode = {};
+  SCHEDULE.forEach(s => { schedByCode[s.code] = (schedByCode[s.code]||0) + s.dur; });
+  const actualByCode = {};
+  segments.forEach(s => { actualByCode[s.actual] = (actualByCode[s.actual]||0) + s.dur; });
+
+  const voice = actualByCode.voice||0, email = actualByCode.email||0, chat = actualByCode.chat||0;
+  const idle = actualByCode.idle||0;
+  const onQueue = voice + email + chat + idle;
+
+  const totalScheduled = getScheduledTotal();
+
+  // ---- Total logged hours (the tricky part) ----
+  // All activity categories are included EXCEPT:
+  // offline/away/idle-system-presence — those only count if WITHIN the shift.
+  // In our model: "away" maps to "unavailable" category.
+  // voice/email/chat/idle(routing)/meeting/training/break/meal/timeoff/sick/offqueue all count always.
+  let totalLogged = 0;
+  let excludedOutsideShift = 0;
+  segments.forEach(s => {
+    const code = getCode(s.actual);
+    const cat = code ? code.category : 'on_queue_work';
+    if (EXCLUDED_OUTSIDE_SHIFT.includes(cat) && !s.withinShift) {
+      // Excluded: away/idle-system/offline outside shift
+      excludedOutsideShift += s.dur;
+    } else {
+      totalLogged += s.dur;
+    }
+  });
+
+  // ---- Category-level aggregation ----
+  const categories = {};
+  Object.keys(CATEGORIES).forEach(cat => {
+    categories[cat] = { name:CATEGORIES[cat], scheduledShrinkage:0, actualShrinkage:0, paidShrinkage:0, unpaidShrinkage:0, plannedShrinkage:0, unplannedShrinkage:0 };
+  });
+
+  // Scheduled side
+  SCHEDULE.forEach(s => {
+    const code = getCode(s.code);
+    if (!code || !code.shrinkage) return;
+    const cat = code.category;
+    categories[cat].scheduledShrinkage += s.dur;
+    if (code.paid) categories[cat].paidShrinkage += s.dur;
+    else categories[cat].unpaidShrinkage += s.dur;
+    if (code.planned) categories[cat].plannedShrinkage += s.dur;
+    else categories[cat].unplannedShrinkage += s.dur;
+  });
+
+  // Actual side — only count if the segment contributes to total logged hours
+  segments.forEach(s => {
+    const code = getCode(s.actual);
+    if (!code || !code.shrinkage) return;
+    const cat = code.category;
+    // If excluded outside shift, it doesn't count for anything
+    if (EXCLUDED_OUTSIDE_SHIFT.includes(cat) && !s.withinShift) return;
+    categories[cat].actualShrinkage += s.dur;
+  });
+
+  let schedShrinkMin=0, actualShrinkMin=0, paidShrinkMin=0, unpaidShrinkMin=0, plannedShrinkMin=0, unplannedShrinkMin=0;
+  Object.values(categories).forEach(c => {
+    schedShrinkMin += c.scheduledShrinkage;
+    actualShrinkMin += c.actualShrinkage;
+    paidShrinkMin += c.paidShrinkage;
+    unpaidShrinkMin += c.unpaidShrinkage;
+    plannedShrinkMin += c.plannedShrinkage;
+    unplannedShrinkMin += c.unplannedShrinkage;
+  });
+
+  const schedShrinkPct = totalScheduled > 0 ? (schedShrinkMin / totalScheduled * 100) : 0;
+  const actualShrinkPct = totalLogged > 0 ? (actualShrinkMin / totalLogged * 100) : 0;
+
+  let paidMin = 0;
+  segments.forEach(s => {
+    const code = getCode(s.actual);
+    const cat = code ? code.category : 'on_queue_work';
+    if (EXCLUDED_OUTSIDE_SHIFT.includes(cat) && !s.withinShift) return;
+    if (mediaTypes.includes(s.actual) || s.actual === 'idle') paidMin += s.dur;
+    else if (code && code.paid) paidMin += s.dur;
+  });
+
+  return {
+    voice, email, chat, idle, onQueue,
+    totalScheduled, totalLogged, excludedOutsideShift,
+    schedShrinkMin, schedShrinkPct, actualShrinkMin, actualShrinkPct,
+    paidShrinkMin, unpaidShrinkMin, plannedShrinkMin, unplannedShrinkMin,
+    paidMin, categories, schedByCode, actualByCode
+  };
+}
+
+function fmtH(min) { return (min/60).toFixed(2)+'h'; }
+function fmtMin(min) { return min+' min ('+(min/60).toFixed(2)+'h)'; }
+function fmtPct(p) { return p.toFixed(1)+'%'; }
+
+// Convert segment start (shift-relative, can be negative) to wall-clock string
+function formatTime(min) {
+  const absMin = min + 8*60; // shift starts at 8:00
+  const h = Math.floor(absMin/60);
+  const m = absMin%60;
+  return h+':'+(m<10?'0':'')+m;
+}
+
+// ============================================================
+// CHART — timeline extends for early/late login
+// ============================================================
+
+function renderChart() {
+  const container = d3.select('#chart');
+  container.selectAll('*').remove();
+
+  // Determine the full time range (may extend beyond shift)
+  const minStart = Math.min(0, ...segments.map(s => s.start));
+  const maxEnd = Math.max(SHIFT_DUR, ...segments.map(s => s.start + s.dur));
+
+  // Round to nearest 30 min boundary for axis
+  const axisStart = Math.floor(minStart / 30) * 30;
+  const axisEnd = Math.ceil(maxEnd / 30) * 30;
+
+  const width = 1000;
+  const rowH = 32, rowGap = 6, labelW = 150;
+  const chartW = width - labelW - 20;
+
+  const rows = [
+    { label:'Scheduled', sub:'fixed plan', segs:buildScheduledRow() },
+    { label:'On queue', sub:'interacting + idle', segs:buildOnQueueRow() },
+    { label:'Voice', sub:'interacting on calls', segs:buildMediaRow('voice') },
+    { label:'Email', sub:'interacting on email', segs:buildMediaRow('email') },
+    { label:'Chat', sub:'interacting on chat', segs:buildMediaRow('chat') },
+    { label:'All actual', sub:'every status', segs:buildAllActualRow() }
+  ];
+
+  const height = rows.length * (rowH + rowGap) + 60;
+  const xScale = d3.scaleLinear().domain([axisStart, axisEnd]).range([labelW, labelW + chartW]);
+
+  const svg = container.append('svg')
+    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .attr('role', 'img');
+
+  // Hatch pattern for outside-shift zone
+  const defs = svg.append('defs');
+  const hatch = defs.append('pattern').attr('id','hatch').attr('patternUnits','userSpaceOnUse').attr('width',6).attr('height',6);
+  hatch.append('path').attr('d','M0 6 L6 0').attr('stroke','var(--text-tertiary)').attr('stroke-width',0.5).attr('stroke-opacity',0.3);
+
+  container.append('div').attr('class','tooltip').attr('id','tt');
+
+  // Time axis
+  for (let m = axisStart; m <= axisEnd; m += 30) {
+    const x = xScale(m);
+    // Mark shift boundaries differently
+    const isShiftBound = (m === 0 || m === SHIFT_DUR);
+    svg.append('line')
+      .attr('x1',x).attr('x2',x).attr('y1',24).attr('y2',height-8)
+      .attr('stroke', isShiftBound ? 'var(--text-tertiary)' : 'var(--border-tertiary)')
+      .attr('stroke-width', isShiftBound ? 1 : 0.5)
+      .attr('stroke-dasharray', isShiftBound ? 'none' : '2 3');
+    if (m % 60 === 0) {
+      svg.append('text')
+        .attr('x',x).attr('y',16).attr('text-anchor','middle')
+        .attr('font-size',11).attr('fill','var(--text-tertiary)')
+        .attr('font-family','var(--font-sans)')
+        .text(formatTime(m));
+    }
+  }
+
+  // Shade outside-shift zones
+  if (axisStart < 0) {
+    svg.append('rect')
+      .attr('x', xScale(axisStart)).attr('y', 24)
+      .attr('width', xScale(0) - xScale(axisStart)).attr('height', height - 32)
+      .attr('fill', 'url(#hatch)');
+  }
+  if (axisEnd > SHIFT_DUR) {
+    svg.append('rect')
+      .attr('x', xScale(SHIFT_DUR)).attr('y', 24)
+      .attr('width', xScale(axisEnd) - xScale(SHIFT_DUR)).attr('height', height - 32)
+      .attr('fill', 'url(#hatch)');
+  }
+
+  rows.forEach((row, i) => {
+    const y = 30 + i * (rowH + rowGap);
+    svg.append('text').attr('x',labelW-14).attr('y',y+14).attr('text-anchor','end')
+      .attr('font-size',13).attr('font-weight',500).attr('fill','var(--text-primary)')
+      .attr('font-family','var(--font-sans)').text(row.label);
+    svg.append('text').attr('x',labelW-14).attr('y',y+27).attr('text-anchor','end')
+      .attr('font-size',11).attr('fill','var(--text-tertiary)')
+      .attr('font-family','var(--font-sans)').text(row.sub);
+    svg.append('rect').attr('x',xScale(axisStart)).attr('y',y)
+      .attr('width',xScale(axisEnd)-xScale(axisStart)).attr('height',rowH)
+      .attr('fill','var(--bg-secondary)').attr('rx',4);
+
+    row.segs.forEach(s => {
+      if (!s.color || s.color === 'transparent') return;
+      const x = xScale(s.start);
+      const w = xScale(s.start+s.dur) - x;
+      const rect = svg.append('rect')
+        .attr('class','bar-segment')
+        .attr('x',x).attr('y',y)
+        .attr('width',Math.max(0,w)).attr('height',rowH)
+        .attr('fill',s.color).attr('rx',2)
+        .attr('opacity', s.dim ? 0.55 : (s.outsideShift ? 0.7 : 1));
+      if (s.outsideShift) {
+        rect.attr('stroke','var(--text-tertiary)').attr('stroke-width',0.5).attr('stroke-dasharray','3 2');
+      }
+      rect.on('mousemove', (event) => {
+        const tt = document.getElementById('tt');
+        tt.style.opacity = 1;
+        const cRect = container.node().getBoundingClientRect();
+        tt.style.left = (event.clientX - cRect.left + 12)+'px';
+        tt.style.top = (event.clientY - cRect.top + 12)+'px';
+        let note = '';
+        if (s.outsideShift) note = '<div class="tooltip-note">Outside shift — counts in logged hours but not shrinkage</div>';
+        if (s.excludedNote) note = '<div class="tooltip-note">'+s.excludedNote+'</div>';
+        tt.innerHTML = '<div style="font-weight:500;margin-bottom:2px">'+s.tooltipLabel+'</div><div class="tooltip-meta">'+s.dur+' min · '+formatTime(s.start)+'–'+formatTime(s.start+s.dur)+'</div>'+note;
+      }).on('mouseleave', () => { document.getElementById('tt').style.opacity = 0; });
+    });
+  });
+}
+
+function buildScheduledRow() {
+  return SCHEDULE.map(s => ({
+    start:s.start, dur:s.dur, color:schedColors[s.code]||colors.meal,
+    dim: s.code==='meal', tooltipLabel:'Scheduled: '+(labels[s.code]||s.code)
+  }));
+}
+function buildOnQueueRow() {
+  return segments.filter(s => mediaTypes.includes(s.actual) || s.actual==='idle').map(s => ({
+    start:s.start, dur:s.dur, color:colors[s.actual], tooltipLabel:labels[s.actual],
+    outsideShift:!s.withinShift
+  }));
+}
+function buildMediaRow(media) {
+  return segments.filter(s => s.actual===media).map(s => ({
+    start:s.start, dur:s.dur, color:colors[media], tooltipLabel:labels[media],
+    outsideShift:!s.withinShift
+  }));
+}
+function buildAllActualRow() {
+  return segments.map(s => {
+    const code = getCode(s.actual);
+    const cat = code ? code.category : 'on_queue_work';
+    const excluded = EXCLUDED_OUTSIDE_SHIFT.includes(cat) && !s.withinShift;
+    return {
+      start:s.start, dur:s.dur,
+      color:colors[s.actual]||colors.meal,
+      dim: s.actual==='meal' || excluded,
+      outsideShift:!s.withinShift && !excluded,
+      excludedNote: excluded ? 'Outside shift + Unavailable category = excluded from all calculations' : '',
+      tooltipLabel: labels[s.actual]||s.actual
+    };
+  });
+}
+
+function renderLegend() {
+  const items = [
+    {c:schedColors.on_queue_work,l:'Scheduled: On queue'}, {c:colors.voice,l:'Voice'},
+    {c:colors.email,l:'Email'}, {c:colors.chat,l:'Chat'},
+    {c:colors.idle,l:'Idle (on queue, waiting)'}, {c:colors.meeting,l:'Meeting'},
+    {c:colors.training,l:'Training'}, {c:colors.break,l:'Break'},
+    {c:colors.meal,l:'Meal'}, {c:colors.timeoff,l:'Time off'},
+    {c:colors.sick,l:'Sick'}, {c:colors.away,l:'Away (system presence)'},
+    {c:colors.offqueue,l:'Off queue'}
+  ];
+  document.getElementById('legend').innerHTML = items.map(i =>
+    '<span class="legend-item"><span class="legend-swatch" style="background:'+i.c+'"></span>'+i.l+'</span>'
+  ).join('');
+}
+
+// ============================================================
+// ACTIVITY CODE EDITOR
+// ============================================================
+
+function renderActivityEditor() {
+  const editor = document.getElementById('activity-editor');
+  let html = '<div class="header">Activity code</div><div class="header">Category</div><div class="header col-flag">Shrinkage</div><div class="header col-flag">Paid</div><div class="header col-flag">Planned</div><div class="header col-flag"></div>';
+  ACTIVITY_CODES.forEach((a, idx) => {
+    const dis = a.code==='on_queue_work' ? 'disabled' : '';
+    html += '<div><span class="activity-code-name">'+a.name+'</span></div>';
+    html += '<div><span class="activity-category-name">'+CATEGORIES[a.category]+'</span></div>';
+    html += '<div class="col-flag"><input type="checkbox" '+(a.shrinkage?'checked':'')+' '+dis+' onchange="updateActivityFlag('+idx+',\'shrinkage\',this.checked)"></div>';
+    html += '<div class="col-flag"><input type="checkbox" '+(a.paid?'checked':'')+' onchange="updateActivityFlag('+idx+',\'paid\',this.checked)"></div>';
+    html += '<div class="col-flag"><input type="checkbox" '+(a.planned?'checked':'')+' '+dis+' onchange="updateActivityFlag('+idx+',\'planned\',this.checked)"></div>';
+    html += '<div></div>';
+  });
+  editor.innerHTML = html;
+}
+
+function updateActivityFlag(idx, flag, value) { ACTIVITY_CODES[idx][flag] = value; refresh(); }
+
+// ============================================================
+// REPORT TABLE
+// ============================================================
+
+function renderCategoryReport() {
+  const s = calcStats();
+  const tbody = document.getElementById('category-tbody');
+  let html = '';
+  const order = ['break','meal','meeting','training','timeoff','unavailable','off_queue'];
+  order.forEach(catKey => {
+    const c = s.categories[catKey];
+    if (!c || (c.scheduledShrinkage + c.actualShrinkage === 0)) return;
+    html += '<tr><td>'+c.name+'</td><td class="num">'+fmtMin(c.scheduledShrinkage)+'</td><td class="num">'+fmtMin(c.actualShrinkage)+'</td><td class="num">'+fmtMin(c.paidShrinkage)+'</td><td class="num">'+fmtMin(c.unpaidShrinkage)+'</td><td class="num">'+fmtMin(c.plannedShrinkage)+'</td><td class="num">'+fmtMin(c.unplannedShrinkage)+'</td></tr>';
+  });
+  html += '<tr class="totals"><td>Total</td><td class="num">'+fmtMin(s.schedShrinkMin)+' ('+fmtPct(s.schedShrinkPct)+')</td><td class="num">'+fmtMin(s.actualShrinkMin)+' ('+fmtPct(s.actualShrinkPct)+')</td><td class="num">'+fmtMin(s.paidShrinkMin)+'</td><td class="num">'+fmtMin(s.unpaidShrinkMin)+'</td><td class="num">'+fmtMin(s.plannedShrinkMin)+'</td><td class="num">'+fmtMin(s.unplannedShrinkMin)+'</td></tr>';
+  tbody.innerHTML = html;
+}
+
+// ============================================================
+// STATS DISPLAY & BREAKDOWNS
+// ============================================================
+
+function updateStats() {
+  const s = calcStats();
+  document.getElementById('stat-sched').textContent = fmtH(s.totalScheduled);
+  document.getElementById('stat-logged').textContent = fmtH(s.totalLogged);
+  document.getElementById('stat-logged-note').textContent = s.excludedOutsideShift > 0 ? s.excludedOutsideShift+' min excluded (outside shift)' : '';
+  document.getElementById('stat-onq').textContent = fmtH(s.onQueue);
+  document.getElementById('stat-sched-shrink').textContent = fmtPct(s.schedShrinkPct);
+  document.getElementById('stat-sched-shrink-h').textContent = fmtH(s.schedShrinkMin);
+  document.getElementById('stat-actual-shrink').textContent = fmtPct(s.actualShrinkPct);
+  document.getElementById('stat-actual-shrink-h').textContent = fmtH(s.actualShrinkMin);
+  document.getElementById('stat-paid-shrink').textContent = fmtH(s.paidShrinkMin);
+  document.getElementById('stat-unpaid-shrink').textContent = fmtH(s.unpaidShrinkMin);
+  document.getElementById('stat-planned-shrink').textContent = fmtH(s.plannedShrinkMin);
+  document.getElementById('stat-unplanned-shrink').textContent = fmtH(s.unplannedShrinkMin);
+}
+
+function showBreakdown(key) {
+  const s = calcStats();
+  const panel = document.getElementById('breakdown-panel');
+  const title = document.getElementById('bd-title');
+  const content = document.getElementById('bd-content');
+  panel.dataset.active = key;
+  let html = '', titleText = '';
+
+  if (key === 'sched') {
+    titleText = 'Total scheduled time';
+    Object.entries(s.schedByCode).forEach(([code,min]) => { html += '<div class="calc-row"><span>'+(labels[code]||code)+'</span><span>'+fmtMin(min)+'</span></div>'; });
+    html += '<div class="calc-row total"><span>Total scheduled</span><span>'+fmtMin(s.totalScheduled)+'</span></div>';
+  } else if (key === 'logged') {
+    titleText = 'Total logged hours';
+    Object.entries(s.actualByCode).forEach(([code,min]) => { html += '<div class="calc-row"><span>'+(labels[code]||code)+'</span><span>'+fmtMin(min)+'</span></div>'; });
+    if (s.excludedOutsideShift > 0) {
+      html += '<div class="calc-row" style="opacity:0.7"><span>Excluded (Unavailable outside shift)</span><span>−'+fmtMin(s.excludedOutsideShift)+'</span></div>';
+    }
+    html += '<div class="calc-row total"><span>Total logged</span><span>'+fmtMin(s.totalLogged)+'</span></div>';
+    html += '<div class="calc-formula">Total logged = all activity durations. Except: Away/Idle(system)/Offline are only counted if within the scheduled shift. On Queue, Meeting, Training, Break, Off Queue all count regardless of shift boundaries.</div>';
+  } else if (key === 'onq') {
+    titleText = 'On queue time';
+    html += '<div class="calc-row"><span>Voice</span><span>'+fmtMin(s.voice)+'</span></div>';
+    html += '<div class="calc-row"><span>Email</span><span>'+fmtMin(s.email)+'</span></div>';
+    html += '<div class="calc-row"><span>Chat</span><span>'+fmtMin(s.chat)+'</span></div>';
+    html += '<div class="calc-row"><span>Idle (routing status)</span><span>'+fmtMin(s.idle)+'</span></div>';
+    html += '<div class="calc-row total"><span>On queue total</span><span>'+fmtMin(s.onQueue)+'</span></div>';
+    html += '<div class="calc-formula">On queue includes interacting (voice+email+chat) plus idle (waiting). Includes time from early login / late logoff since On Queue counts regardless of shift.</div>';
+  } else if (key === 'sched-shrink') {
+    titleText = 'Scheduled shrinkage';
+    Object.values(s.categories).forEach(c => { if (c.scheduledShrinkage > 0) html += '<div class="calc-row"><span>'+c.name+'</span><span>'+fmtMin(c.scheduledShrinkage)+'</span></div>'; });
+    html += '<div class="calc-row total"><span>Total flagged scheduled</span><span>'+fmtMin(s.schedShrinkMin)+'</span></div>';
+    html += '<div class="calc-row"><span>Total scheduled</span><span>'+fmtMin(s.totalScheduled)+'</span></div>';
+    html += '<div class="calc-row total"><span>Scheduled shrinkage %</span><span>'+fmtPct(s.schedShrinkPct)+'</span></div>';
+    html += '<div class="calc-formula">= '+s.schedShrinkMin+' ÷ '+s.totalScheduled+' = '+fmtPct(s.schedShrinkPct)+'</div>';
+  } else if (key === 'actual-shrink') {
+    titleText = 'Actual shrinkage';
+    Object.values(s.categories).forEach(c => { if (c.actualShrinkage > 0) html += '<div class="calc-row"><span>'+c.name+'</span><span>'+fmtMin(c.actualShrinkage)+'</span></div>'; });
+    html += '<div class="calc-row total"><span>Total flagged actual</span><span>'+fmtMin(s.actualShrinkMin)+'</span></div>';
+    html += '<div class="calc-row"><span>Total logged</span><span>'+fmtMin(s.totalLogged)+'</span></div>';
+    html += '<div class="calc-row total"><span>Actual shrinkage %</span><span>'+fmtPct(s.actualShrinkPct)+'</span></div>';
+    html += '<div class="calc-formula">= '+s.actualShrinkMin+' ÷ '+s.totalLogged+' = '+fmtPct(s.actualShrinkPct)+'<br>Early/late on-queue time increases the denominator without adding shrinkage, so actual % drops.</div>';
+  } else if (key === 'paid-shrink') {
+    titleText = 'Paid shrinkage (scheduled)';
+    Object.values(s.categories).forEach(c => { if (c.paidShrinkage > 0) html += '<div class="calc-row"><span>'+c.name+'</span><span>'+fmtMin(c.paidShrinkage)+'</span></div>'; });
+    html += '<div class="calc-row total"><span>Total paid shrinkage</span><span>'+fmtMin(s.paidShrinkMin)+'</span></div>';
+    html += '<div class="calc-formula">Scheduled shrinkage duration of activity codes flagged Paid = true.</div>';
+  } else if (key === 'unpaid-shrink') {
+    titleText = 'Unpaid shrinkage (scheduled)';
+    Object.values(s.categories).forEach(c => { if (c.unpaidShrinkage > 0) html += '<div class="calc-row"><span>'+c.name+'</span><span>'+fmtMin(c.unpaidShrinkage)+'</span></div>'; });
+    html += '<div class="calc-row total"><span>Total unpaid shrinkage</span><span>'+fmtMin(s.unpaidShrinkMin)+'</span></div>';
+    html += '<div class="calc-formula">Scheduled shrinkage duration of activity codes flagged Paid = false.</div>';
+  } else if (key === 'planned-shrink') {
+    titleText = 'Planned shrinkage (scheduled)';
+    Object.values(s.categories).forEach(c => { if (c.plannedShrinkage > 0) html += '<div class="calc-row"><span>'+c.name+'</span><span>'+fmtMin(c.plannedShrinkage)+'</span></div>'; });
+    html += '<div class="calc-row total"><span>Total planned</span><span>'+fmtMin(s.plannedShrinkMin)+'</span></div>';
+  } else if (key === 'unplanned-shrink') {
+    titleText = 'Unplanned shrinkage (scheduled)';
+    Object.values(s.categories).forEach(c => { if (c.unplannedShrinkage > 0) html += '<div class="calc-row"><span>'+c.name+'</span><span>'+fmtMin(c.unplannedShrinkage)+'</span></div>'; });
+    if (s.unplannedShrinkMin === 0) html += '<div class="calc-row" style="opacity:0.7"><span>None in schedule</span><span>0 min</span></div>';
+    html += '<div class="calc-row total"><span>Total unplanned</span><span>'+fmtMin(s.unplannedShrinkMin)+'</span></div>';
+  }
+
+  title.textContent = titleText;
+  content.innerHTML = html;
+  panel.classList.add('visible');
+}
+
+function hideBreakdown() { document.getElementById('breakdown-panel').classList.remove('visible'); delete document.getElementById('breakdown-panel').dataset.active; }
+
+// ============================================================
+// SCENARIO LOADING & SLIDER MANAGEMENT
+// ============================================================
+
+function loadScenario(name) {
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-'+name).classList.add('active');
+  current = name;
+  if (name !== 'custom') {
+    const cfg = scenarios[name];
+    SCHEDULE = cfg.schedule;
+    segments = buildSegmentsFromScenario(cfg);
+    document.getElementById('s-idle').value = cfg.idle;
+    document.getElementById('s-away').value = cfg.away;
+    document.getElementById('s-offqueue').value = cfg.offqueue||0;
+    document.getElementById('s-voice-share').value = cfg.voiceShare;
+    document.getElementById('s-email-share').value = cfg.emailShare;
+    document.getElementById('s-early').value = cfg.earlyLogin||0;
+    document.getElementById('s-late').value = cfg.lateLogoff||0;
+    updateSliderLabels();
+  } else {
+    SCHEDULE = DEFAULT_SCHEDULE;
+    rebuildCustom();
+  }
+  refresh();
+  hideBreakdown();
+}
+
+function updateSliderLabels() {
+  document.getElementById('v-idle').textContent = document.getElementById('s-idle').value+' min';
+  document.getElementById('v-away').textContent = document.getElementById('s-away').value+' min';
+  document.getElementById('v-offqueue').textContent = document.getElementById('s-offqueue').value+' min';
+  document.getElementById('v-voice-share').textContent = document.getElementById('s-voice-share').value+'%';
+  document.getElementById('v-email-share').textContent = document.getElementById('s-email-share').value+'%';
+  document.getElementById('v-early').textContent = document.getElementById('s-early').value+' min';
+  document.getElementById('v-late').textContent = document.getElementById('s-late').value+' min';
+}
+
+function rebuildCustom() {
+  let voiceShare = +document.getElementById('s-voice-share').value;
+  let emailShare = +document.getElementById('s-email-share').value;
+  if (voiceShare+emailShare > 100) {
+    emailShare = 100-voiceShare;
+    document.getElementById('s-email-share').value = emailShare;
+    document.getElementById('v-email-share').textContent = emailShare+'%';
+  }
+  let idle = +document.getElementById('s-idle').value;
+  let away = +document.getElementById('s-away').value;
+  let offqueue = +document.getElementById('s-offqueue').value;
+  const SCHED_OQ = getScheduledOnQueue();
+  const total = idle+away+offqueue;
+  if (total > SCHED_OQ) {
+    const factor = SCHED_OQ/total;
+    away = Math.floor(away*factor);
+    offqueue = Math.floor(offqueue*factor);
+    idle = SCHED_OQ-away-offqueue;
+    document.getElementById('s-away').value=away; document.getElementById('s-offqueue').value=offqueue; document.getElementById('s-idle').value=idle;
+    updateSliderLabels();
+  }
+  const earlyLogin = +document.getElementById('s-early').value;
+  const lateLogoff = +document.getElementById('s-late').value;
+  segments = buildSegmentsFromScenario({ idle, away, offqueue, voiceShare, emailShare, earlyLogin, lateLogoff });
+}
+
+function updateFromSliders() {
+  updateSliderLabels();
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-custom').classList.add('active');
+  current = 'custom';
+  SCHEDULE = DEFAULT_SCHEDULE;
+  rebuildCustom();
+  refresh();
+}
+
+function refresh() {
+  renderChart();
+  updateStats();
+  renderCategoryReport();
+  const activeBd = document.getElementById('breakdown-panel').dataset.active;
+  if (activeBd) showBreakdown(activeBd);
+}
+
+// Init
+SCHEDULE = DEFAULT_SCHEDULE;
+segments = buildSegmentsFromScenario(scenarios.typical);
+renderActivityEditor();
+renderLegend();
+refresh();
+</script>
+
+</body>
+</html>

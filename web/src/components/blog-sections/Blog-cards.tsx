@@ -1,36 +1,40 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Ensure correct import for client-side router
-import { format } from 'date-fns';
-import { getBlogs } from '@/utils/getBlogs';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { format } from "date-fns";
 import { Search, ArrowRight } from "lucide-react";
-import { Blog } from '@/declarations';
-import BlogCover from './blog-cover';
+import { BlogPost } from "@/types/blog";
+import BlogCover from "./blog-cover";
 
-const BlogCards: React.FC = () => {
+interface BlogCardsProps {
+  initialBlogs: BlogPost[];
+}
+
+const BlogCards: React.FC<BlogCardsProps> = ({ initialBlogs }) => {
     const router = useRouter();
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [sortOrder, setSortOrder] = useState<string>('newest');
-    
-    const blogs: Blog[] = getBlogs();
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState("newest");
 
-    const handleViewMore = (id: number) => {
-        router.push(`/blog/${id}`);
+    const blogs: BlogPost[] = initialBlogs;
+
+    const handleViewMore = (slug: string) => {
+        router.push(`/blog/${slug}`);
     };
 
     const truncateText = (text: string, maxLength: number) => {
         if (text.length <= maxLength) return text;
-        const trimmed = text.slice(0, maxLength);
-        const lastSpace = trimmed.lastIndexOf(' ');
-        return (lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed) + '...';
+        const trimmed = text.slice(0, maxLength - 3);
+        const lastSpace = trimmed.lastIndexOf(" ");
+        return (lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed) + "...";
     };
 
     const filteredBlogs = blogs
         .filter(blog => blog.title.toLowerCase().includes(searchTerm.toLowerCase()))
         .sort((a, b) => {
-            const dateA = a.timestamp ? new Date(a.timestamp) : new Date();
-            const dateB = b.timestamp ? new Date(b.timestamp) : new Date();
+            const dateA = a.date ? new Date(a.date) : new Date();
+            const dateB = b.date ? new Date(b.date) : new Date();
             return sortOrder === 'newest' ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime();
         });
 
@@ -62,19 +66,45 @@ const BlogCards: React.FC = () => {
             </div>
 
             <div className='flex flex-wrap -mx-4 justify-center'>
-                {filteredBlogs.map(blog => (
-                    <div key={blog.id} className='w-full md:w-1/2 lg:w-1/2 px-4 mb-8'>
-                        <div className='bg-ocx-bg-subtle border border-ocx-border text-ocx-fg p-5 flex flex-col gap-4 h-full rounded-ocx-lg shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-px transition-all duration-ocx-base'>
-                            <div className='flex-grow cursor-pointer' onClick={() => handleViewMore(blog.id)}>
-                                <BlogCover className='rounded-ocx-md w-full aspect-[4/3]' />
+                {filteredBlogs.map((blog) => (
+                    <div key={blog.slug} className="w-full md:w-1/2 lg:w-1/2 px-4 mb-8">
+                        <div className="bg-ocx-bg-subtle border border-ocx-border text-ocx-fg p-5 flex flex-col gap-4 h-full rounded-ocx-lg shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-px transition-all duration-ocx-base">
+                            <div className="flex-grow cursor-pointer" onClick={() => handleViewMore(blog.slug)}>
+                                {blog.image ? (
+                                    <Image
+                                        src={blog.image}
+                                        alt={blog.title}
+                                        width={400}
+                                        height={300}
+                                        className="rounded-ocx-md object-cover w-full h-auto aspect-[4/3]"
+                                        priority
+                                    />
+                                ) : (
+                                    <BlogCover
+                                        className="rounded-ocx-md w-full aspect-[4/3]"
+                                        label={blog.tags?.[0] || "Blog"}
+                                    />
+                                )}
                             </div>
                             <div>
-                                <h2 className='text-xl font-semibold mb-2'>{blog.title}</h2>
-                                <p className='text-ocx-fg-muted text-sm mb-2'>
-                                    {blog.timestamp ? format(new Date(blog.timestamp), 'MMMM dd, yyyy') : 'Date not available'}
+                                <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+                                <p className="text-ocx-fg-muted text-sm mb-2">
+                                    {blog.date
+                                        ? format(new Date(blog.date), "MMMM dd, yyyy")
+                                        : "Date not available"}
                                 </p>
-                                <p className='mb-4'>{blog.description ? truncateText(blog.description, 300) : 'No description available'}</p>
-                                <button className="inline-flex items-center gap-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-6 py-2.5 rounded-ocx-md shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base" onClick={() => handleViewMore(blog.id)}><ArrowRight className="w-4 h-4 stroke-[1.5]" />Read more</button>
+                                <p className="mb-4">
+                                    {blog.description
+                                        ? truncateText(blog.description, 300)
+                                        : "No description available"}
+                                </p>
+                                <button
+                                    className="inline-flex items-center gap-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-6 py-2.5 rounded-ocx-md shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base"
+                                    onClick={() => handleViewMore(blog.slug)}
+                                >
+                                    <ArrowRight className="w-4 h-4 stroke-[1.5]" />
+                                    Read more
+                                </button>
                             </div>
                         </div>
                     </div>

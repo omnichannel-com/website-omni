@@ -49,7 +49,10 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-ocx-bg/50 backdrop-blur-sm z-[200]">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-ocx-bg/50 backdrop-blur-sm z-[200]"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
       <div className="relative w-full max-w-4xl bg-ocx-bg p-4 rounded-ocx-lg shadow-ocx-lg flex flex-col gap-4 border border-ocx-border">
         <button onClick={onClose} className="absolute top-2 right-2 text-ocx-fg-muted hover:text-ocx-fg-primary transition-colors duration-ocx-fast rounded-full p-1 bg-ocx-bg-subtle">
           <X className="w-6 h-6" strokeWidth={2} />

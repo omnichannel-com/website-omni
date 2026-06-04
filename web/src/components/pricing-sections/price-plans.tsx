@@ -29,7 +29,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
     <section className="relative scroll-section-1 bg-transparent pb-10 md:pb-20  landscape:pt-20">
       <div className="container mx-auto flex flex-col md:flex-row gap-6 justify-between relative z-10">
 
-        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Starter Plan</h3>
             <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.starter}</h1>
@@ -71,7 +71,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
           </div>
         </div>
 
-        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 sm:w-full px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
+        <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
           <div className="flex flex-col">
             <h3 className="text-ocx-fg text-lg">Premium Plan</h3>
             <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.premium} <span className="text-ocx-fg text-base font-medium">{prices.suffix}</span></h1>

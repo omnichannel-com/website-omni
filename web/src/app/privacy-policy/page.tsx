@@ -1,5 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
+import type { Metadata } from "next";
 import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read the omnichannel CX Privacy Policy. Learn how we collect, use, and protect your personal information.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+};
 
 export default function PrivacyPolicy() {
   return (
@@ -18,7 +28,7 @@ export default function PrivacyPolicy() {
               <br/><br/>
               A copy of the Australian Privacy Principles may be obtained from the website of The Office of the Australian Information Commissioner at www.aoic.gov.au.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">What is Personal Information and why do we collect it?</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">What is Personal Information and why do we collect it?</h2>
               <br/>
               Personal Information is information or an opinion that identifies an individual. Examples of Personal Information we collect include names, addresses, email addresses, and phone and facsimile numbers.
               <br/><br/>
@@ -28,7 +38,7 @@ export default function PrivacyPolicy() {
               <br/><br/>
               When we collect Personal Information we will, where appropriate and where possible, explain to you why we are collecting the information and how we plan to use it.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Sensitive Information</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Sensitive Information</h2>
               <br/>
               Sensitive information is defined in the Privacy Act to include information or opinion about such things as an individual’s racial or ethnic origin, political opinions, membership of a political association, religious or philosophical beliefs, membership of a trade union or other professional body, criminal record or health information.
               <br/><br/>
@@ -41,11 +51,11 @@ export default function PrivacyPolicy() {
               </ul>
               <p>
               <br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Third Parties</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Third Parties</h2>
               <br/>
               Where reasonable and practicable to do so, we will collect your Personal Information only from you. However, in some circumstances we may be provided with information by third parties. In such a case we will take reasonable steps to ensure that you are made aware of the information provided to us by the third party.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Disclosure of Personal Information</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Disclosure of Personal Information</h2>
               <br/>
               We may share your personal information with companies (including our affiliates) that perform services on our behalf, for example, companies that help process credit card payments. Our service providers are required by contract to protect the confidentiality of the personal information we share with them and to use it only to provide specific services on our behalf.
               <br/><br/>
@@ -55,13 +65,13 @@ export default function PrivacyPolicy() {
                 <li>Where required or authorised by law.</li>
               </ul>
               <br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Security of Personal Information</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Security of Personal Information</h2>
               <br/>
               Your Personal Information is stored in a manner that reasonably protects it from misuse and loss and from unauthorised access, modification or disclosure.
               <br/><br/>
               When your Personal Information is no longer needed for the purpose for which it was obtained, we will take reasonable steps to destroy or permanently de-identify your Personal Information. However, most of the Personal Information is or will be stored in client files which will be kept by us for a minimum of 7 years.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Access to your Personal Information</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Access to your Personal Information</h2>
               <br/>
               You may access the Personal Information we hold about you and to update and/or correct it, subject to certain exceptions. If you wish to access your Personal Information, please contact us in writing.
               <br/><br/>
@@ -69,31 +79,31 @@ export default function PrivacyPolicy() {
               <br/><br/>
               In order to protect your Personal Information we may require identification from you before releasing the requested information.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Maintaining the Quality of your Personal Information</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Maintaining the Quality of your Personal Information</h2>
               <br/>
               It is important to us that your Personal Information is up to date. We will take reasonable steps to make sure that your Personal Information is accurate, complete and up-to-date. If you find that the information we have is not up to date or is inaccurate, please advise us as soon as practicable so we can update our records and ensure we can continue to provide quality services to you.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Business Transfer</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Business Transfer</h2>
               <br/>
               Your personal information may be transferred to another entity (either an affiliated entity or an unrelated third party) in connection with a merger, reorganisation, dissolution or similar corporate event. If such a transfer were ever to occur, the acquiring entity’s use of your personal information will still be subject to this Privacy Policy.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Government and Legal Disclosures</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Government and Legal Disclosures</h2>
               <br/>
               We may disclose the personal information we collect through this Site, when we, in good faith, believe disclosure is appropriate to comply with the law (or a court order or subpoena); to prevent or investigate a possible crime, such as fraud or identity theft; to enforce our Terms and Conditions or other agreements that govern your use of this Site; or to protect the rights, property or safety of our company, our users, or others.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Cookies</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Cookies</h2>
               <br/>
               A "cookie" is a small data text file that is placed in your browser and allows us to recognise you each time you visit this site (personalisation, etc). Cookies themselves do not contain any personal information, and we do not use cookies to collect personal information. Cookies may also be used by 3rd party content providers such as news-feeds.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Remember The Risks Whenever You Use The Internet</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Remember The Risks Whenever You Use The Internet</h2>
               <br/>
               While we do our best to protect your personal information, we cannot guarantee the security of any information that you transmit to us, and you are solely responsible for maintaining the secrecy of any passwords or other account information. In addition, other Internet sites or services that may be accessible through our site have separate data and privacy practices independent of us, and therefore we disclaim any responsibility or liability for their policies or actions. Please contact those vendors and others directly if you have any questions about their privacy policies. For any other information, please contact us using the Contact Us page.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Policy Updates</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Policy Updates</h2>
               <br/>
               This Policy may change from time to time and is available on our website.
               <br/><br/>
-              <strong className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Privacy Policy Complaints and Enquiries</strong>
+              <h2 className="text-ocx-fg-accent font-bold font-display text-2xl mb-4">Privacy Policy Complaints and Enquiries</h2>
               <br/>
               If you have any queries or complaints about our Privacy Policy, please contact us via the Contact Us page.
             </p>

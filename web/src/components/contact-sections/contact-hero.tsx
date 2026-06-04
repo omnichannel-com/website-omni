@@ -9,18 +9,52 @@ function ContactHero() {
   const [selectedPlan, setSelectedPlan] = useState<string>("How can we help you?");
 
   const modalRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
   useEffect(() => {
     if (!isModalOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleModalClose();
+      if (e.key === "Escape") {
+        handleModalClose();
+        return;
+      }
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        handleModalClose();
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
     document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
     modalRef.current?.focus();
-    return () => document.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isModalOpen]);
 
   const [formData, setFormData] = useState({
@@ -171,23 +205,28 @@ function ContactHero() {
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-                <div className="relative flex-1">
-                  <label className="block text-ocx-fg-muted text-sm font-body mb-1">How can we help you?</label>
+                <div className="relative flex-1" ref={dropdownRef}>
+                  <label id="inquiry-label" className="block text-ocx-fg-muted text-sm font-body mb-1">How can we help you?</label>
                   <div className="relative flex items-center">
                     <input
                       type="text"
                       value={selectedPlan}
                       onClick={() => setMenuOpen(!menuOpen)}
                       readOnly
+                      aria-haspopup="listbox"
+                      aria-expanded={menuOpen}
+                      aria-labelledby="inquiry-label"
                       className="w-full py-2 px-4 border border-ocx-border rounded-ocx-pill bg-ocx-bg-subtle cursor-pointer focus:outline-none focus:ring-2 focus:ring-ocx-bright-blue focus:border-transparent placeholder:text-ocx-fg-subtle text-ocx-fg font-body text-sm"
                     />
                     <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-ocx-fg-subtle w-4 h-4 pointer-events-none" />
                   </div>
                   {menuOpen && (
-                    <div className="absolute mt-1 w-full bg-ocx-bg border border-ocx-border rounded-ocx-lg overflow-hidden shadow-ocx-md z-10">
+                    <div role="listbox" aria-labelledby="inquiry-label" className="absolute mt-1 w-full bg-ocx-bg border border-ocx-border rounded-ocx-lg overflow-hidden shadow-ocx-md z-10">
                       {["General enquiry", "Sales", "Support", "Partnerships"].map((option) => (
                         <div
                           key={option}
+                          role="option"
+                          aria-selected={selectedPlan === option}
                           onClick={() => handleMenuClose(option)}
                           className="p-2.5 cursor-pointer hover:bg-ocx-bg-muted hover:text-ocx-fg-primary font-body text-sm transition-colors duration-ocx-fast"
                         >

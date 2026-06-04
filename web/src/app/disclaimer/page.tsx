@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
 import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
+
+export const metadata: Metadata = {
+  title: "Disclaimer",
+  description:
+    "Read the omnichannel CX Disclaimer regarding AI-generated advice and third-party links.",
+  alternates: {
+    canonical: "/disclaimer",
+  },
+};
 
 export default function Disclaimer() {
   return (
