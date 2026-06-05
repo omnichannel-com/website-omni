@@ -77,7 +77,6 @@ const BlogCards: React.FC<BlogCardsProps> = ({ initialBlogs }) => {
                                         width={400}
                                         height={300}
                                         className="rounded-ocx-md object-cover w-full h-auto aspect-[4/3]"
-                                        priority
                                     />
                                 ) : (
                                     <BlogCover

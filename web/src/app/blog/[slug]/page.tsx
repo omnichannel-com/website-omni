@@ -11,8 +11,9 @@ export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = getPostBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) return { title: "Not Found" };
   return {
     title: `${post.title} | omnichannel CX`,
@@ -20,8 +21,8 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-const BlogPostPage = ({ params }: { params: { slug: string } }) => {
-  const { slug } = params;
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const post = getPostBySlug(slug);
 
   if (!post) {
@@ -98,7 +99,7 @@ const BlogPostPage = ({ params }: { params: { slug: string } }) => {
               </li>
             ),
             img: ({ src, alt }) => (
-              <div className="my-8 flex justify-center">
+              <span className="my-8 flex justify-center">
                 <Image
                   src={src || ""}
                   alt={alt || ""}
@@ -106,7 +107,7 @@ const BlogPostPage = ({ params }: { params: { slug: string } }) => {
                   height={450}
                   className="rounded-ocx-xl object-cover w-full max-w-3xl aspect-[16/9] shadow-ocx-md"
                 />
-              </div>
+              </span>
             ),
           }}
         >
@@ -115,6 +116,4 @@ const BlogPostPage = ({ params }: { params: { slug: string } }) => {
       </article>
     </section>
   );
-};
-
-export default BlogPostPage;
+}
