@@ -9,7 +9,7 @@ function initPostHog() {
   const apiKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
   const apiHost = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 
-  if (apiKey && apiHost && !posthog.__loaded) {
+  if (apiKey && apiHost) {
     posthog.init(apiKey, {
       api_host: apiHost,
       person_profiles: 'identified_only',

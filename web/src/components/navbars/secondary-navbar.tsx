@@ -16,7 +16,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isNavbarSticky, setIsNavbarSticky] = useState(false);
   const [isPlatformHovered, setIsPlatformHovered] = useState(false);
   const [isDropdownHovered, setIsDropdownHovered] = useState(false);
   const activePath = usePathname();
@@ -34,10 +33,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    setIsNavbarSticky(isSticky);
-  }, [isSticky]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -74,8 +69,8 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
         className={clsx(
           "py-6 md:py-4 landscape:py-8 items-center backdrop-blur-md z-[50] h-[7svh] md:h-[10svh] transition-all duration-150 flex justify-between text-md px-6 md:px-12",
           {
-            "bg-ocx-bg/80 shadow-ocx-sm": isNavbarSticky,
-            "bg-ocx-bg": !isNavbarSticky,
+            "bg-ocx-bg/80 shadow-ocx-sm": isSticky,
+            "bg-ocx-bg": !isSticky,
           }
         )}
       >

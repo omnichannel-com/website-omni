@@ -3,6 +3,10 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Providers } from "./providers";
 
+function safeJsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://omnichannelcx.com"),
   title: {
@@ -35,7 +39,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLd({
               "@context": "https://schema.org",
               "@graph": [
                 {
