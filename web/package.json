@@ -42,5 +42,13 @@
   },
   "overrides": {
     "postcss": "^8.5.15"
+  },
+  "allowScripts": {
+    "core-js@3.49.0": true,
+    "fsevents@2.3.2": true,
+    "sharp@0.34.5": true,
+    "sharp@0.33.5": true,
+    "protobufjs@7.6.2": true,
+    "unrs-resolver@1.12.2": true
   }
 }

@@ -1,9 +1,3 @@
-interface Window {
-  pagefind?: {
-    search: (query: string) => Promise<{ results: any[] }>;
-  };
-}
-
 declare module '/pagefind/pagefind.js' {
   const pagefind: {
     search: (query: string) => Promise<{ results: any[] }>;
