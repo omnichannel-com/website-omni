@@ -72,7 +72,7 @@ function Testimonials() {
             <section className="bg-ocx-indigo h-[210px] md:h-[270px] z-40 rounded-lg flex self-center mx-auto relative mb-7 text-white overflow-hidden">
               <div className="max-w-screen-xl px-2 md:px-4 pt-8 pb-4 mx-auto text-center lg:pt-16 lg:pb-8 lg:px-6 relative">
                 <figure className="max-w-screen-md mx-auto">
-                  <div className="w3-animate-right">
+                  <div>
                     <blockquote>
                       <p className="text-xs md:text-sm lg:text-lg leading-5 font-medium">
                         {testimonial.quote}

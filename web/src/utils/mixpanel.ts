@@ -1,4 +1,4 @@
-// lib/mixpanel.ts
+// src/utils/mixpanel.ts
 
 const stubMixpanel = {
   init: () => {},

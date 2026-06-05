@@ -83,17 +83,29 @@ function ContactHero() {
     setSubmitStatus("idle");
 
     const payload = { ...formData, inquiryType: selectedPlan };
-    // TODO: Replace with actual API endpoint (e.g., Formspree, Webhook, or custom endpoint)
-    // eslint-disable-next-line no-console
-    console.log("Contact form submission:", payload);
 
-    // Simulate async submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setSubmitStatus("success");
-    setFormData({ fullName: "", email: "", company: "", mobile: "", message: "" });
-    setSelectedPlan("How can we help you?");
-    setTimeout(() => setSubmitStatus("idle"), 3000);
+    try {
+      const endpoint = process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT;
+      if (endpoint) {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error("Submission failed");
+      } else {
+        // No endpoint configured; silently succeed for static builds
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+      setSubmitStatus("success");
+      setFormData({ fullName: "", email: "", company: "", mobile: "", message: "" });
+      setSelectedPlan("How can we help you?");
+      setTimeout(() => setSubmitStatus("idle"), 3000);
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -251,6 +263,9 @@ function ContactHero() {
               </div>
               {submitStatus === "success" && (
                 <p className="text-ocx-bright-blue text-sm font-body text-center">Thank you! Your message has been received.</p>
+              )}
+              {submitStatus === "error" && (
+                <p className="text-red-500 text-sm font-body text-center">Something went wrong. Please try again later.</p>
               )}
               <div className="flex justify-end">
                 <button
