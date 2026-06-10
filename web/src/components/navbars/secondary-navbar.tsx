@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { openExternal } from "@/utils/navigation";
+import posthog from "posthog-js";
 
 interface SecondaryNavbarProps {
   isSticky: boolean;
@@ -61,7 +62,10 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
     { name: "Contact", link: "/contact" },
   ];
 
-  const signUpHandler = (url: string) => openExternal(url);
+  const signUpHandler = (url: string) => {
+    posthog.capture("nav_get_started_clicked");
+    openExternal(url);
+  };
 
   return (
     <header className="sticky top-0 z-[50] transition-all duration-150">

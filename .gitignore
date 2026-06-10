@@ -105,3 +105,4 @@ lerna-debug.log*
 .cache/
 .temp/
 tmp/
+.env.local

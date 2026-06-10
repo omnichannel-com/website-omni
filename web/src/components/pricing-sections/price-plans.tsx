@@ -1,5 +1,8 @@
+"use client";
+
 import Link from 'next/link';
 import React from 'react';
+import posthog from 'posthog-js';
 
 const planButtonClass =
   "inline-flex items-center justify-center px-6 py-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm rounded-ocx-md mt-6 shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base";
@@ -35,7 +38,13 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.starter}</h1>
             <p className="text-ocx-fg">Perfect for getting started and trying out the omnichannel CX platform to access the best AI functionalities.</p>
             <div>
-              <Link href="/contact" className={planButtonClass}>Get started</Link>
+              <Link
+                href="/contact"
+                onClick={() => posthog.capture("pricing_plan_cta_clicked", { plan: "starter", billing_period: activePlan })}
+                className={planButtonClass}
+              >
+                Get started
+              </Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
@@ -56,7 +65,13 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.professional} <span className="text-ocx-fg text-base font-medium">{prices.suffix}</span></h1>
             <p className="text-ocx-fg">Elevate your business with full access, priority support, and seamless integration.</p>
             <div>
-              <Link href="/contact" className={planButtonClass}>Get started</Link>
+              <Link
+                href="/contact"
+                onClick={() => posthog.capture("pricing_plan_cta_clicked", { plan: "professional", billing_period: activePlan })}
+                className={planButtonClass}
+              >
+                Get started
+              </Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>
@@ -77,7 +92,13 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <h1 className="text-4xl font-bold text-ocx-fg-primary">{prices.premium} <span className="text-ocx-fg text-base font-medium">{prices.suffix}</span></h1>
             <p className="text-ocx-fg">Maximize your potential with unlimited profiles, advanced customization, and analytics.</p>
             <div>
-              <Link href="/contact" className={planButtonClass}>Get started</Link>
+              <Link
+                href="/contact"
+                onClick={() => posthog.capture("pricing_plan_cta_clicked", { plan: "premium", billing_period: activePlan })}
+                className={planButtonClass}
+              >
+                Get started
+              </Link>
             </div>
           </div>
           <div className="border-ocx-border border-b-2"></div>

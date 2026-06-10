@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import posthog from "posthog-js";
 
 export default function ViewPricing() {
   return (
@@ -27,6 +30,7 @@ export default function ViewPricing() {
 
           <Link
             href="/pricing"
+            onClick={() => posthog.capture("view_pricing_clicked")}
             className="group inline-flex items-center gap-3 bg-ocx-gradient text-white font-display font-bold text-sm md:text-base px-8 py-4 rounded-ocx-lg hover:shadow-ocx-glow transition-all duration-ocx-fast"
           >
             <ArrowRight className="w-5 h-5 stroke-[1.25]" />

@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import posthog from "posthog-js";
 
 export default function HeroSection() {
   return (
@@ -50,6 +53,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <Link
               href="/contact"
+              onClick={() => posthog.capture("hero_cta_clicked", { cta_label: "get_started" })}
               className="group inline-flex items-center gap-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm md:text-base px-8 py-4 rounded-ocx-lg hover:bg-[var(--btn-primary-bg-hover)] transition-all duration-ocx-fast shadow-ocx-md"
             >
               <ArrowRight className="w-5 h-5 stroke-[1.25]" />
@@ -57,6 +61,7 @@ export default function HeroSection() {
             </Link>
             <Link
               href="/contact"
+              onClick={() => posthog.capture("hero_cta_clicked", { cta_label: "request_demo" })}
               className="group inline-flex items-center gap-3 bg-transparent text-white font-display font-bold text-sm md:text-base px-8 py-4 rounded-ocx-lg border-2 border-white/40 hover:border-white/70 hover:bg-white/10 transition-all duration-ocx-fast"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">

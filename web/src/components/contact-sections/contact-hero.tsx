@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { X, ChevronDown } from "lucide-react";
+import posthog from "posthog-js";
 
 function ContactHero() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,7 +12,10 @@ function ContactHero() {
   const modalRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    posthog.capture("contact_form_opened", { inquiry_type: selectedPlan });
+  };
   const handleModalClose = () => setIsModalOpen(false);
 
   useEffect(() => {
@@ -97,11 +101,17 @@ function ContactHero() {
         // No endpoint configured; silently succeed for static builds
         await new Promise((resolve) => setTimeout(resolve, 1000));
       }
+      posthog.capture("contact_form_submitted", {
+        inquiry_type: selectedPlan,
+        has_company: !!formData.company,
+        has_mobile: !!formData.mobile,
+      });
       setSubmitStatus("success");
       setFormData({ fullName: "", email: "", company: "", mobile: "", message: "" });
       setSelectedPlan("How can we help you?");
       setTimeout(() => setSubmitStatus("idle"), 3000);
     } catch {
+      posthog.capture("contact_form_failed", { inquiry_type: selectedPlan });
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);

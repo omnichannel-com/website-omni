@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import posthog from "posthog-js";
 
 export default function AlterEgoSection() {
   const features = [
@@ -47,6 +50,7 @@ export default function AlterEgoSection() {
         <div className="flex justify-center mt-12">
           <Link
             href="/about"
+            onClick={() => posthog.capture("explore_platform_clicked")}
             className="group inline-flex items-center gap-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-8 py-4 rounded-ocx-lg hover:bg-[var(--btn-primary-bg-hover)] transition-all duration-ocx-fast shadow-ocx-md"
           >
             <ArrowRight className="w-5 h-5 stroke-[1.25]" />

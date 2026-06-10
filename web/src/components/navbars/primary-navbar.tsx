@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ThemeToggle from "../theme/toggle";
 import SearchModal from "@/utils/SearchModal";
 import { openExternal } from "@/utils/navigation";
+import posthog from "posthog-js";
 
 export default function PrimaryNavbar() {
   const [greeting, setGreeting] = useState("");
@@ -15,7 +16,10 @@ export default function PrimaryNavbar() {
     setGreeting(greetingMessage);
   }, []);
 
-  const handleSigninClick = (url: string) => openExternal(url);
+  const handleSigninClick = (url: string) => {
+    posthog.capture("nav_login_clicked");
+    openExternal(url);
+  };
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
