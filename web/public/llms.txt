@@ -1,0 +1,21 @@
+# OmniChannel
+
+> Human in control means AI agents do the work; a human keeps the final say.
+
+## Core concepts
+
+- [What Is Human in Control?](https://omni-channel.com/human-in-control): Canonical definition of human in control (HIC), its three pillars (authority, visibility, revocability), and how it differs from human-in-the-loop and human-on-the-loop.
+- [Human in Control vs. Human-in-the-Loop vs. Human-on-the-Loop](https://omni-channel.com/human-in-control-vs-hitl-hotl): Plain-English comparison of the three oversight models for AI agents, with a worked example.
+- [The Four Properties of Human in Control](https://omni-channel.com/four-properties-human-in-control): Expands the "in practice" framework: Visibility, Decision rights, Intervention, Attribution.
+- [Agentic AI Glossary](https://omni-channel.com/glossary): Short definitions of human in control, HITL, HOTL, decision rights, intervention rights, agent autonomy, accountability gap.
+
+## Company
+
+- [OmniChannel Home](https://omni-channel.com/): Customer experience and service operations consultancy for banking, insurance, telecoms, and utilities. Start with a Maturity Review and move to AI with people in control.
+- [Services](https://omni-channel.com/services): Detailed consultancy services including Maturity Review & AI readiness, CX strategy, operational performance, contact centre advisory, AI & automation with human control, and training.
+- [About](https://omni-channel.com/about): Founder background, operational credibility, independence from platform vendors, and the human-in-control philosophy.
+
+## Resources
+
+- [Two-Minute Maturity Check](https://omni-channel.com/#check): Self-assessment quiz to identify your maturity band and next steps.
+- [Human-in-Control Deployment Checklist](https://omni-channel.com/human-in-control-checklist): Practical checklist for deploying AI agents with human control guarantees built in.

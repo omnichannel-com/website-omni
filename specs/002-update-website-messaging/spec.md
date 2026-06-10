@@ -14,6 +14,8 @@ The website is an existing **Next.js 16** app configured for **static HTML expor
 
 **Product rule**: No page mentions the future work operating system platform, product demo, free trial, or "omnichannel platform". The site is purely consultancy positioning.
 
+**Archive rule**: Old SaaS-positioning pages (`/pricing`, `/landing-page`, `/contact`, `/disclaimer`, `/terms-of-service`) MUST be moved to `web/src/app/_archive/` so they are excluded from the static export. They MUST NOT appear in the published site or sitemap.
+
 ## Canonical Definition
 
 **Full form** (used in pillar page first paragraph, meta descriptions, About content, article intros):
@@ -39,7 +41,7 @@ The website is an existing **Next.js 16** app configured for **static HTML expor
 2. **The Challenge**: Problem statement for executives under pressure to improve service, cut cost, and adopt AI safely.
 3. **What we do** (6 cards): Maturity Review & AI readiness; CX strategy & design; Operational performance; Contact centre & platform advisory; AI & automation (human in control); Training & capability.
 4. **How to start** (3 cards): Transform or optimise; Plan or review; Fix one thing.
-5. **Two-minute check** (quiz): 5-question self-assessment with 4 maturity bands, scoring from 1–20. Every band suggests the same next step: "Book a working session" linking to Calendly.
+5. **Two-minute check** (quiz): 4-question self-assessment with 4 maturity bands, scoring from 4–16. Every band suggests the same next step: "Book a working session" linking to Calendly.
 6. **Our approach** + **Why work with us** (2-column): Business-first methodology on the left; checklist of credibility claims on the right (operators not theorists, independent, safe AI path).
 7. **Built for your industry** (4 cards): Banking & finance; Insurance; Telecoms; Utilities — each with specific use cases and regulator references (FCA, Ofcom, Ofgem).
 8. **Why human in control matters**: A concise section framing the consultancy's philosophy — AI does preparation, people retain decision authority. No product references.
@@ -190,7 +192,7 @@ A decision-maker at a mid-to-large organisation visits the Omnichannel website a
 
 ### User Story 2 - Self-Assess Maturity (Priority: P1)
 
-A prospect answers 5 quick questions and receives a personalised maturity band with a relevant next step.
+A prospect answers 4 quick questions and receives a personalised maturity band with a relevant next step.
 
 **Why this priority**: The quiz is a key conversion mechanism. It must work entirely client-side, produce a coherent result, and direct the user to a relevant CTA.
 
@@ -198,8 +200,8 @@ A prospect answers 5 quick questions and receives a personalised maturity band w
 
 **Acceptance Scenarios**:
 
-1. **Given** a visitor reaches the quiz section, **When** they answer all 5 questions, **Then** a result card appears showing their band, score bar, description, and CTA
-2. **Given** a visitor completes the quiz and sees a result in any band, **When** they see the CTA, **Then** the button reads "Book a working session" and links to `https://calendly.com/graeme-omnichannel/30min`
+1. **Given** a visitor reaches the quiz section, **When** they answer all 4 questions, **Then** a result card appears showing their band, score bar, description, and CTA
+2. **Given** a visitor completes the 4-question quiz and sees a result in any band, **When** they see the CTA, **Then** the button reads "Book a working session" and links to `https://calendly.com/graeme-omnichannel/30min`
 3. **Given** a visitor partially completes the quiz, **When** they have not answered all questions, **Then** no result appears
 4. **Given** a visitor has completed the quiz and sees a result, **When** they click "Reset", **Then** all answers are cleared and the quiz returns to its initial state
 
@@ -268,14 +270,15 @@ The Omnichannel team understands how visitors interact with the site so they can
 
 - **FR-001**: The main page hero MUST state "customer experience and service operations consultancy" within the first sentence of the lede
 - **FR-002**: The services page MUST display a "Services" tag in the navigation to distinguish it from the main page
-- **FR-003**: The quiz MUST calculate a score from 5–20 and assign one of four bands, each with a unique message and CTA
-- **FR-004**: The quiz MUST work entirely client-side without external API calls or page reloads, and MUST persist answers in `sessionStorage` so a refresh within the same session does not reset progress
+- **FR-003**: The quiz MUST calculate a score from 4–16 (4 questions × 1–4 points each) and assign one of four bands, each with a unique message. All bands MUST use the same CTA: "Book a working session" linking to Calendly
+- **FR-004**: The quiz MUST work entirely client-side without external API calls or page reloads, MUST use 4 questions sourced from `web/blog/files/omnichannel-website-brief.html`, and MUST persist answers in `sessionStorage` so a refresh within the same session does not reset progress
 - **FR-005**: All pages MUST share the same CSS custom properties and component classes so visual consistency is maintained
 - **FR-006**: The FAQ section MUST contain entries that match the Schema.org structured data exactly; the count is flexible and may expand without spec amendment
 - **FR-007**: The industry cards MUST name the relevant regulator for each sector (FCA, APRA, ASIC, ACMA, AER, Ofcom, Ofgem, EWOV) and reference SOC controls and Privacy Principles where applicable
 - **FR-008**: The footer on all pages MUST contain the tagline "AI does the work. You make the call.", link to `omni-channel.com`, and link to the Privacy Policy (`/privacy.html`); `omnichannel.cx` MUST redirect to `omni-channel.com` and MUST NOT be linked directly
 - **FR-009**: No page MUST mention a product demo, free trial, "omnichannel platform", or future SaaS offering. The site is consultancy-only.
 - **FR-009a**: Every booking CTA ("Book a working session", "Book a call", "Request a Maturity Review") MUST link to the same Calendly URL: `https://calendly.com/graeme-omnichannel/30min`
+- **FR-009b**: Old SaaS pages (`/pricing`, `/landing-page`, `/contact`, `/disclaimer`, `/terms-of-service`) MUST be moved to `web/src/app/_archive/` and excluded from the build and sitemap
 - **FR-010**: The main page navigation MUST contain "What we do", "How to start", "FAQ"; the services page navigation MUST contain "What we do", "How we work"
 - **FR-011**: PostHog MUST be initialised on all pages and capture `$pageview` events automatically
 - **FR-012**: Custom PostHog events MUST fire for: (a) primary CTA clicks, (b) quiz question selections, (c) quiz completion with band name and score, (d) cross-page navigation clicks, (e) quiz reset clicks
@@ -286,7 +289,7 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **FR-017**: Every page in the Human in Control cluster MUST include a named human author (Graeme Provan) and link to their LinkedIn profile
 - **FR-018**: The pillar page MUST include FAQPage Schema.org JSON-LD with Question/Answer pairs matching the current FAQ section, plus Article schema with `author`, `datePublished`, and `dateModified`
 - **FR-019**: The robots.txt on the canonical domain MUST explicitly allow AI crawlers: GPTBot, OAI-SearchBot, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, CCBot, Amazonbot, Applebot-Extended
-- **FR-020**: An `llms.txt` file MUST exist at the domain root, pointing to the pillar page, glossary page, and canonical definition
+- **FR-020**: An `llms.txt` file MUST exist at the domain root (`web/public/llms.txt`) with consultancy positioning (not SaaS), short-form canonical definition, and links to pillar, glossary, and company pages
 - **FR-021**: The canonical domain MUST consolidate on `omni-channel.com`; `omnichannel.cx` MUST 301-redirect page-for-page
 - **FR-022**: The pillar page MUST link back to the homepage and to a glossary page; every cluster article MUST link to the pillar page
 - **FR-023**: The homepage title and description MUST include "human in control" alongside the consultancy positioning
@@ -304,8 +307,8 @@ The Omnichannel team understands how visitors interact with the site so they can
 
 ### Key Entities
 
-- **Maturity Review**: The entry-point engagement; assessed via 5-question quiz producing a 4-band result
-- **Quiz Band**: One of "Getting started" (5–8), "Building momentum" (9–13), "Advancing" (14–17), "Almost channelless" (18–20)
+- **Maturity Review**: The entry-point engagement; assessed via 4-question quiz producing a 4-band result
+- **Quiz Band**: One of "Getting started" (4–7), "Building momentum" (8–11), "Advancing" (12–15), "Almost channelless" (16)
 - **CTA**: Primary conversion buttons — all booking CTAs link to `https://calendly.com/graeme-omnichannel/30min`; "Take the two-minute check" triggers the quiz
 - **Page Set**: The five pages (main, services, About, pillar, privacy) as a coherent site experience
 - **About Page**: The `/about.html` page containing company background, author attribution, and canonical definition
@@ -349,6 +352,7 @@ The Omnichannel team understands how visitors interact with the site so they can
 - The site is built with Next.js 16 using `output: "export"` for static HTML generation; no server-side rendering at runtime. Pagefind provides client-side search. PostHog is already integrated.
 - PostHog project and API keys are available; the wizard has generated the initialisation snippet which must be pasted into all pages
 - The quiz is self-contained JavaScript inline in the main page; no external quiz service is used
+- Pagefind search MUST be configured to exclude `/_archive/` directory and only index published pages
 - All pages are hosted on the same domain so cross-page navigation is simple relative linking
 - No page mentions the future product or platform; the site is consultancy-only
 - Google Fonts (Overpass, Cormorant, Oxygen) are loaded from CDN and assumed available
