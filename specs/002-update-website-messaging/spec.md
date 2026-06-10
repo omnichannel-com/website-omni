@@ -4,13 +4,13 @@
 
 **Created**: 2026-06-09
 
-**Status**: Draft
+**Status**: Draft — Clarifications complete
 
 **Input**: User description: "Update the website to reflect the company's actual messaging - dont add the product piece yet"
 
 ## Overview
 
-The website now comprises four static HTML pages built on a shared design system, with a self-contained maturity quiz and PostHog analytics. The main page is a public-facing consultancy site; the second is a detailed services page; the third is an About page; the fourth is an AEO (Answer Engine Optimization) pillar targeting the query cluster around "human in control". All pages share one CSS-in-HTML stylesheet and one set of brand primitives.
+The website is built with **Astro** (static site generation) using community plugins for SEO and AEO artifacts. It comprises four core pages plus a content cluster of supporting articles — all static HTML deployed from this repo. The main page is a public-facing consultancy site; the second is a detailed services page; the third is an About page; the fourth is an AEO pillar targeting the query cluster around "human in control". Astro generates sitemap, `llms.txt`, and Schema.org JSON-LD automatically from front-matter and content collections.
 
 **Product rule**: No page mentions the future work operating system platform, product demo, free trial, or "omnichannel platform". The site is purely consultancy positioning.
 
@@ -35,16 +35,16 @@ The website now comprises four static HTML pages built on a shared design system
 **Navigation**: Sticky top bar with wordmark ("omnichannel."), links to "What we do", "How to start", "FAQ", and a primary CTA "Book a call".
 
 **Sections (in order)**:
-1. **Hero** (aurora gradient, dark text): Eyebrow "Customer experience & service operations consultancy", headline "Transform your customer experience and your service operations.", subhead "From where you are today to AI with your people in control.", lede paragraph, two CTAs ("Request a Maturity Review" and "Take the two-minute check"), industry tags (Banking & finance, Insurance, Telecoms, Utilities).
+1. **Hero** (aurora gradient, dark text): Eyebrow "Customer experience & service operations consultancy", headline "Transform your customer experience and your service operations.", subhead "From where you are today to AI with your people in control.", lede paragraph, two CTAs ("Book a working session" linking to Calendly and "Take the two-minute check"), industry tags (Banking & finance, Insurance, Telecoms, Utilities).
 2. **The Challenge**: Problem statement for executives under pressure to improve service, cut cost, and adopt AI safely.
 3. **What we do** (6 cards): Maturity Review & AI readiness; CX strategy & design; Operational performance; Contact centre & platform advisory; AI & automation (human in control); Training & capability.
 4. **How to start** (3 cards): Transform or optimise; Plan or review; Fix one thing.
-5. **Two-minute check** (quiz): 5-question self-assessment with 4 maturity bands, scoring from 1–20, each band suggesting a CTA to book a session or request a review.
+5. **Two-minute check** (quiz): 5-question self-assessment with 4 maturity bands, scoring from 1–20. Every band suggests the same next step: "Book a working session" linking to Calendly.
 6. **Our approach** + **Why work with us** (2-column): Business-first methodology on the left; checklist of credibility claims on the right (operators not theorists, independent, safe AI path).
 7. **Built for your industry** (4 cards): Banking & finance; Insurance; Telecoms; Utilities — each with specific use cases and regulator references (FCA, Ofcom, Ofgem).
 8. **Why human in control matters**: A concise section framing the consultancy's philosophy — AI does preparation, people retain decision authority. No product references.
 9. **FAQ** (flexible number): Core questions include — What is a Maturity Review; Do you advise or deliver; Which platforms; What is human-in-control AI; How do you keep AI safe; How do engagements start and how are they priced. Additional entries may be added without updating this spec number.
-10. **Get started** CTA: "Request a Maturity Review" button.
+10. **Get started** CTA: "Book a working session" button linking to Calendly.
 11. **Footer**: Wordmark, tagline "AI does the work. You make the call.", domain links, note "Human-in-control AI for the whole organisation."
 
 **Canonical definition placement**: The short-form canonical definition MUST appear in the hero lede or immediately following the headline. The homepage is the page AI models most often associate with the entity.
@@ -58,14 +58,14 @@ The website now comprises four static HTML pages built on a shared design system
 **Navigation**: Sticky top bar with wordmark, "Services" tag, links to "What we do", "How we work", and "Book a call".
 
 **Sections (in order)**:
-1. **Hero** (aurora gradient): Eyebrow "For COOs, heads of department, and customer service leaders", headline "Lift customer experience. Cut cost to serve. Adopt AI without losing control.", subhead "The consultancy that has run the operation, not just advised on it.", two CTAs ("Book a working session" and "What we do").
+1. **Hero** (aurora gradient): Eyebrow "For COOs, heads of department, and customer service leaders", headline "Lift customer experience. Cut cost to serve. Adopt AI without losing control.", subhead "The consultancy that has run the operation, not just advised on it.", two CTAs ("Book a working session" linking to Calendly and "What we do").
 2. **The problem you are living with**: Pressure to improve service, cut cost, adopt AI, with regulator oversight.
 3. **Why us, and why now**: Practitioner credibility, independence from platforms, safe AI introduction.
 4. **What we do** (6 cards): Same 6 services as main page, slightly abbreviated copy.
 5. **How we work** + **What to expect** (2-column): Business-first approach on left; outcome checklist on right (higher satisfaction, lower cost, safe AI, independent advice, more capable team).
 6. **How we make AI safe** (3 numbered arguments): Accountability stays with a named person; gate by risk so you go faster; better deal for your team.
 7. **Built for your industry** (4 cards): Same industries as main page.
-8. **Get started** CTA (aurora gradient): "Book a Maturity Review".
+8. **Get started** CTA (aurora gradient): "Book a working session" linking to Calendly.
 9. **Footer**: Same as main page.
 
 ### Page 3 — About (`/about.html`)
@@ -104,19 +104,34 @@ The website now comprises four static HTML pages built on a shared design system
 
 **Cluster links**: Every section links back to the homepage and to the glossary page. Every supporting article in the cluster links to the pillar.
 
+### Page 5 — Privacy (`/privacy.html`)
+
+**Title**: Privacy Policy | omnichannel
+
+**Navigation**: Same sticky top bar as main page; no "Services" tag.
+
+**Sections (in order)**:
+1. **Hero**: H1 "Privacy Policy" — plain, no marketing copy.
+2. **What we collect**: Types of data collected (PostHog analytics, session recordings, quiz interactions). No PII beyond what the user voluntarily provides (e.g., booking form if present).
+3. **How we use it**: Analytics for site improvement only; no sale or sharing with third parties.
+4. **Cookies and tracking**: Explanation of PostHog cookies/localStorage; how to decline via the consent banner.
+5. **Your rights**: UK ICO and Australian Privacy Act rights summary (access, correction, deletion).
+6. **Contact**: Data controller contact (Graeme Provan / Omnichannel).
+7. **Footer**: Same as main page.
+
 ## Content Cluster
 
 The pillar page is supported by a cluster of articles that build topical authority. Each piece targets a real query, opens with a direct answer, links to the pillar, and uses the canonical definition verbatim when the term appears.
 
 **Publishing cadence**: Pillar + comparison article in month one, then one piece every 2–3 weeks.
 
-**Cluster pieces (in priority order)**:
+**Cluster pieces (in priority order)** — all are static `.md` / `.mdx` pages in this repo, compiled by Astro:
 
-1. **Human in Control vs. Human in the Loop vs. Human on the Loop** — comparison query, highest intent. Publish within 2 weeks of pillar.
-2. **The Four Properties of Human in Control** — expands the "in practice" framework (Visibility, Decision rights, Intervention, Attribution).
-3. **How Humans Actually Intervene in a [20,000]-Entity Agent Network** — original data piece expanding the operational section of the pillar. Pitch to AI-industry newsletters and researchers.
-4. **Human in Control and the Accountability Gap** — connects the term to regulatory conversation (EU AI Act, NIST AI RMF) without claiming legal advice.
-5. **Designing Decision Rights for AI Agents** — practical guide: which actions to gate, which to free-run. Practitioner content that earns links.
+1. **Human in Control vs. Human in the Loop vs. Human on the Loop** (`/human-in-control-vs-hitl-hotl.html`) — comparison query, highest intent. Publish within 2 weeks of pillar.
+2. **The Four Properties of Human in Control** (`/four-properties-human-in-control.html`) — expands the "in practice" framework (Visibility, Decision rights, Intervention, Attribution).
+3. **How Humans Actually Intervene in a [20,000]-Entity Agent Network** (`/how-humans-intervene.html`) — original data piece expanding the operational section of the pillar. Pitch to AI-industry newsletters and researchers.
+4. **Human in Control and the Accountability Gap** (`/human-in-control-accountability-gap.html`) — connects the term to regulatory conversation (EU AI Act, NIST AI RMF) without claiming legal advice.
+5. **Designing Decision Rights for AI Agents** (`/designing-decision-rights.html`) — practical guide: which actions to gate, which to free-run. Practitioner content that earns links.
 6. **Glossary page** (`/glossary.html`) — short, extractable definitions of: human in control, HITL, HOTL, decision rights, intervention rights, agent autonomy, accountability gap. Must link to pillar and include canonical definition.
 
 **Refresh rule**: The pillar page's `dateModified` must be updated with genuine changes quarterly.
@@ -184,7 +199,7 @@ A prospect answers 5 quick questions and receives a personalised maturity band w
 **Acceptance Scenarios**:
 
 1. **Given** a visitor reaches the quiz section, **When** they answer all 5 questions, **Then** a result card appears showing their band, score bar, description, and CTA
-2. **Given** a visitor scores in the top band ("Almost channelless"), **When** they see the result, **Then** the CTA button reads "Book a working session" and links to the services page; for all other bands the CTA reads "Request a Maturity Review" and links to "#talk"
+2. **Given** a visitor completes the quiz and sees a result in any band, **When** they see the CTA, **Then** the button reads "Book a working session" and links to `https://calendly.com/graeme-omnichannel/30min`
 3. **Given** a visitor partially completes the quiz, **When** they have not answered all questions, **Then** no result appears
 4. **Given** a visitor has completed the quiz and sees a result, **When** they click "Reset", **Then** all answers are cleared and the quiz returns to its initial state
 
@@ -243,7 +258,8 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **Quiz without JavaScript**: The quiz is entirely client-side JavaScript. If JS is disabled, the quiz section shows a static fallback message directing the user to "Request a Maturity Review".
 - **Deep-link to quiz result**: There is no URL state for quiz results; a visitor cannot share a direct link to their band. This is accepted as a v1 limitation.
 - **Services page discovery without main page context**: A visitor arriving directly at the services page from an external link may not have the "consultancy" framing. The services page hero includes the consultancy descriptor to compensate.
-- **Quiz reset**: The quiz must expose a "Reset" button on the result card. Clicking it clears all stored answers and hides the result, returning the quiz to its initial unanswered state.
+- **Quiz persistence**: Quiz answers are stored in `sessionStorage` so a page refresh within the same browsing session preserves progress. A new browser session starts the quiz from question 1.
+- **Quiz reset**: The quiz must expose a "Reset" button on the result card. Clicking it clears `sessionStorage` answers and hides the result, returning the quiz to its initial unanswered state.
 - **PostHog blocked by ad blocker**: If PostHog fails to load, the site must not break; analytics simply fail silently.
 
 ## Requirements *(mandatory)*
@@ -253,12 +269,13 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **FR-001**: The main page hero MUST state "customer experience and service operations consultancy" within the first sentence of the lede
 - **FR-002**: The services page MUST display a "Services" tag in the navigation to distinguish it from the main page
 - **FR-003**: The quiz MUST calculate a score from 5–20 and assign one of four bands, each with a unique message and CTA
-- **FR-004**: The quiz MUST work entirely client-side without external API calls or page reloads
+- **FR-004**: The quiz MUST work entirely client-side without external API calls or page reloads, and MUST persist answers in `sessionStorage` so a refresh within the same session does not reset progress
 - **FR-005**: All pages MUST share the same CSS custom properties and component classes so visual consistency is maintained
 - **FR-006**: The FAQ section MUST contain entries that match the Schema.org structured data exactly; the count is flexible and may expand without spec amendment
 - **FR-007**: The industry cards MUST name the relevant regulator for each sector (FCA, APRA, ASIC, ACMA, AER, Ofcom, Ofgem, EWOV) and reference SOC controls and Privacy Principles where applicable
-- **FR-008**: The footer on all pages MUST contain the tagline "AI does the work. You make the call." and link to `omni-channel.com`; `omnichannel.cx` MUST redirect to `omni-channel.com` and MUST NOT be linked directly
+- **FR-008**: The footer on all pages MUST contain the tagline "AI does the work. You make the call.", link to `omni-channel.com`, and link to the Privacy Policy (`/privacy.html`); `omnichannel.cx` MUST redirect to `omni-channel.com` and MUST NOT be linked directly
 - **FR-009**: No page MUST mention a product demo, free trial, "omnichannel platform", or future SaaS offering. The site is consultancy-only.
+- **FR-009a**: Every booking CTA ("Book a working session", "Book a call", "Request a Maturity Review") MUST link to the same Calendly URL: `https://calendly.com/graeme-omnichannel/30min`
 - **FR-010**: The main page navigation MUST contain "What we do", "How to start", "FAQ"; the services page navigation MUST contain "What we do", "How we work"
 - **FR-011**: PostHog MUST be initialised on all pages and capture `$pageview` events automatically
 - **FR-012**: Custom PostHog events MUST fire for: (a) primary CTA clicks, (b) quiz question selections, (c) quiz completion with band name and score, (d) cross-page navigation clicks, (e) quiz reset clicks
@@ -274,14 +291,17 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **FR-022**: The pillar page MUST link back to the homepage and to a glossary page; every cluster article MUST link to the pillar page
 - **FR-023**: The homepage title and description MUST include "human in control" alongside the consultancy positioning
 - **FR-024**: The pillar page's `dateModified` MUST be refreshed with genuine updates at least quarterly
+- **FR-025**: A cookie consent banner MUST appear on first visit to any page, offering "Accept" and "Decline" buttons; declining MUST prevent PostHog initialisation (FR-014 already covers graceful degradation)
+- **FR-026**: The Privacy Policy page (`/privacy.html`) MUST be reachable from the footer of every page and explain PostHog tracking, user rights under UK ICO and Australian Privacy Act, and how to withdraw consent
 
 ### Key Entities
 
 - **Maturity Review**: The entry-point engagement; assessed via 5-question quiz producing a 4-band result
 - **Quiz Band**: One of "Getting started" (5–8), "Building momentum" (9–13), "Advancing" (14–17), "Almost channelless" (18–20)
-- **CTA**: Primary conversion buttons — "Request a Maturity Review", "Book a call", "Book a working session", "Take the two-minute check"
-- **Page Set**: The four pages (main, services, About, pillar) as a coherent site experience
+- **CTA**: Primary conversion buttons — all booking CTAs link to `https://calendly.com/graeme-omnichannel/30min`; "Take the two-minute check" triggers the quiz
+- **Page Set**: The five pages (main, services, About, pillar, privacy) as a coherent site experience
 - **About Page**: The `/about.html` page containing company background, author attribution, and canonical definition
+- **Privacy Page**: The `/privacy.html` page containing cookie and tracking disclosures, compliant with UK ICO and Australian Privacy Act
 - **PostHog Event**: Captured interaction — pageview, click, quiz answer, quiz completion
 - **Canonical Definition**: The single, repeatable sentence that teaches AI engines to associate "human in control" with Omnichannel
 - **Pillar Page**: The authoritative `/human-in-control.html` page targeting "what is human in control" and related queries
@@ -306,10 +326,11 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **SC-012**: A robots.txt test confirms all listed AI crawlers are explicitly allowed on the canonical domain
 - **SC-013**: The named author (Graeme Provan) appears on every cluster piece and the pillar page, with a valid LinkedIn link
 - **SC-014**: The pillar page's `dateModified` is no older than 90 days at any review checkpoint
+- **SC-015**: The cookie consent banner renders on first visit, records the choice in `localStorage`, and declining prevents PostHog from loading without JavaScript errors; the banner does not re-appear on subsequent visits unless consent is withdrawn
 
 ## Assumptions
 
-- The site is delivered as static HTML files, not a framework build; no server-side rendering or build pipeline is required
+- The site is built with Astro (static site generation) using `@astrojs/sitemap` and community plugins for Schema.org and `llms.txt` generation; no server-side rendering at runtime
 - PostHog project and API keys are available; the wizard has generated the initialisation snippet which must be pasted into both pages
 - The quiz is self-contained JavaScript inline in the main page; no external quiz service is used
 - All pages are hosted on the same domain so cross-page navigation is simple relative linking
@@ -322,3 +343,4 @@ The Omnichannel team understands how visitors interact with the site so they can
 - Author attribution requires a real bio page for Graeme Provan; if not yet built, the LinkedIn URL serves as the author reference
 - Domain consolidation (`omni-channel.com` vs `omnichannel.cx`) may require DNS and hosting coordination outside the scope of this spec
 - AI crawler bot names (GPTBot, ClaudeBot, etc.) are not stable contracts; the robots.txt allowlist may need updating as vendors rename or add new bots
+- PostHog analytics are conditional on visitor consent; the site must function fully without tracking if declined
