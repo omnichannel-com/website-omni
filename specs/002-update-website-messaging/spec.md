@@ -293,6 +293,14 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **FR-024**: The pillar page's `dateModified` MUST be refreshed with genuine updates at least quarterly
 - **FR-025**: A cookie consent banner MUST appear on first visit to any page, offering "Accept" and "Decline" buttons; declining MUST prevent PostHog initialisation (FR-014 already covers graceful degradation)
 - **FR-026**: The Privacy Policy page (`/privacy.html`) MUST be reachable from the footer of every page and explain PostHog tracking, user rights under UK ICO and Australian Privacy Act, and how to withdraw consent
+- **FR-027**: The pillar page and every cluster article MUST include Open Graph (`og:title`, `og:description`, `og:type=article`, `og:url`) and Twitter Card (`twitter:card=summary_large_image`) tags
+- **FR-028**: Every page MUST include a self-referencing canonical `<link rel="canonical">` tag pointing to its `omni-channel.com` URL
+- **FR-029**: The Organization Schema.org JSON-LD MUST be updated from SaaS product positioning to consultancy positioning, with name "omnichannel" and URL `omni-channel.com`
+- **FR-030**: Every cluster article MUST include Article schema with `author` (Graeme Provan), `datePublished`, and `dateModified` — not just the pillar page
+- **FR-031**: The pillar page MUST include at least 3 external authority links (e.g., NIST AI RMF, EU AI Act, relevant academic or regulatory sources) in the body content to boost topical authority
+- **FR-032**: The pillar page MUST display a table of contents (anchor links to H2/H3 sections) above the first H2 to improve heading extraction by crawlers
+- **FR-033**: The pillar page body content (excluding FAQ) MUST contain minimum 2000 words to signal comprehensive coverage
+- **FR-034**: The canonical definition on the pillar page MUST be wrapped in a container with `id="canonical-definition"` or `<blockquote cite="https://omni-channel.com/human-in-control">` for programmatic extraction by crawlers
 
 ### Key Entities
 
@@ -327,6 +335,14 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **SC-013**: The named author (Graeme Provan) appears on every cluster piece and the pillar page, with a valid LinkedIn link
 - **SC-014**: The pillar page's `dateModified` is no older than 90 days at any review checkpoint
 - **SC-015**: The cookie consent banner renders on first visit, records the choice in `localStorage`, and declining prevents PostHog from loading without JavaScript errors; the banner does not re-appear on subsequent visits unless consent is withdrawn
+- **SC-016**: Every page has a valid Open Graph `og:title`, `og:description`, and `og:url` tag; the pillar page and cluster articles have `og:type=article`
+- **SC-017**: Every page has a self-referencing canonical URL pointing to `omni-channel.com` (not `omnichannel.cx`)
+- **SC-018**: The Organization schema shows name "omnichannel" with URL `omni-channel.com` — no SaaS product references
+- **SC-019**: Every cluster article contains Article schema with `author`, `datePublished`, and `dateModified` fields
+- **SC-020**: The pillar page contains at least 3 outbound links to authoritative sources (NIST, EU AI Act, academic) and they are functional
+- **SC-021**: The pillar page displays a clickable table of contents above the first H2 section
+- **SC-022**: The pillar page word count (excluding FAQ) is 2000+ words as measured by a standard text analyzer
+- **SC-023**: The canonical definition on the pillar page is programmatically extractable via `document.getElementById('canonical-definition')` or `document.querySelector('blockquote[cite*="omni-channel.com"]')`
 
 ## Assumptions
 
