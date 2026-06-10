@@ -1,46 +1,46 @@
-# Implementation Plan: [FEATURE]
+# Implementation Plan: Update Website Messaging
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
+**Branch**: `002-update-website-messaging` | **Date**: 2026-06-10 | **Spec**: [`specs/002-update-website-messaging/spec.md`](./spec.md)
 
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Input**: Reposition the existing Next.js 16 static-export website from SaaS product to CX consultancy; add AEO pillar, quiz, privacy compliance, and content cluster.
 
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
 
 ## Summary
 
-[Extract from feature spec: primary requirement + technical approach from research]
+Evolve the existing Next.js 16 static-export site (`web/`) to reflect Omnichannel's consultancy positioning. Update copy, navigation, metadata, and Schema.org across all pages. Add a 5-question maturity quiz, a `/privacy.html` page with cookie consent, and a comprehensive AEO pillar page (`/human-in-control.html`) supported by 6 cluster articles. All booking CTAs route to a single Calendly URL. Maintain the existing Tailwind design system, PostHog analytics, and Pagefind search.
 
 ## Technical Context
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
+**Language/Version**: TypeScript 5, Next.js 16.2.7, React 18, Node.js 20+
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Primary Dependencies**: Next.js (App Router, static export), React, Tailwind CSS v3, PostHog JS, Pagefind, Lucide React, date-fns, gray-matter
 
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Storage**: N/A — static HTML export; content in repo as Markdown/TSX
 
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Testing**: Playwright (E2E), manual AEO verification (search engine checks)
 
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
+**Target Platform**: Web browsers (mobile 680px+, tablet 860px+, desktop)
 
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Project Type**: Web application (static marketing site with client-side interactivity)
 
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
+**Performance Goals**: Static export < 100KB initial bundle per page; Pagefind index pre-built at build time
 
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Constraints**: `output: "export"` — no API routes, no SSR at runtime, no `next/image` optimization (unoptimized mode), all dynamic content must be client-side
 
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
-
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Scale/Scope**: ~5 core pages + 6 cluster articles + blog archive; single author, single deployment target
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+| Principle | Status | Notes |
+|-----------|--------|-------|
+| I. Brand Consistency | ⚠️ REVIEW | Existing site uses `--ocx-*` tokens; spec introduces new color names but same hex values. Verify mapping in `tailwind.config.ts`. |
+| II. Accessibility First | ✅ PASS | WCAG 2.1 AA required by spec (FR-005, SC-007). Existing focus states and contrast must be preserved. |
+| III. Performance & Simplicity | ⚠️ VIOLATION — justified | Next.js 16 is a framework when constitution prefers vanilla HTML/CSS/JS. **Justification**: this is evolution of an existing production site, not greenfield. Rewriting to vanilla would add months for zero AEO benefit. Static export minimizes runtime JS. |
+| IV. Content Clarity | ✅ PASS | Spec mandates consultancy tone, no product references, no emoji/exclamation points. |
+| V. Design System Discipline | ✅ PASS | Spec requires shared CSS custom properties and component classes (FR-005). Tailwind token system already in place. |
 
 ## Project Structure
 
@@ -57,51 +57,54 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+website-omni/
+├── web/                          # Next.js 16 application
+│   ├── src/
+│   │   ├── app/                  # App Router pages
+│   │   │   ├── page.tsx          # Homepage (consultancy repositioning)
+│   │   │   ├── about/
+│   │   │   │   └── page.tsx      # About page (NEW)
+│   │   │   ├── services/
+│   │   │   │   └── page.tsx      # Services page (repositioned from pricing)
+│   │   │   ├── human-in-control/
+│   │   │   │   └── page.tsx      # AEO pillar page (NEW)
+│   │   │   ├── privacy-policy/
+│   │   │   │   └── page.tsx      # Privacy page (NEW — replaces old placeholder)
+│   │   │   ├── glossary/
+│   │   │   │   └── page.tsx      # Glossary page (NEW)
+│   │   │   └── layout.tsx        # Root layout: metadata, Schema.org, PostHog, cookie banner
+│   │   ├── components/
+│   │   │   ├── navbars/          # Sticky nav (primary + services variant)
+│   │   │   ├── landing-sections/ # Hero, challenge, services, approach, industry, FAQ, CTA
+│   │   │   ├── quiz/             # Quiz component (NEW)
+│   │   │   ├── cookie-banner/    # Cookie consent banner (NEW)
+│   │   │   ├── footer/           # Site footer with tagline + privacy link
+│   │   │   └── ui/               # Card, button, tag, arg (reusable primitives)
+│   │   ├── hooks/
+│   │   │   └── use-posthog.ts    # Safe PostHog initialization with consent gate
+│   │   ├── lib/
+│   │   │   ├── posthog.ts        # PostHog client config
+│   │   │   ├── schema-org.ts     # JSON-LD generators (Organization, WebSite, FAQPage, Article)
+│   │   │   ├── content.ts        # Markdown content loader for cluster articles
+│   │   │   └── calendly.ts       # Calendly URL constant
+│   │   └── types/
+│   │       └── index.ts          # Shared TypeScript types
+│   ├── blog/                     # Static content cluster articles (HTML/MD → TSX pages)
+│   ├── content/                  # Content collections (Markdown front-matter)
+│   ├── public/
+│   │   ├── robots.txt            # AI crawler allowlist
+│   │   ├── llms.txt              # AEO manifest
+│   │   └── sitemap.xml           # Auto-generated at build
+│   ├── design/                   # Brand assets, tokens, CSS
+│   ├── e2e/                      # Playwright tests
+│   └── package.json
+├── specs/                        # Feature specs and plans
+└── .specify/                     # Speckit workflow config
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Single Next.js app in `web/`. Existing `src/app/` structure is retained. New pages added as App Router routes. Content cluster articles may be sourced from `blog/` or `content/` Markdown and rendered via `content.ts` utility. No backend — all data is static or client-side.
 
 ## Complexity Tracking
 
@@ -109,5 +112,5 @@ directories captured above]
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Next.js 16 framework (vs vanilla HTML) | Existing production site with established build pipeline, Tailwind integration, and Pagefind search. Rewriting would delay AEO window. | Vanilla HTML would require rebuilding design system, search, and analytics from scratch. |
+| Cookie consent banner (additional JS) | Regulatory compliance for UK ICO and Australian Privacy Act; PostHog requires consent for tracking. | No simpler alternative — tracking without consent violates regulation. |
