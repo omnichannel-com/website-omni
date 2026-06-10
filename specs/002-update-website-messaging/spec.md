@@ -10,7 +10,7 @@
 
 ## Overview
 
-The website is built with **Astro** (static site generation) using community plugins for SEO and AEO artifacts. It comprises four core pages plus a content cluster of supporting articles — all static HTML deployed from this repo. The main page is a public-facing consultancy site; the second is a detailed services page; the third is an About page; the fourth is an AEO pillar targeting the query cluster around "human in control". Astro generates sitemap, `llms.txt`, and Schema.org JSON-LD automatically from front-matter and content collections.
+The website is an existing **Next.js 16** app configured for **static HTML export** (`output: "export"`), with Pagefind search, PostHog analytics, and a Tailwind CSS design system already in place. The current site positions as a SaaS product; this feature repositions it as a consultancy. The site comprises four core pages plus a content cluster of supporting articles — all static HTML deployed from this repo. The main page is a public-facing consultancy site; the second is a detailed services page; the third is an About page; the fourth is an AEO pillar targeting the query cluster around "human in control". Next.js App Router pages with `generateStaticParams` and `metadata` exports generate sitemap, `llms.txt`, and Schema.org JSON-LD at build time.
 
 **Product rule**: No page mentions the future work operating system platform, product demo, free trial, or "omnichannel platform". The site is purely consultancy positioning.
 
@@ -125,7 +125,7 @@ The pillar page is supported by a cluster of articles that build topical authori
 
 **Publishing cadence**: Pillar + comparison article in month one, then one piece every 2–3 weeks.
 
-**Cluster pieces (in priority order)** — all are static `.md` / `.mdx` pages in this repo, compiled by Astro:
+**Cluster pieces (in priority order)** — all are static pages in this repo, built as Next.js App Router pages (`page.tsx`) with content sourced from Markdown/JSON where appropriate:
 
 1. **Human in Control vs. Human in the Loop vs. Human on the Loop** (`/human-in-control-vs-hitl-hotl.html`) — comparison query, highest intent. Publish within 2 weeks of pillar.
 2. **The Four Properties of Human in Control** (`/four-properties-human-in-control.html`) — expands the "in practice" framework (Visibility, Decision rights, Intervention, Attribution).
@@ -330,8 +330,8 @@ The Omnichannel team understands how visitors interact with the site so they can
 
 ## Assumptions
 
-- The site is built with Astro (static site generation) using `@astrojs/sitemap` and community plugins for Schema.org and `llms.txt` generation; no server-side rendering at runtime
-- PostHog project and API keys are available; the wizard has generated the initialisation snippet which must be pasted into both pages
+- The site is built with Next.js 16 using `output: "export"` for static HTML generation; no server-side rendering at runtime. Pagefind provides client-side search. PostHog is already integrated.
+- PostHog project and API keys are available; the wizard has generated the initialisation snippet which must be pasted into all pages
 - The quiz is self-contained JavaScript inline in the main page; no external quiz service is used
 - All pages are hosted on the same domain so cross-page navigation is simple relative linking
 - No page mentions the future product or platform; the site is consultancy-only
