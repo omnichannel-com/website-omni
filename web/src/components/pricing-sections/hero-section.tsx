@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import posthog from "posthog-js";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 interface HeroProps {
   activePlan: "monthly" | "yearly";
@@ -9,13 +9,14 @@ interface HeroProps {
 }
 
 function Hero({ activePlan, setActivePlan }: HeroProps) {
+  const { capture } = usePosthogConsent();
   const handlePlanChange = (plan: "monthly" | "yearly") => {
     setActivePlan(plan);
-    posthog.capture("pricing_billing_period_changed", { billing_period: plan });
+    capture({ event: "cta_click", properties: { cta_label: `pricing_billing_${plan}`, page: "/pricing" } });
   };
 
   return (
-    <section className="relative z-10 py-4 scroll-section-1">
+    <section className="relative z-10 py-4">
       <div className="h-[45vh] container mx-auto">
         <div className="h-full flex flex-col flex-grow items-center justify-center text-ocx-fg relative top-[2%] space-y-3">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-semibold text-center py-2">

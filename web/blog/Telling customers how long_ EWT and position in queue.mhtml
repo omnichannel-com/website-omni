@@ -1,22 +1,22 @@
 From: <Saved by Blink>
 Snapshot-Content-Location: file:///Users/graeme/Documents/Claude/Projects/test/ewt-position-in-queue.html
 Subject: Telling customers how long: EWT and position in queue
-Date: Thu, 4 Jun 2026 16:32:09 +1000
+Date: Thu, 11 Jun 2026 14:25:48 +1000
 MIME-Version: 1.0
 Content-Type: multipart/related;
 	type="text/html";
-	boundary="----MultipartBoundary--321Ahm7MzKqJ0PVylsDxGKP2HJCQoUU46Fk7o8KHLm----"
+	boundary="----MultipartBoundary--Xb3e33O9Fpxb7cLv5Qs9T1OrGita3toSM1PAF3FovO----"
 
 
-------MultipartBoundary--321Ahm7MzKqJ0PVylsDxGKP2HJCQoUU46Fk7o8KHLm----
+------MultipartBoundary--Xb3e33O9Fpxb7cLv5Qs9T1OrGita3toSM1PAF3FovO----
 Content-Type: text/html
-Content-ID: <frame-8DC32EC3B5370A2A6CC4A0C49DBCD56D@mhtml.blink>
+Content-ID: <frame-220C785B82378753A43BCF42E5D6CE2E@mhtml.blink>
 Content-Transfer-Encoding: quoted-printable
 Content-Location: file:///Users/graeme/Documents/Claude/Projects/test/ewt-position-in-queue.html
 
 <!DOCTYPE html><html lang=3D"en"><head><meta http-equiv=3D"Content-Type" co=
 ntent=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"text/=
-css" href=3D"cid:css-917d3b41-d465-4430-8ebc-831ad9dc9d44@mhtml.blink" />
+css" href=3D"cid:css-587ee12c-a16e-445b-909b-e0a5a651d357@mhtml.blink" />
 
 <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.=
 0">
@@ -46,106 +46,117 @@ is one of the highest-return, lowest-cost levers in the contact centre, and=
 </header>
 <hr class=3D"rule thick">
 
-<!-- 00: ANTITHESIS -->
-<section class=3D"fade" id=3D"antithesis" style=3D"animation-delay: 0.05s;"=
->
+<!-- 00: CAUTIONS -->
+<section class=3D"fade" id=3D"cautions" style=3D"animation-delay: 0.05s;">
   <div class=3D"sec-head">
-    <span class=3D"sec-num" style=3D"border-color:var(--ocx-mauve);color:va=
-r(--ocx-mauve);">00</span>
+    <span class=3D"sec-num" style=3D"border-color:var(--amber);color:var(--=
+amber);">00</span>
     <div class=3D"sec-title-block">
-      <span class=3D"sec-word">The honest reckoning</span>
-      <h2>The strongest case against everything that follows.</h2>
+      <span class=3D"sec-word">Read first</span>
+      <h2>Seven cautions before you proceed.</h2>
     </div>
   </div>
 
-  <p class=3D"lead">Before building the case for EWT and position announcem=
-ents, it is worth making the opposing argument at full strength. A recommen=
-dation that cannot survive its own counterargument is not a recommendation =
-worth following.</p>
+  <p class=3D"lead">The case for announcing estimated wait time (EWT) and p=
+osition in queue (PIQ) is strong. But implementing them poorly is worse tha=
+n not implementing them at all. The following cautions are not theoretical.=
+ They are the most common ways this goes wrong in practice.</p>
 
-  <div class=3D"antithesis">
-    <span class=3D"kicker">Antithesis</span>
-    <h2>Seven reasons EWT and PIQ fail or mislead.</h2>
-
-    <div class=3D"at-item">
-      <div class=3D"at-num">1</div>
-      <div class=3D"at-body"><b>Announcements treat the symptom, not the di=
-sease.</b> A queue that is deep enough to require an EWT announcement is, b=
-y definition, a queue that is failing. The root cause is structural: too fe=
-w agents, poor forecasting, skill fragmentation, or contact drivers that sh=
-ould never reach a human agent. Polishing the waiting experience diverts ma=
-nagement attention from fixing the queue.</div>
-    </div>
-    <div class=3D"at-item">
-      <div class=3D"at-num">2</div>
-      <div class=3D"at-body"><b>EWT models break in the conditions where th=
-ey matter most.</b> Mass logout events (team meetings, fire drills, shift c=
-hangeovers), sudden skill reassignments, system outages, and demand spikes =
-all cause EWT to diverge from reality precisely when queues are deepest. Th=
-e model is calibrated on steady-state data and fails in the non-steady-stat=
-e conditions that produce long queues. At the moment a caller most needs ac=
-curate information, the model is most likely to give them bad information.<=
-/div>
-    </div>
-    <div class=3D"at-item">
-      <div class=3D"at-num">3</div>
-      <div class=3D"at-body"><b>Trust erosion is asymmetric and hard to rec=
-over from.</b> A correctly delivered EWT builds modest goodwill. An inaccur=
-ately delivered EWT degrades trust significantly. The asymmetry is large. Y=
-ou cannot easily measure how much institutional trust your EWT system has l=
-ost, which means you may be operating with damaged credibility for months w=
-ithout knowing it.</div>
-    </div>
-    <div class=3D"at-item">
-      <div class=3D"at-num">4</div>
-      <div class=3D"at-body"><b>Callback has its own failure modes.</b> Vir=
-tual queuing systems are complex. Wrong phone numbers, missed callbacks, ca=
-llbacks to voicemail that never get returned, technical failures, and agent=
-s calling out of skill all generate secondary contacts and customer effort.=
- A promised callback that does not arrive is worse than no callback offer a=
-t all. The operational discipline required to run callbacks well is often u=
-nderestimated.</div>
-    </div>
-    <div class=3D"at-item">
-      <div class=3D"at-num">5</div>
-      <div class=3D"at-body"><b>Self-selection removes callers who might ha=
-ve been fine.</b> The balking effect is not purely beneficial. Some callers=
- who balk based on the announcement would have waited without complaint and=
- been satisfied with the interaction. EWT is a blunt instrument: it cannot =
-distinguish between the caller who truly cannot wait and the one who just n=
-eeded a moment of reassurance. You may be turning away resolvable contacts.=
-</div>
-    </div>
-    <div class=3D"at-item">
-      <div class=3D"at-num">6</div>
-      <div class=3D"at-body"><b>CALD communities and accessibility edge cas=
-es are poorly served.</b> EWT announcements are designed for callers with f=
-luent comprehension of the announced language, numeracy to convert time int=
-o a decision, and a phone environment where they can hear and respond to an=
- IVR prompt. Callers from culturally and linguistically diverse backgrounds=
-, elderly callers, callers with cognitive or hearing impairments, and calle=
-rs in noisy environments may not benefit at all, and may be disadvantaged b=
-y a system designed around a different average user.</div>
-    </div>
-    <div class=3D"at-item">
-      <div class=3D"at-num">7</div>
-      <div class=3D"at-body"><b>Sustained deep queues defeat all of it.</b>=
- Everything in this document assumes the queue is cyclically stressed: it w=
-ill recover. In a sustained deep queue (weeks of above-capacity demand, chr=
-onic understaffing), callback generates a callback backlog, EWT becomes per=
-manently inaccurate, position numbers are permanently in crisis range, and =
-customers stop trusting announcements entirely. The correct response to a s=
-ustained deep queue is not a better announcement strategy. It is emergency =
-staffing, automation, and demand reduction. These are not substitutes for e=
-ach other.</div>
-    </div>
+  <div class=3D"panel" style=3D"padding:12px 28px 8px;">
+    <ul class=3D"cautions-list">
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">1</div>
+        <div class=3D"caution-body"><b>Announcements improve the experience=
+ of waiting. They do not fix the queue.</b> A contact centre that needs a t=
+hree-minute EWT announcement is one that is already failing customers. The =
+underlying causes are structural: too few agents on the floor, skills split=
+ too finely across too many queues, or contact types that should be resolve=
+d through self-service before they reach a person. Improving the waiting ex=
+perience without fixing the capacity problem can divert leadership attentio=
+n from the changes that would actually matter. See the companion document, =
+The Physics of Waiting, for the structural levers.</div>
+      </li>
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">2</div>
+        <div class=3D"caution-body"><b>The estimate breaks down when you ne=
+ed it most.</b> EWT models are calibrated on normal, near-steady-state oper=
+ating conditions. Mass logout events, such as a team leaving for a meeting =
+or a shift changeover handled poorly, can remove a large share of available=
+ agents in under a minute. Sudden changes to routing rules or skill assignm=
+ents have the same effect. In each case, the EWT model will understate the =
+true wait at precisely the moment the queue is deepest. Some platforms can =
+detect agent-state change events and trigger a suppression mode; that capab=
+ility is worth configuring before you need it.</div>
+      </li>
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">3</div>
+        <div class=3D"caution-body"><b>Trust, once lost, is slow to rebuild=
+.</b> Customers who hear "four minutes" and wait twelve do not simply disco=
+unt the announcement. They apply that experience to every future interactio=
+n. The asymmetry is significant: a correct EWT produces modest goodwill; an=
+ incorrect one degrades long-run trust by a larger amount. An operation can=
+not easily measure how much trust its announcement system has already lost,=
+ which means it may be compounding the damage for months without knowing it=
+.</div>
+      </li>
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">4</div>
+        <div class=3D"caution-body"><b>Callbacks have their own failure mod=
+es.</b> Virtual queuing, offering to call the customer back rather than hol=
+d them, is one of the strongest tools available for managing a deep queue. =
+But wrong numbers, missed callbacks, voicemail failures, and calls routed t=
+o agents who lack the right skills all generate secondary contacts and addi=
+tional customer effort. A promised callback that does not arrive is worse t=
+han no callback offer at all. The operational discipline required to run a =
+callback programme well is routinely underestimated at planning stage.</div=
+>
+      </li>
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">5</div>
+        <div class=3D"caution-body"><b>Walkaways from an EWT announcement i=
+nclude some customers who would have waited happily.</b> The self-selection=
+ mechanism described in section 03 is genuinely beneficial on average: low-=
+patience customers balk at the door and free capacity for the rest. But EWT=
+ is a blunt instrument. The same announcement that sends an impatient custo=
+mer home also sends home some customers who had enough patience to wait and=
+ would have been satisfied with the outcome. Some resolvable contacts will =
+be lost. This is a known trade-off, not a side-effect to be ignored.</div>
+      </li>
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">6</div>
+        <div class=3D"caution-body"><b>Customers from diverse backgrounds m=
+ay not benefit equally.</b> EWT announcements assume the caller can hear, u=
+nderstand, and act on spoken information in the announced language. Custome=
+rs from culturally and linguistically diverse (CALD) backgrounds, customers=
+ with hearing impairments, elderly customers, and customers in noisy enviro=
+nments may not be able to use the announcement at all. Position-in-queue nu=
+mbers have a modest advantage here since a numeral is more universally unde=
+rstood than a sentence. The broader point: any system designed around a sin=
+gle average caller profile will underserve a portion of its actual caller p=
+opulation.</div>
+      </li>
+      <li class=3D"caution-item">
+        <div class=3D"caution-num">7</div>
+        <div class=3D"caution-body"><b>None of this works for a sustained c=
+apacity shortfall.</b> Everything in this document assumes the queue will r=
+ecover within hours. When demand persistently exceeds capacity over days or=
+ weeks, callback programmes accumulate a backlog that raises average handle=
+ time, EWT models lose calibration, position numbers remain permanently in =
+the crisis range, and customer trust in the announcement system collapses. =
+At that point, the correct response is additional headcount, automation of =
+high-volume simple enquiry types, and reducing contact volume at source. Th=
+ose are staffing and demand-management problems. They are not solved by a b=
+etter announcement strategy.</div>
+      </li>
+    </ul>
   </div>
 
-  <p>With that case on the table: the evidence for well-implemented, accura=
-tely modelled EWT and PIQ announcements still favours implementation over s=
-ilence, in normal operating conditions, with appropriate calibration and mo=
-nitoring. The antithesis above is not a reason to do nothing. It is a list =
-of the ways doing this poorly is worse than not doing it at all.</p>
+  <p style=3D"margin-top:22px;">With those cautions stated: the evidence fo=
+r well-implemented, accurately modelled EWT and PIQ announcements still fav=
+ours doing this over silence, in normal operating conditions, with appropri=
+ate calibration and monitoring. The list above is not a reason to do nothin=
+g. It is a checklist of the ways doing it poorly is worse than not doing it=
+ at all.</p>
 </section>
 <hr class=3D"rule">
 
@@ -394,38 +405,38 @@ wait (seconds)</text><rect x=3D"127.6" y=3D"70" width=3D"63" height=3D"160"=
 e" font-family=3D"Oxygen,sans-serif" font-size=3D"10" fill=3D"#c8c1b1">anno=
 uncement</text><circle cx=3D"159.1" cy=3D"209.7477245537015" r=3D"4" fill=
 =3D"#c2552f" stroke=3D"#221f18" stroke-width=3D"2" opacity=3D"0.9"></circle=
-><rect x=3D"266.2" y=3D"155.3306096046753" width=3D"63" height=3D"74.669390=
-39532471" rx=3D"5" fill=3D"#aa42dc" opacity=3D"0.85"></rect><text x=3D"297.=
-7" y=3D"149.3306096046753" text-anchor=3D"middle" font-family=3D"Oxygen,san=
-s-serif" font-size=3D"12" font-weight=3D"700" fill=3D"#aa42dc">12s</text><t=
-ext x=3D"297.7" y=3D"246" text-anchor=3D"middle" font-family=3D"Oxygen,sans=
--serif" font-size=3D"10" fill=3D"#c8c1b1">PIQ</text><text x=3D"297.7" y=3D"=
-258" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D"=
-10" fill=3D"#c8c1b1">only</text><circle cx=3D"297.7" cy=3D"212.185345980476=
-17" r=3D"4" fill=3D"#aa42dc" stroke=3D"#221f18" stroke-width=3D"2" opacity=
-=3D"0.9"></circle><rect x=3D"404.79999999999995" y=3D"174.08842358503378" w=
-idth=3D"63" height=3D"55.91157641496621" rx=3D"5" fill=3D"#7fb0e0" opacity=
-=3D"0.85"></rect><text x=3D"436.29999999999995" y=3D"168.08842358503378" te=
-xt-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D"12" fon=
-t-weight=3D"700" fill=3D"#7fb0e0">9s</text><text x=3D"436.29999999999995" y=
-=3D"246" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=
-=3D"10" fill=3D"#c8c1b1">EWT</text><text x=3D"436.29999999999995" y=3D"258"=
- text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D"10" =
-fill=3D"#c8c1b1">only</text><circle cx=3D"436.29999999999995" cy=3D"211.926=
-3092535998" r=3D"4" fill=3D"#7fb0e0" stroke=3D"#221f18" stroke-width=3D"2" =
-opacity=3D"0.9"></circle><rect x=3D"543.4" y=3D"174.08842358503378" width=
-=3D"63" height=3D"55.91157641496621" rx=3D"5" fill=3D"#7fd9bd" opacity=3D"0=
-.85"></rect><text x=3D"574.9" y=3D"168.08842358503378" text-anchor=3D"middl=
-e" font-family=3D"Oxygen,sans-serif" font-size=3D"12" font-weight=3D"700" f=
-ill=3D"#7fd9bd">9s</text><text x=3D"574.9" y=3D"246" text-anchor=3D"middle"=
- font-family=3D"Oxygen,sans-serif" font-size=3D"10" fill=3D"#c8c1b1">PIQ</t=
-ext><text x=3D"574.9" y=3D"258" text-anchor=3D"middle" font-family=3D"Oxyge=
-n,sans-serif" font-size=3D"10" fill=3D"#c8c1b1">+</text><text x=3D"574.9" y=
-=3D"270" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=
-=3D"10" fill=3D"#c8c1b1">EWT</text><circle cx=3D"574.9" cy=3D"212.616423607=
-1159" r=3D"4" fill=3D"#7fd9bd" stroke=3D"#221f18" stroke-width=3D"2" opacit=
-y=3D"0.9"></circle><circle cx=3D"602" cy=3D"40" r=3D"4" fill=3D"#e8e2d4"></=
-circle><text x=3D"610" y=3D"44" font-family=3D"Oxygen,sans-serif" font-size=
+><rect x=3D"266.2" y=3D"137.7055296018023" width=3D"63" height=3D"92.294470=
+3981977" rx=3D"5" fill=3D"#aa42dc" opacity=3D"0.85"></rect><text x=3D"297.7=
+" y=3D"131.7055296018023" text-anchor=3D"middle" font-family=3D"Oxygen,sans=
+-serif" font-size=3D"12" font-weight=3D"700" fill=3D"#aa42dc">14s</text><te=
+xt x=3D"297.7" y=3D"246" text-anchor=3D"middle" font-family=3D"Oxygen,sans-=
+serif" font-size=3D"10" fill=3D"#c8c1b1">PIQ</text><text x=3D"297.7" y=3D"2=
+58" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D"1=
+0" fill=3D"#c8c1b1">only</text><circle cx=3D"297.7" cy=3D"211.1413347913242=
+" r=3D"4" fill=3D"#aa42dc" stroke=3D"#221f18" stroke-width=3D"2" opacity=3D=
+"0.9"></circle><rect x=3D"404.79999999999995" y=3D"174.16235323354198" widt=
+h=3D"63" height=3D"55.837646766458015" rx=3D"5" fill=3D"#7fb0e0" opacity=3D=
+"0.85"></rect><text x=3D"436.29999999999995" y=3D"168.16235323354198" text-=
+anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D"12" font-w=
+eight=3D"700" fill=3D"#7fb0e0">9s</text><text x=3D"436.29999999999995" y=3D=
+"246" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D=
+"10" fill=3D"#c8c1b1">EWT</text><text x=3D"436.29999999999995" y=3D"258" te=
+xt-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D"10" fil=
+l=3D"#c8c1b1">only</text><circle cx=3D"436.29999999999995" cy=3D"211.891740=
+3038903" r=3D"4" fill=3D"#7fb0e0" stroke=3D"#221f18" stroke-width=3D"2" opa=
+city=3D"0.9"></circle><rect x=3D"543.4" y=3D"174.16235323354198" width=3D"6=
+3" height=3D"55.837646766458015" rx=3D"5" fill=3D"#7fd9bd" opacity=3D"0.85"=
+></rect><text x=3D"574.9" y=3D"168.16235323354198" text-anchor=3D"middle" f=
+ont-family=3D"Oxygen,sans-serif" font-size=3D"12" font-weight=3D"700" fill=
+=3D"#7fd9bd">9s</text><text x=3D"574.9" y=3D"246" text-anchor=3D"middle" fo=
+nt-family=3D"Oxygen,sans-serif" font-size=3D"10" fill=3D"#c8c1b1">PIQ</text=
+><text x=3D"574.9" y=3D"258" text-anchor=3D"middle" font-family=3D"Oxygen,s=
+ans-serif" font-size=3D"10" fill=3D"#c8c1b1">+</text><text x=3D"574.9" y=3D=
+"270" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=3D=
+"10" fill=3D"#c8c1b1">EWT</text><circle cx=3D"574.9" cy=3D"212.722308049519=
+28" r=3D"4" fill=3D"#7fd9bd" stroke=3D"#221f18" stroke-width=3D"2" opacity=
+=3D"0.9"></circle><circle cx=3D"602" cy=3D"40" r=3D"4" fill=3D"#e8e2d4"></c=
+ircle><text x=3D"610" y=3D"44" font-family=3D"Oxygen,sans-serif" font-size=
 =3D"10" fill=3D"#a39c8c">dot =3D abandonment rate</text></svg></div>
 
     <div class=3D"cmp-wrap">
@@ -435,11 +446,11 @@ circle><text x=3D"610" y=3D"44" font-family=3D"Oxygen,sans-serif" font-size=
 <th>EWT only</th><th>PIQ + EWT</th></tr></thead>
         <tbody>
           <tr><td>Avg wait (served)</td><td id=3D"ct-w-0">25s</td><td id=3D=
-"ct-w-piq"><span class=3D"green-val">12s</span></td><td id=3D"ct-w-ewt"><sp=
+"ct-w-piq"><span class=3D"green-val">14s</span></td><td id=3D"ct-w-ewt"><sp=
 an class=3D"green-val">9s</span></td><td id=3D"ct-w-both"><span class=3D"gr=
 een-val">9s</span></td></tr>
           <tr><td>Service level (30s)</td><td id=3D"ct-sl-0">76%</td><td id=
-=3D"ct-sl-piq"><span class=3D"green-val">87%</span></td><td id=3D"ct-sl-ewt=
+=3D"ct-sl-piq"><span class=3D"green-val">85%</span></td><td id=3D"ct-sl-ewt=
 "><span class=3D"green-val">90%</span></td><td id=3D"ct-sl-both"><span clas=
 s=3D"green-val">90%</span></td></tr>
           <tr><td>Abandonment</td><td id=3D"ct-ab-0">10%</td><td id=3D"ct-a=
@@ -467,12 +478,16 @@ class=3D"sv" id=3D"a-vol-v">520/hr</span></div>
 nge" id=3D"a-pat" min=3D"30" max=3D"600" value=3D"180" step=3D"15"><span cl=
 ass=3D"sv" id=3D"a-pat-v">3.0 min</span></div>
 
-    <div class=3D"lab-note"><b>PIQ only</b> is modelled as EWT with a 15% i=
-nformation discount: callers converting position to time mentally get a noi=
-sier signal, so balking is partially attenuated compared to direct EWT. <b>=
-PIQ + EWT</b> adds a 10% renege reduction from position update progress sig=
-nals. Deep queue warnings appear when implied queue depth would cause posit=
-ion numbers to cross the phase thresholds in section 08.</div>
+    <div class=3D"lab-note"><b>PIQ only</b> is modelled using a research-ra=
+nge approach: Hui and Tse (1996) and Munichor and Rafaeli (2007) together s=
+uggest position-in-queue alone achieves roughly 50 to 80% of estimated wait=
+ time's abandonment reduction, with 65% as the midpoint applied here. It is=
+ not possible to model the position-to-time conversion precisely without kn=
+owing caller familiarity with the operation. Treat the PIQ column as an ind=
+icative range, not a precise forecast. <b>PIQ + EWT</b> adds a 12% reductio=
+n in mid-queue walkaway rate from position progress signals (Maister, 1985)=
+. Deep queue warnings appear when implied queue depth crosses the phase thr=
+esholds in section 08.</div>
   </div>
 </section>
 <hr class=3D"rule">
@@ -544,18 +559,38 @@ stroke-dasharray=3D"4 3"></line><text x=3D"292" y=3D"40" font-family=3D"Oxy=
 gen,sans-serif" font-size=3D"9" fill=3D"#c8c1b1">accurate</text><line x1=3D=
 "54" y1=3D"230" x2=3D"678" y2=3D"230" stroke=3D"rgba(255,255,255,.07)"></li=
 ne><text x=3D"46" y=3D"234" text-anchor=3D"end" font-family=3D"Oxygen,sans-=
-serif" font-size=3D"9" fill=3D"#9b937f">0s</text><line x1=3D"54" y1=3D"98.9=
-7260521844913" x2=3D"678" y2=3D"98.97260521844913" stroke=3D"rgba(255,255,2=
-55,.07)"></line><text x=3D"46" y=3D"102.97260521844913" text-anchor=3D"end"=
- font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#9b937f">10s</te=
-xt><text x=3D"686" y=3D"234" font-family=3D"Oxygen,sans-serif" font-size=3D=
-"9" fill=3D"#e09a5f">0%</text><text x=3D"686" y=3D"178.01775588967098" font=
--family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#e09a5f">4%</text><te=
-xt x=3D"686" y=3D"122.03551177934199" font-family=3D"Oxygen,sans-serif" fon=
-t-size=3D"9" fill=3D"#e09a5f">8%</text><text x=3D"686" y=3D"66.053267669012=
-97" font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#e09a5f">12%<=
-/text><text x=3D"54" y=3D"248" text-anchor=3D"middle" font-family=3D"Oxygen=
-,sans-serif" font-size=3D"9" fill=3D"#9b937f">0.4x</text><text x=3D"132" y=
+serif" font-size=3D"9" fill=3D"#9b937f">5s</text><line x1=3D"54" y1=3D"190"=
+ x2=3D"678" y2=3D"190" stroke=3D"rgba(255,255,255,.07)"></line><text x=3D"4=
+6" y=3D"194" text-anchor=3D"end" font-family=3D"Oxygen,sans-serif" font-siz=
+e=3D"9" fill=3D"#9b937f">7s</text><line x1=3D"54" y1=3D"150" x2=3D"678" y2=
+=3D"150" stroke=3D"rgba(255,255,255,.07)"></line><text x=3D"46" y=3D"154" t=
+ext-anchor=3D"end" font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=
+=3D"#9b937f">10s</text><line x1=3D"54" y1=3D"110" x2=3D"678" y2=3D"110" str=
+oke=3D"rgba(255,255,255,.07)"></line><text x=3D"46" y=3D"114" text-anchor=
+=3D"end" font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#9b937f"=
+>12s</text><line x1=3D"54" y1=3D"70" x2=3D"678" y2=3D"70" stroke=3D"rgba(25=
+5,255,255,.07)"></line><text x=3D"46" y=3D"74" text-anchor=3D"end" font-fam=
+ily=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#9b937f">14s</text><line =
+x1=3D"54" y1=3D"30" x2=3D"678" y2=3D"30" stroke=3D"rgba(255,255,255,.07)"><=
+/line><text x=3D"46" y=3D"34" text-anchor=3D"end" font-family=3D"Oxygen,san=
+s-serif" font-size=3D"9" fill=3D"#9b937f">16s</text><line x1=3D"54" y1=3D"2=
+30" x2=3D"678" y2=3D"230" stroke=3D"rgba(255,255,255,.04)"></line><text x=
+=3D"686" y=3D"234" font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=
+=3D"#e09a5f">7%</text><line x1=3D"54" y1=3D"190" x2=3D"678" y2=3D"190" stro=
+ke=3D"rgba(255,255,255,.04)"></line><text x=3D"686" y=3D"194" font-family=
+=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#e09a5f">9%</text><line x1=
+=3D"54" y1=3D"150" x2=3D"678" y2=3D"150" stroke=3D"rgba(255,255,255,.04)"><=
+/line><text x=3D"686" y=3D"154" font-family=3D"Oxygen,sans-serif" font-size=
+=3D"9" fill=3D"#e09a5f">10%</text><line x1=3D"54" y1=3D"110" x2=3D"678" y2=
+=3D"110" stroke=3D"rgba(255,255,255,.04)"></line><text x=3D"686" y=3D"114" =
+font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#e09a5f">12%</tex=
+t><line x1=3D"54" y1=3D"70" x2=3D"678" y2=3D"70" stroke=3D"rgba(255,255,255=
+,.04)"></line><text x=3D"686" y=3D"74" font-family=3D"Oxygen,sans-serif" fo=
+nt-size=3D"9" fill=3D"#e09a5f">13%</text><line x1=3D"54" y1=3D"30" x2=3D"67=
+8" y2=3D"30" stroke=3D"rgba(255,255,255,.04)"></line><text x=3D"686" y=3D"3=
+4" font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#e09a5f">15%</=
+text><text x=3D"54" y=3D"248" text-anchor=3D"middle" font-family=3D"Oxygen,=
+sans-serif" font-size=3D"9" fill=3D"#9b937f">0.4x</text><text x=3D"132" y=
 =3D"248" text-anchor=3D"middle" font-family=3D"Oxygen,sans-serif" font-size=
 =3D"9" fill=3D"#9b937f">0.6x</text><text x=3D"210" y=3D"248" text-anchor=3D=
 "middle" font-family=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#9b937f"=
@@ -576,35 +611,35 @@ y=3D"Oxygen,sans-serif" font-size=3D"9" fill=3D"#9b937f">2.0x</text><text x=
 size=3D"11" fill=3D"#7fb0e0" transform=3D"rotate(-90 18 130)">wait (sec, le=
 ft)</text><text x=3D"718" y=3D"130" text-anchor=3D"middle" font-family=3D"O=
 xygen,sans-serif" font-size=3D"11" fill=3D"#e09a5f" transform=3D"rotate(90 =
-718 130)">abandonment (right)</text><path d=3D"M54.0 48.2 L67.0 53.4 L80.0 =
-58.2 L93.0 62.7 L106.0 66.9 L119.0 70.8 L132.0 74.5 L145.0 78.0 L158.0 81.1=
- L171.0 84.2 L184.0 87.2 L197.0 89.9 L210.0 92.6 L223.0 95.1 L236.0 97.5 L2=
-49.0 99.8 L262.0 102.0 L275.0 104.1 L288.0 106.1 L301.0 108.1 L314.0 109.9 =
-L327.0 111.7 L340.0 113.5 L353.0 115.1 L366.0 116.7 L379.0 118.3 L392.0 119=
-.8 L405.0 121.2 L418.0 122.6 L431.0 124.0 L444.0 125.3 L457.0 126.6 L470.0 =
-127.8 L483.0 129.0 L496.0 130.2 L509.0 131.3 L522.0 132.4 L535.0 133.5 L548=
-.0 134.5 L561.0 135.6 L574.0 136.2 L587.0 137.2 L600.0 138.1 L613.0 139.1 L=
-626.0 139.9 L639.0 140.8 L652.0 141.7 L665.0 142.5 L678.0 143.3" fill=3D"no=
-ne" stroke=3D"#7fb0e0" stroke-width=3D"2.2" stroke-linejoin=3D"round"></pat=
-h><path d=3D"M54.0 48.2 L67.0 52.9 L80.0 57.3 L93.0 61.5 L106.0 65.3 L119.0=
- 69.0 L132.0 72.4 L145.0 75.6 L158.0 78.7 L171.0 81.6 L184.0 84.4 L197.0 87=
-.0 L210.0 89.5 L223.0 91.9 L236.0 94.2 L249.0 96.4 L262.0 98.5 L275.0 100.5=
- L288.0 102.4 L301.0 102.7 L314.0 102.9 L327.0 103.1 L340.0 103.2 L353.0 10=
-3.4 L366.0 103.5 L379.0 103.6 L392.0 103.8 L405.0 103.8 L418.0 103.9 L431.0=
- 104.0 L444.0 104.1 L457.0 98.0 L470.0 97.7 L483.0 97.3 L496.0 97.0 L509.0 =
-96.6 L522.0 96.3 L535.0 95.9 L548.0 95.6 L561.0 95.2 L574.0 95.0 L587.0 94.=
-6 L600.0 94.3 L613.0 94.0 L626.0 93.6 L639.0 93.3 L652.0 92.9 L665.0 92.6 L=
-678.0 92.3" fill=3D"none" stroke=3D"#e09a5f" stroke-width=3D"2.5" stroke-li=
-nejoin=3D"round"></path><circle cx=3D"288" cy=3D"106.14060584420352" r=3D"7=
-" fill=3D"#7fb0e0" stroke=3D"#fdfbf4" stroke-width=3D"2.5"></circle><circle=
- cx=3D"288" cy=3D"102.44524876542143" r=3D"7" fill=3D"#e09a5f" stroke=3D"#f=
-dfbf4" stroke-width=3D"2.5"></circle><rect x=3D"54" y=3D"30" width=3D"14" h=
-eight=3D"3" rx=3D"1.5" fill=3D"#7fb0e0"></rect><text x=3D"72" y=3D"34" font=
--family=3D"Oxygen,sans-serif" font-size=3D"10" fill=3D"#7fb0e0">avg wait (l=
-eft axis)</text><rect x=3D"224" y=3D"30" width=3D"14" height=3D"3" rx=3D"1.=
-5" fill=3D"#e09a5f"></rect><text x=3D"242" y=3D"34" font-family=3D"Oxygen,s=
-ans-serif" font-size=3D"10" fill=3D"#e09a5f">total abandonment (right axis)=
-</text></svg></div>
+718 130)">abandonment (right)</text><path d=3D"M54.0 69.0 L67.0 76.4 L80.0 =
+83.2 L93.0 89.7 L106.0 95.7 L119.0 101.4 L132.0 106.6 L145.0 111.5 L158.0 1=
+16.1 L171.0 120.7 L184.0 124.7 L197.0 128.7 L210.0 132.6 L223.0 136.2 L236.=
+0 139.5 L249.0 143.0 L262.0 145.9 L275.0 149.1 L288.0 151.9 L301.0 154.6 L3=
+14.0 157.4 L327.0 160.0 L340.0 162.4 L353.0 164.7 L366.0 167.0 L379.0 169.2=
+ L392.0 171.3 L405.0 173.5 L418.0 175.5 L431.0 177.4 L444.0 179.2 L457.0 18=
+1.2 L470.0 182.8 L483.0 184.5 L496.0 186.2 L509.0 187.8 L522.0 189.5 L535.0=
+ 190.9 L548.0 192.5 L561.0 194.0 L574.0 195.4 L587.0 196.8 L600.0 198.1 L61=
+3.0 199.3 L626.0 200.8 L639.0 201.8 L652.0 203.2 L665.0 204.1 L678.0 205.3"=
+ fill=3D"none" stroke=3D"#7fb0e0" stroke-width=3D"2.2" stroke-linejoin=3D"r=
+ound"></path><path d=3D"M54.0 80.5 L67.0 89.3 L80.0 97.5 L93.0 105.2 L106.0=
+ 112.3 L119.0 119.0 L132.0 125.4 L145.0 131.4 L158.0 137.1 L171.0 142.4 L18=
+4.0 147.6 L197.0 152.4 L210.0 157.0 L223.0 161.4 L236.0 165.7 L249.0 169.7 =
+L262.0 173.7 L275.0 177.4 L288.0 181.0 L301.0 181.3 L314.0 181.6 L327.0 181=
+.9 L340.0 182.1 L353.0 182.4 L366.0 182.6 L379.0 182.7 L392.0 182.9 L405.0 =
+183.0 L418.0 183.1 L431.0 183.1 L444.0 183.2 L457.0 172.7 L470.0 172.1 L483=
+.0 171.4 L496.0 170.8 L509.0 170.2 L522.0 169.5 L535.0 168.9 L548.0 168.2 L=
+561.0 167.5 L574.0 166.9 L587.0 166.2 L600.0 165.6 L613.0 165.0 L626.0 164.=
+3 L639.0 163.8 L652.0 163.1 L665.0 162.6 L678.0 161.9" fill=3D"none" stroke=
+=3D"#e09a5f" stroke-width=3D"2.5" stroke-linejoin=3D"round"></path><circle =
+cx=3D"288" cy=3D"151.85351966493465" r=3D"7" fill=3D"#7fb0e0" stroke=3D"#fd=
+fbf4" stroke-width=3D"2.5"></circle><circle cx=3D"288" cy=3D"180.9758785681=
+332" r=3D"7" fill=3D"#e09a5f" stroke=3D"#fdfbf4" stroke-width=3D"2.5"></cir=
+cle><rect x=3D"54" y=3D"30" width=3D"14" height=3D"3" rx=3D"1.5" fill=3D"#7=
+fb0e0"></rect><text x=3D"72" y=3D"34" font-family=3D"Oxygen,sans-serif" fon=
+t-size=3D"10" fill=3D"#7fb0e0">avg wait (left axis)</text><rect x=3D"224" y=
+=3D"30" width=3D"14" height=3D"3" rx=3D"1.5" fill=3D"#e09a5f"></rect><text =
+x=3D"242" y=3D"34" font-family=3D"Oxygen,sans-serif" font-size=3D"10" fill=
+=3D"#e09a5f">total abandonment (right axis)</text></svg></div>
 
     <div class=3D"slider-row"><label>EWT announcement bias</label><input ty=
 pe=3D"range" id=3D"bias-slider" min=3D"0.4" max=3D"2.0" value=3D"1.0" step=
@@ -1360,7 +1395,7 @@ g></p>
 
 
 </body></html>
-------MultipartBoundary--321Ahm7MzKqJ0PVylsDxGKP2HJCQoUU46Fk7o8KHLm----
+------MultipartBoundary--Xb3e33O9Fpxb7cLv5Qs9T1OrGita3toSM1PAF3FovO----
 Content-Type: text/css
 Content-Transfer-Encoding: quoted-printable
 Content-Location: https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap
@@ -1511,10 +1546,10 @@ t-display: swap; src: url("https://fonts.gstatic.com/s/oxygen/v16/2sDcZG1Wl=
 4LcnbuCNWgzaGW5Kb8VZA.woff2") format("woff2"); unicode-range: U+0-FF, U+131=
 , U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-20=
 6F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-------MultipartBoundary--321Ahm7MzKqJ0PVylsDxGKP2HJCQoUU46Fk7o8KHLm----
+------MultipartBoundary--Xb3e33O9Fpxb7cLv5Qs9T1OrGita3toSM1PAF3FovO----
 Content-Type: text/css
 Content-Transfer-Encoding: quoted-printable
-Content-Location: cid:css-917d3b41-d465-4430-8ebc-831ad9dc9d44@mhtml.blink
+Content-Location: cid:css-587ee12c-a16e-445b-909b-e0a5a651d357@mhtml.blink
 
 @charset "utf-8";
 
@@ -1683,28 +1718,30 @@ r: 1px solid; }
 
 .callout p { margin: 0px; font-size: 15.5px; line-height: 1.55; }
 
-.antithesis { background: rgb(26, 10, 46); border-radius: 20px; padding: 36=
-px 34px; margin: 32px 0px; border: 1px solid rgba(170, 66, 220, 0.3); }
+.cautions-list { list-style: none; padding: 0px; margin: 0px; }
 
-.antithesis .kicker { color: rgb(170, 66, 220); }
+.caution-item { display: grid; grid-template-columns: 40px 1fr; gap: 18px; =
+padding: 20px 0px; border-bottom: 1px solid var(--line-soft); align-items: =
+start; }
 
-.antithesis h2 { color: rgb(240, 232, 255); font-size: clamp(26px, 4vw, 36p=
-x); margin: 10px 0px 18px; }
+.caution-item:last-child { border-bottom: 0px; }
 
-.antithesis p { color: rgb(196, 184, 216); font-size: 15.5px; line-height: =
-1.6; }
+.caution-num { width: 40px; height: 40px; border-radius: 12px; background: =
+rgb(250, 238, 218); border: 1px solid rgb(201, 138, 31); display: flex; ali=
+gn-items: center; justify-content: center; font-family: var(--serif); font-=
+size: 18px; font-weight: 600; color: rgb(133, 79, 11); flex-shrink: 0; }
 
-.antithesis .at-item { border-top: 1px solid rgba(255, 255, 255, 0.08); pad=
-ding: 16px 0px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; =
-align-items: start; }
+.caution-body { font-size: 15.5px; color: var(--ink-soft); line-height: 1.6=
+; }
 
-.antithesis .at-num { font-family: var(--serif); font-size: 16px; font-weig=
-ht: 600; color: rgb(170, 66, 220); margin-top: 2px; }
+.caution-body b { color: var(--ink); font-weight: 600; }
 
-.antithesis .at-body { color: rgb(196, 184, 216); font-size: 15px; line-hei=
-ght: 1.6; }
-
-.antithesis .at-body b { color: rgb(240, 232, 255); }
+.caution-intro { font-size: 16px; color: var(--ink-soft); line-height: 1.6;=
+ margin-bottom: 22px; padding: 18px 22px; background: rgb(255, 251, 242); b=
+order-top: 1px solid rgba(201, 138, 31, 0.25); border-right: 1px solid rgba=
+(201, 138, 31, 0.25); border-bottom: 1px solid rgba(201, 138, 31, 0.25); bo=
+rder-image: initial; border-left: 4px solid var(--amber); border-radius: 0p=
+x 12px 12px 0px; }
 
 .lab { background: var(--ink); color: rgb(244, 239, 228); border-radius: 18=
 px; padding: 30px 30px 26px; margin: 26px 0px; box-shadow: rgba(34, 31, 24,=
@@ -1986,4 +2023,4 @@ er(0.2, 0.7, 0.3, 1) 0s 1 normal forwards running fu; }
 @keyframes fu {=20
   100% { opacity: 1; transform: none; }
 }
-------MultipartBoundary--321Ahm7MzKqJ0PVylsDxGKP2HJCQoUU46Fk7o8KHLm------
+------MultipartBoundary--Xb3e33O9Fpxb7cLv5Qs9T1OrGita3toSM1PAF3FovO------

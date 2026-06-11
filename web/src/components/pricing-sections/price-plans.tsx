@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
-import posthog from 'posthog-js';
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 const planButtonClass =
   "inline-flex items-center justify-center px-6 py-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm rounded-ocx-md mt-6 shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base";
@@ -12,6 +12,7 @@ interface PricePlansProps {
 }
 
 function PricePlans({ activePlan }: PricePlansProps) {
+  const { capture } = usePosthogConsent();
   const monthlyPrices = {
     starter: 'Free',
     professional: '$45',
@@ -29,7 +30,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
   const prices = activePlan === 'monthly' ? monthlyPrices : yearlyPrices;
 
   return (
-    <section className="relative scroll-section-1 bg-transparent pb-10 md:pb-20  landscape:pt-20">
+    <section className="relative bg-transparent pb-10 md:pb-20 landscape:pt-20">
       <div className="container mx-auto flex flex-col md:flex-row gap-6 justify-between relative z-10">
 
         <div className="bg-gradient-to-t from-ocx-bg/0 to-ocx-bg/[0.15] backdrop-blur-md shadow-ocx-sm border w-full md:w-1/3 px-8 py-4 border-ocx-border rounded-ocx-lg flex flex-col gap-6">
@@ -40,7 +41,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <div>
               <Link
                 href="/contact"
-                onClick={() => posthog.capture("pricing_plan_cta_clicked", { plan: "starter", billing_period: activePlan })}
+                onClick={() => capture({ event: "cta_click", properties: { cta_label: `pricing_plan_starter_${activePlan}`, page: "/pricing" } })}
                 className={planButtonClass}
               >
                 Get started
@@ -67,7 +68,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <div>
               <Link
                 href="/contact"
-                onClick={() => posthog.capture("pricing_plan_cta_clicked", { plan: "professional", billing_period: activePlan })}
+                onClick={() => capture({ event: "cta_click", properties: { cta_label: `pricing_plan_professional_${activePlan}`, page: "/pricing" } })}
                 className={planButtonClass}
               >
                 Get started
@@ -94,7 +95,7 @@ function PricePlans({ activePlan }: PricePlansProps) {
             <div>
               <Link
                 href="/contact"
-                onClick={() => posthog.capture("pricing_plan_cta_clicked", { plan: "premium", billing_period: activePlan })}
+                onClick={() => capture({ event: "cta_click", properties: { cta_label: `pricing_plan_premium_${activePlan}`, page: "/pricing" } })}
                 className={planButtonClass}
               >
                 Get started

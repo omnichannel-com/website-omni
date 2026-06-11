@@ -10,7 +10,7 @@
 
 ## Product
 
-- [OmniChannel Home](https://omni-channel.com/): Human-in-control channel intelligence — what the product does and how agents and humans divide the work.
+- [OmniChannel Home](https://omni-channel.com/): Human-in-control channel intelligence - what the product does and how agents and humans divide the work.
 
 ## Optional
 

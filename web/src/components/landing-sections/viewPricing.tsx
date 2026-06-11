@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import posthog from "posthog-js";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 export default function ViewPricing() {
+  const { capture } = usePosthogConsent();
   return (
-    <section className="relative scroll-section min-h-[60svh] flex items-center justify-center bg-ocx-indigo text-white overflow-hidden">
+    <section className="relative min-h-[60svh] flex items-center justify-center bg-ocx-indigo text-white overflow-hidden">
       {/* Halo glows for depth */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[60%] h-[80%] rounded-full bg-ocx-mauve/15 blur-[100px]" />
@@ -30,7 +31,7 @@ export default function ViewPricing() {
 
           <Link
             href="/pricing"
-            onClick={() => posthog.capture("view_pricing_clicked")}
+            onClick={() => capture({ event: "cta_click", properties: { cta_label: "view_pricing", page: "/" } })}
             className="group inline-flex items-center gap-3 bg-ocx-gradient text-white font-display font-bold text-sm md:text-base px-8 py-4 rounded-ocx-lg hover:shadow-ocx-glow transition-all duration-ocx-fast"
           >
             <ArrowRight className="w-5 h-5 stroke-[1.25]" />

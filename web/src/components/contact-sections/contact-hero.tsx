@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { X, ChevronDown } from "lucide-react";
-import posthog from "posthog-js";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 function ContactHero() {
+  const { capture } = usePosthogConsent();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("How can we help you?");
@@ -14,7 +15,7 @@ function ContactHero() {
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
-    posthog.capture("contact_form_opened", { inquiry_type: selectedPlan });
+    capture({ event: "cta_click", properties: { cta_label: "contact_form_open", page: "/contact" } });
   };
   const handleModalClose = () => setIsModalOpen(false);
 
@@ -101,17 +102,19 @@ function ContactHero() {
         // No endpoint configured; silently succeed for static builds
         await new Promise((resolve) => setTimeout(resolve, 1000));
       }
-      posthog.capture("contact_form_submitted", {
-        inquiry_type: selectedPlan,
-        has_company: !!formData.company,
-        has_mobile: !!formData.mobile,
+      capture({
+        event: "cta_click",
+        properties: { cta_label: "contact_form_submit", page: "/contact" },
       });
       setSubmitStatus("success");
       setFormData({ fullName: "", email: "", company: "", mobile: "", message: "" });
       setSelectedPlan("How can we help you?");
       setTimeout(() => setSubmitStatus("idle"), 3000);
     } catch {
-      posthog.capture("contact_form_failed", { inquiry_type: selectedPlan });
+      capture({
+        event: "cta_click",
+        properties: { cta_label: "contact_form_failed", page: "/contact" },
+      });
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);

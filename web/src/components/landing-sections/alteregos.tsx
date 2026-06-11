@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import posthog from "posthog-js";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 export default function AlterEgoSection() {
+  const { capture } = usePosthogConsent();
   const features = [
     "Unify every channel into one intelligent inbox",
     "Give agents full customer context instantly",
@@ -16,7 +17,7 @@ export default function AlterEgoSection() {
   return (
     <section className="relative z-10 py-16 md:py-24 lg:py-32 bg-ocx-tint">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-        {/* Type pairing — brand pack style */}
+        {/* Type pairing - brand pack style */}
         <div className="max-w-5xl mx-auto mb-16 md:mb-20">
           <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
             Why omnichannel CX
@@ -32,7 +33,7 @@ export default function AlterEgoSection() {
           </p>
         </div>
 
-        {/* Feature cards — brand pack style with top border accent */}
+        {/* Feature cards - brand pack style with top border accent */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {features.map((feature, idx) => (
             <div
@@ -50,7 +51,7 @@ export default function AlterEgoSection() {
         <div className="flex justify-center mt-12">
           <Link
             href="/about"
-            onClick={() => posthog.capture("explore_platform_clicked")}
+            onClick={() => capture({ event: "cta_click", properties: { cta_label: "explore_platform", page: "/" } })}
             className="group inline-flex items-center gap-3 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-8 py-4 rounded-ocx-lg hover:bg-[var(--btn-primary-bg-hover)] transition-all duration-ocx-fast shadow-ocx-md"
           >
             <ArrowRight className="w-5 h-5 stroke-[1.25]" />

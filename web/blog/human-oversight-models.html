@@ -149,50 +149,50 @@
       <h2>Human-in-the-Loop</h2>
       <div class="tag">Human gates every action</div>
       <svg id="hitl" viewBox="0 0 340 300"></svg>
-      <p><strong>Nothing executes without a person.</strong> The AI proposes, the human approves, then the action happens. Maximum control, minimum speed — the loop runs at human pace.</p>
+      <p><strong>Nothing executes without a person.</strong> The AI proposes, the human approves, then the action happens. Maximum control, minimum speed - the loop runs at human pace.</p>
     </div>
 
     <div class="card">
       <h2>Human-on-the-Loop</h2>
       <div class="tag">Human supervises, can intervene</div>
       <svg id="hotl" viewBox="0 0 340 300"></svg>
-      <p><strong>The loop runs by itself; a person watches.</strong> The human monitors from outside and steps in when something looks wrong. Fast, but intervention is reactive — after the fact.</p>
+      <p><strong>The loop runs by itself; a person watches.</strong> The human monitors from outside and steps in when something looks wrong. Fast, but intervention is reactive - after the fact.</p>
     </div>
 
     <div class="card">
       <h2>Human-out-of-the-Loop</h2>
       <div class="tag">Full autonomy, no oversight</div>
       <svg id="hootl" viewBox="0 0 340 300"></svg>
-      <p><strong>The system acts entirely on its own.</strong> No human sees the decisions in real time. Fastest of all — and the riskiest place to discover the system was wrong.</p>
+      <p><strong>The system acts entirely on its own.</strong> No human sees the decisions in real time. Fastest of all - and the riskiest place to discover the system was wrong.</p>
     </div>
 
     <div class="card control-card">
       <h2>Human in Control</h2>
       <div class="tag">One authority · execution mode set by risk</div>
       <svg id="hic" viewBox="0 0 340 300"></svg>
-      <p><strong>An operating model, not a position.</strong> Agents may propose or execute — scoped by risk — while a human retains final decision rights: the standing authority to <span style="color:var(--control);font-weight:600">approve</span>, <span style="color:var(--human);font-weight:600">redirect</span>, or <span style="color:var(--stop);font-weight:600">stop</span> any agent action at any time.</p>
+      <p><strong>An operating model, not a position.</strong> Agents may propose or execute - scoped by risk - while a human retains final decision rights: the standing authority to <span style="color:var(--control);font-weight:600">approve</span>, <span style="color:var(--human);font-weight:600">redirect</span>, or <span style="color:var(--stop);font-weight:600">stop</span> any agent action at any time.</p>
     </div>
   </div>
-  <p class="motion-note">Animation is paused because your system prefers reduced motion — the diagrams are shown in their resting state.</p>
+  <p class="motion-note">Animation is paused because your system prefers reduced motion - the diagrams are shown in their resting state.</p>
 
   <div class="table-wrap">
     <h2>The reference matrix</h2>
-    <p style="max-width:760px;color:var(--ink-soft);margin-bottom:16px;font-size:15px">Two different questions are being answered here. The loop positions (in / on / out) answer <strong style="color:var(--ink)">"where does the human sit in the decision cycle?"</strong> Human in control answers <strong style="color:var(--ink)">"who holds final authority and accountability?"</strong> — and is compatible with any execution mode. An agent under human control may propose, execute, or both; what never moves is the decision rights. Under both the EU AI Act (Articles 14 &amp; 26) and Australia's AI Ethics Principles (Principle 8), the choice of oversight model is itself a compliance decision — not just an operational preference. Note also the distinction between <em>operator contestability</em> (the right to stop or redirect an action) and <em>affected-party contestability</em> (the right of people impacted by an AI decision to challenge it after the fact). The Contestability row below covers the latter.</p>
+    <p style="max-width:760px;color:var(--ink-soft);margin-bottom:16px;font-size:15px">Two different questions are being answered here. The loop positions (in / on / out) answer <strong style="color:var(--ink)">"where does the human sit in the decision cycle?"</strong> Human in control answers <strong style="color:var(--ink)">"who holds final authority and accountability?"</strong> - and is compatible with any execution mode. An agent under human control may propose, execute, or both; what never moves is the decision rights. Under both the EU AI Act (Articles 14 &amp; 26) and Australia's AI Ethics Principles (Principle 8), the choice of oversight model is itself a compliance decision - not just an operational preference. Note also the distinction between <em>operator contestability</em> (the right to stop or redirect an action) and <em>affected-party contestability</em> (the right of people impacted by an AI decision to challenge it after the fact). The Contestability row below covers the latter.</p>
     <table>
       <thead>
         <tr><th>Dimension</th><th>Human-in-the-Loop</th><th>Human-on-the-Loop</th><th>Human-out-of-the-Loop</th><th class="hic-col">Human in Control</th></tr>
       </thead>
       <tbody>
         <tr><td>Question it answers</td><td>Where the human sits</td><td>Where the human sits</td><td>Where the human sits</td><td class="hic-col">Who holds authority</td></tr>
-        <tr><td>What the AI may do</td><td>Propose only; nothing executes unapproved</td><td>Execute within set bounds</td><td>Execute fully, end to end</td><td class="hic-col">Propose <em>and/or</em> execute — scope set per risk tier</td></tr>
-        <tr><td>Final decision rights</td><td>Human, per action</td><td>AI by default; human can override</td><td>AI alone at runtime</td><td class="hic-col">Human, always — standing authority to approve, redirect, stop</td></tr>
+        <tr><td>What the AI may do</td><td>Propose only; nothing executes unapproved</td><td>Execute within set bounds</td><td>Execute fully, end to end</td><td class="hic-col">Propose <em>and/or</em> execute - scope set per risk tier</td></tr>
+        <tr><td>Final decision rights</td><td>Human, per action</td><td>AI by default; human can override</td><td>AI alone at runtime</td><td class="hic-col">Human, always - standing authority to approve, redirect, stop</td></tr>
         <tr><td>Human intervention</td><td>Before every action (gate)</td><td>After detection (reactive)</td><td>None in real time</td><td class="hic-col">At any time, by design</td></tr>
-        <tr><td>Accountability</td><td>Clear on paper; erodes if approval becomes rubber-stamping</td><td>Blurs at machine speed — who owns a missed intervention?</td><td>Hard to assign after the fact</td><td class="hic-col">Explicitly retained by a named human owner</td></tr>
-        <tr><td>Explainability needed</td><td>Enough to judge each proposal</td><td>Enough to monitor and spot anomalies</td><td>Post-hoc audit only, if at all</td><td class="hic-col">Continuous — actions traceable, reasons inspectable</td></tr>
+        <tr><td>Accountability</td><td>Clear on paper; erodes if approval becomes rubber-stamping</td><td>Blurs at machine speed - who owns a missed intervention?</td><td>Hard to assign after the fact</td><td class="hic-col">Explicitly retained by a named human owner</td></tr>
+        <tr><td>Explainability needed</td><td>Enough to judge each proposal</td><td>Enough to monitor and spot anomalies</td><td>Post-hoc audit only, if at all</td><td class="hic-col">Continuous - actions traceable, reasons inspectable</td></tr>
         <tr><td>Trust model</td><td>Earned per decision</td><td>Trust in the monitoring</td><td>Trust in the system itself</td><td class="hic-col">Trust in the governance: guardrails, escalation, exercisable veto</td></tr>
-        <tr><td>Characteristic failure</td><td>Bottleneck; automation bias turns the gate into theater</td><td>"Polite fiction" — events outpace the watcher</td><td>Silent failure with no recourse</td><td class="hic-col">Governance debt — control that exists on paper but is never exercisable</td></tr>
-        <tr><td>Contestability<br><span style="font-weight:400;font-size:11px;color:var(--ink-soft)">affected party's right to challenge outcomes</span></td><td>Strongest: human approved it, audit trail exists</td><td>Partial: actions logged, but who owned the missed intervention?</td><td>Weakest: no real-time recourse, post-hoc audit only</td><td class="hic-col">Necessary but not sufficient — requires a challenge mechanism on top of the veto, plus full traceability</td></tr>
-        <tr><td>Regulatory alignment</td><td>EU AI Act Art. 14 (high-risk gate); GDPR Art. 22 (automated decisions); AU Principle 8 (accountability)</td><td>EU AI Act Art. 14 (effective oversight); AU Principles 6 &amp; 8 (explainability, accountability)</td><td>Fails EU AI Act Art. 14 for high-risk systems; fails AU Principles 7 &amp; 8 (contestability, accountability)</td><td class="hic-col">Designed to satisfy EU AI Act Art. 14 &amp; 26(2); AU Principles 2, 6, 7 &amp; 8 — governance layer encodes all four</td></tr>
+        <tr><td>Characteristic failure</td><td>Bottleneck; automation bias turns the gate into theater</td><td>"Polite fiction" - events outpace the watcher</td><td>Silent failure with no recourse</td><td class="hic-col">Governance debt - control that exists on paper but is never exercisable</td></tr>
+        <tr><td>Contestability<br><span style="font-weight:400;font-size:11px;color:var(--ink-soft)">affected party's right to challenge outcomes</span></td><td>Strongest: human approved it, audit trail exists</td><td>Partial: actions logged, but who owned the missed intervention?</td><td>Weakest: no real-time recourse, post-hoc audit only</td><td class="hic-col">Necessary but not sufficient - requires a challenge mechanism on top of the veto, plus full traceability</td></tr>
+        <tr><td>Regulatory alignment</td><td>EU AI Act Art. 14 (high-risk gate); GDPR Art. 22 (automated decisions); AU Principle 8 (accountability)</td><td>EU AI Act Art. 14 (effective oversight); AU Principles 6 &amp; 8 (explainability, accountability)</td><td>Fails EU AI Act Art. 14 for high-risk systems; fails AU Principles 7 &amp; 8 (contestability, accountability)</td><td class="hic-col">Designed to satisfy EU AI Act Art. 14 &amp; 26(2); AU Principles 2, 6, 7 &amp; 8 - governance layer encodes all four</td></tr>
       </tbody>
     </table>
   </div>
@@ -203,39 +203,39 @@
       <div class="term t-human"><dt>Human-in-the-Loop (HITL)</dt><dd>An oversight pattern where a person sits inside the decision cycle and must approve each AI output before it takes effect. The system cannot act without explicit human sign-off.</dd></div>
       <div class="term t-human"><dt>Human-on-the-Loop (HOTL)</dt><dd>An oversight pattern where the system acts autonomously while a person monitors from outside the cycle, with the ability to intervene or override when needed.</dd></div>
       <div class="term t-ai"><dt>Human-out-of-the-Loop (HOOTL)</dt><dd>Full autonomy: the system perceives, decides, and acts with no real-time human involvement or supervision.</dd></div>
-      <div class="term t-control"><dt>Human in Control</dt><dd>An operating model for AI agents in which autonomous agents execute the work while a human retains final decision rights — the authority to approve, redirect, or stop any agent action at any time.</dd></div>
-      <div class="term t-ai"><dt>AI Agent</dt><dd>An AI system that can plan and carry out multi-step tasks toward a goal — calling tools, taking actions, and adapting along the way — rather than just answering a single prompt.</dd></div>
+      <div class="term t-control"><dt>Human in Control</dt><dd>An operating model for AI agents in which autonomous agents execute the work while a human retains final decision rights - the authority to approve, redirect, or stop any agent action at any time.</dd></div>
+      <div class="term t-ai"><dt>AI Agent</dt><dd>An AI system that can plan and carry out multi-step tasks toward a goal - calling tools, taking actions, and adapting along the way - rather than just answering a single prompt.</dd></div>
       <div class="term t-ai"><dt>Autonomy</dt><dd>The degree to which a system can decide and act without human input. Higher autonomy means faster execution and less direct human involvement per action.</dd></div>
       <div class="term t-control"><dt>Decision Rights</dt><dd>The formal authority over what gets approved, changed, or cancelled. In a human-in-control model, decision rights stay with the person even when execution is delegated to agents.</dd></div>
-      <div class="term t-human"><dt>Oversight</dt><dd>The ongoing ability to observe what a system is doing — its actions, reasoning, and outcomes — well enough to exercise judgment over it.</dd></div>
+      <div class="term t-human"><dt>Oversight</dt><dd>The ongoing ability to observe what a system is doing - its actions, reasoning, and outcomes - well enough to exercise judgment over it.</dd></div>
       <div class="term t-human"><dt>Escalation</dt><dd>A built-in route by which an agent hands a decision back to a human when it hits a threshold: ambiguity, risk, cost, or anything outside its mandate.</dd></div>
       <div class="term t-stop"><dt>Override / Kill Switch</dt><dd>A guaranteed mechanism that lets a human halt or reverse an agent's actions immediately. Decision rights are only real if this works at any time.</dd></div>
-      <div class="term t-control"><dt>Guardrails</dt><dd>Predefined limits on what an agent may do — budgets, scopes, forbidden actions — that enforce the human's intent even between check-ins.</dd></div>
+      <div class="term t-control"><dt>Guardrails</dt><dd>Predefined limits on what an agent may do - budgets, scopes, forbidden actions - that enforce the human's intent even between check-ins.</dd></div>
       <div class="term t-ai"><dt>Decision Loop (OODA)</dt><dd>The repeating cycle of observe → orient → decide → act that any acting system runs, from John Boyd's OODA framework. "In", "on", and "out of" the loop describe where the human sits relative to this cycle.</dd></div>
-      <div class="term t-control"><dt>Meaningful Human Control</dt><dd>The standard, drawn from autonomous-weapons debates and echoed in the EU AI Act, that human oversight must be real: the overseer needs understanding, time, and exercisable authority — not just presence in the workflow.</dd></div>
+      <div class="term t-control"><dt>Meaningful Human Control</dt><dd>The standard, drawn from autonomous-weapons debates and echoed in the EU AI Act, that human oversight must be real: the overseer needs understanding, time, and exercisable authority - not just presence in the workflow.</dd></div>
       <div class="term t-control"><dt>Accountability</dt><dd>The assignment of responsibility for an agent's outcomes to a named human or role. Distinct from execution: an agent can do the work while a person owns the result.</dd></div>
       <div class="term t-ai"><dt>Explainability</dt><dd>The degree to which an agent's actions and reasons can be inspected and understood by its overseer. Oversight without explainability is watching a black box blink.</dd></div>
-      <div class="term t-ai"><dt>Traceability / Audit Trail</dt><dd>Logged records of what an agent did, with what inputs, and why — the evidence base that makes accountability enforceable after the fact.</dd></div>
+      <div class="term t-ai"><dt>Traceability / Audit Trail</dt><dd>Logged records of what an agent did, with what inputs, and why - the evidence base that makes accountability enforceable after the fact.</dd></div>
       <div class="term t-human"><dt>Automation Bias</dt><dd>The human tendency to over-trust automated outputs and under-scrutinize them. The reason a human "in the loop" can quietly become a rubber stamp.</dd></div>
-      <div class="term t-human"><dt>Rubber-Stamping</dt><dd>Formal approval without genuine review. It satisfies the letter of human-in-the-loop while providing none of its protection — the most common failure of HITL in practice.</dd></div>
+      <div class="term t-human"><dt>Rubber-Stamping</dt><dd>Formal approval without genuine review. It satisfies the letter of human-in-the-loop while providing none of its protection - the most common failure of HITL in practice.</dd></div>
       <div class="term t-control"><dt>Risk Tiering</dt><dd>Matching the oversight mode to the stakes of each action: low-risk tasks run autonomously, high-risk actions require approval. The mechanism that lets one operating model span multiple loop positions.</dd></div>
-      <div class="term t-stop"><dt>Governance Debt</dt><dd>Control that exists on paper but not in practice — a veto no one can actually exercise in time, an owner who lacks visibility, a kill switch never tested.</dd></div>
+      <div class="term t-stop"><dt>Governance Debt</dt><dd>Control that exists on paper but not in practice - a veto no one can actually exercise in time, an owner who lacks visibility, a kill switch never tested.</dd></div>
       <div class="term t-human"><dt>Contestability</dt><dd>The right of a person significantly affected by an AI decision to challenge that decision through a timely, accessible process. Distinct from operator override: contestability belongs to the impacted party, not the person running the system. Enshrined in Australia's AI Ethics Principle 7 and implicit in GDPR Article 22. Requires audit trails, accessible recourse mechanisms, and human judgment at the point of challenge.</dd></div>
-      <div class="term t-human"><dt>Affected Party</dt><dd>The person whose life, rights, or interests an AI decision touches — and who may be entirely different from the operator running the system. A loan applicant, a patient, a job candidate. The subject of contestability rights. Governance frameworks that only address the operator's control leave the affected party's interests unprotected.</dd></div>
+      <div class="term t-human"><dt>Affected Party</dt><dd>The person whose life, rights, or interests an AI decision touches - and who may be entirely different from the operator running the system. A loan applicant, a patient, a job candidate. The subject of contestability rights. Governance frameworks that only address the operator's control leave the affected party's interests unprotected.</dd></div>
     </dl>
   </section>
 
   <section class="glossary" style="margin-top:44px">
     <h2>Lineage &amp; sources</h2>
-    <p style="max-width:760px;color:var(--ink-soft);font-size:15px;margin-bottom:14px">The in/on/out-of-the-loop taxonomy predates modern AI agents. It was formalized in the autonomous-weapons debate and builds on Boyd's OODA decision cycle. "Human in control" extends this lineage from <em>position</em> to <em>governance</em> — a shift regulators have already made.</p>
+    <p style="max-width:760px;color:var(--ink-soft);font-size:15px;margin-bottom:14px">The in/on/out-of-the-loop taxonomy predates modern AI agents. It was formalized in the autonomous-weapons debate and builds on Boyd's OODA decision cycle. "Human in control" extends this lineage from <em>position</em> to <em>governance</em> - a shift regulators have already made.</p>
     <dl class="glossary-grid">
-      <div class="term"><dt>Human Rights Watch — Losing Humanity (2012)</dt><dd>The report by Bonnie Docherty that classified weapons as human-in-the-loop, human-on-the-loop, and human-out-of-the-loop by degree of human involvement. The origin of the three-part taxonomy. <a href="https://www.hrw.org/news/2013/04/15/review-2012-us-policy-autonomy-weapons-systems" style="color:var(--ai)">hrw.org</a></dd></div>
+      <div class="term"><dt>Human Rights Watch - Losing Humanity (2012)</dt><dd>The report by Bonnie Docherty that classified weapons as human-in-the-loop, human-on-the-loop, and human-out-of-the-loop by degree of human involvement. The origin of the three-part taxonomy. <a href="https://www.hrw.org/news/2013/04/15/review-2012-us-policy-autonomy-weapons-systems" style="color:var(--ai)">hrw.org</a></dd></div>
       <div class="term"><dt>US DoD Directive 3000.09 (2012, upd. 2023)</dt><dd>US policy on autonomy in weapon systems; the parallel vocabulary of semi-autonomous, human-supervised, and fully autonomous systems, requiring "appropriate levels of human judgment over the use of force." <a href="https://www.congress.gov/crs-product/IF11150" style="color:var(--ai)">congress.gov</a></dd></div>
-      <div class="term"><dt>EU AI Act — Articles 14 &amp; 26(2)</dt><dd>Requires high-risk AI systems to be designed for effective human oversight — monitor, intervene, override, deactivate — with deployers assigning overseers who have real authority, competence, and support. The regulatory codification of human-in-control. <a href="https://intelligence.dlapiper.com/artificial-intelligence/?t=11-human-oversight&c=EU" style="color:var(--ai)">dlapiper.com</a></dd></div>
-      <div class="term"><dt>ISO/IEC 22989</dt><dd>Defines graded automation levels from full operator control through assistance, partial, conditional, and high automation — the standards-body view of the same spectrum.</dd></div>
-      <div class="term"><dt>OODA Loop — John Boyd</dt><dd>Observe, orient, decide, act: the decision-cycle model from military strategy that gave "the loop" its name.</dd></div>
-      <div class="term"><dt>Agentic governance literature (2025–26)</dt><dd>Current work distinguishing decision ownership from outcome ownership, framing agent oversight as an operating-model and decision-rights problem rather than a workflow checkbox — the context in which "human in control" is emerging.</dd></div>
-      <div class="term t-control"><dt>Australia's AI Ethics Principles — Dept. of Industry (2019, upd. Dec 2025)</dt><dd>Eight voluntary principles for responsible AI design, development and implementation. Principle 8 (Accountability) explicitly requires organisations to "consider the appropriate level of human control or oversight for the particular AI system or use case" — making the choice of oversight model a compliance decision, not just an operational one. Principle 7 (Contestability) adds a dimension absent from most oversight frameworks: the right of <em>affected people</em> to challenge AI outcomes after the fact, distinct from operator control rights. Principle 6 (Transparency and Explainability) and Principle 2 (Human-centred values) directly underpin the explainability and trust rows in the matrix above. The December 2025 update evolved the original 8 principles into a Guidance for AI Adoption with 6 essential practices. <a href="https://www.industry.gov.au/publications/australias-ai-ethics-principles" style="color:var(--ai)">industry.gov.au</a></dd></div>
+      <div class="term"><dt>EU AI Act - Articles 14 &amp; 26(2)</dt><dd>Requires high-risk AI systems to be designed for effective human oversight - monitor, intervene, override, deactivate - with deployers assigning overseers who have real authority, competence, and support. The regulatory codification of human-in-control. <a href="https://intelligence.dlapiper.com/artificial-intelligence/?t=11-human-oversight&c=EU" style="color:var(--ai)">dlapiper.com</a></dd></div>
+      <div class="term"><dt>ISO/IEC 22989</dt><dd>Defines graded automation levels from full operator control through assistance, partial, conditional, and high automation - the standards-body view of the same spectrum.</dd></div>
+      <div class="term"><dt>OODA Loop - John Boyd</dt><dd>Observe, orient, decide, act: the decision-cycle model from military strategy that gave "the loop" its name.</dd></div>
+      <div class="term"><dt>Agentic governance literature (2025–26)</dt><dd>Current work distinguishing decision ownership from outcome ownership, framing agent oversight as an operating-model and decision-rights problem rather than a workflow checkbox - the context in which "human in control" is emerging.</dd></div>
+      <div class="term t-control"><dt>Australia's AI Ethics Principles - Dept. of Industry (2019, upd. Dec 2025)</dt><dd>Eight voluntary principles for responsible AI design, development and implementation. Principle 8 (Accountability) explicitly requires organisations to "consider the appropriate level of human control or oversight for the particular AI system or use case" - making the choice of oversight model a compliance decision, not just an operational one. Principle 7 (Contestability) adds a dimension absent from most oversight frameworks: the right of <em>affected people</em> to challenge AI outcomes after the fact, distinct from operator control rights. Principle 6 (Transparency and Explainability) and Principle 2 (Human-centred values) directly underpin the explainability and trust rows in the matrix above. The December 2025 update evolved the original 8 principles into a Guidance for AI Adoption with 6 essential practices. <a href="https://www.industry.gov.au/publications/australias-ai-ethics-principles" style="color:var(--ai)">industry.gov.au</a></dd></div>
     </dl>
   </section>
 
@@ -293,7 +293,7 @@
   }
 
   // ============================================================
-  // 1. HUMAN-IN-THE-LOOP — human is a gate on the circle
+  // 1. HUMAN-IN-THE-LOOP - human is a gate on the circle
   // ============================================================
   (function(){
     const svg = d3.select('#hitl');
@@ -357,7 +357,7 @@
   })();
 
   // ============================================================
-  // 2. HUMAN-ON-THE-LOOP — human watches from outside
+  // 2. HUMAN-ON-THE-LOOP - human watches from outside
   // ============================================================
   (function(){
     const svg = d3.select('#hotl');
@@ -408,7 +408,7 @@
   })();
 
   // ============================================================
-  // 3. HUMAN-OUT-OF-THE-LOOP — nobody watching
+  // 3. HUMAN-OUT-OF-THE-LOOP - nobody watching
   // ============================================================
   (function(){
     const svg = d3.select('#hootl');
@@ -443,7 +443,7 @@
   })();
 
   // ============================================================
-  // 4. HUMAN IN CONTROL — one authority, multiple execution modes
+  // 4. HUMAN IN CONTROL - one authority, multiple execution modes
   // ============================================================
   (function(){
     const svg = d3.select('#hic');
@@ -457,7 +457,7 @@
     humanIcon(svg,humX,humY,1.1,C.control);
     caption(svg,humX,humY-28,'decision rights',C.control);
 
-    // solid authority lines to BOTH loops — same authority, different modes
+    // solid authority lines to BOTH loops - same authority, different modes
     function authorityLine(tx,ty){
       svg.append('line').attr('x1',humX).attr('y1',humY+18).attr('x2',tx).attr('y2',ty-6)
         .attr('stroke',C.control).attr('stroke-width',2.5);
@@ -521,7 +521,7 @@
       .attr('fill','none').attr('stroke-width',4).attr('opacity',0);
 
     d3.timer(()=>{
-      // each loop freezes independently — the veto is addressable
+      // each loop freezes independently - the veto is addressable
       if(frozenA>0){ frozenA--; }
       else {
         angA += 0.045;

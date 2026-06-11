@@ -1,21 +1,23 @@
-# OmniChannel
+# omnichannel.
 
-> Human in control means AI agents do the work; a human keeps the final say.
+> Human in control is an operating model for AI agents in which autonomous agents execute the work while a human retains final decision rights - the authority to approve, redirect, or stop any agent action at any time.
 
 ## Core concepts
 
-- [What Is Human in Control?](https://omni-channel.com/human-in-control): Canonical definition of human in control (HIC), its three pillars (authority, visibility, revocability), and how it differs from human-in-the-loop and human-on-the-loop.
-- [Human in Control vs. Human-in-the-Loop vs. Human-on-the-Loop](https://omni-channel.com/human-in-control-vs-hitl-hotl): Plain-English comparison of the three oversight models for AI agents, with a worked example.
-- [The Four Properties of Human in Control](https://omni-channel.com/four-properties-human-in-control): Expands the "in practice" framework: Visibility, Decision rights, Intervention, Attribution.
-- [Agentic AI Glossary](https://omni-channel.com/glossary): Short definitions of human in control, HITL, HOTL, decision rights, intervention rights, agent autonomy, accountability gap.
+- [What Is Human in Control?](https://omnichannel.cx/human-in-control): Canonical definition of human in control (HIC), its three pillars (authority, visibility, revocability), and how it differs from human-in-the-loop and human-on-the-loop.
+- [Human in Control vs. Human-in-the-Loop vs. Human-on-the-Loop](https://omnichannel.cx/human-in-control-vs-hitl-hotl): Plain-English comparison of the three oversight models for AI agents, with a worked example.
+- [The Four Properties of Human in Control](https://omnichannel.cx/four-properties-human-in-control): Expands the "in practice" framework: Visibility, Decision rights, Intervention, Attribution.
+- [How Humans Actually Intervene in an Agent Network](https://omnichannel.cx/how-humans-intervene): The operational reality of human intervention at scale - guardrails, escalation, exception monitoring, and strategic override.
+- [Human in Control and the Accountability Gap](https://omnichannel.cx/human-in-control-accountability-gap): How human-in-control closes the gap between regulatory requirements and engineering reality.
+- [Designing Decision Rights for AI Agents](https://omnichannel.cx/designing-decision-rights): Practical guide to gating agent actions - which to free-run, which to review, which to gate.
+- [Agentic AI Glossary](https://omnichannel.cx/glossary): Short definitions of human in control, HITL, HOTL, decision rights, intervention rights, agent autonomy, accountability gap.
 
 ## Company
 
-- [OmniChannel Home](https://omni-channel.com/): Customer experience and service operations consultancy for banking, insurance, telecoms, and utilities. Start with a Maturity Review and move to AI with people in control.
-- [Services](https://omni-channel.com/services): Detailed consultancy services including Maturity Review & AI readiness, CX strategy, operational performance, contact centre advisory, AI & automation with human control, and training.
-- [About](https://omni-channel.com/about): Founder background, operational credibility, independence from platform vendors, and the human-in-control philosophy.
+- [omnichannel. Home](https://omnichannel.cx/): Customer experience and service operations consultancy for banking, insurance, telecoms, and utilities. Start with a Maturity Review and move to AI with people in control.
+- [Services](https://omnichannel.cx/services): Detailed consultancy services including Maturity Review & AI readiness, CX strategy, operational performance, contact centre advisory, AI & automation with human control, and training.
+- [About](https://omnichannel.cx/about): Founder background, operational credibility, independence from platform vendors, and the human-in-control philosophy.
 
 ## Resources
 
-- [Two-Minute Maturity Check](https://omni-channel.com/#check): Self-assessment quiz to identify your maturity band and next steps.
-- [Human-in-Control Deployment Checklist](https://omni-channel.com/human-in-control-checklist): Practical checklist for deploying AI agents with human control guarantees built in.
+- [Two-Minute Maturity Check](https://omnichannel.cx/#check): Self-assessment quiz to identify your maturity band and next steps.

@@ -2,31 +2,29 @@
 import { Search } from "lucide-react";
 import { getGreeting } from "@/utils/greeting";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ThemeToggle from "../theme/toggle";
 import SearchModal from "@/utils/SearchModal";
-import { openExternal } from "@/utils/navigation";
-import posthog from "posthog-js";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 export default function PrimaryNavbar() {
   const [greeting, setGreeting] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const { capture } = usePosthogConsent();
 
   useEffect(() => {
     const greetingMessage = getGreeting();
     setGreeting(greetingMessage);
   }, []);
 
-  const handleSigninClick = (url: string) => {
-    posthog.capture("nav_login_clicked");
-    openExternal(url);
-  };
-
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
   return (
     <>
-      <section className="z-[200] text-ocx-fg-muted border-b border-ocx-border/30 leading-4 py-3 scroll-section-nav list-none items-center h-[5svh] flex justify-between text-sm px-4 md:px-12 bg-ocx-bg">
+      <section className="z-[200] text-ocx-fg-muted border-b border-ocx-border/30 leading-4 py-3 list-none items-center h-[5svh] flex justify-between text-sm px-4 md:px-12 bg-ocx-bg">
         <ul className="primary-nav py-2 flex flex-row gap-0 md:gap-2">
           <li className="text-xs md:text-sm font-body">{greeting}</li>
         </ul>
@@ -40,10 +38,31 @@ export default function PrimaryNavbar() {
             <ThemeToggle />
           </li>
           <li>
-            <button className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0">Help Center</button>
+            <Link
+              href="/#what-we-do"
+              className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast"
+              onClick={() => capture({ event: "nav_click", properties: { nav_label: "what_we_do", page: pathname } })}
+            >
+              What we do
+            </Link>
           </li>
           <li>
-            <button className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast bg-transparent border-none p-0" onClick={() => handleSigninClick("https://app.omnichannel.cx/")}>Log in</button>
+            <Link
+              href="/#how-to-start"
+              className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast"
+              onClick={() => capture({ event: "nav_click", properties: { nav_label: "how_to_start", page: pathname } })}
+            >
+              How to start
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/#faq"
+              className="text-xs md:text-sm font-body hover:text-ocx-fg-primary cursor-pointer transition-colors duration-ocx-fast"
+              onClick={() => capture({ event: "nav_click", properties: { nav_label: "faq", page: pathname } })}
+            >
+              FAQ
+            </Link>
           </li>
         </ul>
       </section>

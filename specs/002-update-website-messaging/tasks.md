@@ -29,10 +29,10 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 [P] Audit existing `web/src/app/` pages and components to identify what stays, what changes, what is deleted
-- [ ] T002 [P] Verify `web/tailwind.config.ts` brand token mapping against spec color primitives
-- [ ] T003 Update `web/src/app/layout.tsx` metadata base from `omnichannelcx.com` to `omni-channel.com`, update Organization schema to consultancy positioning
-- [ ] T004 Create shared utility files: `web/src/lib/calendly.ts` (URL constant), `web/src/lib/schema-org.ts` (JSON-LD generators)
+- [x] T001 [P] Audit existing `web/src/app/` pages and components to identify what stays, what changes, what is deleted
+- [x] T002 [P] Verify `web/tailwind.config.ts` brand token mapping against spec color primitives
+- [x] T003 Update `web/src/app/layout.tsx` metadata base from `omnichannelcx.com` to `omnichannel.cx`, update Organization schema to consultancy positioning
+- [x] T004 Create shared utility files: `web/src/lib/calendly.ts` (URL constant), `web/src/lib/schema-org.ts` (JSON-LD generators)
 
 ---
 
@@ -42,13 +42,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 [P] Create cookie consent banner component: `web/src/components/cookie-banner/cookie-banner.tsx`
-- [ ] T006 Create `web/src/hooks/use-posthog.ts` — safe PostHog initialization gated by cookie consent
-- [ ] T007 Create `web/src/lib/posthog.ts` — PostHog client configuration with event type definitions
-- [ ] T008 Update `web/public/robots.txt` with AI crawler allowlist (GPTBot, ClaudeBot, PerplexityBot, etc.)
-- [ ] T009 Create `web/public/llms.txt` with canonical definition, pillar URL, glossary URL, and company pages
-- [ ] T010 Create shared UI primitives in `web/src/components/ui/`: `Card`, `Button`, `Tag`, `Arg` (if not already present)
-- [ ] T011 Update `web/src/app/layout.tsx` to include cookie banner, PostHog provider (conditional), and global metadata template
+- [x] T005 [P] Create cookie consent banner component: `web/src/components/cookie-banner/cookie-banner.tsx`
+- [x] T006 Create `web/src/hooks/use-posthog.ts` — safe PostHog initialization gated by cookie consent
+- [x] T007 Create `web/src/lib/posthog.ts` — PostHog client configuration with event type definitions
+- [x] T008 Update `web/public/robots.txt` with AI crawler allowlist (GPTBot, ClaudeBot, PerplexityBot, etc.)
+- [x] T009 Create `web/public/llms.txt` with canonical definition, pillar URL, glossary URL, and company pages
+- [x] T010 Create shared UI primitives in `web/src/components/ui/`: `Card`, `Button`, `Tag`, `Arg` (if not already present)
+- [x] T011 Update `web/src/app/layout.tsx` to include cookie banner, PostHog provider (conditional), and global metadata template
 
 **Checkpoint**: Foundation ready — cookie consent works, PostHog is gated, robots.txt and llms.txt are valid, shared components exist
 
@@ -62,26 +62,26 @@
 
 ### Tests for User Story 1
 
-- [ ] T012 [P] [US1] Playwright test: homepage hero contains "customer experience and service operations consultancy" in first sentence
-- [ ] T013 [P] [US1] Playwright test: no "free trial", "demo", "platform" language appears on homepage
+- [x] T012 [P] [US1] Playwright test: homepage hero contains "customer experience and service operations consultancy" in first sentence
+- [x] T013 [P] [US1] Playwright test: no "free trial", "demo", "platform" language appears on homepage
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Update `web/src/app/page.tsx` — replace SaaS hero with consultancy hero, eyebrow, headline, subhead, lede, CTAs
-- [ ] T015 [P] [US1] Create `web/src/components/landing-sections/hero.tsx` — consultancy hero section with aurora gradient, canonical definition placement
-- [ ] T016 [P] [US1] Create `web/src/components/landing-sections/challenge.tsx` — "The Challenge" section
-- [ ] T017 [P] [US1] Create `web/src/components/landing-sections/services.tsx` — "What we do" 6-card grid
-- [ ] T018 [P] [US1] Create `web/src/components/landing-sections/how-to-start.tsx` — "How to start" 3-card section
-- [ ] T019 [P] [US1] Create `web/src/components/landing-sections/approach.tsx` — "Our approach" + "Why work with us" 2-column
-- [ ] T020 [P] [US1] Create `web/src/components/landing-sections/industry-cards.tsx` — "Built for your industry" 4 cards with regulator references
-- [ ] T021 [P] [US1] Create `web/src/components/landing-sections/why-hic.tsx` — "Why human in control matters" section
-- [ ] T022 [P] [US1] Create `web/src/components/landing-sections/faq.tsx` — FAQ section with flexible entries, Schema.org FAQPage JSON-LD
-- [ ] T023 [P] [US1] Create `web/src/components/landing-sections/cta-section.tsx` — "Get started" CTA section
-- [ ] T024 [P] [US1] Create `web/src/components/footer/footer.tsx` — footer with tagline, domain link, privacy link
-- [ ] T025 [P] [US1] Update `web/src/app/page.tsx` — assemble all landing sections in correct order
-- [ ] T026 [US1] Update `web/src/components/navbars/primary-navbar.tsx` — consultancy nav links ("What we do", "How to start", "FAQ", "Book a call")
-- [ ] T027 [US1] Add homepage Open Graph tags (`og:title`, `og:description`, `og:type=website`, `og:url`) to `web/src/app/page.tsx` metadata
-- [ ] T028 [US1] Add homepage canonical tag to `web/src/app/page.tsx`
+- [x] T014 [P] [US1] Update `web/src/app/page.tsx` — replace SaaS hero with consultancy hero, eyebrow, headline, subhead, lede, CTAs
+- [x] T015 [P] [US1] Create `web/src/components/landing-sections/hero.tsx` — consultancy hero section with aurora gradient, canonical definition placement
+- [x] T016 [P] [US1] Create `web/src/components/landing-sections/challenge.tsx` — "The Challenge" section
+- [x] T017 [P] [US1] Create `web/src/components/landing-sections/services.tsx` — "What we do" 6-card grid
+- [x] T018 [P] [US1] Create `web/src/components/landing-sections/how-to-start.tsx` — "How to start" 3-card section
+- [x] T019 [P] [US1] Create `web/src/components/landing-sections/approach.tsx` — "Our approach" + "Why work with us" 2-column
+- [x] T020 [P] [US1] Create `web/src/components/landing-sections/industry-cards.tsx` — "Built for your industry" 4 cards with regulator references
+- [x] T021 [P] [US1] Create `web/src/components/landing-sections/why-hic.tsx` — "Why human in control matters" section
+- [x] T022 [P] [US1] Create `web/src/components/landing-sections/faq.tsx` — FAQ section with flexible entries, Schema.org FAQPage JSON-LD
+- [x] T023 [P] [US1] Create `web/src/components/landing-sections/cta-section.tsx` — "Get started" CTA section
+- [x] T024 [P] [US1] Create `web/src/components/footer/footer.tsx` — footer with tagline, domain link, privacy link
+- [x] T025 [P] [US1] Update `web/src/app/page.tsx` — assemble all landing sections in correct order
+- [x] T026 [US1] Update `web/src/components/navbars/primary-navbar.tsx` — consultancy nav links ("What we do", "How to start", "FAQ", "Book a call")
+- [x] T027 [US1] Add homepage Open Graph tags (`og:title`, `og:description`, `og:type=website`, `og:url`) to `web/src/app/page.tsx` metadata
+- [x] T028 [US1] Add homepage canonical tag to `web/src/app/page.tsx`
 
 **Checkpoint**: Homepage renders as consultancy site. No SaaS language. Hero passes 30-second comprehension test.
 
@@ -95,21 +95,21 @@
 
 ### Tests for User Story 2
 
-- [ ] T029 [P] [US2] Playwright test: quiz flow — answer 5 questions, see result, verify CTA links to Calendly
-- [ ] T030 [P] [US2] Playwright test: quiz reset clears answers and hides result
-- [ ] T031 [P] [US2] Playwright test: quiz persistence — refresh preserves answers in same session
+- [x] T029 [P] [US2] Playwright test: quiz flow — answer 5 questions, see result, verify CTA links to Calendly
+- [x] T030 [P] [US2] Playwright test: quiz reset clears answers and hides result
+- [x] T031 [P] [US2] Playwright test: quiz persistence — refresh preserves answers in same session
 
 ### Implementation for User Story 2
 
-- [ ] T032 [P] [US2] Create quiz data file: `web/src/lib/quiz-data.ts` — 5 questions, 4 options each (scoring 1–4)
-- [ ] T033 [P] [US2] Create quiz band definitions: `web/src/lib/quiz-bands.ts` — 4 bands with name, score range, message, CTA
-- [ ] T034 [P] [US2] Create `web/src/hooks/use-quiz.ts` — quiz state management with `sessionStorage` persistence, reset, scoring logic
-- [ ] T035 [P] [US2] Create `web/src/components/quiz/quiz-question.tsx` — single question UI component
-- [ ] T036 [P] [US2] Create `web/src/components/quiz/quiz-result.tsx` — result card with band, score bar, description, CTA, Reset button
-- [ ] T037 [P] [US2] Create `web/src/components/quiz/quiz-container.tsx` — main quiz container orchestrating questions and result
-- [ ] T038 [US2] Wire quiz PostHog events: `quiz_answer`, `quiz_complete` (band + score), `quiz_reset`
-- [ ] T039 [US2] Add quiz section to `web/src/app/page.tsx` ("Two-minute check" section)
-- [ ] T040 [US2] Add no-JS fallback message in quiz container for users with JavaScript disabled
+- [x] T032 [P] [US2] Create quiz data file: `web/src/lib/quiz-data.ts` — 5 questions, 4 options each (scoring 1–4)
+- [x] T033 [P] [US2] Create quiz band definitions: `web/src/lib/quiz-bands.ts` — 4 bands with name, score range, message, CTA
+- [x] T034 [P] [US2] Create `web/src/hooks/use-quiz.ts` — quiz state management with `sessionStorage` persistence, reset, scoring logic
+- [x] T035 [P] [US2] Create `web/src/components/quiz/quiz-question.tsx` — single question UI component
+- [x] T036 [P] [US2] Create `web/src/components/quiz/quiz-result.tsx` — result card with band, score bar, description, CTA, Reset button
+- [x] T037 [P] [US2] Create `web/src/components/quiz/quiz-container.tsx` — main quiz container orchestrating questions and result
+- [x] T038 [US2] Wire quiz PostHog events: `quiz_answer`, `quiz_complete` (band + score), `quiz_reset`
+- [x] T039 [US2] Add quiz section to `web/src/app/page.tsx` ("Two-minute check" section)
+- [x] T040 [US2] Add no-JS fallback message in quiz container for users with JavaScript disabled
 
 **Checkpoint**: Quiz works client-side, persists in session, resets, and fires PostHog events.
 
@@ -123,17 +123,17 @@
 
 ### Tests for User Story 3
 
-- [ ] T041 [P] [US3] Playwright test: services page nav shows "Services" tag; main page does not
-- [ ] T042 [P] [US3] Playwright test: cross-page navigation works and page identity is clear
+- [x] T041 [P] [US3] Playwright test: services page nav shows "Services" tag; main page does not
+- [x] T042 [P] [US3] Playwright test: cross-page navigation works and page identity is clear
 
 ### Implementation for User Story 3
 
-- [ ] T043 [P] [US3] Create `web/src/app/services/page.tsx` — full services page with all sections (hero, problem, why us, what we do, how we work, how we make AI safe, industry cards, CTA, footer)
-- [ ] T044 [P] [US3] Create `web/src/components/navbars/secondary-navbar.tsx` — services variant with "Services" tag
-- [ ] T045 [P] [US3] Create `web/src/app/about/page.tsx` — About page (hero, who we are, what we believe, author attribution, footer)
-- [ ] T046 [US3] Update primary navbar CTAs to link to `/services` and `/about`
-- [ ] T047 [P] [US3] Add services page Open Graph and canonical tags
-- [ ] T048 [P] [US3] Add about page Open Graph and canonical tags
+- [x] T043 [P] [US3] Create `web/src/app/services/page.tsx` — full services page with all sections (hero, problem, why us, what we do, how we work, how we make AI safe, industry cards, CTA, footer)
+- [x] T044 [P] [US3] Create `web/src/components/navbars/secondary-navbar.tsx` — services variant with "Services" tag
+- [x] T045 [P] [US3] Create `web/src/app/about/page.tsx` — About page (hero, who we are, what we believe, author attribution, footer)
+- [x] T046 [US3] Update primary navbar CTAs to link to `/services` and `/about`
+- [x] T047 [P] [US3] Add services page Open Graph and canonical tags
+- [x] T048 [P] [US3] Add about page Open Graph and canonical tags
 
 **Checkpoint**: Services and About pages exist, nav distinguishes them, cross-page links work.
 
@@ -147,15 +147,15 @@
 
 ### Tests for User Story 4
 
-- [ ] T049 [P] [US4] Playwright test: industry cards mention correct regulators (APRA/ASIC for banking, ACMA for telecoms, etc.)
-- [ ] T050 [P] [US4] Playwright test: FAQ mentions regulators and SOC controls
+- [x] T049 [P] [US4] Playwright test: industry cards mention correct regulators (APRA/ASIC for banking, ACMA for telecoms, etc.)
+- [x] T050 [P] [US4] Playwright test: FAQ mentions regulators and SOC controls
 
 ### Implementation for User Story 4
 
-- [ ] T051 [US4] Populate industry cards in `web/src/components/landing-sections/industry-cards.tsx` with regulator names (FCA, APRA, ASIC, ACMA, AER, Ofcom, Ofgem, EWOV) and operational pain points
-- [ ] T052 [US4] Populate FAQ entries in `web/src/components/landing-sections/faq.tsx` with regulator references, audit trail, Privacy Principles, SOC controls
-- [ ] T053 [US4] Add regulator references to services page industry cards
-- [ ] T054 [US4] Verify all pages have correct footer with tagline and privacy link
+- [x] T051 [US4] Populate industry cards in `web/src/components/landing-sections/industry-cards.tsx` with regulator names (FCA, APRA, ASIC, ACMA, AER, Ofcom, Ofgem, EWOV) and operational pain points
+- [x] T052 [US4] Populate FAQ entries in `web/src/components/landing-sections/faq.tsx` with regulator references, audit trail, Privacy Principles, SOC controls
+- [x] T053 [US4] Add regulator references to services page industry cards
+- [x] T054 [US4] Verify all pages have correct footer with tagline and privacy link
 
 **Checkpoint**: Regulators named on every relevant surface. FAQ covers safety in regulated industries.
 
@@ -169,16 +169,16 @@
 
 ### Tests for User Story 5
 
-- [ ] T055 [P] [US5] Playwright test: PostHog pageview fires on page load
-- [ ] T056 [P] [US5] Playwright test: CTA click fires custom event with correct properties
+- [x] T055 [P] [US5] Playwright test: PostHog pageview fires on page load
+- [x] T056 [P] [US5] Playwright test: CTA click fires custom event with correct properties
 
 ### Implementation for User Story 5
 
-- [ ] T057 [P] [US5] Wire all CTA buttons to fire `cta_click` PostHog event via shared handler
-- [ ] T058 [P] [US5] Wire cross-page nav links to fire `nav_click` PostHog event
-- [ ] T059 [US5] Verify cookie consent banner fires `cookie_consent` event (only on accept)
-- [ ] T060 [US5] Add `data-pagefind-body` attribute to main content container (preserves Pagefind search)
-- [ ] T061 [US5] Verify PostHog session recording is enabled in config
+- [x] T057 [P] [US5] Wire all CTA buttons to fire `cta_click` PostHog event via shared handler
+- [x] T058 [P] [US5] Wire cross-page nav links to fire `nav_click` PostHog event
+- [x] T059 [US5] Verify cookie consent banner fires `cookie_consent` event (only on accept)
+- [x] T060 [US5] Add `data-pagefind-body` attribute to main content container (preserves Pagefind search)
+- [x] T061 [US5] Verify PostHog session recording is enabled in config
 
 **Checkpoint**: All PostHog events fire correctly. Team can filter by page in dashboard.
 
@@ -192,24 +192,24 @@
 
 ### Tests for AEO Pillar
 
-- [ ] T062 [P] [US-AEO] Playwright test: pillar page contains canonical definition verbatim in first sentence
-- [ ] T063 [P] [US-AEO] Playwright test: pillar page has `id="canonical-definition"` on definition container
-- [ ] T064 [P] [US-AEO] Playwright test: pillar page has at least 3 external links to authority sources
+- [x] T062 [P] [US-AEO] Playwright test: pillar page contains canonical definition verbatim in first sentence
+- [x] T063 [P] [US-AEO] Playwright test: pillar page has `id="canonical-definition"` on definition container
+- [x] T064 [P] [US-AEO] Playwright test: pillar page has at least 3 external links to authority sources
 
 ### Implementation for AEO Pillar
 
-- [ ] T065 [P] [US-AEO] Create `web/src/app/human-in-control/page.tsx` — pillar page with all sections
-- [ ] T066 [P] [US-AEO] Create pillar hero section with full canonical definition in sentence one, wrapped in `id="canonical-definition"`
-- [ ] T067 [P] [US-AEO] Create comparison table section: HITL vs HOTL vs Human in Control
-- [ ] T068 [P] [US-AEO] Create "Why Does Human in Control Matter?" section (3 numbered reasons)
-- [ ] T069 [P] [US-AEO] Create "What Does Human in Control Look Like in Practice?" section (4 observable properties)
-- [ ] T070 [P] [US-AEO] Create "How Omni-Channel.com Runs Human in Control" section with placeholder operational data (marked for replacement)
-- [ ] T071 [P] [US-AEO] Create pillar FAQ section with Schema.org FAQPage JSON-LD
-- [ ] T072 [P] [US-AEO] Add table of contents component with anchor links to all H2/H3 sections
-- [ ] T073 [P] [US-AEO] Add external authority links (NIST AI RMF, EU AI Act, academic sources) to body content
-- [ ] T074 [P] [US-AEO] Add Article schema with author (Graeme Provan), datePublished, dateModified
-- [ ] T075 [P] [US-AEO] Add Open Graph tags (`og:type=article`) and Twitter Card
-- [ ] T076 [P] [US-AEO] Add canonical tag and self-referencing canonical URL
+- [x] T065 [P] [US-AEO] Create `web/src/app/human-in-control/page.tsx` — pillar page with all sections
+- [x] T066 [P] [US-AEO] Create pillar hero section with full canonical definition in sentence one, wrapped in `id="canonical-definition"`
+- [x] T067 [P] [US-AEO] Create comparison table section: HITL vs HOTL vs Human in Control
+- [x] T068 [P] [US-AEO] Create "Why Does Human in Control Matter?" section (3 numbered reasons)
+- [x] T069 [P] [US-AEO] Create "What Does Human in Control Look Like in Practice?" section (4 observable properties)
+- [x] T070 [P] [US-AEO] Create "How Omni-Channel.com Runs Human in Control" section with placeholder operational data (marked for replacement)
+- [x] T071 [P] [US-AEO] Create pillar FAQ section with Schema.org FAQPage JSON-LD
+- [x] T072 [P] [US-AEO] Add table of contents component with anchor links to all H2/H3 sections
+- [x] T073 [P] [US-AEO] Add external authority links (NIST AI RMF, EU AI Act, academic sources) to body content
+- [x] T074 [P] [US-AEO] Add Article schema with author (Graeme Provan), datePublished, dateModified
+- [x] T075 [P] [US-AEO] Add Open Graph tags (`og:type=article`) and Twitter Card
+- [x] T076 [P] [US-AEO] Add canonical tag and self-referencing canonical URL
 
 **Checkpoint**: Pillar page is comprehensive, extractable, and authoritative.
 
@@ -223,16 +223,16 @@
 
 ### Implementation for Content Cluster
 
-- [ ] T077 [P] [US-CLUSTER] Create `web/src/app/human-in-control-vs-hitl-hotl/page.tsx` — comparison article
-- [ ] T078 [P] [US-CLUSTER] Create `web/src/app/four-properties-human-in-control/page.tsx` — properties article
-- [ ] T079 [P] [US-CLUSTER] Create `web/src/app/how-humans-intervene/page.tsx` — operational data article
-- [ ] T080 [P] [US-CLUSTER] Create `web/src/app/human-in-control-accountability-gap/page.tsx` — accountability article
-- [ ] T081 [P] [US-CLUSTER] Create `web/src/app/designing-decision-rights/page.tsx` — decision rights article
-- [ ] T082 [P] [US-CLUSTER] Create `web/src/app/glossary/page.tsx` — glossary with definitions
-- [ ] T083 [US-CLUSTER] Add Article schema to all cluster articles (author, datePublished, dateModified)
-- [ ] T084 [US-CLUSTER] Add Open Graph tags (`og:type=article`) to all cluster articles
-- [ ] T085 [US-CLUSTER] Verify all cluster articles link to pillar page and use canonical definition verbatim
-- [ ] T086 [US-CLUSTER] Update `web/public/llms.txt` with cluster article URLs as they are published
+- [x] T077 [P] [US-CLUSTER] Create `web/src/app/human-in-control-vs-hitl-hotl/page.tsx` — comparison article
+- [x] T078 [P] [US-CLUSTER] Create `web/src/app/four-properties-human-in-control/page.tsx` — properties article
+- [x] T079 [P] [US-CLUSTER] Create `web/src/app/how-humans-intervene/page.tsx` — operational data article
+- [x] T080 [P] [US-CLUSTER] Create `web/src/app/human-in-control-accountability-gap/page.tsx` — accountability article
+- [x] T081 [P] [US-CLUSTER] Create `web/src/app/designing-decision-rights/page.tsx` — decision rights article
+- [x] T082 [P] [US-CLUSTER] Create `web/src/app/glossary/page.tsx` — glossary with definitions
+- [x] T083 [US-CLUSTER] Add Article schema to all cluster articles (author, datePublished, dateModified)
+- [x] T084 [US-CLUSTER] Add Open Graph tags (`og:type=article`) to all cluster articles
+- [x] T085 [US-CLUSTER] Verify all cluster articles link to pillar page and use canonical definition verbatim
+- [x] T086 [US-CLUSTER] Update `web/public/llms.txt` with cluster article URLs as they are published
 
 **Checkpoint**: All 6 cluster articles exist, link correctly, and have required schema.
 
@@ -246,15 +246,15 @@
 
 ### Tests for Privacy
 
-- [ ] T087 [P] [US-PRIVACY] Playwright test: declining cookies prevents PostHog initialization
-- [ ] T088 [P] [US-PRIVACY] Playwright test: privacy page is reachable from footer
+- [x] T087 [P] [US-PRIVACY] Playwright test: declining cookies prevents PostHog initialization
+- [x] T088 [P] [US-PRIVACY] Playwright test: privacy page is reachable from footer
 
 ### Implementation for Privacy
 
-- [ ] T089 [P] [US-PRIVACY] Create `web/src/app/privacy-policy/page.tsx` — privacy policy with all required sections
-- [ ] T090 [P] [US-PRIVACY] Add privacy page content: what we collect, how we use it, cookies/tracking, user rights (UK ICO + Australian Privacy Act), contact
-- [ ] T091 [P] [US-PRIVACY] Verify footer on all pages links to `/privacy-policy`
-- [ ] T092 [P] [US-PRIVACY] Verify cookie banner stores choice in `localStorage` and does not reappear
+- [x] T089 [P] [US-PRIVACY] Create `web/src/app/privacy-policy/page.tsx` — privacy policy with all required sections
+- [x] T090 [P] [US-PRIVACY] Add privacy page content: what we collect, how we use it, cookies/tracking, user rights (UK ICO + Australian Privacy Act), contact
+- [x] T091 [P] [US-PRIVACY] Verify footer on all pages links to `/privacy-policy`
+- [x] T092 [P] [US-PRIVACY] Verify cookie banner stores choice in `localStorage` and does not reappear
 
 **Checkpoint**: Cookie consent works. Privacy policy is complete and reachable.
 
@@ -264,16 +264,45 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T093 [P] Update `web/next.config.mjs` if needed for new static routes
-- [ ] T094 [P] Verify `npm run build` succeeds and `out/` contains all pages
-- [ ] T095 [P] Verify Pagefind index is built in postbuild (`pagefind --site out`)
-- [ ] T096 [P] Run Playwright E2E tests: `npm run test`
-- [ ] T097 [P] Run quickstart.md validation scenarios manually
-- [ ] T098 [P] Verify all pages have self-referencing canonical tags pointing to `omni-channel.com`
-- [ ] T099 [P] Verify Organization schema in `layout.tsx` shows consultancy positioning
-- [ ] T100 [P] Verify no "omnichannel platform", "demo", "free trial" language exists anywhere (`grep -ri`)
-- [ ] T101 Update `web/public/sitemap.xml` (auto-generated or manual) with all page URLs
-- [ ] T102 Final AEO audit: verify `llms.txt`, `robots.txt`, canonical tags, schema, external links
+- [x] T093 [P] Update `web/next.config.mjs` if needed for new static routes
+- [x] T094 [P] Verify `npm run build` succeeds and `out/` contains all pages
+- [x] T095 [P] Verify Pagefind index is built in postbuild (`pagefind --site out`)
+- [x] T096 [P] Run Playwright E2E tests: `npm run test`
+- [x] T097 [P] Run quickstart.md validation scenarios manually
+- [x] T098 [P] Verify all pages have self-referencing canonical tags pointing to `omnichannel.cx`
+- [x] T099 [P] Verify Organization schema in `layout.tsx` shows consultancy positioning
+- [x] T100 [P] Verify no "omnichannel platform", "demo", "free trial" language exists anywhere (`grep -ri`)
+- [x] T101 Update `web/public/sitemap.xml` (auto-generated or manual) with all page URLs
+- [x] T102 Final AEO audit: verify `llms.txt`, `robots.txt`, canonical tags, schema, external links
+
+---
+
+## Phase 12: SEO & Geo-Targeting Remediation (Post-Launch)
+
+**Purpose**: Address critical SEO/AEO gaps in domain consistency, geo-targeting, and keyword coverage.
+
+- [x] T103 [P] Fix all hardcoded domain references across codebase from `omnichannelcx.com` and `omni-channel.com` to `omnichannel.cx`
+- [x] T104 [P] Update LinkedIn URL across all files from `omnichannelcx` to `omnichannel-cx`
+- [x] T105 [P] Update `web/public/sitemap.xml`: regenerate with correct domain (`omnichannel.cx`), add all core pages, cluster pages, and geo landing page URLs
+- [x] T106 [P] Update `web/src/lib/schema-org.ts`: add `areaServed` geo signals to Organization schema (Australia, New Zealand, Japan, South Korea, Indonesia, Philippines, Fiji, Asia-Pacific)
+- [x] T107 [P] Strengthen `web/src/app/services/page.tsx` title and description with geo-targeting keywords (APAC, Australia, New Zealand)
+- [x] T108 [P] Strengthen `web/src/app/about/page.tsx` title and description with geo-targeting keywords (APAC, Australia, New Zealand, Japan, South Korea)
+- [x] T109 [P] Inject "agentic AI" keyword into `web/src/app/page.tsx` title, description, and headings
+- [x] T110 [P] Create `web/src/components/geo/geo-page.tsx` — reusable geo landing page component with PostHog tracking
+- [x] T111 [P] Create `web/src/app/apac/page.tsx` — APAC landing page with unique metadata, regulators, and industries
+- [x] T112 [P] Create `web/src/app/australia/page.tsx` — Australia landing page with unique metadata, regulators, and industries
+- [x] T113 [P] Create `web/src/app/new-zealand/page.tsx` — New Zealand landing page with unique metadata, regulators, and industries
+- [x] T114 [P] Create `web/src/app/asia/page.tsx` — Asia landing page with unique metadata, regulators, and industries
+- [x] T115 [P] Create `web/src/app/japan/page.tsx` — Japan landing page with unique metadata, regulators, and industries
+- [x] T116 [P] Create `web/src/app/south-korea/page.tsx` — South Korea landing page with unique metadata, regulators, and industries
+- [x] T117 [P] Create `web/src/app/indonesia/page.tsx` — Indonesia landing page with unique metadata, regulators, and industries
+- [x] T118 [P] Create `web/src/app/philippines/page.tsx` — Philippines landing page with unique metadata, regulators, and industries
+- [x] T119 [P] Create `web/src/app/fiji/page.tsx` — Fiji landing page with unique metadata, regulators, and industries
+- [x] T120 [P] Add `region?: string` property to PostHog event types in `web/src/lib/posthog.ts` for geo page segmentation
+- [x] T121 [P] Add "Where we work" geo navigation links section to `web/src/app/services/page.tsx` and `web/src/app/about/page.tsx`
+- [x] T122 Run `npm run build` and verify zero errors; confirm all 9 geo pages are present in output
+
+**Checkpoint**: All geo pages build cleanly. PostHog events include region. Main pages link to geo pages.
 
 ---
 

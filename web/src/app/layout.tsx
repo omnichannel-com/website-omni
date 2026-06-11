@@ -2,27 +2,31 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Providers } from "./providers";
+import CookieBanner from "@/components/cookie-banner/cookie-banner";
 
 function safeJsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://omnichannelcx.com"),
+  metadataBase: new URL("https://omnichannel.cx"),
   title: {
-    default: "omnichannel CX",
-    template: "%s | omnichannel CX",
+    default: "omnichannel - CX & service operations consultancy",
+    template: "%s | omnichannel",
   },
-  description: "Resolve every conversation in one pane. A customer experience platform built for teams who respond fast and care deeply.",
+  description:
+    "A customer experience and service operations consultancy. We help organisations transform CX, adopt AI safely, and keep humans in control.",
   openGraph: {
-    title: "omnichannel CX",
-    description: "Resolve every conversation in one pane.",
+    title: "omnichannel - CX & service operations consultancy",
+    description:
+      "A customer experience and service operations consultancy. We help organisations transform CX, adopt AI safely, and keep humans in control.",
     images: ["/assets/logo-full-color.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "omnichannel CX",
-    description: "Resolve every conversation in one pane.",
+    title: "omnichannel - CX & service operations consultancy",
+    description:
+      "A customer experience and service operations consultancy. We help organisations transform CX, adopt AI safely, and keep humans in control.",
     images: ["/assets/logo-full-color.png"],
   },
 };
@@ -33,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <link rel="icon" href="/assets/omnichannel-cx-icon-large.svg" type="image/svg+xml" />
         <script
@@ -44,17 +48,22 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
-                  name: "omnichannel CX",
-                  url: "https://omnichannelcx.com",
-                  logo: "https://omnichannelcx.com/assets/logo-full-color.png",
+                  name: "omnichannel",
+                  url: "https://omnichannel.cx",
+                  logo: "https://omnichannel.cx/assets/logo-full-color.png",
+                  description:
+                    "A customer experience and service operations consultancy. We help organisations transform CX, adopt AI safely, and keep humans in control.",
                   sameAs: [
-                    "https://www.linkedin.com/company/omnichannelcx",
+                    "https://www.linkedin.com/company/omnichannel-cx",
+                    "https://www.linkedin.com/in/graemeprovan",
                   ],
                 },
                 {
                   "@type": "WebSite",
-                  name: "omnichannel CX",
-                  url: "https://omnichannelcx.com",
+                  name: "omnichannel",
+                  url: "https://omnichannel.cx",
+                  description:
+                    "Customer experience and service operations consultancy, human-in-control AI.",
                 },
               ],
             }),
@@ -67,6 +76,7 @@ export default function RootLayout({
             <main data-pagefind-body>
               {children}
             </main>
+            <CookieBanner />
           </ThemeProvider>
         </Providers>
       </body>

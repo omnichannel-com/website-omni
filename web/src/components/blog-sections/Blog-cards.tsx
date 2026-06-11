@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { Search, ArrowRight } from "lucide-react";
 import { BlogPost } from "@/types/blog";
 import BlogCover from "./blog-cover";
-import posthog from "posthog-js";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 interface BlogCardsProps {
   initialBlogs: BlogPost[];
@@ -15,13 +15,17 @@ interface BlogCardsProps {
 
 const BlogCards: React.FC<BlogCardsProps> = ({ initialBlogs }) => {
     const router = useRouter();
+    const { capture } = usePosthogConsent();
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState("newest");
 
     const blogs: BlogPost[] = initialBlogs;
 
     const handleViewMore = (slug: string, title: string) => {
-        posthog.capture("blog_card_clicked", { blog_slug: slug, blog_title: title });
+        capture({
+            event: "cta_click",
+            properties: { cta_label: `blog_card_${slug}`, page: "/blog" },
+        });
         router.push(`/blog/${slug}`);
     };
 

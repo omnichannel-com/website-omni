@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telling customers how long: EWT and position in queue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ocx-dark-blue:#1b1464;--ocx-mauve:#aa42dc;--ocx-bright-blue:#0071bc;
+  --paper:#f6f6f8;--panel:#ffffff;--panel-2:#ececf1;
+  --ink:#000000;--ink-soft:#575757;--ink-faint:#8a8a96;
+  --clay:#1b1464;--clay-deep:#15104f;
+  --green:#2f7d68;--green-soft:#d8e9e2;
+  --red:#b23628;--red-soft:#f1ddd6;
+  --amber:#c98a1f;--blue:#0071bc;--blue-deep:#1b1464;--blue-soft:#e6edf4;
+  --line:#d8d8e0;--line-soft:#ececf1;
+  --shadow:0 1px 2px rgba(27,20,100,.06),0 8px 24px rgba(27,20,100,.10);
+  --serif:"Cormorant",Georgia,serif;
+  --sans:"Oxygen",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;background-image:radial-gradient(circle at 12% -5%,rgba(170,66,220,.06),transparent 42%),radial-gradient(circle at 95% 8%,rgba(0,113,188,.05),transparent 40%);}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px;}
+::selection{background:var(--ocx-dark-blue);color:#fff;}
+.brand-bar{display:flex;align-items:center;gap:12px;padding:22px 0;border-bottom:1px solid var(--line);}
+.brand-bar span{font-family:var(--sans);font-size:18px;font-weight:700;color:var(--ocx-dark-blue);letter-spacing:-0.02em;}
+.brand-bar span strong{font-weight:800;}
+.brand-tag{font-size:12px;font-weight:400;color:var(--ink-faint);margin-left:4px;}
+h1,h2,h3{font-family:var(--sans);font-weight:700;letter-spacing:-0.02em;line-height:1.08;margin:0;}
+.kicker{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ocx-mauve);}
+p{margin:0 0 1.1rem;}
+a{color:var(--ocx-bright-blue);}
+strong{font-weight:700;}
+.lead{font-size:21px;line-height:1.55;}
+.muted{color:var(--ink-soft);}
+header.hero{padding:48px 0 36px;}
+.hero .kicker{margin-bottom:20px;display:inline-block;}
+.hero h1{font-size:clamp(44px,8.5vw,82px);font-weight:800;letter-spacing:-0.03em;color:var(--ocx-dark-blue);}
+.hero h1 em{font-style:italic;color:var(--ocx-mauve);}
+.hero .sub{font-size:20px;color:var(--ink-soft);max-width:640px;margin-top:24px;line-height:1.5;}
+.rule{height:1px;background:var(--line);margin:0;border:0;}
+.rule.thick{height:3px;background:var(--ocx-dark-blue);}
+section{padding:54px 0;}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;}
+.sec-num{font-family:var(--serif);font-size:15px;color:var(--clay);font-weight:600;border:1.5px solid var(--clay);border-radius:50%;width:34px;height:34px;min-width:34px;display:flex;align-items:center;justify-content:center;}
+.sec-word{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);}
+.sec-head h2{font-size:clamp(28px,5vw,40px);margin-top:6px;}
+.sec-title-block{flex:1;}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow);}
+.panel+.panel{margin-top:18px;}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+@media(max-width:680px){.twocol{grid-template-columns:1fr;}}
+/* equal-height twocol panels */
+.twocol-eq{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.twocol-eq .panel{height:100%;}
+@media(max-width:680px){.twocol-eq{grid-template-columns:1fr;}}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px;}
+@media(max-width:680px){.metric-grid{grid-template-columns:1fr;}}
+.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;}
+.metric:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--clay);}
+.metric.green-bar:before{background:var(--green);}
+.metric.amber-bar:before{background:var(--amber);}
+.metric.red-bar:before{background:var(--red);}
+.metric .biz{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:2px;}
+.metric .tech{font-size:12px;color:var(--clay);font-weight:600;letter-spacing:.04em;margin-bottom:8px;}
+.metric .desc{font-size:14.5px;color:var(--ink-soft);line-height:1.5;}
+.callout{border-radius:16px;padding:24px 28px;margin:20px 0;border:1px solid;}
+.callout.warn{background:var(--red-soft);border-color:rgba(178,54,40,.3);}
+.callout.warn .ct{color:var(--red);}
+.callout.good{background:var(--green-soft);border-color:rgba(47,125,104,.3);}
+.callout.good .ct{color:var(--green);}
+.callout.info{background:var(--blue-soft);border-color:rgba(0,113,188,.3);}
+.callout.info .ct{color:var(--blue);}
+.callout.dark{background:#1b1464;border-color:#1b1464;}
+.callout.dark .ct{color:#9ec3e6;}
+.callout.dark p{color:#b9cbe0;}
+.callout .ct{font-family:var(--serif);font-weight:600;font-size:19px;margin-bottom:6px;}
+.callout p{margin:0;font-size:15.5px;line-height:1.55;}
+/* cautions list */
+.cautions-list{list-style:none;padding:0;margin:0;}
+.caution-item{display:grid;grid-template-columns:40px 1fr;gap:18px;padding:20px 0;border-bottom:1px solid var(--line-soft);align-items:start;}
+.caution-item:last-child{border-bottom:0;}
+.caution-num{width:40px;height:40px;border-radius:12px;background:#faeeda;border:1px solid #c98a1f;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:600;color:#854f0b;flex-shrink:0;}
+.caution-body{font-size:15.5px;color:var(--ink-soft);line-height:1.6;}
+.caution-body b{color:var(--ink);font-weight:600;}
+.caution-intro{font-size:16px;color:var(--ink-soft);line-height:1.6;margin-bottom:22px;padding:18px 22px;background:#fffbf2;border:1px solid rgba(201,138,31,.25);border-left:4px solid var(--amber);border-radius:0 12px 12px 0;}
+/* labs */
+.lab{background:var(--ink);color:#f4efe4;border-radius:18px;padding:30px 30px 26px;margin:26px 0;box-shadow:0 14px 40px rgba(34,31,24,.22);}
+.lab .lab-kick{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#9ec3e6;}
+.lab h3{color:#fdfbf4;font-size:26px;margin:8px 0 4px;}
+.lab .lab-sub{color:#c8c1b1;font-size:15px;margin-bottom:20px;line-height:1.5;}
+.lab-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;}
+@media(max-width:680px){.lab-stats{grid-template-columns:repeat(2,1fr);}}
+.lab-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;}
+.lab-stat .ls-label{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#a39c8c;margin-bottom:4px;}
+.lab-stat .ls-val{font-family:var(--serif);font-size:27px;font-weight:600;line-height:1;}
+.lab-stat .ls-sub{font-size:11px;color:#a39c8c;margin-top:3px;}
+.lab-stat.danger{background:rgba(178,54,40,.22);border-color:rgba(216,90,72,.5);}
+.lab-stat.danger .ls-val{color:#ff9a82;}
+.lab-stat.ok{background:rgba(47,125,104,.2);border-color:rgba(74,167,138,.45);}
+.lab-stat.ok .ls-val{color:#7fd9bd;}
+.lab-stat.warn-stat{background:rgba(201,138,31,.2);border-color:rgba(244,197,66,.45);}
+.lab-stat.warn-stat .ls-val{color:#f4c542;}
+.lab-chart{margin:18px 0 14px;}
+.lab-chart svg{width:100%;height:auto;display:block;}
+.slider-row{display:flex;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap;}
+.slider-row label{font-size:13px;color:#c8c1b1;min-width:160px;font-weight:500;}
+.slider-row input[type=range]{flex:1;min-width:120px;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:rgba(255,255,255,.18);outline:none;}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#7fb0e0;cursor:pointer;border:3px solid #fdfbf4;box-shadow:0 1px 4px rgba(0,0,0,.3);}
+.slider-row .sv{font-weight:600;min-width:80px;text-align:right;color:#fdfbf4;font-size:14px;}
+.lab-note{font-size:13px;color:#a39c8c;margin-top:14px;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
+.lab-note b{color:#e9c8a6;font-weight:600;}
+.lab-select{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fdfbf4;font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 12px;border-radius:9px;cursor:pointer;appearance:none;-webkit-appearance:none;}
+.lab-select option{background:#221f18;color:#fdfbf4;}
+.select-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;}
+.select-row label{font-size:13px;color:#c8c1b1;font-weight:500;}
+.cmp-wrap{margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
+.cmp-title{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#a39c8c;font-weight:700;margin-bottom:8px;}
+table.cmp{width:100%;border-collapse:collapse;font-size:13px;}
+table.cmp th,table.cmp td{text-align:right;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.08);}
+table.cmp th{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#a39c8c;font-weight:700;}
+table.cmp td:first-child,table.cmp th:first-child{text-align:left;color:#e8e2d4;font-weight:500;}
+.green-val{color:#7fd9bd;} .red-val{color:#ff9a82;} .amber-val{color:#f4c542;}
+.mech-fig{display:flex;align-items:center;justify-content:center;margin:10px 0;}
+.mech-fig svg{width:100%;max-width:680px;height:auto;}
+.lever{display:grid;grid-template-columns:46px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--line-soft);}
+.lever:last-child{border-bottom:0;}
+.lever-ic{width:46px;height:46px;border-radius:12px;background:var(--panel-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+.lever-ic svg{width:24px;height:24px;}
+.lever h3{font-size:21px;margin-bottom:4px;}
+.lever p{margin:0;font-size:15.5px;color:var(--ink-soft);line-height:1.55;}
+.lever .rot{margin-top:8px;font-size:14px;color:var(--clay-deep);font-weight:600;}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;}
+ol.rules li{counter-increment:r;position:relative;padding:16px 0 16px 52px;border-bottom:1px solid var(--line-soft);font-size:16px;}
+ol.rules li:last-child{border-bottom:0;}
+ol.rules li:before{content:counter(r);position:absolute;left:0;top:14px;font-family:var(--serif);font-weight:600;font-size:18px;color:#fff;background:var(--clay);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+ol.rules li b{font-weight:600;}
+.rules-sub{font-size:13px;color:var(--ink-faint);margin-top:6px;padding-left:2px;line-height:1.5;}
+.tech-zone{background:var(--blue-deep);color:#dde8f3;border-radius:20px;padding:8px 0 0;margin:40px 0;overflow:hidden;}
+.tech-inner{padding:34px 32px 38px;}
+.tech-zone .kicker{color:#7fb0e0;}
+.tech-zone h2{font-family:var(--serif);color:#fff;font-size:30px;margin:10px 0 6px;}
+.tech-zone p{color:#b9cbe0;font-size:15.5px;}
+.bridge{width:100%;border-collapse:collapse;font-size:14px;margin:18px 0;}
+.bridge th,.bridge td{text-align:left;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.12);}
+.bridge th{font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7fb0e0;}
+.bridge td:first-child{color:#fff;font-weight:500;}
+.bridge td .sym{font-family:var(--serif);font-style:italic;color:#9ec3e6;}
+.bridge tr:last-child td{border-bottom:0;}
+.formula{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 18px;margin:12px 0;}
+.formula .fname{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#7fb0e0;font-weight:700;margin-bottom:7px;}
+.formula .feq{font-family:var(--serif);font-size:21px;color:#fff;font-style:italic;}
+.formula .fnote{font-size:13px;color:#9fb4cc;margin-top:8px;line-height:1.5;}
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:680px){.tech-grid{grid-template-columns:1fr;}}
+.refs{margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);}
+.refs h4{color:#cfe0f0;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+.refs ol{padding-left:20px;margin:0;}
+.refs li{color:#9fb4cc;font-size:13px;line-height:1.6;margin-bottom:6px;}
+.refs li b{color:#cfe0f0;}
+footer{padding:40px 0 70px;color:var(--ink-faint);font-size:13.5px;line-height:1.7;}
+footer .rule{margin-bottom:22px;}
+.country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+@media(max-width:680px){.country-grid{grid-template-columns:1fr;}}
+.cc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.cc .cc-name{font-weight:700;font-size:16px;margin-bottom:3px;}
+.cc .cc-pat{font-size:12px;color:var(--ink-faint);margin-bottom:8px;}
+.cc .cc-bar{height:5px;border-radius:3px;background:var(--line-soft);margin:5px 0;}
+.cc .cc-fill{height:5px;border-radius:3px;}
+.cc .cc-note{font-size:13px;color:var(--ink-soft);line-height:1.45;}
+.cc-au{border-top:3px solid var(--red);}
+.cc-us{border-top:3px solid var(--blue);}
+.cc-de{border-top:3px solid var(--clay);}
+.cc-jp{border-top:3px solid var(--green);}
+.cc-br{border-top:3px solid var(--amber);}
+.cc-in{border-top:3px solid var(--ocx-mauve);}
+.caveat-note{background:#faeeda;border:1px solid #ba7517;border-left-width:4px;border-radius:12px;padding:16px 20px;margin:24px 0 0;font-size:14.5px;line-height:1.55;color:#854f0b;}
+.caveat-note b{font-weight:600;}
+.phase-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+.phase-1{background:var(--green-soft);color:var(--green);}
+.phase-2{background:#faeeda;color:#854f0b;}
+.phase-3{background:var(--red-soft);color:var(--red);}
+.fade{opacity:0;transform:translateY(14px);animation:fu .7s cubic-bezier(.2,.7,.3,1) forwards;}
+@keyframes fu{to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="brand-bar">
+  <span>omnichannel <strong>CX</strong><span class="brand-tag">· companion to: The Physics of Waiting</span></span>
+</div>
+
+<header class="hero fade">
+  <span class="kicker">A field guide for the business</span>
+  <h1>Tell them<br>how <em>long</em>.</h1>
+  <p class="sub">Why announcing estimated wait time or position in queue is one of the highest-return, lowest-cost levers in the contact centre, and how to do it without it backfiring.</p>
+</header>
+<hr class="rule thick">
+
+<!-- 00: CAUTIONS -->
+<section class="fade" id="cautions">
+  <div class="sec-head">
+    <span class="sec-num" style="border-color:var(--amber);color:var(--amber);">00</span>
+    <div class="sec-title-block">
+      <span class="sec-word">Read first</span>
+      <h2>Seven cautions before you proceed.</h2>
+    </div>
+  </div>
+
+  <p class="lead">The case for announcing estimated wait time (EWT) and position in queue (PIQ) is strong. But implementing them poorly is worse than not implementing them at all. The following cautions are not theoretical. They are the most common ways this goes wrong in practice.</p>
+
+  <div class="panel" style="padding:12px 28px 8px;">
+    <ul class="cautions-list">
+      <li class="caution-item">
+        <div class="caution-num">1</div>
+        <div class="caution-body"><b>Announcements improve the experience of waiting. They do not fix the queue.</b> A contact centre that needs a three-minute EWT announcement is one that is already failing customers. The underlying causes are structural: too few agents on the floor, skills split too finely across too many queues, or contact types that should be resolved through self-service before they reach a person. Improving the waiting experience without fixing the capacity problem can divert leadership attention from the changes that would actually matter. See the companion document, The Physics of Waiting, for the structural levers.</div>
+      </li>
+      <li class="caution-item">
+        <div class="caution-num">2</div>
+        <div class="caution-body"><b>The estimate breaks down when you need it most.</b> EWT models are calibrated on normal, near-steady-state operating conditions. Mass logout events, such as a team leaving for a meeting or a shift changeover handled poorly, can remove a large share of available agents in under a minute. Sudden changes to routing rules or skill assignments have the same effect. In each case, the EWT model will understate the true wait at precisely the moment the queue is deepest. Some platforms can detect agent-state change events and trigger a suppression mode; that capability is worth configuring before you need it.</div>
+      </li>
+      <li class="caution-item">
+        <div class="caution-num">3</div>
+        <div class="caution-body"><b>Trust, once lost, is slow to rebuild.</b> Customers who hear "four minutes" and wait twelve do not simply discount the announcement. They apply that experience to every future interaction. The asymmetry is significant: a correct EWT produces modest goodwill; an incorrect one degrades long-run trust by a larger amount. An operation cannot easily measure how much trust its announcement system has already lost, which means it may be compounding the damage for months without knowing it.</div>
+      </li>
+      <li class="caution-item">
+        <div class="caution-num">4</div>
+        <div class="caution-body"><b>Callbacks have their own failure modes.</b> Virtual queuing, offering to call the customer back rather than hold them, is one of the strongest tools available for managing a deep queue. But wrong numbers, missed callbacks, voicemail failures, and calls routed to agents who lack the right skills all generate secondary contacts and additional customer effort. A promised callback that does not arrive is worse than no callback offer at all. The operational discipline required to run a callback programme well is routinely underestimated at planning stage.</div>
+      </li>
+      <li class="caution-item">
+        <div class="caution-num">5</div>
+        <div class="caution-body"><b>Walkaways from an EWT announcement include some customers who would have waited happily.</b> The self-selection mechanism described in section 03 is genuinely beneficial on average: low-patience customers balk at the door and free capacity for the rest. But EWT is a blunt instrument. The same announcement that sends an impatient customer home also sends home some customers who had enough patience to wait and would have been satisfied with the outcome. Some resolvable contacts will be lost. This is a known trade-off, not a side-effect to be ignored.</div>
+      </li>
+      <li class="caution-item">
+        <div class="caution-num">6</div>
+        <div class="caution-body"><b>Customers from diverse backgrounds may not benefit equally.</b> EWT announcements assume the caller can hear, understand, and act on spoken information in the announced language. Customers from culturally and linguistically diverse (CALD) backgrounds, customers with hearing impairments, elderly customers, and customers in noisy environments may not be able to use the announcement at all. Position-in-queue numbers have a modest advantage here since a numeral is more universally understood than a sentence. The broader point: any system designed around a single average caller profile will underserve a portion of its actual caller population.</div>
+      </li>
+      <li class="caution-item">
+        <div class="caution-num">7</div>
+        <div class="caution-body"><b>None of this works for a sustained capacity shortfall.</b> Everything in this document assumes the queue will recover within hours. When demand persistently exceeds capacity over days or weeks, callback programmes accumulate a backlog that raises average handle time, EWT models lose calibration, position numbers remain permanently in the crisis range, and customer trust in the announcement system collapses. At that point, the correct response is additional headcount, automation of high-volume simple enquiry types, and reducing contact volume at source. Those are staffing and demand-management problems. They are not solved by a better announcement strategy.</div>
+      </li>
+    </ul>
+  </div>
+
+  <p style="margin-top:22px;">With those cautions stated: the evidence for well-implemented, accurately modelled EWT and PIQ announcements still favours doing this over silence, in normal operating conditions, with appropriate calibration and monitoring. The list above is not a reason to do nothing. It is a checklist of the ways doing it poorly is worse than not doing it at all.</p>
+</section>
+<hr class="rule">
+
+<!-- 01: WHY -->
+<section class="fade" id="why">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <div class="sec-title-block">
+      <span class="sec-word">The core problem</span>
+      <h2>Uncertainty is a hidden tax on your queue.</h2>
+    </div>
+  </div>
+  <p class="lead">Customers do not just wait. They suffer through not knowing. Research in behavioural queueing consistently finds that the same objective wait feels longer and triggers abandonment sooner when no information is provided. The pain is not just the time. It is the open question of whether this is ever going to end.</p>
+  <p>Customer patience is not a fixed number. It is information-sensitive. When callers have no idea how long they will wait, they conservatively abandon early. Tell them four minutes and the callers with five-minute patience stay. Tell them nothing and a meaningful fraction of those same callers leave at minute two, because they cannot know whether they are close. <strong>Removing that uncertainty is the mechanism. Everything else follows from it.</strong></p>
+  <div class="callout warn">
+    <div class="ct">Silence inflates abandonment beyond what the queue alone predicts.</div>
+    <p>Studies of emergency department and call centre queues consistently find that removing wait information increases abandonment by 15 to 30% compared to equivalent queues with basic EWT, even when objective wait is identical (Hui and Tse, 1996; Whitt, 1999). The queue did not get worse. The uncertainty did.</p>
+  </div>
+  <div class="callout good">
+    <div class="ct">Information restructures the abandonment curve, not just its level.</div>
+    <p>With EWT, callers self-select. Those whose patience genuinely exceeds the stated wait stay; those who cannot wait that long leave at the door rather than partway through. This shifts abandonment to the balking stage, before they have entered the queue, which has very different implications for average wait and service level for those who remain (Armony, Shimkin and Whitt, 2009).</p>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 02: TWO TYPES -->
+<section class="fade" id="types">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <div class="sec-title-block">
+      <span class="sec-word">The two options</span>
+      <h2>EWT and position: same goal, different mechanisms.</h2>
+    </div>
+  </div>
+  <p>There are two standard ways to tell a customer where they stand. They have meaningfully different properties for both the customer and your platform's implementation complexity.</p>
+  <div class="twocol-eq">
+    <div class="panel">
+      <div class="biz" style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:4px;">Estimated Wait Time</div>
+      <div style="font-size:12px;color:var(--clay);font-weight:600;letter-spacing:.04em;margin-bottom:12px;">EWT · time-based announcement</div>
+      <p style="font-size:15px;color:var(--ink-soft);line-height:1.55;margin:0;">Announces a specific time: "Your estimated wait is approximately four minutes." Directly answers the question the customer actually needs answered. More actionable: they can decide to call back, try another channel, or stay. Requires a live model to compute, and that model can fail in the conditions described in section 00.</p>
+    </div>
+    <div class="panel">
+      <div class="biz" style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:4px;">Position in Queue</div>
+      <div style="font-size:12px;color:var(--clay);font-weight:600;letter-spacing:.04em;margin-bottom:12px;">PIQ · ordinal announcement</div>
+      <p style="font-size:15px;color:var(--ink-soft);line-height:1.55;margin:0;">Announces a rank: "You are caller number five in the queue." Easier to compute accurately since it is always a true count. Requires the caller to mentally convert to time. Research shows it is somewhat less effective at reducing abandonment than EWT but still meaningfully better than silence (Munichor and Rafaeli, 2007).</p>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:18px;">
+    <div class="biz" style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:4px;">Combined (best practice)</div>
+    <div style="font-size:12px;color:var(--clay);font-weight:600;letter-spacing:.04em;margin-bottom:12px;">PIQ + EWT, updated periodically</div>
+    <p style="font-size:15px;color:var(--ink-soft);line-height:1.55;margin:0;">Provide both: "You are number three in the queue, estimated wait approximately six minutes." Update EWT every 60 to 90 seconds. This removes both uncertainties simultaneously: callers know their rank (fairness signal) and the implied time (decision signal). The combination produces the strongest abandonment reduction in the literature.</p>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 03: MECHANISM + CALCULATOR -->
+<section class="fade" id="mechanism">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <div class="sec-title-block">
+      <span class="sec-word">How it actually works</span>
+      <h2>Self-selection: the invisible queue manager.</h2>
+    </div>
+  </div>
+  <p>The benefit of EWT is not mainly about keeping callers calm. It is about triggering a <strong>sorting effect at the front door</strong>. When a caller hears the wait, two things happen: callers whose patience exceeds the announced wait stay in queue; callers whose patience falls below it hang up immediately. Those who balk do so at zero cost to queue capacity and free space for callers who will actually be served.</p>
+  <div class="mech-fig">
+    <svg viewBox="0 0 680 200" aria-label="Decision diagram showing caller self-selection">
+      <rect x="4" y="80" width="120" height="40" rx="10" fill="#e6edf4" stroke="#0071bc" stroke-width="1.6"/>
+      <text x="64" y="105" text-anchor="middle" font-family="Oxygen,sans-serif" font-size="13" font-weight="700" fill="#0071bc">Caller arrives</text>
+      <path d="M124 100 L 180 100" fill="none" stroke="#8a8a96" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="180" y="70" width="156" height="60" rx="10" fill="#1b1464" stroke="#1b1464" stroke-width="1.6"/>
+      <text x="258" y="96" text-anchor="middle" font-family="Oxygen,sans-serif" font-size="12" font-weight="700" fill="#fff">EWT announced:</text>
+      <text x="258" y="114" text-anchor="middle" font-family="Cormorant,serif" font-size="18" font-weight="600" fill="#9ec3e6" font-style="italic">approx 4 min</text>
+      <path d="M336 85 L 400 50" fill="none" stroke="#2f7d68" stroke-width="1.8" marker-end="url(#arrg)"/>
+      <path d="M336 115 L 400 150" fill="none" stroke="#b23628" stroke-width="1.8" marker-end="url(#arrr)"/>
+      <text x="362" y="56" font-family="Oxygen,sans-serif" font-size="11" font-weight="700" fill="#2f7d68">patience &gt; 4 min</text>
+      <text x="362" y="160" font-family="Oxygen,sans-serif" font-size="11" font-weight="700" fill="#b23628">patience &lt; 4 min</text>
+      <rect x="400" y="30" width="152" height="40" rx="10" fill="#d8e9e2" stroke="#2f7d68" stroke-width="1.4"/>
+      <text x="476" y="55" text-anchor="middle" font-family="Oxygen,sans-serif" font-size="12" font-weight="700" fill="#1f5848">Stays in queue</text>
+      <rect x="400" y="130" width="152" height="40" rx="10" fill="#f1ddd6" stroke="#b23628" stroke-width="1.4"/>
+      <text x="476" y="155" text-anchor="middle" font-family="Oxygen,sans-serif" font-size="12" font-weight="700" fill="#8d3a1c">Balks at entry</text>
+      <text x="558" y="140" font-family="Oxygen,sans-serif" font-size="10" fill="#8d3a1c">frees capacity</text>
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#8a8a96"/></marker>
+        <marker id="arrg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2f7d68"/></marker>
+        <marker id="arrr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#b23628"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <p>Armony, Shimkin and Whitt (2009) proved this rigorously: in a many-server queue with abandonment, accurate delay announcements strictly reduce average delay for served customers while preserving throughput. Callers who balk at the front are doing so at zero cost; callers who stay are pre-selected to have enough patience to be served. The queue settles into a lower-wait equilibrium than the no-announcement state, with identical staffing.</p>
+  <div class="callout info">
+    <div class="ct">The fixed-point insight: the equilibrium is self-reinforcing.</div>
+    <p>Announce a high wait. Many low-patience callers balk. Load drops. Wait drops. Next caller hears a lower wait. Fewer balk, but wait also drops further. The system finds a new, lower equilibrium, with the same agents and the same arriving demand.</p>
+  </div>
+
+  <div class="lab">
+    <span class="lab-kick">Interactive · the EWT impact calculator</span>
+    <h3>See what announcements do to your queue</h3>
+    <p class="lab-sub">Adjust the scenario, select a country/region, and compare all announcement strategies side by side. Deep queue warnings appear when position numbers cross the demoralising threshold.</p>
+
+    <div class="select-row">
+      <label>Country / region</label>
+      <select class="lab-select" id="a-country">
+        <option value="au">Australia / New Zealand</option>
+        <option value="us">United States / Canada</option>
+        <option value="uk">United Kingdom</option>
+        <option value="de">Germany / Austria</option>
+        <option value="jp">Japan</option>
+        <option value="br">Brazil</option>
+        <option value="in">India</option>
+        <option value="sg">Singapore</option>
+        <option value="cald">Mixed / CALD population</option>
+      </select>
+      <span id="a-country-note" style="font-size:12px;color:#a39c8c;flex:1;line-height:1.4;"></span>
+    </div>
+
+    <div id="a-deepwarn" style="display:none;background:rgba(201,138,31,.15);border:1px solid rgba(244,197,66,.4);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13px;color:#f4c542;line-height:1.5;"></div>
+
+    <div class="lab-stats" style="grid-template-columns:repeat(4,1fr);">
+      <div class="lab-stat" id="a-wait-card"><div class="ls-label">Avg wait (served)</div><div class="ls-val" id="a-wait">--</div><div class="ls-sub">no announcement</div></div>
+      <div class="lab-stat" id="a-sl-card"><div class="ls-label">Service level 30s</div><div class="ls-val" id="a-sl">--</div><div class="ls-sub">no announcement</div></div>
+      <div class="lab-stat" id="a-ab-card"><div class="ls-label">Abandonment</div><div class="ls-val" id="a-ab">--</div><div class="ls-sub">no announcement</div></div>
+      <div class="lab-stat" id="a-occ-card"><div class="ls-label">Occupancy</div><div class="ls-val" id="a-occ">--</div><div class="ls-sub">offered load</div></div>
+    </div>
+
+    <div class="lab-chart"><svg id="ann-svg" viewBox="0 0 700 270" aria-label="Bar chart comparing announcement scenarios"></svg></div>
+
+    <div class="cmp-wrap">
+      <div class="cmp-title">Full scenario comparison</div>
+      <table class="cmp">
+        <thead><tr><th>Metric</th><th>No announcement</th><th>PIQ only</th><th>EWT only</th><th>PIQ + EWT</th></tr></thead>
+        <tbody>
+          <tr><td>Avg wait (served)</td><td id="ct-w-0">--</td><td id="ct-w-piq">--</td><td id="ct-w-ewt">--</td><td id="ct-w-both">--</td></tr>
+          <tr><td>Service level (30s)</td><td id="ct-sl-0">--</td><td id="ct-sl-piq">--</td><td id="ct-sl-ewt">--</td><td id="ct-sl-both">--</td></tr>
+          <tr><td>Abandonment</td><td id="ct-ab-0">--</td><td id="ct-ab-piq">--</td><td id="ct-ab-ewt">--</td><td id="ct-ab-both">--</td></tr>
+          <tr><td>Balking at entry</td><td id="ct-bk-0">--</td><td id="ct-bk-piq">--</td><td id="ct-bk-ewt">--</td><td id="ct-bk-both">--</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="slider-row"><label>Agents</label><input type="range" id="a-agents" min="8" max="80" value="48" step="2"><span class="sv" id="a-agents-v">48</span></div>
+    <div class="slider-row"><label>Calls per hour</label><input type="range" id="a-vol" min="100" max="800" value="520" step="10"><span class="sv" id="a-vol-v">520/hr</span></div>
+    <div class="slider-row"><label>Mean handle time</label><input type="range" id="a-aht" min="60" max="720" value="300" step="30"><span class="sv" id="a-aht-v">5 min</span></div>
+    <div class="slider-row"><label>Mean patience</label><input type="range" id="a-pat" min="30" max="600" value="180" step="15"><span class="sv" id="a-pat-v">3 min</span></div>
+
+    <div class="lab-note"><b>PIQ only</b> is modelled using a research-range approach: Hui and Tse (1996) and Munichor and Rafaeli (2007) together suggest position-in-queue alone achieves roughly 50 to 80% of estimated wait time's abandonment reduction, with 65% as the midpoint applied here. It is not possible to model the position-to-time conversion precisely without knowing caller familiarity with the operation. Treat the PIQ column as an indicative range, not a precise forecast. <b>PIQ + EWT</b> adds a 12% reduction in mid-queue walkaway rate from position progress signals (Maister, 1985). Deep queue warnings appear when implied queue depth crosses the phase thresholds in section 08.</div>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 04: ACCURACY -->
+<section class="fade" id="accuracy">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <div class="sec-title-block">
+      <span class="sec-word">The tricky bit</span>
+      <h2>Accuracy matters. Inaccuracy can backfire badly.</h2>
+    </div>
+  </div>
+  <p>EWT only works if customers trust it. A wait announcement is an implicit promise. Break it, tell someone four minutes and make them wait twelve, and you do not just lose that caller. You train future callers to ignore your announcements. An untrustworthy EWT system degrades to something worse than silence, because customers now experience both the wait and the betrayal.</p>
+  <div class="callout warn">
+    <div class="ct">Underestimating EWT is the worst outcome.</div>
+    <p>If you announce two minutes and deliver five, callers who would have stayed for three minutes start abandoning around the two-minute mark, because that is when they believe they have been lied to. You have manufactured a new abandonment spike at the announcement threshold, net of what the queue itself would have produced. The U-shaped curve below shows this clearly.</p>
+  </div>
+  <div class="callout good">
+    <div class="ct">Overestimating by 20 to 30% is the practical sweet spot.</div>
+    <p>Announcing a slightly longer wait than you will actually deliver removes marginally impatient callers (genuinely positive) and creates a pleasant surprise when callers are answered ahead of schedule. This improves satisfaction scores for answered calls and builds institutional trust over time (Larson, 1987; Maister, 1985).</p>
+  </div>
+
+  <div class="lab">
+    <span class="lab-kick">Interactive · the accuracy tradeoff curve</span>
+    <h3>How EWT bias shapes total abandonment</h3>
+    <p class="lab-sub">Slide from underestimating to overestimating. The U-shaped curve shows both the wait (blue) and total abandonment (orange) as the announced EWT drifts from truth. Underestimation adds an expectation-violation penalty on top of baseline reneging.</p>
+
+    <div class="lab-stats" style="grid-template-columns:repeat(3,1fr);">
+      <div class="lab-stat" id="bias-wait-card"><div class="ls-label">Avg wait (served)</div><div class="ls-val" id="bias-wait">--</div><div class="ls-sub">at current bias</div></div>
+      <div class="lab-stat" id="bias-ab-card"><div class="ls-label">Total abandonment</div><div class="ls-val" id="bias-ab">--</div><div class="ls-sub">balk + renege + violation</div></div>
+      <div class="lab-stat" id="bias-label-card"><div class="ls-label">Announcement style</div><div class="ls-val" id="bias-label" style="font-size:15px;line-height:1.2;padding-top:4px;">--</div><div class="ls-sub">&nbsp;</div></div>
+    </div>
+
+    <div class="lab-chart"><svg id="bias-svg" viewBox="0 0 700 270" aria-label="U-shaped accuracy tradeoff curve"></svg></div>
+
+    <div class="slider-row"><label>EWT announcement bias</label><input type="range" id="bias-slider" min="0.4" max="2.0" value="1.0" step="0.05"><span class="sv" id="bias-v">1.0x</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:#a39c8c;margin-top:4px;"><span>0.4x severe underestimate</span><span>1.0x accurate</span><span>2.0x large overestimate</span></div>
+
+    <div class="lab-note"><b>The U-shape explained.</b> Left of 1.0x: fewer callers balk (they heard a shorter wait), but actual wait is longer than announced, callers with patience between the announced and true wait renege at the announcement mark as expectation is violated. Abandonment is high. Right of 1.0x: more callers balk unnecessarily, but those who stay face a shorter wait and rarely renege. Sweet spot is around 1.15 to 1.30x. Beyond 1.6x the excessive balking drives abandonment back up. <b>The parameters above are shared with the impact calculator</b>, so changing those sliders will shift the curve.</div>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 05: PIQ -->
+<section class="fade" id="piq">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <div class="sec-title-block">
+      <span class="sec-word">The simpler option</span>
+      <h2>Position in queue: less precise, easier to trust.</h2>
+    </div>
+  </div>
+  <p>Position in queue has one major structural advantage over EWT: it is always true. You always know exactly how many people are ahead of a caller. There is no model, no estimate, no confidence interval. Just a count. EWT by contrast requires a live forecasting model that can diverge from reality.</p>
+  <div class="twocol-eq">
+    <div class="panel">
+      <h3 style="font-size:17px;margin-bottom:10px;">When PIQ outperforms EWT</h3>
+      <p style="margin:0;font-size:15px;color:var(--ink-soft);line-height:1.6;">Your handle times are highly variable. Callers are regulars who know your speed. Your modelling capability is limited. You have high volatility and position updates feel fair because they are obviously true. Your EWT model has a history of inaccuracy.</p>
+    </div>
+    <div class="panel">
+      <h3 style="font-size:17px;margin-bottom:10px;">When EWT outperforms PIQ</h3>
+      <p style="margin:0;font-size:15px;color:var(--ink-soft);line-height:1.6;">Callers are infrequent or new. High-value decisions hinge on wait time, such as whether to try another channel. Handle time is consistent enough to model reliably. You have multichannel context and can offer callbacks at the EWT threshold.</p>
+    </div>
+  </div>
+  <p style="margin-top:22px;">For most operations: announce position first (always available, always true), then add EWT as a second signal. When they conflict, say position two but EWT says 12 minutes, customers trust position because it is concrete. This is useful information: it signals something unusual, such as two very long calls ahead.</p>
+  <div class="callout info">
+    <div class="ct">Update frequency matters as much as accuracy.</div>
+    <p>A PIQ or EWT announced once at entry and never updated is almost as useless as silence after 90 seconds. The "you have moved up" signal is actively reassuring and reduces intermediate reneging. Re-announce updated PIQ and EWT at every position change, and on a fixed cadence every 60 to 90 seconds if no position change has occurred. This applies equally to EWT: a static EWT that does not reflect actual queue progress becomes untrustworthy quickly.</p>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 06: CULTURAL -->
+<section class="fade" id="culture">
+  <div class="sec-head">
+    <span class="sec-num">06</span>
+    <div class="sec-title-block">
+      <span class="sec-word">Not one-size-fits-all</span>
+      <h2>Patience and trust vary by market.</h2>
+    </div>
+  </div>
+  <p>The EWT effect is not uniform. Its magnitude depends on two cultural variables: <strong>baseline patience</strong> (how long callers are willing to wait before abandoning regardless) and <strong>institutional trust</strong> (how much they believe the announcement). Both vary meaningfully across markets.</p>
+
+  <div class="callout dark">
+    <div class="ct">Culturally and linguistically diverse populations change the picture.</div>
+    <p>Within any single country, CALD communities often carry patience norms from their heritage culture. A caller from a culture with higher baseline patience may wait significantly longer than the average for that market, making EWT announcements less critical for retention but more important for managing service expectations. Conversely, language barriers reduce the effectiveness of IVR-delivered EWT: a caller who does not fully parse "approximately seven minutes" cannot make an informed decision. Organisations serving CALD populations should consider multilingual EWT delivery and test PIQ (a number, universally understood) as the primary signal where language coverage is incomplete. The country selector in the calculator above uses population-average patience; your real caller mix may differ significantly.</p>
+  </div>
+
+  <div class="country-grid">
+    <div class="cc cc-au"><div class="cc-name">Australia / NZ</div><div class="cc-pat">Low patience · high trust</div><div class="cc-bar"><div class="cc-fill" style="width:30%;background:var(--red);"></div></div><div class="cc-note">Strong EWT effect. Callers value efficiency. Callback offers are well-received. Significant CALD population (28% born overseas); consider multilingual queues for high-volume languages. Overestimate by 15 to 20%.</div></div>
+    <div class="cc cc-us"><div class="cc-name">US / Canada</div><div class="cc-pat">Low patience · moderate trust</div><div class="cc-bar"><div class="cc-fill" style="width:28%;background:var(--blue);"></div></div><div class="cc-note">Similar to Australia. Scepticism of corporate announcements means accuracy is especially important. Highly diverse population; Spanish-language EWT delivers a measurable retention lift for relevant segments.</div></div>
+    <div class="cc cc-de"><div class="cc-name">Germany / Austria</div><div class="cc-pat">Medium patience · high trust once given</div><div class="cc-bar"><div class="cc-fill" style="width:52%;background:var(--clay);"></div></div><div class="cc-note">Higher tolerance. Callers hold you to stated EWT precisely. Underestimation is especially damaging here. Accuracy is valued more than cushioning. Overestimate by no more than 10 to 15%.</div></div>
+    <div class="cc cc-jp"><div class="cc-name">Japan</div><div class="cc-pat">High patience · high trust</div><div class="cc-bar"><div class="cc-fill" style="width:72%;background:var(--green);"></div></div><div class="cc-note">Callers wait considerably longer before abandoning. EWT effect size is smaller because baseline abandonment is lower. Position-based systems resonate well; the fairness signal is culturally valued.</div></div>
+    <div class="cc cc-br"><div class="cc-name">Brazil</div><div class="cc-pat">Medium patience · variable trust</div><div class="cc-bar"><div class="cc-fill" style="width:48%;background:var(--amber);"></div></div><div class="cc-note">Trust is contextual: government queues viewed sceptically, private-sector less so. Combine EWT with callback. Regional variation is significant; interior regions tend toward higher patience than metropolitan areas.</div></div>
+    <div class="cc cc-in"><div class="cc-name">India</div><div class="cc-pat">Medium-high patience · variable trust</div><div class="cc-bar"><div class="cc-fill" style="width:60%;background:var(--ocx-mauve);"></div></div><div class="cc-note">Wide variation across urban vs rural and linguistic populations. IVR language matching is critical. PIQ as a number is universally accessible across literacy levels. EWT trust is higher for English-language services.</div></div>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 07: IMPLEMENTATION -->
+<section class="fade" id="implementation">
+  <div class="sec-head">
+    <span class="sec-num">07</span>
+    <div class="sec-title-block">
+      <span class="sec-word">Making it work</span>
+      <h2>Three implementation choices that define your outcome.</h2>
+    </div>
+  </div>
+  <div class="panel" style="padding:8px 28px;">
+    <div class="lever">
+      <div class="lever-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <div>
+        <h3>The EWT model</h3>
+        <p><strong>Use your platform's native EWT first.</strong> Modern CCaaS platforms (Genesys, NICE CXone, Amazon Connect, Avaya, Five9, Salesforce Service Cloud) ship with built-in EWT engines that integrate real-time queue state, agent states, and historical AHT. These outperform hand-rolled estimates because they have access to data your IVR cannot easily replicate, including current call progress, agent skill weights, and routing priority. Configure and calibrate the platform model before building your own.</p>
+        <p style="margin-top:12px;">Where platform EWT is unavailable or unreliable: use a rolling AHT from the last 10 to 15 completed calls (not the daily average, which is too stale), add an estimate of remaining handle time for calls currently in service (approximated as half AHT), and apply a 15 to 25% overestimate buffer. Critically: <strong>EWT breaks down on mass logout events</strong> such as team meetings, fire drills, shift handovers, and sudden skill reassignments. During these events, available agent count drops sharply and EWT will underestimate until the model recalibrates. Some platforms surface "agent state change" events that can trigger an EWT suppression mode; use this if available.</p>
+        <p class="rot">Minimum viable: platform EWT with calibration review monthly. If building your own: rolling AHT from last 15 calls plus 20% buffer, suppressed on mass-logout detection.</p>
+      </div>
+    </div>
+    <div class="lever">
+      <div class="lever-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.7"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="7" r="1"/><circle cx="12" cy="17" r="1"/><path d="M5 5l14 14M19 5L5 19"/></svg></div>
+      <div>
+        <h3>Update frequency</h3>
+        <p>Update PIQ at every position change. This is non-negotiable and is the primary retention signal: "you are now caller number two" is one of the most effective abandonment reducers available. For EWT, update every 60 to 90 seconds regardless of whether position has changed, because EWT can drift independently of position (if the calls ahead are running long, for example). If EWT is moving upward between updates, acknowledge it: "your estimated wait has increased slightly to approximately eight minutes." A wait that grows without explanation feels dishonest. A wait that grows with a brief acknowledgement remains trustworthy.</p>
+        <p style="margin-top:10px;">Silent stretches longer than 90 seconds meaningfully increase intermediate reneging (Maister, 1985). Callers infer from silence that they have been forgotten or that the system has failed.</p>
+        <p class="rot">Update PIQ at every position change. Update EWT every 60 to 90 seconds. Acknowledge upward drift explicitly.</p>
+      </div>
+    </div>
+    <div class="lever">
+      <div class="lever-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.7"><path d="M3 5h18M3 12h12M3 19h6"/><path d="M18 15l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <h3>Callback integration</h3>
+        <p>EWT announcements are most powerful when paired with a callback offer at the moment the EWT is stated. "Your estimated wait is approximately eight minutes. Press one and we will call you back without losing your place." Trigger the callback offer at the same moment as EWT, not as a consolation after callers have suffered longer. Some platforms support position-hold callbacks where the caller's place is literally preserved in the queue as a virtual caller. This is the highest-quality implementation.</p>
+        <p class="rot">Trigger callback offer at the EWT announcement. Do not delay it to a later prompt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 08: DEEP QUEUES -->
+<section class="fade" id="deep">
+  <div class="sec-head">
+    <span class="sec-num">08</span>
+    <div class="sec-title-block">
+      <span class="sec-word">When the queue runs deep</span>
+      <h2>Large position numbers hurt more than they help.</h2>
+    </div>
+  </div>
+  <p>Everything above assumes the queue is manageable. Once the queue runs deeper than roughly position 10 to 12, the playbook changes. Position announcements stop being reassuring and start being demoralising. Beyond that threshold, announced position produces higher abandonment than no announcement at all (Munichor and Rafaeli, 2007). The number is too large to generate a progress narrative. Callers cannot visualise "23 people ahead of me" resolving. They feel trapped.</p>
+  <p>This section covers two distinct situations that look the same on the surface but require different responses: <strong>acute deep queues</strong> (a surge that will resolve within hours) and <strong>sustained deep queues</strong> (chronic over-demand that persists for days, weeks, or longer). The tactics that work for one can make the other worse.</p>
+
+  <div class="lab">
+    <span class="lab-kick">Interactive · deep queue threshold tool</span>
+    <h3>100 agents, 5-minute AHT baseline</h3>
+    <p class="lab-sub">Slide the queue depth. The chart shows the relative abandonment multiplier by position and classifies the current depth into a phase with a specific response recommendation.</p>
+
+    <div class="lab-stats" style="grid-template-columns:repeat(3,1fr);">
+      <div class="lab-stat" id="dq-regime-card"><div class="ls-label">Queue regime</div><div class="ls-val" id="dq-regime" style="font-size:16px;line-height:1.2;padding-top:4px;">--</div><div class="ls-sub">&nbsp;</div></div>
+      <div class="lab-stat" id="dq-ewt-card"><div class="ls-label">Implied EWT</div><div class="ls-val" id="dq-ewt">--</div><div class="ls-sub">100 agents, 5 min AHT</div></div>
+      <div class="lab-stat" id="dq-announce-card"><div class="ls-label">Announce position?</div><div class="ls-val" id="dq-announce">--</div><div class="ls-sub">&nbsp;</div></div>
+    </div>
+
+    <div class="lab-chart"><svg id="dq-svg" viewBox="0 0 700 220" aria-label="Abandonment multiplier by queue position"></svg></div>
+
+    <div class="slider-row"><label>Queue depth (callers waiting)</label><input type="range" id="dq-pos" min="1" max="150" value="8" step="1"><span class="sv" id="dq-pos-v">8</span></div>
+
+    <div id="dq-recommendation" style="margin-top:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 18px;font-size:14px;line-height:1.65;color:#c8c1b1;"></div>
+
+    <div class="lab-note"><b>The abandonment multiplier curve</b> is derived from Munichor and Rafaeli (2007) and subsequent contact centre studies. Note the slight dip at positions 2 to 5 (the reassurance effect: hearing a small number is actively calming) before the curve rises past the threshold. The tool uses 100 agents and 5-minute AHT as baseline; EWT is approximated as position times AHT divided by agents.</div>
+  </div>
+
+  <h3 style="font-size:26px;margin:36px 0 16px;">Three-phase response framework.</h3>
+
+  <div class="panel" style="padding:8px 28px;">
+    <div class="lever">
+      <div class="lever-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <span class="phase-label phase-1">Phase 1: Manageable</span>
+        <h3 style="color:var(--green);font-size:19px;margin-bottom:6px;">Position 1 to 10, EWT under 3 minutes (100-agent baseline)</h3>
+        <p>Announce both position and EWT. Update at every position change and every 60 to 90 seconds. Offer callback as an option, not the lead. The standard playbook applies. Your goal is to retain high-patience callers, self-select low-patience ones at the door, and maintain trust through accurate, frequent updates.</p>
+        <p class="rot">Script: "You are caller four, estimated wait approximately two minutes. Press one to keep your place and receive a callback."</p>
+      </div>
+    </div>
+    <div class="lever">
+      <div class="lever-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.7"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <span class="phase-label phase-2">Phase 2: Deep (acute)</span>
+        <h3 style="color:var(--amber);font-size:19px;margin-bottom:6px;">Position 11 to 40, EWT 3 to 12 minutes</h3>
+        <p><strong>Suppress the position number.</strong> Switch to EWT-only with an immediate, prominent callback offer that leads the message. State that the caller's place is held (fairness signal without the demoralising count). Activate overflow routing: secondary skill groups, blended agents from adjacent queues, or contracted overflow providers. This is the window where proactive load management makes the most difference and where acute strategies are still effective.</p>
+        <p style="margin-top:10px;"><strong>Note on WFM alignment:</strong> overflow routing, skill reassignment, and ad hoc blending are often constrained by WFM system rules, schedule adherence targets, and reporting configurations. If your WFM system counts overflow handling as out-of-skill activity and penalises it in adherence metrics, agents will resist. Alignment with WFM and reporting teams before a crisis is essential: agree on the rules in advance, or you will spend the crisis arguing about metrics instead of answering calls.</p>
+        <p class="rot">Script: "Your estimated wait is approximately eight minutes. Press one now and we will call you back without losing your place." Drop position from the script entirely.</p>
+      </div>
+    </div>
+    <div class="lever">
+      <div class="lever-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <span class="phase-label phase-3">Phase 3: Crisis or Sustained</span>
+        <h3 style="color:var(--red);font-size:19px;margin-bottom:6px;">Position 40+, EWT over 12 minutes, or any sustained multi-day deep queue</h3>
+        <p>Standard queue management has lost. At this depth, the queue is not self-correcting. <strong>Critically: several tactics that work in acute situations become counterproductive when sustained.</strong></p>
+        <p style="margin-top:10px;"><strong>Callbacks in sustained deep queues cause longer handle times.</strong> When callback volume is large and sustained, agents are repeatedly handling callbacks from frustrated customers who have already waited once, had their expectations set and reset, and are calling with compounded anxiety. These calls take longer. They raise AHT, which reduces throughput, which deepens the queue further. Callback is a short-term pressure valve. Sustained, it becomes a handle-time multiplier that worsens the condition it was deployed to treat.</p>
+        <p style="margin-top:10px;"><strong>EWT is unreliable when the queue is still growing.</strong> Suppress specific EWT at this stage. Use banded language ("under 30 minutes") or drop EWT entirely in favour of a callback-as-default message without a stated time. A wrong 45-minute estimate is worse than no estimate.</p>
+        <p style="margin-top:10px;"><strong>Source-level resolution</strong> is the highest-leverage action: identify the top contact driver in real time and push proactive outbound (SMS, email, push notification, app message) to the affected population. One well-targeted proactive communication can eliminate hundreds of inbound contacts. This requires knowing your contact reason mix in real time, which is the analytics capability to build before you need it.</p>
+        <p class="rot">Sustained crisis requires staffing solutions, not announcement solutions. See the rules section for sustained-period tactics.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:24px;margin:36px 0 16px;">Operational levers and their limits.</h3>
+
+  <div class="metric-grid">
+    <div class="metric amber-bar">
+      <div class="biz">Overflow routing</div>
+      <div class="tech">threshold-based pool expansion</div>
+      <div class="desc">When queue depth crosses a threshold, automatically expand the eligible agent pool. Even a small secondary pool at the right moment significantly reduces depth. Set overflow thresholds in your ACD before you need them. <strong>WFM constraint:</strong> pre-agree override rules with your WFM and workforce team so overflow handling is reflected correctly in adherence and occupancy reports, not flagged as non-compliance.</div>
+    </div>
+    <div class="metric amber-bar">
+      <div class="biz">Callback as default</div>
+      <div class="tech">virtual queue / position hold</div>
+      <div class="desc">Reframe callback from opt-in to opt-out for Phase 2 and 3 queues. Effective for acute surges. <strong>Sustained-period caution:</strong> a multi-day callback backlog raises AHT, agent stress, and re-contact rates. Monitor callback handle times separately. If they are running more than 20% longer than direct contacts, the callback pool is accumulating frustrated customers and needs to be cleared before new callbacks are offered.</div>
+    </div>
+    <div class="metric red-bar">
+      <div class="biz">Digital deflection</div>
+      <div class="tech">channel shift at IVR entry</div>
+      <div class="desc">For self-serviceable contact types, the IVR itself deflects: "For order status, visit our app, no wait required." Effective deflection removes 15 to 30% of contacts before they enter the queue. <strong>Equity note:</strong> deflecting to digital channels disadvantages callers without digital access. For essential services, maintain a human path for all callers regardless of queue depth.</div>
+    </div>
+    <div class="metric red-bar">
+      <div class="biz">Source-level resolution</div>
+      <div class="tech">proactive outbound</div>
+      <div class="desc">Identify the top contact driver in real time and resolve it outbound before callers reach the queue. The highest-leverage action available. Requires real-time contact reason analytics and an outbound delivery capability. For sustained issues, this is the only strategy that actually reduces the size of the demand pool rather than reshaping it.</div>
+    </div>
+  </div>
+
+  <div class="caveat-note">
+    <b>WFM and reporting alignment is not optional.</b> Overflow routing, skill blending, ad hoc schedule changes, and callback pools all create anomalies in standard WFM and ACD reporting. Adherence scores, occupancy targets, skill utilisation reports, and service level calculations can all misrepresent what is happening during a managed crisis response. If your reporting framework penalises the right behaviours, agents and team leaders will stop doing them. Pre-agree crisis-mode reporting rules with your WFM, QA, and analytics teams. Build those rules into your crisis response runbook so they activate automatically when depth thresholds are crossed.
+  </div>
+</section>
+<hr class="rule">
+
+<!-- 09: RULES -->
+<section class="fade" id="rules">
+  <div class="sec-head">
+    <span class="sec-num">09</span>
+    <div class="sec-title-block">
+      <span class="sec-word">The pocket version</span>
+      <h2>Eight rules for the next planning meeting.</h2>
+    </div>
+  </div>
+  <div class="panel">
+    <ol class="rules">
+      <li>
+        <b>Announce something. Anything beats silence.</b> Position in queue, even without EWT, reduces abandonment. Use your platform's native EWT wherever it exists. Do not let perfect be the enemy of good.
+      </li>
+      <li>
+        <b>Overestimate, do not underestimate.</b> Buffer your EWT by 15 to 25%. Delivering early builds trust. Delivering late is a trust breach that erodes future announcement effectiveness. The U-curve is steep on the underestimate side.
+      </li>
+      <li>
+        <b>Update frequently, including EWT.</b> Re-announce PIQ at every position change. Update EWT every 60 to 90 seconds. If EWT is drifting upward, acknowledge it. Silent stretches longer than 90 seconds increase reneging.
+      </li>
+      <li>
+        <b>Pair EWT with callback, and trigger it immediately.</b> The combination removes callers who cannot wait without losing them as contacts. Offer callback at the moment you announce the wait, not as a consolation after they have suffered through it.
+      </li>
+      <li>
+        <b>Suppress position numbers past position 10 to 12.</b> Large queue positions cause more abandonment than silence. Switch to EWT-only above your threshold, lead with callback, and drop the position count from the script entirely.
+      </li>
+      <li>
+        <b>Pre-align with WFM and reporting before a crisis hits.</b> Overflow routing, skill blending, and callback pools create reporting anomalies. If adherence metrics penalise the right behaviours, agents will stop doing them. Build crisis-mode reporting rules into your runbook and agree them in advance.
+      </li>
+      <li>
+        <b>Plan for the unexpected: build acute surge runbooks.</b> For short periods of deep queues (hours to one day), your response is: suppress PIQ, lead with EWT and callback-as-default, activate overflow, identify and address the contact driver. These tactics work for acute surges. Define the thresholds that trigger each action and test them in a non-crisis period.
+        <div class="rules-sub">Acute surge tactics: overflow routing, callback-as-default, digital deflection, proactive outbound to known affected customers, EWT suppression if model is unreliable.</div>
+      </li>
+      <li>
+        <b>Sustained deep queues require staffing solutions, not announcement solutions.</b> Announcements cannot resolve a chronic capacity shortfall. For periods lasting more than one to two days: callbacks accumulate and raise AHT; EWT loses calibration; customer trust degrades. The response set shifts to: allocating overtime immediately, engaging agency or contractor staffing (lead time is days to weeks, plan ahead), accelerating automation for high-volume simple enquiry types, reviewing IVR containment rates for self-serviceable contacts, and for longer-horizon demand growth, workforce planning to hire in advance of the demand curve. Each announcement tactic should have a defined expiry condition: "we switch to this when queue is less than X, and we escalate to that when the condition persists beyond Y hours."
+        <div class="rules-sub">Sustained period tactics: overtime, contractor augmentation, automation of simple enquiry types, IVR containment improvement, proactive source-level resolution, long-run hiring ahead of forecast demand growth.</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- TECH ZONE -->
+<div class="tech-zone fade">
+  <div class="tech-inner">
+    <span class="kicker">For the engine room</span>
+    <h2>The mathematical extension: Erlang-A with strategic balking.</h2>
+    <p>Everything above is grounded in an extension of the standard Erlang-A (M/M/c+M) model. Here is the formal bridge for your WFM team, analytics engineers, and anyone building the EWT model.</p>
+
+    <table class="bridge">
+      <thead><tr><th>Concept</th><th>Formulation</th><th>Symbol</th></tr></thead>
+      <tbody>
+        <tr><td>Arrival rate (no announcement)</td><td>Poisson with rate</td><td><span class="sym">λ</span></td></tr>
+        <tr><td>Customer patience</td><td>Exponential distribution, mean</td><td><span class="sym">1/θ</span></td></tr>
+        <tr><td>Balking probability given announced EWT</td><td>P(patience &lt; EWT_ann) = 1 minus exp(minus θ times EWT_ann)</td><td><span class="sym">β</span></td></tr>
+        <tr><td>Effective arrival rate after balking</td><td>λ times exp(minus θ times EWT_ann)</td><td><span class="sym">λ_eff</span></td></tr>
+        <tr><td>Honest EWT fixed point</td><td>W* such that W_q(λ times exp(minus θW*)) = W*</td><td><span class="sym">W*</span></td></tr>
+        <tr><td>Expectation violation (underestimation)</td><td>Additional abandonment for callers with patience in (ann, W_true)</td><td><span class="sym">δ</span></td></tr>
+        <tr><td>Total abandonment</td><td>balk + violation + (1 minus balk minus violation) times renege</td><td><span class="sym">P_total</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="tech-grid">
+      <div class="formula">
+        <div class="fname">Balking fraction</div>
+        <div class="feq">β = 1 − e<sup style="font-size:13px;">−θ · t_ann</sup></div>
+        <div class="fnote">Fraction who balk given announced wait t_ann, where θ = 1/mean_patience. By the memoryless property of exponential patience, those who stay have remaining patience still distributed Exp(θ), so downstream reneging is unchanged.</div>
+      </div>
+      <div class="formula">
+        <div class="fname">Fixed-point iteration</div>
+        <div class="feq">W<sub>n+1</sub> = 0.65 W<sub>n</sub> + 0.35 W<sub>q</sub>(λ e<sup style="font-size:13px;">−θbW<sub>n</sub></sup>)</div>
+        <div class="fnote">Finds the honest (b=1) or biased (b greater than 1) EWT equilibrium. Initialise at the no-announcement wait. Converges in 20 to 40 iterations. The damping prevents oscillation near the fixed point.</div>
+      </div>
+      <div class="formula">
+        <div class="fname">Expectation violation penalty</div>
+        <div class="feq">δ = e<sup style="font-size:13px;">−θ·ann</sup> − e<sup style="font-size:13px;">−θ·W*</sup></div>
+        <div class="fnote">The fraction of arrivals with patience between the announced and true wait. These callers enter the queue based on a false promise and renege when the announcement time expires. This term is the source of the U-curve's left branch.</div>
+      </div>
+      <div class="formula">
+        <div class="fname">PIQ to EWT conversion</div>
+        <div class="feq">EWT ≈ (n−1) × (AHT_rolling + IWT)</div>
+        <div class="fnote">n = position, AHT_rolling = rolling average of last 10 to 15 completed calls, IWT = estimated remaining handle time of the call currently in service, often approximated as AHT/2. Prefer platform-native computation.</div>
+      </div>
+    </div>
+
+    <div class="refs">
+      <h4>Scientific references</h4>
+      <ol>
+        <li><b>Armony, M., Shimkin, N. and Whitt, W. (2009).</b> "The Impact of Delay Announcements in Many-Server Queues with Abandonment." <em>Operations Research</em>, 57(1), 66-81. Core theoretical result: accurate EWT strictly reduces average delay for served customers in M/M/c+M queues.</li>
+        <li><b>Munichor, N. and Rafaeli, A. (2007).</b> "Numbers or Apologies? Customer Reactions to Telephone Waiting Time Fillers." <em>Journal of Applied Psychology</em>, 92(2), 511-518. Empirical evidence that position numbers above 10-12 increase abandonment above silence baseline.</li>
+        <li><b>Whitt, W. (1999).</b> "Improving Service by Informing Customers About Anticipated Delays." <em>Management Science</em>, 45(2), 192-207. Early theoretical treatment of delay announcements and customer behaviour.</li>
+        <li><b>Hui, M.K. and Tse, D.K. (1996).</b> "What to Tell Consumers in Waits of Different Lengths: An Integrative Model of Service Evaluation." <em>Journal of Marketing</em>, 60(2), 81-90. Establishes that any information is better than silence, and that the benefit varies with actual wait length.</li>
+        <li><b>Maister, D.H. (1985).</b> "The Psychology of Waiting Lines." In <em>The Service Encounter</em>, Czepiel, Solomon and Surprenant (eds). The foundational taxonomy: uncertain waits feel longer, unexplained waits feel unfair, and progress signals reduce perceived wait. Underpins the update-frequency recommendation.</li>
+        <li><b>Larson, R.C. (1987).</b> "Perspectives on Queues: Social Justice and the Psychology of Queueing." <em>Operations Research</em>, 35(6), 895-905. On queue fairness, the value of visible progress, and why FIFO is not merely efficient but experienced as just.</li>
+        <li><b>Zhou, R. and Soman, D. (2003).</b> "Looking Back: Exploring the Psychology of Queuing and the Effect of the Number of People Behind." <em>Journal of Consumer Research</em>, 29(4), 517-530. Demonstrates that relative position (people behind you) affects persistence in queue, relevant to PIQ framing.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <hr class="rule">
+  <p><strong>How to read the interactives.</strong> The impact calculator solves a fixed-point equation: it finds the equilibrium wait that results when callers self-select based on the announced wait, using an Erlang-C approximation for in-queue dynamics. The accuracy tradeoff curve includes an expectation-violation penalty for underestimation, which is the source of the U-shape's left branch. The deep queue threshold tool uses 100 agents and 5-minute AHT as a baseline; EWT is approximated as position times AHT divided by agents.</p>
+  <p>The one sentence to carry out of the room: <strong>tell customers how long, overestimate slightly, update frequently, suppress position numbers above ten, and plan your sustained-queue response before you need it.</strong></p>
+</footer>
+</div>
+
+<script>
+// ============================================================
+//  Erlang-C engine (stable Erlang-B recursion to Erlang-C)
+//  W_q = C(c,A)·AHT/(c-A)
+//  SL(t) = 1 - C·exp(-(c-A)·t/AHT)
+//  Abandonment (Jagerman approx): C·wCond/(wCond+patience)
+// ============================================================
+function erlangC(c,A){
+  c=Math.max(1,Math.round(c));
+  if(A<=0)return 0;
+  if(A>=c)return 1;
+  let B=1;
+  for(let n=1;n<=c;n++){B=(A*B)/(n+A*B);}
+  return Math.min(1,Math.max(0,(c*B)/(c-A*(1-B))));
+}
+function baseMetrics(c,callsPerHour,ahtSec,patienceSec,slT){
+  const A=callsPerHour*ahtSec/3600;
+  const occ=A/c;
+  if(A>=c)return{A,occ:Math.min(1.5,occ),asa:99999,sl:0,abandon:0.98,balk:0};
+  const Pw=erlangC(c,A);
+  const asa=Pw*ahtSec/(c-A);
+  const sl=1-Pw*Math.exp(-(c-A)*slT/ahtSec);
+  const wCond=ahtSec/(c-A);
+  const abandon=Math.max(0,Math.min(0.98,Pw*(wCond/(wCond+patienceSec))));
+  return{A,occ,asa,sl:Math.max(0,Math.min(1,sl)),abandon,balk:0};
+}
+
+// ============================================================
+//  EWT fixed-point solver via bisection
+//
+//  Finds W* such that W_q(lambda·exp(-theta·bias·W*)) = W*
+//  i.e. the true queue wait when callers self-select based on
+//  an announcement of (bias × true wait).
+//
+//  Bisection replaces the previous damped iteration which could
+//  oscillate at high occupancy because g(W) = W_q(...) - W
+//  is steep near the fixed point.  g(0)>0 and g(large W)<=0
+//  guarantees a unique crossing for stable systems.
+// ============================================================
+function solveEWT(c,callsPerHour,ahtSec,patienceSec,slT,bias){
+  const theta=1/patienceSec;
+  const lambda=callsPerHour/3600;
+  const qW=W=>{
+    const ann=Math.max(0,bias*W);
+    const leff=lambda*Math.exp(-theta*ann);
+    const m=baseMetrics(c,leff*3600,ahtSec,patienceSec,slT);
+    return m.asa<99999?m.asa:99999;
+  };
+  const base=baseMetrics(c,callsPerHour,ahtSec,patienceSec,slT);
+  if(base.asa>=99999)return 99999;
+  let lo=0, hi=base.asa*5+120;
+  if(qW(hi)-hi>0) hi=patienceSec*30;
+  if(qW(hi)-hi>0) return base.asa; // system can't be stabilised
+  for(let i=0;i<80;i++){
+    const mid=(lo+hi)/2;
+    if(qW(mid)-mid>0)lo=mid; else hi=mid;
+    if(hi-lo<0.02)break;
+  }
+  return(lo+hi)/2;
+}
+
+// ============================================================
+//  Full EWT metrics at a given bias level
+//
+//  Expectation-violation term (bias < 1 only):
+//    Callers with patience in (ann, W*) enter based on a false
+//    promise and abandon when reality passes the announcement.
+//    delta = exp(-theta·ann) - exp(-theta·W*)
+//    These callers exit earlier than the Erlang-A reneging term
+//    predicts, so delta is additional to standard reneging.
+//    The remaining callers (patience > W*) renege normally.
+//
+//  Trust bonus (bias 1.0-1.4):
+//    Under-promise / over-deliver reduces in-queue reneging
+//    modestly; callers answered ahead of expectation rarely reach
+//    their patience limit.
+// ============================================================
+function metricsEWT(c,callsPerHour,ahtSec,patienceSec,slT,bias){
+  const theta=1/patienceSec;
+  const lambda=callsPerHour/3600;
+  const W=solveEWT(c,callsPerHour,ahtSec,patienceSec,slT,bias);
+  const ann=Math.max(0,bias*W);
+  const balkFrac=Math.max(0,Math.min(0.98,1-Math.exp(-theta*ann)));
+  const leff=lambda*Math.exp(-theta*ann);
+  const m=baseMetrics(c,leff*3600,ahtSec,patienceSec,slT);
+
+  let violation=0;
+  if(bias<1.0&&W>ann){
+    violation=Math.max(0,Math.exp(-theta*ann)-Math.exp(-theta*W));
+  }
+
+  let renegeAdj=m.abandon;
+  if(bias>=1.0&&bias<=1.4){
+    renegeAdj=m.abandon*Math.max(0,1-(bias-1.0)*0.28);
+  }
+
+  const remaining=Math.max(0,1-balkFrac-violation);
+  const total=Math.max(0,Math.min(0.98,balkFrac+violation+remaining*renegeAdj));
+  return{asa:m.asa,sl:m.sl,balk:balkFrac,violation,renege:renegeAdj,abandon:total,occ:m.occ};
+}
+
+// ============================================================
+//  PIQ-only model
+//
+//  Callers hear a position number and must convert it to time
+//  mentally. This introduces noise: the effective balking signal
+//  is weaker than direct EWT. Hui and Tse (1996) and Munichor
+//  and Rafaeli (2007) together suggest PIQ alone achieves roughly
+//  50-80% of EWT's abandonment reduction, with 65% as midpoint.
+//  We apply this as a proportional improvement on the gap between
+//  the no-announcement baseline and the EWT outcome rather than
+//  modelling the position-to-time conversion directly (which would
+//  require caller-familiarity assumptions unavailable here).
+//  Labelled as approximate in the chart note.
+// ============================================================
+function metricsPIQ(c,callsPerHour,ahtSec,patienceSec,slT){
+  const mBase=baseMetrics(c,callsPerHour,ahtSec,patienceSec,slT);
+  const mEWT=metricsEWT(c,callsPerHour,ahtSec,patienceSec,slT,1.2);
+  const f=0.65;
+  return{
+    asa:   Math.max(0,mBase.asa-f*(mBase.asa-mEWT.asa)),
+    sl:    Math.max(0,Math.min(1,mBase.sl+f*(mEWT.sl-mBase.sl))),
+    balk:  mEWT.balk*f,
+    abandon:Math.max(0,Math.min(0.98,mBase.abandon-f*(mBase.abandon-mEWT.abandon))),
+    occ:   mBase.occ
+  };
+}
+
+// PIQ + EWT: position progress updates reduce in-queue reneging
+// by ~12% on top of the EWT balking effect (Maister, 1985)
+function metricsBoth(c,callsPerHour,ahtSec,patienceSec,slT){
+  const m=metricsEWT(c,callsPerHour,ahtSec,patienceSec,slT,1.2);
+  const renegeAdj=m.renege*0.88;
+  const remaining=Math.max(0,1-m.balk-(m.violation||0));
+  const total=Math.max(0,Math.min(0.98,m.balk+(m.violation||0)+remaining*renegeAdj));
+  return{...m,renege:renegeAdj,abandon:total};
+}
+
+function fmtWait(s){
+  if(!isFinite(s)||s>9000)return'--';
+  if(s<60)return Math.round(s)+'s';
+  const mn=Math.floor(s/60),r=Math.round(s%60);
+  return mn+'m'+(r?' '+r+'s':'');
+}
+function pct(x){return Math.round(x*100)+'%';}
+function setH(id,state){const el=document.getElementById(id);if(!el)return;el.classList.remove('danger','ok','warn-stat');if(state)el.classList.add(state);}
+function setT(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+
+// ============================================================
+//  Country patience presets
+// ============================================================
+const COUNTRIES={
+  au:{pat:150,note:'Australia/NZ: low patience (~2.5 min avg), high institutional trust. Significant CALD population; consider multilingual EWT for major language groups.'},
+  us:{pat:150,note:'US/Canada: low patience (~2.5 min avg), moderate trust. Diverse population; Spanish-language EWT delivers measurable lift for relevant segments.'},
+  uk:{pat:180,note:'UK: low-medium patience (~3 min avg), moderate-high trust. Strong preference for honesty over optimism in wait estimates.'},
+  de:{pat:240,note:'Germany/Austria: medium patience (~4 min avg), high trust once given. Hold to stated EWT precisely. Overestimate no more than 10-15%.'},
+  jp:{pat:420,note:'Japan: high patience (~7 min avg), high trust. EWT effect size is smaller; position-based systems resonate with cultural fairness norms.'},
+  br:{pat:240,note:'Brazil: medium patience (~4 min avg), variable trust. Strong regional variation; metropolitan callers less patient than regional callers.'},
+  in:{pat:300,note:'India: medium-high patience (~5 min avg), variable trust. Wide linguistic diversity; PIQ as a number is more universally accessible than EWT across literacy levels.'},
+  sg:{pat:180,note:'Singapore: low-medium patience (~3 min avg), high trust. High expectations for operational precision; inaccurate EWT is felt sharply.'},
+  cald:{pat:210,note:'Mixed/CALD population: patience varies widely within the population (range ~2-7 min). PIQ is preferred as primary signal where language coverage is incomplete. EWT in dominant community languages recommended where volume justifies it.'}
+};
+
+// ============================================================
+//  Interactive 1: Impact Calculator
+// ============================================================
+let ANN={agents:48,vol:520,aht:300,pat:150,sl:30};
+
+function updateANN(){
+  ANN.agents=+document.getElementById('a-agents').value;
+  ANN.vol=+document.getElementById('a-vol').value;
+  ANN.aht=+document.getElementById('a-aht').value;
+  ANN.pat=+document.getElementById('a-pat').value;
+
+  setT('a-agents-v',ANN.agents);
+  setT('a-vol-v',ANN.vol+'/hr');
+  setT('a-aht-v',(ANN.aht/60).toFixed(1)+' min');
+  setT('a-pat-v',(ANN.pat/60).toFixed(1)+' min');
+
+  const mN=baseMetrics(ANN.agents,ANN.vol,ANN.aht,ANN.pat,ANN.sl);
+  const mP=metricsPIQ(ANN.agents,ANN.vol,ANN.aht,ANN.pat,ANN.sl);
+  const mE=metricsEWT(ANN.agents,ANN.vol,ANN.aht,ANN.pat,ANN.sl,1.2);
+  const mB=metricsBoth(ANN.agents,ANN.vol,ANN.aht,ANN.pat,ANN.sl);
+
+  // headline stats = no-announcement baseline
+  setT('a-wait',fmtWait(mN.asa));
+  setT('a-sl',pct(mN.sl));
+  setT('a-ab',pct(mN.abandon));
+  setT('a-occ',pct(Math.min(1,mN.occ)));
+  setH('a-wait-card',mN.asa>60?'danger':mN.asa<15?'ok':'');
+  setH('a-sl-card',mN.sl<0.6?'danger':mN.sl>0.85?'ok':'');
+  setH('a-ab-card',mN.abandon>0.2?'danger':mN.abandon<0.06?'ok':'');
+  setH('a-occ-card',mN.occ>0.9?'danger':mN.occ<0.75?'ok':'');
+
+  // Deep queue warning: estimate implied position
+  // At steady state, queue length L = lambda * W_q (Little's Law)
+  const lambda=ANN.vol/3600;
+  const impliedPos=mN.asa>0?Math.round(lambda*mN.asa):0;
+  const dw=document.getElementById('a-deepwarn');
+  if(impliedPos>10){
+    dw.style.display='block';
+    const phase=impliedPos>40?3:2;
+    dw.textContent=`Deep queue alert: at these parameters, expected queue depth is approximately ${impliedPos} callers (Phase ${phase}). Position numbers should be suppressed. The PIQ-only column below reflects degraded effectiveness at this depth.`;
+  } else {
+    dw.style.display='none';
+  }
+
+  // comparison table
+  function fmt(val,ref,lower){
+    const v=typeof val==='string'?val:'';
+    if(!v)return'--';
+    const n=parseFloat(v);
+    const r=parseFloat(ref);
+    if(isNaN(n)||isNaN(r))return v;
+    const better=lower?n<r:n>r;
+    const worse=lower?n>r*1.05:n<r*0.95;
+    const cl=better?'green-val':worse?'red-val':'';
+    return cl?`<span class="${cl}">${v}</span>`:v;
+  }
+
+  const rows=[
+    ['ct-w',  [fmtWait(mN.asa),fmtWait(mP.asa),fmtWait(mE.asa),fmtWait(mB.asa)], true],
+    ['ct-sl', [pct(mN.sl),pct(mP.sl),pct(mE.sl),pct(mB.sl)], false],
+    ['ct-ab', [pct(mN.abandon),pct(mP.abandon),pct(mE.abandon),pct(mB.abandon)], true],
+    ['ct-bk', [pct(0),pct(mP.balk),pct(mE.balk),pct(mB.balk)], false]
+  ];
+  const sfxs=['0','piq','ewt','both'];
+  rows.forEach(([base,vals,lower])=>{
+    sfxs.forEach((sfx,i)=>{
+      const el=document.getElementById(base+'-'+sfx);
+      if(el)el.innerHTML=i===0?vals[0]:fmt(vals[i],vals[0],lower);
+    });
+  });
+
+  drawANNChart(mN,mP,mE,mB);
+  drawBiasChart(+document.getElementById('bias-slider').value);
+}
+
+function drawANNChart(mN,mP,mE,mB){
+  const svg=document.getElementById('ann-svg');
+  const W=700,H=270,ml=52,mr=18,mt=30,mb=40;
+  const pw=W-ml-mr,ph=H-mt-mb;
+  const F='font-family="Oxygen,sans-serif"';
+  const scenarios=[
+    {label:'No announcement',m:mN,col:'#c2552f'},
+    {label:'PIQ only',m:mP,col:'#aa42dc'},
+    {label:'EWT only',m:mE,col:'#7fb0e0'},
+    {label:'PIQ + EWT',m:mB,col:'#7fd9bd'}
+  ];
+  const maxW=Math.max(...scenarios.map(s=>s.m.asa),5);
+  const capW=Math.min(maxW*1.25,400);
+  const bw=pw/(scenarios.length*2.5);
+  let s='';
+
+  for(let g=0;g<=capW;g+=30){
+    const y2=mt+ph-g/capW*ph;
+    s+=`<line x1="${ml}" y1="${y2}" x2="${ml+pw}" y2="${y2}" stroke="rgba(255,255,255,.08)"/>`;
+    s+=`<text x="${ml-8}" y="${y2+4}" text-anchor="end" ${F} font-size="10" fill="#9b937f">${g}s</text>`;
+  }
+  s+=`<text x="${ml-34}" y="${mt+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#c8c1b1" transform="rotate(-90 ${ml-34} ${mt+ph/2})">avg wait (seconds)</text>`;
+
+  scenarios.forEach((sc,i)=>{
+    const gap=(pw-(bw*scenarios.length))/(scenarios.length+1);
+    const x=ml+gap+(bw+gap)*i;
+    const h=Math.min(isFinite(sc.m.asa)?sc.m.asa:capW,capW)/capW*ph;
+    const y=mt+ph-h;
+    s+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="5" fill="${sc.col}" opacity="0.85"/>`;
+    s+=`<text x="${x+bw/2}" y="${y-6}" text-anchor="middle" ${F} font-size="12" font-weight="700" fill="${sc.col}">${fmtWait(sc.m.asa)}</text>`;
+    const words=sc.label.split(' ');
+    words.forEach((w,wi)=>{s+=`<text x="${x+bw/2}" y="${mt+ph+16+wi*12}" text-anchor="middle" ${F} font-size="10" fill="#c8c1b1">${w}</text>`;});
+    // abandonment dot
+    const abY=mt+ph-(sc.m.abandon*ph);
+    s+=`<circle cx="${x+bw/2}" cy="${Math.max(mt,abY)}" r="4" fill="${sc.col}" stroke="#221f18" stroke-width="2" opacity="0.9"/>`;
+  });
+
+  // abandon legend
+  s+=`<circle cx="${ml+pw-80}" cy="${mt+10}" r="4" fill="#e8e2d4"/>`;
+  s+=`<text x="${ml+pw-72}" y="${mt+14}" ${F} font-size="10" fill="#a39c8c">dot = abandonment rate</text>`;
+
+  svg.innerHTML=s;
+}
+
+// ============================================================
+//  Interactive 2: Bias / Accuracy tradeoff (U-curve)
+// ============================================================
+function drawBiasChart(currentBias){
+  const svg=document.getElementById('bias-svg');
+  const W=700,H=270,ml=54,mr=22,mt=30,mb=40;
+  const pw=W-ml-mr,ph=H-mt-mb;
+  const F='font-family="Oxygen,sans-serif"';
+  const bMin=0.4,bMax=2.0,steps=48;
+
+  const pts_ab=[],pts_wait=[];
+  let maxW=0,maxAb=0,minAb=1,minW=99999;
+  for(let i=0;i<=steps;i++){
+    const b=bMin+(bMax-bMin)*i/steps;
+    const m=metricsEWT(ANN.agents,ANN.vol,ANN.aht,ANN.pat,ANN.sl,b);
+    const abV=Math.min(m.abandon,0.95);
+    const wV=Math.min(isFinite(m.asa)?m.asa:300,300);
+    pts_ab.push({b,v:abV});
+    pts_wait.push({b,v:wV});
+    maxW=Math.max(maxW,wV); minW=Math.min(minW,wV);
+    maxAb=Math.max(maxAb,abV); minAb=Math.min(minAb,abV);
+  }
+
+  // Auto-scale both axes tightly so the U-shape is visible.
+  // Add 15% padding above the max and pull the floor down to
+  // 80% of the minimum so small relative differences show clearly.
+  const capW=Math.max(maxW*1.15,10);
+  const floorW=Math.max(0,minW*0.8);
+  const capAb=Math.max(maxAb*1.15,0.02);
+  const floorAb=Math.max(0,minAb*0.80);
+  const rangeW=capW-floorW||1;
+  const rangeAb=capAb-floorAb||0.01;
+
+  const xOf=b=>ml+(b-bMin)/(bMax-bMin)*pw;
+  // y functions map value→pixel with floor offset so chart fills height
+  const yWait=v=>mt+ph-(Math.min(Math.max(v,floorW),capW)-floorW)/rangeW*ph;
+  const yAb=v=>mt+ph-(Math.min(Math.max(v,floorAb),capAb)-floorAb)/rangeAb*ph;
+
+  let s='';
+
+  // sweet spot shading
+  const x1=xOf(1.1),x2=xOf(1.35);
+  s+=`<rect x="${x1}" y="${mt}" width="${x2-x1}" height="${ph}" fill="rgba(47,125,104,.12)"/>`;
+  s+=`<text x="${(x1+x2)/2}" y="${mt+12}" text-anchor="middle" ${F} font-size="9" fill="#7fd9bd">sweet spot</text>`;
+
+  // accurate line
+  s+=`<line x1="${xOf(1.0)}" y1="${mt}" x2="${xOf(1.0)}" y2="${mt+ph}" stroke="rgba(255,255,255,.22)" stroke-width="1" stroke-dasharray="4 3"/>`;
+  s+=`<text x="${xOf(1.0)+4}" y="${mt+10}" ${F} font-size="9" fill="#c8c1b1">accurate</text>`;
+
+  // grid: 5 evenly spaced gridlines across each axis range
+  const nGrid=5;
+  for(let k=0;k<=nGrid;k++){
+    const gW=floorW+k/nGrid*rangeW;
+    const y2=yWait(gW);
+    s+=`<line x1="${ml}" y1="${y2}" x2="${ml+pw}" y2="${y2}" stroke="rgba(255,255,255,.07)"/>`;
+    s+=`<text x="${ml-8}" y="${y2+4}" text-anchor="end" ${F} font-size="9" fill="#9b937f">${Math.round(gW)}s</text>`;
+  }
+  for(let k=0;k<=nGrid;k++){
+    const gA=floorAb+k/nGrid*rangeAb;
+    const y2=yAb(gA);
+    s+=`<line x1="${ml}" y1="${y2}" x2="${ml+pw}" y2="${y2}" stroke="rgba(255,255,255,.04)"/>`;
+    s+=`<text x="${ml+pw+8}" y="${y2+4}" ${F} font-size="9" fill="#e09a5f">${Math.round(gA*100)}%</text>`;
+  }
+  [bMin,0.6,0.8,1.0,1.2,1.4,1.6,1.8,bMax].forEach(b=>{
+    s+=`<text x="${xOf(b)}" y="${mt+ph+18}" text-anchor="middle" ${F} font-size="9" fill="#9b937f">${b.toFixed(1)}x</text>`;
+  });
+  s+=`<text x="${ml+pw/2}" y="${mt+ph+32}" text-anchor="middle" ${F} font-size="11" fill="#c8c1b1">EWT announcement bias</text>`;
+  s+=`<text x="${ml-36}" y="${mt+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#7fb0e0" transform="rotate(-90 ${ml-36} ${mt+ph/2})">wait (sec, left)</text>`;
+  s+=`<text x="${ml+pw+40}" y="${mt+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#e09a5f" transform="rotate(90 ${ml+pw+40} ${mt+ph/2})">abandonment (right)</text>`;
+
+  // wait curve
+  let p=pts_wait.map((pt,i)=>`${i?'L':'M'}${xOf(pt.b).toFixed(1)} ${yWait(pt.v).toFixed(1)}`).join(' ');
+  s+=`<path d="${p}" fill="none" stroke="#7fb0e0" stroke-width="2.2" stroke-linejoin="round"/>`;
+
+  // abandon curve
+  p=pts_ab.map((pt,i)=>`${i?'L':'M'}${xOf(pt.b).toFixed(1)} ${yAb(pt.v).toFixed(1)}`).join(' ');
+  s+=`<path d="${p}" fill="none" stroke="#e09a5f" stroke-width="2.5" stroke-linejoin="round"/>`;
+
+  // current marker
+  const mc=metricsEWT(ANN.agents,ANN.vol,ANN.aht,ANN.pat,ANN.sl,currentBias);
+  const cx=xOf(currentBias);
+  s+=`<circle cx="${cx}" cy="${yWait(Math.min(isFinite(mc.asa)?mc.asa:capW,capW))}" r="7" fill="#7fb0e0" stroke="#fdfbf4" stroke-width="2.5"/>`;
+  s+=`<circle cx="${cx}" cy="${yAb(Math.min(mc.abandon,capAb))}" r="7" fill="#e09a5f" stroke="#fdfbf4" stroke-width="2.5"/>`;
+
+  // legend
+  s+=`<rect x="${ml}" y="${mt}" width="14" height="3" rx="1.5" fill="#7fb0e0"/>`;
+  s+=`<text x="${ml+18}" y="${mt+4}" ${F} font-size="10" fill="#7fb0e0">avg wait (left axis)</text>`;
+  s+=`<rect x="${ml+170}" y="${mt}" width="14" height="3" rx="1.5" fill="#e09a5f"/>`;
+  s+=`<text x="${ml+188}" y="${mt+4}" ${F} font-size="10" fill="#e09a5f">total abandonment (right axis)</text>`;
+
+  svg.innerHTML=s;
+
+  // update headline stats
+  setT('bias-wait',fmtWait(mc.asa));
+  setT('bias-ab',pct(mc.abandon));
+  let lbl,style;
+  if(currentBias<0.7){lbl='Severe underestimate';style='danger';}
+  else if(currentBias<0.95){lbl='Underestimate';style='danger';}
+  else if(currentBias<=1.08){lbl='Accurate';style='ok';}
+  else if(currentBias<=1.38){lbl='Optimal overestimate';style='ok';}
+  else if(currentBias<=1.65){lbl='Heavy overestimate';style='warn-stat';}
+  else{lbl='Extreme overestimate';style='danger';}
+  setT('bias-label',lbl);
+  setH('bias-wait-card',mc.asa>60?'danger':mc.asa<15?'ok':'');
+  setH('bias-ab-card',mc.abandon>0.25?'danger':mc.abandon<0.08?'ok':'');
+  setH('bias-label-card',style);
+}
+
+// ============================================================
+//  Interactive 3: Deep Queue Threshold (100 agents, 5 min AHT baseline)
+// ============================================================
+function abandonMult(pos){
+  if(pos<=1)return 1.0;
+  if(pos<=5)return 1.0-0.025*(pos-1);
+  if(pos<=12)return 0.9+0.05*(pos-5);
+  if(pos<=40)return 1.25+0.05*(pos-12);
+  return Math.min(1.25+0.05*28+0.015*(pos-40),2.8);
+}
+
+function updateDQ(){
+  const pos=+document.getElementById('dq-pos').value;
+  setT('dq-pos-v',pos+(pos===1?' caller':' callers'));
+  // 100 agents, 300s AHT baseline
+  const ewt=pos*300/100;
+  setT('dq-ewt',fmtWait(ewt));
+
+  let regime,regStyle,annPos,rec;
+  if(pos<=10){
+    regime='Phase 1: Manageable';regStyle='ok';annPos='Yes';
+    setH('dq-announce-card','ok');
+    rec=`<span style="color:#7fd9bd;font-weight:700;">Phase 1: Standard playbook.</span> Announce position <b>${pos}</b> and EWT <b>${fmtWait(ewt)}</b>. Update at every position change and every 60-90 seconds. Offer callback as an option after the announcement.`;
+  } else if(pos<=40){
+    regime='Phase 2: Deep (acute)';regStyle='warn-stat';annPos='Suppress';
+    setH('dq-announce-card','warn-stat');
+    rec=`<span style="color:#f4c542;font-weight:700;">Phase 2: Suppress position number. Lead with EWT and callback.</span> Position ${pos} will increase abandonment if announced. Drop the count from your script. State EWT (<b>${fmtWait(ewt)}</b>) and make callback the lead. Activate overflow routing now. Check your top contact driver: is a source-level fix possible? Note: align with WFM before activating overflow routing; pre-agreed crisis rules prevent adherence metric conflicts.`;
+  } else {
+    regime='Phase 3: Crisis / Sustained';regStyle='danger';annPos='Suppress EWT too';
+    setH('dq-announce-card','danger');
+    rec=`<span style="color:#ff9a82;font-weight:700;">Phase 3: Standard model has broken down.</span> At ${pos} callers waiting with EWT of <b>${fmtWait(ewt)}</b>, the queue is likely still growing and EWT is unreliable. Switch to banded language ("under X minutes") or suppress EWT and default to callback. For sustained depth at this level: callbacks will raise AHT; escalate to emergency staffing, proactive outbound to affected customers, and source-level resolution. Announcement strategy is secondary to staffing and demand reduction.`;
+  }
+  setT('dq-regime',regime);
+  setH('dq-regime-card',regStyle);
+  document.getElementById('dq-recommendation').innerHTML=rec;
+  drawDQChart(pos);
+}
+
+function drawDQChart(curPos){
+  const svg=document.getElementById('dq-svg');
+  const W=700,H=220,ml=52,mr=18,mt=24,mb=36;
+  const pw=W-ml-mr,ph=H-mt-mb;
+  const F='font-family="Oxygen,sans-serif"';
+  const maxP=120;
+  const xOf=p=>ml+(p-1)/(maxP-1)*pw;
+  const yOf=m=>mt+ph-Math.min(m,2.8)/2.8*ph;
+  let s='';
+
+  // zone shading
+  const x10=xOf(10),x40=xOf(40);
+  s+=`<rect x="${ml}" y="${mt}" width="${x10-ml}" height="${ph}" fill="rgba(47,125,104,.08)"/>`;
+  s+=`<rect x="${x10}" y="${mt}" width="${x40-x10}" height="${ph}" fill="rgba(201,138,31,.08)"/>`;
+  s+=`<rect x="${x40}" y="${mt}" width="${ml+pw-x40}" height="${ph}" fill="rgba(178,54,40,.08)"/>`;
+  s+=`<text x="${(ml+x10)/2}" y="${mt+13}" text-anchor="middle" ${F} font-size="9" fill="#7fd9bd">Phase 1</text>`;
+  s+=`<text x="${(x10+x40)/2}" y="${mt+13}" text-anchor="middle" ${F} font-size="9" fill="#f4c542">Phase 2</text>`;
+  s+=`<text x="${(x40+ml+pw)/2}" y="${mt+13}" text-anchor="middle" ${F} font-size="9" fill="#ff9a82">Phase 3</text>`;
+
+  s+=`<line x1="${x10}" y1="${mt}" x2="${x10}" y2="${mt+ph}" stroke="rgba(201,138,31,.45)" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+  s+=`<text x="${x10+3}" y="${mt+24}" ${F} font-size="9" fill="#f4c542">suppress PIQ</text>`;
+  s+=`<line x1="${x40}" y1="${mt}" x2="${x40}" y2="${mt+ph}" stroke="rgba(178,54,40,.45)" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+  s+=`<text x="${x40+3}" y="${mt+24}" ${F} font-size="9" fill="#ff9a82">suppress EWT</text>`;
+
+  // baseline
+  s+=`<line x1="${ml}" y1="${yOf(1.0)}" x2="${ml+pw}" y2="${yOf(1.0)}" stroke="rgba(255,255,255,.1)" stroke-width="1"/>`;
+  [0.5,1.0,1.5,2.0,2.5].forEach(g=>{
+    const y2=yOf(g);
+    s+=`<line x1="${ml}" y1="${y2}" x2="${ml+pw}" y2="${y2}" stroke="rgba(255,255,255,.05)"/>`;
+    s+=`<text x="${ml-8}" y="${y2+4}" text-anchor="end" ${F} font-size="9" fill="#9b937f">${g.toFixed(1)}x</text>`;
+  });
+  [1,10,20,40,60,80,100,120].forEach(p=>{
+    s+=`<text x="${xOf(p)}" y="${mt+ph+18}" text-anchor="middle" ${F} font-size="9" fill="#9b937f">${p}</text>`;
+  });
+  s+=`<text x="${ml+pw/2}" y="${mt+ph+30}" text-anchor="middle" ${F} font-size="11" fill="#c8c1b1">position in queue announced to caller</text>`;
+  s+=`<text x="${ml-36}" y="${mt+ph/2}" text-anchor="middle" ${F} font-size="11" fill="#c8c1b1" transform="rotate(-90 ${ml-36} ${mt+ph/2})">relative abandonment</text>`;
+
+  let path='';
+  for(let p=1;p<=maxP;p++){path+=`${p===1?'M':'L'}${xOf(p).toFixed(1)} ${yOf(abandonMult(p)).toFixed(1)} `;}
+  s+=`<path d="${path}" fill="none" stroke="#e09a5f" stroke-width="2.5" stroke-linejoin="round"/>`;
+
+  if(curPos<=maxP){
+    const col=curPos<=10?'#7fd9bd':curPos<=40?'#f4c542':'#ff9a82';
+    s+=`<circle cx="${xOf(curPos)}" cy="${yOf(abandonMult(curPos))}" r="7" fill="${col}" stroke="#fdfbf4" stroke-width="2.5"/>`;
+    s+=`<text x="${xOf(curPos)}" y="${yOf(abandonMult(curPos))-11}" text-anchor="middle" ${F} font-size="10" font-weight="700" fill="${col}">${abandonMult(curPos).toFixed(2)}x</text>`;
+  }
+  svg.innerHTML=s;
+}
+
+// ============================================================
+//  Wire up all controls
+// ============================================================
+['a-agents','a-vol','a-aht','a-pat'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',updateANN);
+});
+document.getElementById('a-country').addEventListener('change',e=>{
+  const c=COUNTRIES[e.target.value];
+  if(!c)return;
+  document.getElementById('a-pat').value=c.pat;
+  setT('a-country-note',c.note);
+  updateANN();
+});
+document.getElementById('bias-slider').addEventListener('input',e=>{
+  const b=+e.target.value;
+  setT('bias-v',b.toFixed(2)+'x');
+  drawBiasChart(b);
+});
+document.getElementById('dq-pos').addEventListener('input',updateDQ);
+
+// init
+setT('a-country-note',COUNTRIES.au.note);
+updateANN();
+drawBiasChart(1.0);
+updateDQ();
+document.querySelectorAll('.fade').forEach((el,i)=>{el.style.animationDelay=(i*0.05)+'s';});
+</script>
+</body>
+</html>

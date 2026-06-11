@@ -306,16 +306,16 @@
 <div class="footer">
   <strong>How Genesys calculates this.</strong> Scheduled shrinkage = scheduled hours of flagged activities ÷ total scheduled. Actual shrinkage = actual hours of flagged presences ÷ total logged hours. Paid/Unpaid and Planned/Unplanned are properties of the activity code config.
   <br><br>
-  <strong>Total logged hours.</strong> All activity category durations are included EXCEPT Offline, Away, and Idle (system presence) — those three are included only if the activity occurs within the scheduled shift. On Queue, Meeting, Training, Break, Off Queue all count regardless of whether they fall inside or outside the shift.
+  <strong>Total logged hours.</strong> All activity category durations are included EXCEPT Offline, Away, and Idle (system presence) - those three are included only if the activity occurs within the scheduled shift. On Queue, Meeting, Training, Break, Off Queue all count regardless of whether they fall inside or outside the shift.
   <br><br>
-  <strong>The two Idles.</strong> The routing-status Idle (agent on queue, waiting for a contact) is NOT shrinkage — it's productive on-queue time. The system-presence Idle (screen locked) maps to Unavailable and IS shrinkage.
+  <strong>The two Idles.</strong> The routing-status Idle (agent on queue, waiting for a contact) is NOT shrinkage - it's productive on-queue time. The system-presence Idle (screen locked) maps to Unavailable and IS shrinkage.
   <br><br>
-  <strong>Early login / late logoff.</strong> If an agent logs in early and goes On Queue, that time counts in total logged hours (increasing the denominator) but doesn't add shrinkage — so actual shrinkage % goes down. If they log in early and sit in Away, that time is completely excluded (outside shift). Same rules for late logoff.
+  <strong>Early login / late logoff.</strong> If an agent logs in early and goes On Queue, that time counts in total logged hours (increasing the denominator) but doesn't add shrinkage - so actual shrinkage % goes down. If they log in early and sit in Away, that time is completely excluded (outside shift). Same rules for late logoff.
 </div>
 
 <script>
 // ============================================================
-// GENESYS CLOUD SHRINKAGE MODEL — with outside-shift handling
+// GENESYS CLOUD SHRINKAGE MODEL - with outside-shift handling
 // ============================================================
 
 const colors = {
@@ -401,7 +401,7 @@ function getScheduledOnQueue() { return SCHEDULE.filter(s => s.code === 'on_queu
 function getScheduledTotal() { return SCHEDULE.reduce((a,s)=>a+s.dur,0); }
 
 // ============================================================
-// BUILD SEGMENTS — schedule blocks + pre/post-shift activity
+// BUILD SEGMENTS - schedule blocks + pre/post-shift activity
 // ============================================================
 
 function buildSegmentsFromScenario(cfg) {
@@ -428,7 +428,7 @@ function buildSegmentsFromScenario(cfg) {
   let planCursor = 0;
   let planRemaining = actualsPlan[0] ? actualsPlan[0].dur : 0;
 
-  // Pre-shift (early login) — agent is on queue before the shift
+  // Pre-shift (early login) - agent is on queue before the shift
   const earlyLogin = cfg.earlyLogin || 0;
   if (earlyLogin > 0) {
     // All early time is on-queue. Split between voice/email/chat proportionally.
@@ -464,7 +464,7 @@ function buildSegmentsFromScenario(cfg) {
     }
   }
 
-  // Post-shift (late logoff) — agent stays on queue after shift
+  // Post-shift (late logoff) - agent stays on queue after shift
   const lateLogoff = cfg.lateLogoff || 0;
   if (lateLogoff > 0) {
     const lateVoice = Math.round(lateLogoff * cfg.voiceShare / 100);
@@ -480,7 +480,7 @@ function buildSegmentsFromScenario(cfg) {
 }
 
 // ============================================================
-// STATS — Genesys formula with outside-shift handling
+// STATS - Genesys formula with outside-shift handling
 // ============================================================
 
 function calcStats() {
@@ -497,7 +497,7 @@ function calcStats() {
 
   // ---- Total logged hours (the tricky part) ----
   // All activity categories are included EXCEPT:
-  // offline/away/idle-system-presence — those only count if WITHIN the shift.
+  // offline/away/idle-system-presence - those only count if WITHIN the shift.
   // In our model: "away" maps to "unavailable" category.
   // voice/email/chat/idle(routing)/meeting/training/break/meal/timeoff/sick/offqueue all count always.
   let totalLogged = 0;
@@ -531,7 +531,7 @@ function calcStats() {
     else categories[cat].unplannedShrinkage += s.dur;
   });
 
-  // Actual side — only count if the segment contributes to total logged hours
+  // Actual side - only count if the segment contributes to total logged hours
   segments.forEach(s => {
     const code = getCode(s.actual);
     if (!code || !code.shrinkage) return;
@@ -585,7 +585,7 @@ function formatTime(min) {
 }
 
 // ============================================================
-// CHART — timeline extends for early/late login
+// CHART - timeline extends for early/late login
 // ============================================================
 
 function renderChart() {
@@ -693,7 +693,7 @@ function renderChart() {
         tt.style.left = (event.clientX - cRect.left + 12)+'px';
         tt.style.top = (event.clientY - cRect.top + 12)+'px';
         let note = '';
-        if (s.outsideShift) note = '<div class="tooltip-note">Outside shift — counts in logged hours but not shrinkage</div>';
+        if (s.outsideShift) note = '<div class="tooltip-note">Outside shift - counts in logged hours but not shrinkage</div>';
         if (s.excludedNote) note = '<div class="tooltip-note">'+s.excludedNote+'</div>';
         tt.innerHTML = '<div style="font-weight:500;margin-bottom:2px">'+s.tooltipLabel+'</div><div class="tooltip-meta">'+s.dur+' min · '+formatTime(s.start)+'–'+formatTime(s.start+s.dur)+'</div>'+note;
       }).on('mouseleave', () => { document.getElementById('tt').style.opacity = 0; });
