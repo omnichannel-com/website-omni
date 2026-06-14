@@ -595,14 +595,14 @@
 
     <p>Here's something that happens in almost every team with a shared backlog. You've got ten people. The queue is full. Nobody's obviously slacking. And yet... a P1 that came in this morning still hasn't been touched. Meanwhile, three people are deep in P3 items they picked up an hour ago.</p>
 
-    <p>That's cherry-picking. Not malicious — mostly it's not even conscious. People scan the queue, see something they know how to do, and start. The quick wins feel productive. The gnarly, high-pressure stuff stays in the pile because nobody wants to be the one to take it. And the pile grows in exactly the wrong place.</p>
+    <p>That's cherry-picking. Not malicious - mostly it's not even conscious. People scan the queue, see something they know how to do, and start. The quick wins feel productive. The gnarly, high-pressure stuff stays in the pile because nobody wants to be the one to take it. And the pile grows in exactly the wrong place.</p>
 
     <div class="callout warn">
       <div class="ct">Cherry-picking optimises for the worker, not the customer.</div>
       <p>When people self-select from a queue, they gravitate toward familiar, low-effort, low-pressure work. SLA breaches creep up on the items that matter most, while the team stays busy looking productive on items that could have waited.</p>
     </div>
 
-    <p>Service level-based allocation flips this. Instead of letting people choose <em>what</em> they pick up, the system chooses <em>for</em> them — based on what's most at risk right now. Oldest P1 first. Then oldest P2. Skills matched. Nothing sits and quietly dies.</p>
+    <p>Service level-based allocation flips this. Instead of letting people choose <em>what</em> they pick up, the system chooses <em>for</em> them - based on what's most at risk right now. Oldest P1 first. Then oldest P2. Skills matched. Nothing sits and quietly dies.</p>
   </section>
 
   <!-- ===== WHAT SLA ALLOCATION ACTUALLY MEANS ===== -->
@@ -612,7 +612,7 @@
       <h2>Four tiers. One queue. Sorted by urgency.</h2>
     </div>
 
-    <p>The core idea is simple: every piece of work has a priority, and each priority has a service level target — the time you've committed to resolving it in. The queue isn't a list, it's a ranked set of commitments. Your job is to drain it in the right order.</p>
+    <p>The core idea is simple: every piece of work has a priority, and each priority has a service level target - the time you've committed to resolving it in. The queue isn't a list, it's a ranked set of commitments. Your job is to drain it in the right order.</p>
 
     <div class="priority-ref">
       <div class="priority-card p1">
@@ -656,7 +656,7 @@
       <h2>The same queue, the same team. Two very different systems.</h2>
     </div>
 
-    <p>Six workers. A live stream of incoming work. All items need someone with the right skill set. Press play and let it run for a minute — then flip between Cherry-pick mode and SLA-allocation mode and watch what happens to breach rates and queue depth at each priority level.</p>
+    <p>Six workers. A live stream of incoming work. All items need someone with the right skill set. Press play and let it run for a minute - then flip between Cherry-pick mode and SLA-allocation mode and watch what happens to breach rates and queue depth at each priority level.</p>
 
     <div class="lab">
       <span class="lab-kick">Interactive · live simulation</span>
@@ -680,7 +680,7 @@
         </div>
         <div class="stat" id="stat-p1-wait">
           <div class="s-label">Oldest P1 Age</div>
-          <div class="s-val" id="v-p1wait">—</div>
+          <div class="s-val" id="v-p1wait">-</div>
           <div class="s-sub">in queue, unassigned</div>
         </div>
         <div class="stat" id="stat-p3-done">
@@ -698,7 +698,7 @@
       <div class="sim-stage">
         <div class="stage-label">Workers <span id="worker-count" style="color:var(--ink-faint)"></span></div>
         <div class="workers-row" id="workers-row"></div>
-        <div class="stage-label">Queue — waiting for assignment <span id="q-count" style="color:var(--ink-faint)"></span></div>
+        <div class="stage-label">Queue - waiting for assignment <span id="q-count" style="color:var(--ink-faint)"></span></div>
         <div class="queue-area" id="queue-area"></div>
       </div>
 
@@ -717,7 +717,7 @@
       </div>
 
       <div class="cmp-wrap">
-        <div class="cmp-title">Session comparison — totals since last reset</div>
+        <div class="cmp-title">Session comparison - totals since last reset</div>
         <table class="cmp">
           <thead>
             <tr>
@@ -729,23 +729,23 @@
           <tbody>
             <tr>
               <td>SLA Breaches (P1+P2)</td>
-              <td class="cherry-col" id="cmp-breach-c">—</td>
-              <td class="sla-col" id="cmp-breach-s">—</td>
+              <td class="cherry-col" id="cmp-breach-c">-</td>
+              <td class="sla-col" id="cmp-breach-s">-</td>
             </tr>
             <tr>
               <td>Avg P1 wait (queue)</td>
-              <td class="cherry-col" id="cmp-p1-c">—</td>
-              <td class="sla-col" id="cmp-p1-s">—</td>
+              <td class="cherry-col" id="cmp-p1-c">-</td>
+              <td class="sla-col" id="cmp-p1-s">-</td>
             </tr>
             <tr>
               <td>% low-pri done early</td>
-              <td class="cherry-col" id="cmp-lowpri-c">—</td>
-              <td class="sla-col" id="cmp-lowpri-s">—</td>
+              <td class="cherry-col" id="cmp-lowpri-c">-</td>
+              <td class="sla-col" id="cmp-lowpri-s">-</td>
             </tr>
             <tr>
               <td>Total throughput</td>
-              <td class="cherry-col" id="cmp-through-c">—</td>
-              <td class="sla-col" id="cmp-through-s">—</td>
+              <td class="cherry-col" id="cmp-through-c">-</td>
+              <td class="sla-col" id="cmp-through-s">-</td>
             </tr>
           </tbody>
         </table>
@@ -757,7 +757,7 @@
       </div>
 
       <div class="lab-note">
-        <b>What to look for.</b> In Cherry-pick mode, watch P3/P4 items drain quickly while P1/P2 items age in the queue. The breach count climbs. Flip to SLA allocation — same people, same arrival rate. P1s and P2s get snatched first. P3/P4 completions slow down, but SLA health improves sharply. <b style="color:var(--green)">Try cranking the arrival rate up</b> until the team is overwhelmed, then compare how each mode fails.
+        <b>What to look for.</b> In Cherry-pick mode, watch P3/P4 items drain quickly while P1/P2 items age in the queue. The breach count climbs. Flip to SLA allocation - same people, same arrival rate. P1s and P2s get snatched first. P3/P4 completions slow down, but SLA health improves sharply. <b style="color:var(--green)">Try cranking the arrival rate up</b> until the team is overwhelmed, then compare how each mode fails.
       </div>
     </div>
   </section>
@@ -771,7 +771,7 @@
 
     <p>SLA-based allocation has one really uncomfortable side effect that catches managers off-guard: your P3/P4 throughput <em>will drop</em> when you first switch. Workers who were ploughing through easy tasks get redirected to hard, uncertain work. Velocity metrics dip. Someone will say the new system is making things worse.</p>
 
-    <p>They're measuring the wrong thing. Throughput isn't the goal — <em>SLA health</em> is the goal. A team that closes 40 tickets a day while letting 3 P1s breach has worse outcomes than a team that closes 28 tickets and keeps all P1/P2 targets green.</p>
+    <p>They're measuring the wrong thing. Throughput isn't the goal - <em>SLA health</em> is the goal. A team that closes 40 tickets a day while letting 3 P1s breach has worse outcomes than a team that closes 28 tickets and keeps all P1/P2 targets green.</p>
 
     <div class="twocol">
       <div class="panel">
@@ -784,7 +784,7 @@
       </div>
     </div>
 
-    <p style="margin-top:20px;">The other objection is about autonomy. "My team are professionals — they know what needs doing." Maybe. But cognitive load is real. When someone opens a queue with 80 items, they default to familiarity. A good allocation system isn't distrust — it's cognitive offload. The system does the triage so the team can do the work.</p>
+    <p style="margin-top:20px;">The other objection is about autonomy. "My team are professionals - they know what needs doing." Maybe. But cognitive load is real. When someone opens a queue with 80 items, they default to familiarity. A good allocation system isn't distrust - it's cognitive offload. The system does the triage so the team can do the work.</p>
   </section>
 
   <!-- ===== THE SIX RULES ===== -->
@@ -796,10 +796,10 @@
     <div class="panel">
       <ol class="rules">
         <li><b>Sort by time-to-breach, not priority label.</b> A P2 with 15 minutes left beats a P1 with 90 minutes left. The urgency is in the remaining SLA window, not the number.</li>
-        <li><b>Match skills first, then urgency.</b> Routing a P1 to someone without the right skills isn't faster — it's just movement. Skill matching is the constraint; urgency sorts within that constraint.</li>
+        <li><b>Match skills first, then urgency.</b> Routing a P1 to someone without the right skills isn't faster - it's just movement. Skill matching is the constraint; urgency sorts within that constraint.</li>
         <li><b>Make the breach risk visible.</b> People cherry-pick partly because they can't easily see which items are about to breach. Surface that data prominently. Moral pressure is real and it's free.</li>
-        <li><b>Don't let low-priority work disappear entirely.</b> SLA allocation should deprioritise P3/P4 when there's high-urgency work — but if nobody's free and a P4 has been waiting two weeks, someone should touch it. SLA targets exist for every tier.</li>
-        <li><b>Review skill coverage, not just headcount.</b> If P1 items keep waiting it might not be a capacity problem — it might be that only one person can handle them. Breadth of skills is a queue-health lever just as much as headcount.</li>
+        <li><b>Don't let low-priority work disappear entirely.</b> SLA allocation should deprioritise P3/P4 when there's high-urgency work - but if nobody's free and a P4 has been waiting two weeks, someone should touch it. SLA targets exist for every tier.</li>
+        <li><b>Review skill coverage, not just headcount.</b> If P1 items keep waiting it might not be a capacity problem - it might be that only one person can handle them. Breadth of skills is a queue-health lever just as much as headcount.</li>
         <li><b>Measure SLA compliance, not ticket count.</b> The KPI you report on is the KPI you get. Teams optimise for what's measured. If you track tickets closed, you'll get cherry-picking. If you track SLA compliance by priority, you'll get allocation discipline.</li>
       </ol>
     </div>
@@ -819,14 +819,14 @@
 //  CONFIG
 // ============================================================
 // SLA targets (sim-seconds).
-// Handle times are set so a worker handles ~1 item per SLA window at best —
+// Handle times are set so a worker handles ~1 item per SLA window at best -
 // meaning any queue depth on P1/P2 in cherry-pick mode causes breaches.
 // P1: 60s SLA, handle 35-65s → one item barely fits; two in queue = breach
 // P2: 240s SLA, handle 80-140s → queue depth of 2 already risky
 const SLA_SIM = { p1: 60, p2: 240, p3: 900, p4: 3600 };
 // Handle times long enough that 6 workers can't keep up with arrival pressure
 const HANDLE_SIM = { p1: [35,65], p2: [80,140], p3: [60,110], p4: [40,80] };
-// Priority mix: more P1/P2 than feels comfortable — that's the point
+// Priority mix: more P1/P2 than feels comfortable - that's the point
 const PRIORITY_MIX = [
   { pri: 'p1', weight: 0.14 },
   { pri: 'p2', weight: 0.26 },
@@ -1004,7 +1004,7 @@ function showBreachFlash(pri) {
 //  SIM TICK
 // ============================================================
 const TICK_MS = 40;     // wall-clock ms per frame
-const SIM_SPEED = 0.15;  // sim-seconds per wall-clock ms — slower so queue depth builds
+const SIM_SPEED = 0.15;  // sim-seconds per wall-clock ms - slower so queue depth builds
 
 let lastWall = null;
 function tick(wall) {
@@ -1121,7 +1121,7 @@ function renderStats() {
     if (ratio >= 1) p1Card.classList.add('breaching');
     else p1Card.classList.remove('breaching');
   } else {
-    p1WaitEl.textContent = '—';
+    p1WaitEl.textContent = '-';
     p1Card.className = 'stat good';
     p1Card.classList.remove('breaching');
   }
@@ -1133,8 +1133,8 @@ function renderStats() {
 function renderComparison() {
   const c = modeStats.cherry;
   const s = modeStats.sla;
-  const avgWait = (arr) => arr.length ? fmtAge(arr.reduce((a, b) => a + b, 0) / arr.length) : '—';
-  const pct = (n, d) => d ? Math.round(n / d * 100) + '%' : '—';
+  const avgWait = (arr) => arr.length ? fmtAge(arr.reduce((a, b) => a + b, 0) / arr.length) : '-';
+  const pct = (n, d) => d ? Math.round(n / d * 100) + '%' : '-';
 
   document.getElementById('cmp-breach-c').textContent = c.breaches;
   document.getElementById('cmp-breach-s').textContent = s.breaches;

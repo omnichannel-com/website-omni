@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Oversight Models for AI Agents</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EBEEF2;
+    --panel:#FFFFFF;
+    --ink:#141D2C;
+    --ink-soft:#4B5868;
+    --ai:#2D6FD2;
+    --ai-soft:#D9E6F8;
+    --human:#DD7430;
+    --human-soft:#FBE8D8;
+    --control:#1F8A5D;
+    --control-soft:#DCF0E6;
+    --stop:#C8403A;
+    --line:#A6B1C0;
+    --hairline:#D8DEE6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Sans 3',sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    padding:48px 24px 80px;
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+
+  header{margin-bottom:40px;max-width:760px}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:14px;
+  }
+  h1{
+    font-family:'Archivo',sans-serif;
+    font-variation-settings:'wdth' 80;
+    font-weight:800;
+    font-size:clamp(34px,5vw,54px);
+    line-height:1.02;
+    letter-spacing:-.01em;
+    margin-bottom:16px;
+  }
+  header p{color:var(--ink-soft);font-size:17px}
+  .legend{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:20px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);
+  }
+  .legend span{display:flex;align-items:center;gap:7px}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:18px;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    border-radius:10px;
+    padding:22px 22px 18px;
+    display:flex;flex-direction:column;
+  }
+  .card.control-card{border-color:var(--control);border-width:1.5px;position:relative}
+  .card.control-card::after{
+    content:'operating model';
+    position:absolute;top:-9px;right:14px;
+    background:var(--control);color:#fff;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    padding:2px 8px;border-radius:4px;
+  }
+  .card h2{
+    font-family:'Archivo',sans-serif;
+    font-variation-settings:'wdth' 82;
+    font-weight:700;font-size:20px;line-height:1.1;margin-bottom:4px;
+  }
+  .card .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .card svg{width:100%;height:auto;display:block;margin:6px 0 10px}
+  .card p{font-size:14.5px;color:var(--ink-soft)}
+  .card p strong{color:var(--ink)}
+
+  .table-wrap{margin-top:46px;overflow-x:auto}
+  .table-wrap h2, .glossary h2{
+    font-family:'Archivo',sans-serif;
+    font-variation-settings:'wdth' 80;
+    font-weight:800;font-size:26px;margin-bottom:16px;
+  }
+  table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--hairline);border-radius:10px;overflow:hidden;min-width:640px}
+  th,td{padding:12px 14px;text-align:left;font-size:14px;border-bottom:1px solid var(--hairline);vertical-align:top}
+  th{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);background:#F4F6F9}
+  tr:last-child td{border-bottom:none}
+  td:first-child{font-weight:600;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);width:140px}
+  .hic-col{background:var(--control-soft)}
+  th.hic-col{color:var(--control)}
+
+  .glossary{margin-top:52px}
+  .glossary-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;
+  }
+  .term{
+    background:var(--panel);border:1px solid var(--hairline);border-radius:8px;
+    padding:16px 18px;border-left:4px solid var(--line);
+  }
+  .term dt{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;margin-bottom:5px;
+  }
+  .term dd{font-size:14px;color:var(--ink-soft)}
+  .term.t-ai{border-left-color:var(--ai)}
+  .term.t-human{border-left-color:var(--human)}
+  .term.t-control{border-left-color:var(--control)}
+  .term.t-stop{border-left-color:var(--stop)}
+
+  footer{margin-top:48px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft)}
+
+  @media (prefers-reduced-motion: reduce){
+    .motion-note{display:block}
+  }
+  .motion-note{display:none;font-size:12px;color:var(--ink-soft);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Oversight architectures · AI agents</div>
+    <h1>Where does the human sit?</h1>
+    <p>Four ways to wire a person into an automated decision loop. The first three describe <em>where the human is positioned</em>. The fourth, human&nbsp;in&nbsp;control, is different in kind: it's an operating model that defines <em>who holds final decision rights</em>, regardless of who does the work.</p>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--ai)"></span>AI / agent</span>
+      <span><span class="dot" style="background:var(--human)"></span>Human</span>
+      <span><span class="dot" style="background:var(--control)"></span>Authority</span>
+      <span><span class="dot" style="background:var(--stop)"></span>Stop / veto</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Human-in-the-Loop</h2>
+      <div class="tag">Human gates every action</div>
+      <svg id="hitl" viewBox="0 0 340 300"></svg>
+      <p><strong>Nothing executes without a person.</strong> The AI proposes, the human approves, then the action happens. Maximum control, minimum speed - the loop runs at human pace.</p>
+    </div>
+
+    <div class="card">
+      <h2>Human-on-the-Loop</h2>
+      <div class="tag">Human supervises, can intervene</div>
+      <svg id="hotl" viewBox="0 0 340 300"></svg>
+      <p><strong>The loop runs by itself; a person watches.</strong> The human monitors from outside and steps in when something looks wrong. Fast, but intervention is reactive - after the fact.</p>
+    </div>
+
+    <div class="card">
+      <h2>Human-out-of-the-Loop</h2>
+      <div class="tag">Full autonomy, no oversight</div>
+      <svg id="hootl" viewBox="0 0 340 300"></svg>
+      <p><strong>The system acts entirely on its own.</strong> No human sees the decisions in real time. Fastest of all - and the riskiest place to discover the system was wrong.</p>
+    </div>
+
+    <div class="card control-card">
+      <h2>Human in Control</h2>
+      <div class="tag">One authority · execution mode set by risk</div>
+      <svg id="hic" viewBox="0 0 340 300"></svg>
+      <p><strong>An operating model, not a position.</strong> Agents may propose or execute - scoped by risk - while a human retains final decision rights: the standing authority to <span style="color:var(--control);font-weight:600">approve</span>, <span style="color:var(--human);font-weight:600">redirect</span>, or <span style="color:var(--stop);font-weight:600">stop</span> any agent action at any time.</p>
+    </div>
+  </div>
+  <p class="motion-note">Animation is paused because your system prefers reduced motion - the diagrams are shown in their resting state.</p>
+
+  <div class="table-wrap">
+    <h2>The reference matrix</h2>
+    <p style="max-width:760px;color:var(--ink-soft);margin-bottom:16px;font-size:15px">Two different questions are being answered here. The loop positions (in / on / out) answer <strong style="color:var(--ink)">"where does the human sit in the decision cycle?"</strong> Human in control answers <strong style="color:var(--ink)">"who holds final authority and accountability?"</strong> - and is compatible with any execution mode. An agent under human control may propose, execute, or both; what never moves is the decision rights. Under both the EU AI Act (Articles 14 &amp; 26) and Australia's AI Ethics Principles (Principle 8), the choice of oversight model is itself a compliance decision - not just an operational preference. Note also the distinction between <em>operator contestability</em> (the right to stop or redirect an action) and <em>affected-party contestability</em> (the right of people impacted by an AI decision to challenge it after the fact). The Contestability row below covers the latter.</p>
+    <table>
+      <thead>
+        <tr><th>Dimension</th><th>Human-in-the-Loop</th><th>Human-on-the-Loop</th><th>Human-out-of-the-Loop</th><th class="hic-col">Human in Control</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Question it answers</td><td>Where the human sits</td><td>Where the human sits</td><td>Where the human sits</td><td class="hic-col">Who holds authority</td></tr>
+        <tr><td>What the AI may do</td><td>Propose only; nothing executes unapproved</td><td>Execute within set bounds</td><td>Execute fully, end to end</td><td class="hic-col">Propose <em>and/or</em> execute - scope set per risk tier</td></tr>
+        <tr><td>Final decision rights</td><td>Human, per action</td><td>AI by default; human can override</td><td>AI alone at runtime</td><td class="hic-col">Human, always - standing authority to approve, redirect, stop</td></tr>
+        <tr><td>Human intervention</td><td>Before every action (gate)</td><td>After detection (reactive)</td><td>None in real time</td><td class="hic-col">At any time, by design</td></tr>
+        <tr><td>Accountability</td><td>Clear on paper; erodes if approval becomes rubber-stamping</td><td>Blurs at machine speed - who owns a missed intervention?</td><td>Hard to assign after the fact</td><td class="hic-col">Explicitly retained by a named human owner</td></tr>
+        <tr><td>Explainability needed</td><td>Enough to judge each proposal</td><td>Enough to monitor and spot anomalies</td><td>Post-hoc audit only, if at all</td><td class="hic-col">Continuous - actions traceable, reasons inspectable</td></tr>
+        <tr><td>Trust model</td><td>Earned per decision</td><td>Trust in the monitoring</td><td>Trust in the system itself</td><td class="hic-col">Trust in the governance: guardrails, escalation, exercisable veto</td></tr>
+        <tr><td>Characteristic failure</td><td>Bottleneck; automation bias turns the gate into theater</td><td>"Polite fiction" - events outpace the watcher</td><td>Silent failure with no recourse</td><td class="hic-col">Governance debt - control that exists on paper but is never exercisable</td></tr>
+        <tr><td>Contestability<br><span style="font-weight:400;font-size:11px;color:var(--ink-soft)">affected party's right to challenge outcomes</span></td><td>Strongest: human approved it, audit trail exists</td><td>Partial: actions logged, but who owned the missed intervention?</td><td>Weakest: no real-time recourse, post-hoc audit only</td><td class="hic-col">Necessary but not sufficient - requires a challenge mechanism on top of the veto, plus full traceability</td></tr>
+        <tr><td>Regulatory alignment</td><td>EU AI Act Art. 14 (high-risk gate); GDPR Art. 22 (automated decisions); AU Principle 8 (accountability)</td><td>EU AI Act Art. 14 (effective oversight); AU Principles 6 &amp; 8 (explainability, accountability)</td><td>Fails EU AI Act Art. 14 for high-risk systems; fails AU Principles 7 &amp; 8 (contestability, accountability)</td><td class="hic-col">Designed to satisfy EU AI Act Art. 14 &amp; 26(2); AU Principles 2, 6, 7 &amp; 8 - governance layer encodes all four</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="glossary">
+    <h2>Glossary</h2>
+    <dl class="glossary-grid">
+      <div class="term t-human"><dt>Human-in-the-Loop (HITL)</dt><dd>An oversight pattern where a person sits inside the decision cycle and must approve each AI output before it takes effect. The system cannot act without explicit human sign-off.</dd></div>
+      <div class="term t-human"><dt>Human-on-the-Loop (HOTL)</dt><dd>An oversight pattern where the system acts autonomously while a person monitors from outside the cycle, with the ability to intervene or override when needed.</dd></div>
+      <div class="term t-ai"><dt>Human-out-of-the-Loop (HOOTL)</dt><dd>Full autonomy: the system perceives, decides, and acts with no real-time human involvement or supervision.</dd></div>
+      <div class="term t-control"><dt>Human in Control</dt><dd>An operating model for AI agents in which autonomous agents execute the work while a human retains final decision rights - the authority to approve, redirect, or stop any agent action at any time.</dd></div>
+      <div class="term t-ai"><dt>AI Agent</dt><dd>An AI system that can plan and carry out multi-step tasks toward a goal - calling tools, taking actions, and adapting along the way - rather than just answering a single prompt.</dd></div>
+      <div class="term t-ai"><dt>Autonomy</dt><dd>The degree to which a system can decide and act without human input. Higher autonomy means faster execution and less direct human involvement per action.</dd></div>
+      <div class="term t-control"><dt>Decision Rights</dt><dd>The formal authority over what gets approved, changed, or cancelled. In a human-in-control model, decision rights stay with the person even when execution is delegated to agents.</dd></div>
+      <div class="term t-human"><dt>Oversight</dt><dd>The ongoing ability to observe what a system is doing - its actions, reasoning, and outcomes - well enough to exercise judgment over it.</dd></div>
+      <div class="term t-human"><dt>Escalation</dt><dd>A built-in route by which an agent hands a decision back to a human when it hits a threshold: ambiguity, risk, cost, or anything outside its mandate.</dd></div>
+      <div class="term t-stop"><dt>Override / Kill Switch</dt><dd>A guaranteed mechanism that lets a human halt or reverse an agent's actions immediately. Decision rights are only real if this works at any time.</dd></div>
+      <div class="term t-control"><dt>Guardrails</dt><dd>Predefined limits on what an agent may do - budgets, scopes, forbidden actions - that enforce the human's intent even between check-ins.</dd></div>
+      <div class="term t-ai"><dt>Decision Loop (OODA)</dt><dd>The repeating cycle of observe → orient → decide → act that any acting system runs, from John Boyd's OODA framework. "In", "on", and "out of" the loop describe where the human sits relative to this cycle.</dd></div>
+      <div class="term t-control"><dt>Meaningful Human Control</dt><dd>The standard, drawn from autonomous-weapons debates and echoed in the EU AI Act, that human oversight must be real: the overseer needs understanding, time, and exercisable authority - not just presence in the workflow.</dd></div>
+      <div class="term t-control"><dt>Accountability</dt><dd>The assignment of responsibility for an agent's outcomes to a named human or role. Distinct from execution: an agent can do the work while a person owns the result.</dd></div>
+      <div class="term t-ai"><dt>Explainability</dt><dd>The degree to which an agent's actions and reasons can be inspected and understood by its overseer. Oversight without explainability is watching a black box blink.</dd></div>
+      <div class="term t-ai"><dt>Traceability / Audit Trail</dt><dd>Logged records of what an agent did, with what inputs, and why - the evidence base that makes accountability enforceable after the fact.</dd></div>
+      <div class="term t-human"><dt>Automation Bias</dt><dd>The human tendency to over-trust automated outputs and under-scrutinize them. The reason a human "in the loop" can quietly become a rubber stamp.</dd></div>
+      <div class="term t-human"><dt>Rubber-Stamping</dt><dd>Formal approval without genuine review. It satisfies the letter of human-in-the-loop while providing none of its protection - the most common failure of HITL in practice.</dd></div>
+      <div class="term t-control"><dt>Risk Tiering</dt><dd>Matching the oversight mode to the stakes of each action: low-risk tasks run autonomously, high-risk actions require approval. The mechanism that lets one operating model span multiple loop positions.</dd></div>
+      <div class="term t-stop"><dt>Governance Debt</dt><dd>Control that exists on paper but not in practice - a veto no one can actually exercise in time, an owner who lacks visibility, a kill switch never tested.</dd></div>
+      <div class="term t-human"><dt>Contestability</dt><dd>The right of a person significantly affected by an AI decision to challenge that decision through a timely, accessible process. Distinct from operator override: contestability belongs to the impacted party, not the person running the system. Enshrined in Australia's AI Ethics Principle 7 and implicit in GDPR Article 22. Requires audit trails, accessible recourse mechanisms, and human judgment at the point of challenge.</dd></div>
+      <div class="term t-human"><dt>Affected Party</dt><dd>The person whose life, rights, or interests an AI decision touches - and who may be entirely different from the operator running the system. A loan applicant, a patient, a job candidate. The subject of contestability rights. Governance frameworks that only address the operator's control leave the affected party's interests unprotected.</dd></div>
+    </dl>
+  </section>
+
+  <section class="glossary" style="margin-top:44px">
+    <h2>Lineage &amp; sources</h2>
+    <p style="max-width:760px;color:var(--ink-soft);font-size:15px;margin-bottom:14px">The in/on/out-of-the-loop taxonomy predates modern AI agents. It was formalized in the autonomous-weapons debate and builds on Boyd's OODA decision cycle. "Human in control" extends this lineage from <em>position</em> to <em>governance</em> - a shift regulators have already made.</p>
+    <dl class="glossary-grid">
+      <div class="term"><dt>Human Rights Watch - Losing Humanity (2012)</dt><dd>The report by Bonnie Docherty that classified weapons as human-in-the-loop, human-on-the-loop, and human-out-of-the-loop by degree of human involvement. The origin of the three-part taxonomy. <a href="https://www.hrw.org/news/2013/04/15/review-2012-us-policy-autonomy-weapons-systems" style="color:var(--ai)">hrw.org</a></dd></div>
+      <div class="term"><dt>US DoD Directive 3000.09 (2012, upd. 2023)</dt><dd>US policy on autonomy in weapon systems; the parallel vocabulary of semi-autonomous, human-supervised, and fully autonomous systems, requiring "appropriate levels of human judgment over the use of force." <a href="https://www.congress.gov/crs-product/IF11150" style="color:var(--ai)">congress.gov</a></dd></div>
+      <div class="term"><dt>EU AI Act - Articles 14 &amp; 26(2)</dt><dd>Requires high-risk AI systems to be designed for effective human oversight - monitor, intervene, override, deactivate - with deployers assigning overseers who have real authority, competence, and support. The regulatory codification of human-in-control. <a href="https://intelligence.dlapiper.com/artificial-intelligence/?t=11-human-oversight&c=EU" style="color:var(--ai)">dlapiper.com</a></dd></div>
+      <div class="term"><dt>ISO/IEC 22989</dt><dd>Defines graded automation levels from full operator control through assistance, partial, conditional, and high automation - the standards-body view of the same spectrum.</dd></div>
+      <div class="term"><dt>OODA Loop - John Boyd</dt><dd>Observe, orient, decide, act: the decision-cycle model from military strategy that gave "the loop" its name.</dd></div>
+      <div class="term"><dt>Agentic governance literature (2025–26)</dt><dd>Current work distinguishing decision ownership from outcome ownership, framing agent oversight as an operating-model and decision-rights problem rather than a workflow checkbox - the context in which "human in control" is emerging.</dd></div>
+      <div class="term t-control"><dt>Australia's AI Ethics Principles - Dept. of Industry (2019, upd. Dec 2025)</dt><dd>Eight voluntary principles for responsible AI design, development and implementation. Principle 8 (Accountability) explicitly requires organisations to "consider the appropriate level of human control or oversight for the particular AI system or use case" - making the choice of oversight model a compliance decision, not just an operational one. Principle 7 (Contestability) adds a dimension absent from most oversight frameworks: the right of <em>affected people</em> to challenge AI outcomes after the fact, distinct from operator control rights. Principle 6 (Transparency and Explainability) and Principle 2 (Human-centred values) directly underpin the explainability and trust rows in the matrix above. The December 2025 update evolved the original 8 principles into a Guidance for AI Adoption with 6 essential practices. <a href="https://www.industry.gov.au/publications/australias-ai-ethics-principles" style="color:var(--ai)">industry.gov.au</a></dd></div>
+    </dl>
+  </section>
+
+  <footer>Rendered with D3.js · diagrams animate where motion is permitted</footer>
+</div>
+
+<script>
+(function(){
+  const C = {
+    ai:'#2D6FD2', aiSoft:'#D9E6F8',
+    human:'#DD7430', humanSoft:'#FBE8D8',
+    control:'#1F8A5D', controlSoft:'#DCF0E6',
+    stop:'#C8403A',
+    ink:'#141D2C', soft:'#4B5868', line:'#A6B1C0'
+  };
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TWO_PI = Math.PI*2;
+  const pt = (cx,cy,r,a)=>[cx + r*Math.cos(a), cy + r*Math.sin(a)];
+
+  // ---------- shared drawing helpers ----------
+  function loopCircle(svg,cx,cy,r,opts={}){
+    return svg.append('circle')
+      .attr('cx',cx).attr('cy',cy).attr('r',r)
+      .attr('fill','none')
+      .attr('stroke',opts.stroke||C.ink)
+      .attr('stroke-width',opts.width||2.5)
+      .attr('stroke-dasharray',opts.dash||null);
+  }
+  function node(svg,x,y,r,fill,label,labelColor){
+    const g = svg.append('g');
+    g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
+      .attr('fill',fill).attr('stroke','#fff').attr('stroke-width',2.5);
+    g.append('text').attr('x',x).attr('y',y+1)
+      .attr('text-anchor','middle').attr('dominant-baseline','middle')
+      .attr('font-family','IBM Plex Mono, monospace')
+      .attr('font-size',r>22?13:11).attr('font-weight',600)
+      .attr('fill',labelColor||'#fff').text(label);
+    return g;
+  }
+  function caption(svg,x,y,text,color){
+    svg.append('text').attr('x',x).attr('y',y)
+      .attr('text-anchor','middle')
+      .attr('font-family','IBM Plex Mono, monospace')
+      .attr('font-size',11).attr('fill',color||C.soft).text(text);
+  }
+  function humanIcon(svg,x,y,scale,color){
+    const g = svg.append('g').attr('transform',`translate(${x},${y}) scale(${scale})`);
+    g.append('circle').attr('cx',0).attr('cy',-10).attr('r',7).attr('fill',color);
+    g.append('path').attr('d','M -11 14 Q -11 -1 0 -1 Q 11 -1 11 14 Z').attr('fill',color);
+    return g;
+  }
+  function pulse(svg,color,r){
+    return svg.append('circle').attr('r',r||5.5).attr('fill',color)
+      .attr('stroke','#fff').attr('stroke-width',1.5);
+  }
+
+  // ============================================================
+  // 1. HUMAN-IN-THE-LOOP - human is a gate on the circle
+  // ============================================================
+  (function(){
+    const svg = d3.select('#hitl');
+    const cx=170, cy=150, r=92;
+    loopCircle(svg,cx,cy,r);
+
+    // arrowhead showing direction (top-right of circle)
+    const aArr = -Math.PI/4;
+    const [ax,ay]=pt(cx,cy,r,aArr);
+    svg.append('path')
+      .attr('d',`M ${ax-9} ${ay-6} L ${ax+4} ${ay+2} L ${ax-7} ${ay+8} Z`)
+      .attr('fill',C.ink);
+
+    const A_AI = Math.PI;          // left
+    const A_HUMAN = -Math.PI/2;    // top
+    const A_ACTION = 0;            // right
+
+    const [hx,hy]=pt(cx,cy,r,A_HUMAN);
+    const [aix,aiy]=pt(cx,cy,r,A_AI);
+    const [acx,acy]=pt(cx,cy,r,A_ACTION);
+
+    node(svg,aix,aiy,24,C.ai,'AI');
+    // human gate node
+    svg.append('circle').attr('cx',hx).attr('cy',hy).attr('r',26)
+      .attr('fill',C.humanSoft).attr('stroke',C.human).attr('stroke-width',2.5);
+    humanIcon(svg,hx,hy-2,1.05,C.human);
+    caption(svg,hx,hy-40,'human approves',C.human);
+    svg.append('circle').attr('cx',acx).attr('cy',acy).attr('r',22)
+      .attr('fill','#fff').attr('stroke',C.ink).attr('stroke-width',2.5);
+    svg.append('text').attr('x',acx).attr('y',acy+1).attr('text-anchor','middle')
+      .attr('dominant-baseline','middle').attr('font-family','IBM Plex Mono, monospace')
+      .attr('font-size',11).attr('font-weight',600).attr('fill',C.ink).text('Act');
+    caption(svg,cx,cy+r+34,'every action waits for sign-off');
+
+    if(reduced){ pulse(svg,C.ai).attr('cx',aix+38).attr('cy',aiy-28); return; }
+
+    const p = pulse(svg,C.ai);
+    const ring = svg.append('circle').attr('cx',hx).attr('cy',hy).attr('r',26)
+      .attr('fill','none').attr('stroke',C.control).attr('stroke-width',3).attr('opacity',0);
+
+    // state machine: travel π -> 3π/2 (pause) -> continue around to π
+    let angle = Math.PI, waiting=0;
+    const speed = 0.012; // slow: human pace
+    d3.timer(()=>{
+      if(waiting>0){
+        waiting--;
+        if(waiting===30) ring.attr('opacity',1).attr('r',26);
+        if(waiting<30) ring.attr('r',26+(30-waiting)*0.8).attr('opacity',waiting/30);
+        if(waiting===0) p.attr('fill',C.control); // approved
+        return;
+      }
+      angle += speed;
+      const norm = ((angle % TWO_PI)+TWO_PI)%TWO_PI;
+      // pause at human (3π/2)
+      if(Math.abs(norm - 3*Math.PI/2) < speed){ waiting = 60; }
+      // reset color when passing AI again
+      if(Math.abs(norm - Math.PI) < speed){ p.attr('fill',C.ai); }
+      const [x,y]=pt(cx,cy,r,angle);
+      p.attr('cx',x).attr('cy',y);
+    });
+  })();
+
+  // ============================================================
+  // 2. HUMAN-ON-THE-LOOP - human watches from outside
+  // ============================================================
+  (function(){
+    const svg = d3.select('#hotl');
+    const cx=170, cy=172, r=80;
+    loopCircle(svg,cx,cy,r);
+
+    const A_AI=Math.PI, A_ACTION=0;
+    const [aix,aiy]=pt(cx,cy,r,A_AI);
+    const [acx,acy]=pt(cx,cy,r,A_ACTION);
+    const topX=cx, topY=cy-r;
+    const humX=cx, humY=44;
+
+    // dashed observation line
+    svg.append('line').attr('x1',humX).attr('y1',humY+22).attr('x2',topX).attr('y2',topY-4)
+      .attr('stroke',C.human).attr('stroke-width',2).attr('stroke-dasharray','5 5');
+
+    humanIcon(svg,humX,humY,1.15,C.human);
+    caption(svg,humX+78,humY+4,'observes',C.human);
+
+    node(svg,aix,aiy,24,C.ai,'AI');
+    svg.append('circle').attr('cx',acx).attr('cy',acy).attr('r',22)
+      .attr('fill','#fff').attr('stroke',C.ink).attr('stroke-width',2.5);
+    svg.append('text').attr('x',acx).attr('y',acy+1).attr('text-anchor','middle')
+      .attr('dominant-baseline','middle').attr('font-family','IBM Plex Mono, monospace')
+      .attr('font-size',11).attr('font-weight',600).attr('fill',C.ink).text('Act');
+    caption(svg,cx,cy+r+32,'loop runs on its own · human can step in');
+
+    if(reduced){ pulse(svg,C.ai).attr('cx',cx+50).attr('cy',cy-60); return; }
+
+    const p = pulse(svg,C.ai);
+    let angle=Math.PI;
+    d3.timer(()=>{
+      angle += 0.035; // machine pace
+      const [x,y]=pt(cx,cy,r,angle);
+      p.attr('cx',x).attr('cy',y);
+    });
+
+    // periodic "glance" from human to loop
+    const glance = pulse(svg,C.human,4).attr('opacity',0);
+    function sendGlance(){
+      glance.attr('opacity',1).attr('cx',humX).attr('cy',humY+22)
+        .transition().duration(900).ease(d3.easeQuadIn)
+        .attr('cx',topX).attr('cy',topY-4)
+        .transition().duration(250).attr('opacity',0)
+        .on('end',()=>setTimeout(sendGlance,2200));
+    }
+    sendGlance();
+  })();
+
+  // ============================================================
+  // 3. HUMAN-OUT-OF-THE-LOOP - nobody watching
+  // ============================================================
+  (function(){
+    const svg = d3.select('#hootl');
+    const cx=170, cy=150, r=92;
+    loopCircle(svg,cx,cy,r);
+
+    const [aix,aiy]=pt(cx,cy,r,Math.PI);
+    const [acx,acy]=pt(cx,cy,r,0);
+    node(svg,aix,aiy,24,C.ai,'AI');
+    svg.append('circle').attr('cx',acx).attr('cy',acy).attr('r',22)
+      .attr('fill','#fff').attr('stroke',C.ink).attr('stroke-width',2.5);
+    svg.append('text').attr('x',acx).attr('y',acy+1).attr('text-anchor','middle')
+      .attr('dominant-baseline','middle').attr('font-family','IBM Plex Mono, monospace')
+      .attr('font-size',11).attr('font-weight',600).attr('fill',C.ink).text('Act');
+
+    // ghost human: absent
+    const gh = humanIcon(svg,cx,cy-4,1.1,C.line).attr('opacity',0.35);
+    svg.append('line').attr('x1',cx-20).attr('y1',cy-22).attr('x2',cx+20).attr('y2',cy+16)
+      .attr('stroke',C.stop).attr('stroke-width',2.5).attr('opacity',0.7);
+    caption(svg,cx,cy+38,'no human present',C.soft);
+    caption(svg,cx,cy+r+34,'acts alone, at full speed');
+
+    if(reduced){ pulse(svg,C.ai).attr('cx',cx+60).attr('cy',cy-70); return; }
+
+    const p1 = pulse(svg,C.ai), p2 = pulse(svg,C.ai);
+    let a=0;
+    d3.timer(()=>{
+      a += 0.055; // fastest
+      let [x,y]=pt(cx,cy,r,a); p1.attr('cx',x).attr('cy',y);
+      [x,y]=pt(cx,cy,r,a+Math.PI); p2.attr('cx',x).attr('cy',y);
+    });
+  })();
+
+  // ============================================================
+  // 4. HUMAN IN CONTROL - one authority, multiple execution modes
+  // ============================================================
+  (function(){
+    const svg = d3.select('#hic');
+
+    // two risk-tiered loops under one human
+    const A={cx:86, cy:182, r:50};   // low risk: runs autonomously (on-the-loop mode)
+    const B={cx:254, cy:182, r:50};  // high risk: gated (in-the-loop mode)
+    const humX=170, humY=46;
+
+    // human authority at top center
+    humanIcon(svg,humX,humY,1.1,C.control);
+    caption(svg,humX,humY-28,'decision rights',C.control);
+
+    // solid authority lines to BOTH loops - same authority, different modes
+    function authorityLine(tx,ty){
+      svg.append('line').attr('x1',humX).attr('y1',humY+18).attr('x2',tx).attr('y2',ty-6)
+        .attr('stroke',C.control).attr('stroke-width',2.5);
+      svg.append('path')
+        .attr('d',`M ${tx-6} ${ty-14} L ${tx} ${ty-3} L ${tx+6} ${ty-14} Z`)
+        .attr('fill',C.control);
+    }
+    authorityLine(A.cx, A.cy-A.r);
+    authorityLine(B.cx, B.cy-B.r);
+
+    // draw both loops with the shared AI -> Act grammar
+    [A,B].forEach(L=>{
+      loopCircle(svg,L.cx,L.cy,L.r,{width:2});
+      const [aix,aiy]=pt(L.cx,L.cy,L.r,Math.PI);
+      const [acx,acy]=pt(L.cx,L.cy,L.r,0);
+      node(svg,aix,aiy,14,C.ai,'AI');
+      svg.append('circle').attr('cx',acx).attr('cy',acy).attr('r',13)
+        .attr('fill','#fff').attr('stroke',C.ink).attr('stroke-width',2);
+      svg.append('text').attr('x',acx).attr('y',acy+1).attr('text-anchor','middle')
+        .attr('dominant-baseline','middle').attr('font-family','IBM Plex Mono, monospace')
+        .attr('font-size',8.5).attr('font-weight',600).attr('fill',C.ink).text('Act');
+    });
+
+    // gate marker on the high-risk loop (top): actions wait here for approval
+    const [gx,gy]=pt(B.cx,B.cy,B.r,-Math.PI/2);
+    const gate = svg.append('rect')
+      .attr('x',gx-7).attr('y',gy-7).attr('width',14).attr('height',14)
+      .attr('transform',`rotate(45 ${gx} ${gy})`)
+      .attr('fill','#fff').attr('stroke',C.control).attr('stroke-width',2.5);
+
+    caption(svg,A.cx,A.cy+A.r+18,'low risk · autonomous');
+    caption(svg,B.cx,B.cy+B.r+18,'high risk · gated');
+
+    // command legend along the bottom
+    const cmds=[
+      {label:'approve', color:C.control, x:52},
+      {label:'redirect', color:C.human, x:142},
+      {label:'stop', color:C.stop, x:240}
+    ];
+    cmds.forEach(c=>{
+      svg.append('circle').attr('cx',c.x).attr('cy',284).attr('r',4.5).attr('fill',c.color);
+      svg.append('text').attr('x',c.x+10).attr('y',288)
+        .attr('font-family','IBM Plex Mono, monospace').attr('font-size',11)
+        .attr('font-weight',600).attr('fill',c.color).text(c.label);
+    });
+
+    if(reduced){
+      pulse(svg,C.ai,4).attr('cx',A.cx+30).attr('cy',A.cy-36);
+      pulse(svg,C.ai,4).attr('cx',gx).attr('cy',gy); // held at the gate
+      return;
+    }
+
+    // low-risk pulse: continuous clockwise; high-risk pulse: clockwise, waits at the gate
+    const pA = pulse(svg,C.ai,4.5), pB = pulse(svg,C.ai,4.5);
+    let angA=0, angB=Math.PI, frozenA=0, frozenB=0, held=false, clearance=false;
+    const GATE = 3*Math.PI/2; // top of circle in our parametrization
+
+    const haloA = svg.append('circle').attr('cx',A.cx).attr('cy',A.cy).attr('r',A.r)
+      .attr('fill','none').attr('stroke-width',4).attr('opacity',0);
+    const haloB = svg.append('circle').attr('cx',B.cx).attr('cy',B.cy).attr('r',B.r)
+      .attr('fill','none').attr('stroke-width',4).attr('opacity',0);
+
+    d3.timer(()=>{
+      // each loop freezes independently - the veto is addressable
+      if(frozenA>0){ frozenA--; }
+      else {
+        angA += 0.045;
+        const [x,y]=pt(A.cx,A.cy,A.r,angA);
+        pA.attr('cx',x).attr('cy',y);
+      }
+      if(frozenB>0){ frozenB--; }
+      else if(!held){
+        angB += 0.03;
+        const norm=((angB % TWO_PI)+TWO_PI)%TWO_PI;
+        if(Math.abs(norm-GATE)<0.03){
+          if(clearance){ clearance=false; }   // pre-approved: pass through
+          else { held=true; }                  // otherwise wait for approval
+        }
+        const [x,y]=pt(B.cx,B.cy,B.r,angB);
+        pB.attr('cx',x).attr('cy',y);
+      }
+    });
+
+    // command sequence demonstrates selective authority over each architecture:
+    // approve the gated loop, stop ONLY the autonomous loop,
+    // redirect the autonomous loop, stop ONLY the gated loop
+    const sequence=[
+      {label:'approve',  color:C.control, loop:B},
+      {label:'stop',     color:C.stop,    loop:A},
+      {label:'redirect', color:C.human,   loop:A},
+      {label:'stop',     color:C.stop,    loop:B}
+    ];
+    const cmdDot = pulse(svg,C.control,5).attr('opacity',0);
+    let seqIdx=0;
+    function sendCommand(){
+      const c=sequence[seqIdx];
+      const halo = c.loop===A ? haloA : haloB;
+      cmdDot.attr('fill',c.color).attr('opacity',1)
+        .attr('cx',humX).attr('cy',humY+18)
+        .transition().duration(750).ease(d3.easeQuadIn)
+        .attr('cx',c.loop.cx).attr('cy',c.loop.cy - c.loop.r)
+        .on('end',()=>{
+          cmdDot.attr('opacity',0);
+          halo.attr('stroke',c.color).attr('opacity',0.9)
+            .transition().duration(650).attr('opacity',0);
+          if(c.label==='approve'){
+            gate.attr('fill',C.controlSoft);
+            setTimeout(()=>gate.attr('fill','#fff'),650);
+            if(held){ held=false; } else { clearance=true; } // release the gate
+          }
+          if(c.label==='redirect'){
+            angA += TWO_PI/5; // re-task: jump to new heading, still clockwise
+          }
+          if(c.label==='stop'){
+            if(c.loop===A){ frozenA=85; }    // halt ONLY the autonomous loop
+            else { frozenB=85; held=false; } // halt ONLY the gated loop
+          }
+          seqIdx=(seqIdx+1)%sequence.length;
+          setTimeout(sendCommand,2400);
+        });
+    }
+    setTimeout(sendCommand,1300);
+  })();
+})();
+</script>
+</body>
+</html>

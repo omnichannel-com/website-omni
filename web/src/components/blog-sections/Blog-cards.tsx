@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { Search, ArrowRight } from "lucide-react";
 import { BlogPost } from "@/types/blog";
 import BlogCover from "./blog-cover";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 interface BlogCardsProps {
   initialBlogs: BlogPost[];
@@ -14,12 +15,17 @@ interface BlogCardsProps {
 
 const BlogCards: React.FC<BlogCardsProps> = ({ initialBlogs }) => {
     const router = useRouter();
+    const { capture } = usePosthogConsent();
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOrder, setSortOrder] = useState("newest");
 
     const blogs: BlogPost[] = initialBlogs;
 
-    const handleViewMore = (slug: string) => {
+    const handleViewMore = (slug: string, title: string) => {
+        capture({
+            event: "cta_click",
+            properties: { cta_label: `blog_card_${slug}`, page: "/blog" },
+        });
         router.push(`/blog/${slug}`);
     };
 
@@ -69,7 +75,7 @@ const BlogCards: React.FC<BlogCardsProps> = ({ initialBlogs }) => {
                 {filteredBlogs.map((blog) => (
                     <div key={blog.slug} className="w-full md:w-1/2 lg:w-1/2 px-4 mb-8">
                         <div className="bg-ocx-bg-subtle border border-ocx-border text-ocx-fg p-5 flex flex-col gap-4 h-full rounded-ocx-lg shadow-ocx-sm hover:shadow-ocx-md hover:-translate-y-px transition-all duration-ocx-base">
-                            <div className="flex-grow cursor-pointer" onClick={() => handleViewMore(blog.slug)}>
+                            <div className="flex-grow cursor-pointer" onClick={() => handleViewMore(blog.slug, blog.title)}>
                                 {blog.image ? (
                                     <Image
                                         src={blog.image}
@@ -99,7 +105,7 @@ const BlogCards: React.FC<BlogCardsProps> = ({ initialBlogs }) => {
                                 </p>
                                 <button
                                     className="inline-flex items-center gap-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-bold text-sm px-6 py-2.5 rounded-ocx-md shadow-ocx-sm hover:bg-[var(--btn-primary-bg-hover)] hover:shadow-ocx-md hover:-translate-y-px active:translate-y-0 transition-all duration-ocx-base"
-                                    onClick={() => handleViewMore(blog.slug)}
+                                    onClick={() => handleViewMore(blog.slug, blog.title)}
                                 >
                                     <ArrowRight className="w-4 h-4 stroke-[1.5]" />
                                     Read more

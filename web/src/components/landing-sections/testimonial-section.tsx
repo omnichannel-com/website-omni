@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function TestimonialSection() {
   return (
-    <section className="scroll-section py-16 md:py-24 lg:py-32 bg-ocx-whisper relative z-[60]">
+    <section className="py-16 md:py-24 lg:py-32 bg-ocx-whisper relative z-[60]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-5xl mx-auto">
           {/* Brand pack type pairing */}

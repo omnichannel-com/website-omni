@@ -23,9 +23,9 @@ export default function TabSection({
   const [selected, setSelected] = useState<string>(categories[0] || "");
 
   return (
-    <section className="scroll-section py-16 md:py-24 lg:py-32 bg-ocx-bg">
+    <section className="py-16 md:py-24 lg:py-32 bg-ocx-bg">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-        {/* Tab buttons — brand pack pill style */}
+        {/* Tab buttons - brand pack pill style */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
           {categories.map((category) => (
             <button
@@ -42,7 +42,7 @@ export default function TabSection({
           ))}
         </div>
 
-        {/* Tab content — brand pack card style */}
+        {/* Tab content - brand pack card style */}
         <div className="w-full bg-ocx-bg border border-ocx-border rounded-ocx-xl shadow-ocx-sm p-5 md:p-8">
           <div className="max-h-[70svh] overflow-y-auto">
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

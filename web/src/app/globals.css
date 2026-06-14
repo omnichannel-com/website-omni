@@ -611,16 +611,10 @@ html {
   border-radius: var(--r-sm);
 }
 
-/* Scroll-snap wrapper */
+/* Scroll wrapper */
 .scroll-wrapper {
   height: 100vh;
   overflow-y: auto;
-  scroll-snap-type: y proximity;
-}
-
-.scroll-section,
-.scroll-section-1 {
-  scroll-snap-align: start;
 }
 
 /* Helper: gradient brand text */

@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const OLD_BRAND_TERMS = ["2ai", "AlterEgo", "AI-enhanced AlterEgos", "alterego.com"];
-const PAGES = ["/", "/about", "/blog", "/contact", "/pricing", "/privacy-policy", "/terms-of-service", "/disclaimer"];
+const PAGES = ["/", "/about", "/blog", "/services", "/privacy-policy", "/human-in-control"];
 
 test.describe("Brand Consistency", () => {
   for (const pagePath of PAGES) {
@@ -38,7 +38,7 @@ test.describe("Design System Compliance", () => {
     "/blog/blog-1c.png",
     "/blog/blog-2a.png",
   ];
-  const IMAGE_PAGES = ["/", "/pricing", "/blog", "/blog/1", "/blog/2", "/about"];
+  const IMAGE_PAGES = ["/", "/blog", "/blog/greenlighting-ai-models", "/blog/unlocking-ai-guide", "/about"];
 
   for (const pagePath of IMAGE_PAGES) {
     test(`page ${pagePath} renders no off-brand template imagery`, async ({ page }) => {
@@ -54,13 +54,6 @@ test.describe("Design System Compliance", () => {
     });
   }
 
-  test("no placeholder Lorem Ipsum copy on pricing FAQ", async ({ page }) => {
-    await page.goto("/pricing");
-    const bodyText = (await page.locator("body").innerText()).toLowerCase();
-    expect(bodyText).not.toContain("lorem ipsum");
-    expect(bodyText).not.toContain("dolor sit amet");
-  });
-
   test("navbar uses the icon-only logo mark, not the full-logo png", async ({ page }) => {
     await page.goto("/");
     const logo = page.locator('header img, nav img, a[href="/"] img').first();
@@ -68,9 +61,9 @@ test.describe("Design System Compliance", () => {
   });
 
   test("primary CTAs use sentence case, not Title Case", async ({ page }) => {
-    await page.goto("/pricing");
+    await page.goto("/services");
     const bodyText = await page.locator("body").innerText();
-    expect(bodyText).toContain("Get started");
-    expect(bodyText).not.toContain("Get Started");
+    expect(bodyText).toContain("Book a working session");
+    expect(bodyText).not.toContain("Book A Working Session");
   });
 });

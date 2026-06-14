@@ -3,7 +3,7 @@ import React from "react";
 function BlogHero() {
 
   return (
-    <section className="relative z-10 pt-28 md:pt-36 pb-10 scroll-mt-28 scroll-section-1 landscape:p-16">
+    <section className="relative z-10 pt-28 md:pt-36 pb-10 scroll-mt-28 landscape:p-16">
 
       <div className="container mx-auto">
    

@@ -1,0 +1,17 @@
+# OmniChannel
+
+> OmniChannel is human-in-control channel intelligence: AI agents that grow audience, find the right partners, and turn content into compounding distribution, while a human retains authority over every consequential decision. Human in control (HIC) is an operating model for agentic AI in which autonomous agents plan and execute work, while a human retains defined authority to set objectives, approve consequential actions, and intervene or revoke autonomy at any point.
+
+## Core concepts
+
+- [What Is Human in Control?](https://omni-channel.com/human-in-control): Canonical definition of human in control (HIC), its three pillars (authority, visibility, revocability), and how it differs from human-in-the-loop and human-on-the-loop.
+- [Human in Control vs. Human-in-the-Loop vs. Human-on-the-Loop](https://omni-channel.com/human-in-control-vs-human-in-the-loop): Plain-English comparison of the three oversight models for AI agents, with a worked example.
+- [Agentic AI Glossary](https://omni-channel.com/glossary): Short definitions of human in control, HITL, HOTL, approval surface, autonomy scope, revocability, and agent network.
+
+## Product
+
+- [OmniChannel Home](https://omni-channel.com/): Human-in-control channel intelligence - what the product does and how agents and humans divide the work.
+
+## Optional
+
+- [Human-in-Control Deployment Checklist](https://omni-channel.com/human-in-control-checklist): Practical checklist for deploying AI agents with human control guarantees built in.

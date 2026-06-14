@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 interface HeroProps {
   activePlan: "monthly" | "yearly";
@@ -6,9 +9,14 @@ interface HeroProps {
 }
 
 function Hero({ activePlan, setActivePlan }: HeroProps) {
+  const { capture } = usePosthogConsent();
+  const handlePlanChange = (plan: "monthly" | "yearly") => {
+    setActivePlan(plan);
+    capture({ event: "cta_click", properties: { cta_label: `pricing_billing_${plan}`, page: "/pricing" } });
+  };
 
   return (
-    <section className="relative z-10 py-4 scroll-section-1">
+    <section className="relative z-10 py-4">
       <div className="h-[45vh] container mx-auto">
         <div className="h-full flex flex-col flex-grow items-center justify-center text-ocx-fg relative top-[2%] space-y-3">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-semibold text-center py-2">
@@ -34,11 +42,11 @@ function Hero({ activePlan, setActivePlan }: HeroProps) {
                 }}
               ></div>
               <button
-              
+
                 className={`relative flex-1 px-5 py-2 rounded-full transition-colors duration-300 ${
                   activePlan === "monthly" ? "text-white" : "text-ocx-fg-accent"
                 }`}
-                onClick={() => setActivePlan("monthly")}
+                onClick={() => handlePlanChange("monthly")}
                 style={{ zIndex: 2 }} // Ensure the button text is above the slider
               >
                 Monthly
@@ -47,13 +55,13 @@ function Hero({ activePlan, setActivePlan }: HeroProps) {
                 className={`relative flex-1 px-5 py-2 rounded-full transition-colors duration-300 ${
                   activePlan === "yearly" ? "text-white" : "text-ocx-fg-accent"
                 }`}
-                onClick={() => setActivePlan("yearly")}
+                onClick={() => handlePlanChange("yearly")}
                 style={{ zIndex: 2 }} // Ensure the button text is above the slider
               >
                 Yearly
               </button>
 
-              
+
             </div>
           </div>
 

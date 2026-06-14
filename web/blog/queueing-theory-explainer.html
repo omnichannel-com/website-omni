@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Physics of Waiting — a queueing theory primer</title>
+<title>The Physics of Waiting - a queueing theory primer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Oxygen:wght@400;700&display=swap" rel="stylesheet">
@@ -389,22 +389,22 @@
       <div class="lab-stats">
         <div class="lab-stat" id="c-occ-card">
           <div class="ls-label">How busy</div>
-          <div class="ls-val" id="c-occ">—</div>
+          <div class="ls-val" id="c-occ">-</div>
           <div class="ls-sub">occupancy</div>
         </div>
         <div class="lab-stat" id="c-asa-card">
           <div class="ls-label">Avg wait</div>
-          <div class="ls-val" id="c-asa">—</div>
+          <div class="ls-val" id="c-asa">-</div>
           <div class="ls-sub">speed of answer</div>
         </div>
         <div class="lab-stat" id="c-sl-card">
           <div class="ls-label">Answered in 30s</div>
-          <div class="ls-val" id="c-sl">—</div>
+          <div class="ls-val" id="c-sl">-</div>
           <div class="ls-sub">service level</div>
         </div>
         <div class="lab-stat" id="c-ab-card">
           <div class="ls-label">Walkaways</div>
-          <div class="ls-val" id="c-ab">—</div>
+          <div class="ls-val" id="c-ab">-</div>
           <div class="ls-sub">est. abandon</div>
         </div>
       </div>
@@ -525,22 +525,22 @@
       <div class="lab-stats">
         <div class="lab-stat" id="p-pools-card">
           <div class="ls-label">Skill groups</div>
-          <div class="ls-val" id="p-pools">—</div>
-          <div class="ls-sub" id="p-each">— agents each</div>
+          <div class="ls-val" id="p-pools">-</div>
+          <div class="ls-sub" id="p-each">- agents each</div>
         </div>
         <div class="lab-stat" id="p-asa-card">
           <div class="ls-label">Avg wait</div>
-          <div class="ls-val" id="p-asa">—</div>
+          <div class="ls-val" id="p-asa">-</div>
           <div class="ls-sub">speed of answer</div>
         </div>
         <div class="lab-stat" id="p-sl-card">
           <div class="ls-label">Answered in 30s</div>
-          <div class="ls-val" id="p-sl">—</div>
+          <div class="ls-val" id="p-sl">-</div>
           <div class="ls-sub">service level</div>
         </div>
         <div class="lab-stat" id="p-ab-card">
           <div class="ls-label">Walkaways</div>
-          <div class="ls-val" id="p-ab">—</div>
+          <div class="ls-val" id="p-ab">-</div>
           <div class="ls-sub">est. abandon</div>
         </div>
       </div>
@@ -635,29 +635,29 @@
       </div>
 
       <div class="sim-schematic">
-        <div class="schem-title">Your current setup — this updates as you change the controls</div>
+        <div class="schem-title">Your current setup - this updates as you change the controls</div>
         <svg id="schem-svg" viewBox="0 0 620 210" aria-label="Diagram of the current routing structure"></svg>
       </div>
 
       <div class="lab-stats" style="grid-template-columns:repeat(4,1fr);">
         <div class="lab-stat" id="s-load-card">
           <div class="ls-label">How busy</div>
-          <div class="ls-val" id="s-occ">—</div>
+          <div class="ls-val" id="s-occ">-</div>
           <div class="ls-sub">live occupancy</div>
         </div>
         <div class="lab-stat" id="s-vipw-card">
           <div class="ls-label">VIP wait</div>
-          <div class="ls-val" id="s-vipw">—</div>
+          <div class="ls-val" id="s-vipw">-</div>
           <div class="ls-sub">avg, answered</div>
         </div>
         <div class="lab-stat" id="s-stdw-card">
           <div class="ls-label">Standard wait</div>
-          <div class="ls-val" id="s-stdw">—</div>
+          <div class="ls-val" id="s-stdw">-</div>
           <div class="ls-sub">avg, answered</div>
         </div>
         <div class="lab-stat" id="s-ab-card">
           <div class="ls-label">Walkaways</div>
-          <div class="ls-val" id="s-ab">—</div>
+          <div class="ls-val" id="s-ab">-</div>
           <div class="ls-sub">gave up waiting</div>
         </div>
       </div>
@@ -713,7 +713,7 @@
         <span class="lg"><span class="sw" style="background:#f4c542"></span>VIP wait</span>
         <span class="lg"><span class="sw" style="background:#e98c4a"></span>Standard wait</span>
         <span class="lg"><span class="sw" style="background:#ef6f5e"></span>Walkaways (right axis)</span>
-        <span class="style-note">— saved runs overlay from t=0 in their own colour</span>
+        <span class="style-note">- saved runs overlay from t=0 in their own colour</span>
       </div>
 
       <div class="lab-chart"><svg id="ts-svg" viewBox="0 0 700 250" aria-label="Live chart of VIP wait, Standard wait and walkaways over time"></svg></div>
@@ -724,13 +724,13 @@
       <div class="lab-chart"><svg id="ov-svg" viewBox="0 0 700 64" aria-label="Timeline scrubber"></svg></div>
 
       <div class="cmp-wrap">
-        <div class="cmp-title">Session comparison — average so far under each structure</div>
+        <div class="cmp-title">Session comparison - average so far under each structure</div>
         <table class="cmp" id="cmp-table">
           <thead><tr><th>Metric</th><th class="shared-col">Shared pool</th><th class="split-col">Dedicated split</th></tr></thead>
           <tbody>
-            <tr><td><span class="dotk" style="background:#f4c542"></span>VIP wait</td><td class="shared-col" id="cmp-vip-s">—</td><td class="split-col" id="cmp-vip-d">—</td></tr>
-            <tr><td><span class="dotk" style="background:#e98c4a"></span>Standard wait</td><td class="shared-col" id="cmp-std-s">—</td><td class="split-col" id="cmp-std-d">—</td></tr>
-            <tr><td><span class="dotk" style="background:#ef6f5e"></span>Walkaways</td><td class="shared-col" id="cmp-ab-s">—</td><td class="split-col" id="cmp-ab-d">—</td></tr>
+            <tr><td><span class="dotk" style="background:#f4c542"></span>VIP wait</td><td class="shared-col" id="cmp-vip-s">-</td><td class="split-col" id="cmp-vip-d">-</td></tr>
+            <tr><td><span class="dotk" style="background:#e98c4a"></span>Standard wait</td><td class="shared-col" id="cmp-std-s">-</td><td class="split-col" id="cmp-std-d">-</td></tr>
+            <tr><td><span class="dotk" style="background:#ef6f5e"></span>Walkaways</td><td class="shared-col" id="cmp-ab-s">-</td><td class="split-col" id="cmp-ab-d">-</td></tr>
           </tbody>
         </table>
       </div>
@@ -739,7 +739,7 @@
     <div class="lab">
       <span class="lab-kick">Interactive · capacity vs demand</span>
       <h3>How busy the team is, against the calls coming in</h3>
-      <p class="lab-sub">When the green line pins near the top, you've run out of headroom — and that's exactly when the waits above take off. Same timeline, same scrubber.</p>
+      <p class="lab-sub">When the green line pins near the top, you've run out of headroom - and that's exactly when the waits above take off. Same timeline, same scrubber.</p>
 
       <div class="ts-legend">
         <span class="lg"><span class="sw" style="background:#6fc6a5"></span>How busy the agents are (left axis)</span>
@@ -813,7 +813,7 @@
           <div class="fnote">The "how busy" gauge. As ρ → 1, queue length and wait → ∞. This is the cliff in chart 03, in one symbol.</div>
         </div>
         <div class="formula">
-          <div class="fname">Erlang C — probability of delay</div>
+          <div class="fname">Erlang C - probability of delay</div>
           <div class="feq">P<sub>w</sub> = Erlang C(c, A)</div>
           <div class="fnote">The workhorse staffing model. Computed via the stable Erlang-B recursion, then converted. Mean wait W<sub>q</sub> = P<sub>w</sub> · (1/μ) / (c − A).</div>
         </div>
@@ -874,7 +874,7 @@ function fmtWait(s){
   return m + "m" + (r? " "+r+"s":"");
 }
 function pct(x){ return Math.round(x*100) + "%"; }
-// safe health setter — never calls classList.add('') which throws
+// safe health setter - never calls classList.add('') which throws
 function setHealth(el, state){ if(!el) return; el.classList.remove('danger','ok'); if(state) el.classList.add(state); }
 
 // ============================================================
@@ -885,7 +885,7 @@ function buildPath(pts){
 }
 
 // ============================================================
-//  CHART 03 — the utilisation cliff
+//  CHART 03 - the utilisation cliff
 // ============================================================
 const CLIFF = {c:20, aht:300, patience:90, slT:30};
 const cSvg = document.getElementById('cliff-svg');
@@ -954,7 +954,7 @@ function updateCliff(){
 }
 
 // ============================================================
-//  CHART 06 — the cost of fragmenting
+//  CHART 06 - the cost of fragmenting
 // ============================================================
 const POOL = {totalAgents:48, aht:300, patience:90, slT:30, occTarget:0.80};
 // total calls/hr set so the whole team sits at occTarget
@@ -1046,7 +1046,7 @@ function updatePool(){
 
 // ============================================================
 //  LIVE DISCRETE-EVENT SIMULATION (event-scheduling model,
-//  the same approach used by SimPy / Ciw / SIM.JS — ported to JS)
+//  the same approach used by SimPy / Ciw / SIM.JS - ported to JS)
 //  Calls arrive (Poisson), seize an eligible agent, are served
 //  for a random handle time, and renege if patience is exceeded.
 // ============================================================
@@ -1142,7 +1142,7 @@ function simStep(){
     if(S.t - c.arrive > c.patience){ S.abandoned++; S.abEMA = S.abEMA*0.96 + 1*0.04; return false; }
     return true;
   });
-  // 4. assignment — for each idle agent, take best eligible waiting call
+  // 4. assignment - for each idle agent, take best eligible waiting call
   for(const a of S.agents){
     if(a.busyUntil!==null) continue;
     let bestIdx=-1, bestScore=-Infinity;
@@ -1205,7 +1205,7 @@ function simRender(){
     return x.arrive-y.arrive;
   });
   const ww=document.getElementById('sim-wait');
-  if(order.length===0){ ww.innerHTML='<span class="wait-empty">empty — nobody waiting</span>'; }
+  if(order.length===0){ ww.innerHTML='<span class="wait-empty">empty - nobody waiting</span>'; }
   else{
     const show=order.slice(0,40);
     ww.innerHTML = show.map(c=>`<span class="wdot ${c.type}"></span>`).join('') + (order.length>40?`<span class="wait-empty">+${order.length-40}</span>`:'');
@@ -1218,9 +1218,9 @@ function simRender(){
   const total=S.answered+S.abandoned;
   const ab = total? S.abandoned/total : 0;
   document.getElementById('s-occ').textContent = pct(Math.min(1,occ));
-  document.getElementById('s-vipw').textContent = vipW===null?'—':fmtWait(vipW*60);
-  document.getElementById('s-stdw').textContent = stdW===null?'—':fmtWait(stdW*60);
-  document.getElementById('s-ab').textContent  = total<5?'—':pct(ab);
+  document.getElementById('s-vipw').textContent = vipW===null?'-':fmtWait(vipW*60);
+  document.getElementById('s-stdw').textContent = stdW===null?'-':fmtWait(stdW*60);
+  document.getElementById('s-ab').textContent  = total<5?'-':pct(ab);
   setHealth(document.getElementById('s-load-card'), occ>0.92?'danger':(occ<0.8?'ok':''));
   setHealth(document.getElementById('s-vipw-card'), vipW>0.75?'danger':(vipW!==null&&vipW<0.3?'ok':''));
   setHealth(document.getElementById('s-stdw-card'), stdW>0.75?'danger':(stdW!==null&&stdW<0.3?'ok':''));
@@ -1264,7 +1264,7 @@ document.getElementById('sim-prio').addEventListener('click', e=>{
 });
 
 // ============================================================
-//  SCHEMATIC — structural key, redrawn on mode/priority change.
+//  SCHEMATIC - structural key, redrawn on mode/priority change.
 //  Palette matches the section-07 image: VIP gold, Standard clay,
 //  shared pool = dark box with clay dots.
 // ============================================================
@@ -1315,7 +1315,7 @@ function renderSchem(){
 }
 
 // ============================================================
-//  TAPE — waits (left axis, seconds) + walkaways (right axis, %)
+//  TAPE - waits (left axis, seconds) + walkaways (right axis, %)
 //  solid = shared pool, dashed = dedicated split
 // ============================================================
 const TS={W:700,H:250,l:50,r:54,t:16,b:34, waitMax:120, abMax:60};
@@ -1342,7 +1342,7 @@ function drawSeries(segs, color, w){
 function renderTape(){
   const svg=document.getElementById('ts-svg'); if(!svg) return;
   const slice=tsWindow();
-  if(slice.length<2 && savedRuns.length===0){ svg.innerHTML=`<foreignObject x="0" y="0" width="700" height="250"><div xmlns="http://www.w3.org/1999/xhtml" class="ts-placeholder">Press play on the simulation above — the tape fills as it runs.</div></foreignObject>`; return; }
+  if(slice.length<2 && savedRuns.length===0){ svg.innerHTML=`<foreignObject x="0" y="0" width="700" height="250"><div xmlns="http://www.w3.org/1999/xhtml" class="ts-placeholder">Press play on the simulation above - the tape fills as it runs.</div></foreignObject>`; return; }
   const {W,H,l,r,t,b,waitMax,abMax}=TS, pw=W-l-r, ph=H-t-b, F='font-family="Hanken Grotesk,sans-serif"';
 
   // determine the visible time window (minutes from start)
@@ -1405,7 +1405,7 @@ function renderTape(){
 }
 
 // ============================================================
-//  CAPACITY — occupancy (left %, area) + volume (right, calls/min)
+//  CAPACITY - occupancy (left %, area) + volume (right, calls/min)
 // ============================================================
 const BC={W:700,H:230,l:48,r:52,t:16,b:34, volMax:3.8};
 function renderBusy(){
@@ -1457,7 +1457,7 @@ function renderBusy(){
 
 
 // ============================================================
-//  OVERVIEW SCRUBBER — renders to BOTH ov-svg and ov-svg2
+//  OVERVIEW SCRUBBER - renders to BOTH ov-svg and ov-svg2
 // ============================================================
 const OV={W:700,H:64,l:8,r:8,t:8,b:8};
 function ovScaleX(i,L){ const pw=OV.W-OV.l-OV.r; return OV.l + (L<=1?0:i/(L-1))*pw; }

@@ -6,7 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { openExternal } from "@/utils/navigation";
+import { CALENDLY_URL } from "@/lib/calendly";
+import { usePosthogConsent } from "@/hooks/use-posthog";
 
 interface SecondaryNavbarProps {
   isSticky: boolean;
@@ -16,10 +17,7 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isPlatformHovered, setIsPlatformHovered] = useState(false);
-  const [isDropdownHovered, setIsDropdownHovered] = useState(false);
   const activePath = usePathname();
-  const isHovered = isPlatformHovered || isDropdownHovered;
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,26 +40,19 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
     setActiveSubMenu((prev) => (prev === itemName ? null : itemName));
   };
 
+  const { capture } = usePosthogConsent();
+
   const navItems = [
     { name: "About", link: "/about" },
-    { name: "Pricing", link: "/pricing" },
+    { name: "Services", link: "/services" },
     { name: "Blog", link: "/blog" },
-    { name: "Contact", link: "/contact" },
+    { name: "Human in control", link: "/human-in-control" },
   ];
 
-  const platformItems = [
-    { name: "Platform overview", link: "/about" },
-    { name: "Features", link: "/about" },
-    { name: "Integrations", link: "/about" },
-  ];
-
-  const companyItems = [
-    { name: "About us", link: "/about" },
-    { name: "Blog", link: "/blog" },
-    { name: "Contact", link: "/contact" },
-  ];
-
-  const signUpHandler = (url: string) => openExternal(url);
+  const signUpHandler = () => {
+    capture({ event: "cta_click", properties: { cta_label: "book_call_nav", page: activePath } });
+    window.open(CALENDLY_URL, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <header className="sticky top-0 z-[50] transition-all duration-150">
@@ -80,12 +71,12 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
               <Image
                 src="/assets/omnichannel-cx-icon-large.svg"
                 className="w-8 h-8 md:w-10 md:h-10 object-contain"
-                alt="omnichannel CX logo"
+                alt="omnichannel logo"
                 height={40}
                 width={40}
               />
               <span className="font-display text-ocx-fg-primary text-xl md:text-2xl font-bold tracking-ocx-tight">
-                omnichannel <span className="font-extrabold">CX</span>
+                omnichannel<span className="text-ocx-mauve">.</span>
               </span>
             </div>
           </Link>
@@ -113,29 +104,19 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                       key={item.name}
                       className={clsx(
                         "relative navitems group text-sm font-body",
-                        { "hover:text-ocx-bright-blue": item.name === "About" },
                         { "text-ocx-fg-primary font-bold": isActive }
                       )}
-                      onMouseEnter={() => {
-                        if (item.name === "About") setIsPlatformHovered(true);
-                      }}
-                      onMouseLeave={() => {
-                        if (item.name === "About") setIsPlatformHovered(false);
-                      }}
                     >
                       <Link href={item.link}>{item.name}</Link>
-                      {item.name === "About" && (
-                        <ChevronDown className="ms-1 inline-block w-4 h-4" strokeWidth={2} />
-                      )}
                     </li>
                   );
                 })}
 
                 <button
-                  onClick={() => signUpHandler("https://app.omnichannel.cx/")}
+                  onClick={signUpHandler}
                   className="bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-semibold text-sm px-6 py-2 rounded-ocx-pill hover:bg-[var(--btn-primary-bg-hover)] transition-colors duration-ocx-fast"
                 >
-                  Get started
+                  Book a call
                 </button>
               </>
             )}
@@ -174,34 +155,16 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                   {activeSubMenu === item.name && (
                     <div className="nav-drop text-sm z-[50] w-full bg-ocx-bg-subtle overflow-y-auto transition-all duration-700 ease-in-out">
                       <div className="text-ocx-fg px-4 py-2">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-2 block">Platform</span>
-                            <ul className="space-y-2">
-                              {platformItems.map((pItem) => (
-                                <li
-                                  className="py-1 hover:bg-ocx-bg-muted px-2 rounded-ocx-md cursor-pointer font-body text-sm"
-                                  key={pItem.name}
-                                >
-                                  <Link href={pItem.link}>{pItem.name}</Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div>
-                            <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-2 block">Company</span>
-                            <ul className="space-y-2">
-                              {companyItems.map((cItem) => (
-                                <li
-                                  className="py-1 hover:bg-ocx-bg-muted px-2 rounded-ocx-md cursor-pointer font-body text-sm"
-                                  key={cItem.name}
-                                >
-                                  <Link href={cItem.link}>{cItem.name}</Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
+                        <ul className="space-y-2">
+                          {navItems.map((subItem) => (
+                            <li
+                              className="py-1 hover:bg-ocx-bg-muted px-2 rounded-ocx-md cursor-pointer font-body text-sm"
+                              key={subItem.name}
+                            >
+                              <Link href={subItem.link}>{subItem.name}</Link>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   )}
@@ -212,50 +175,6 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
         </div>
       )}
 
-      {!isMobile && (
-        <div
-          onMouseEnter={() => setIsDropdownHovered(true)}
-          onMouseLeave={() => setIsDropdownHovered(false)}
-          className={clsx(
-            "nav-drop scrollbar-hide absolute text-sm z-[50] w-full bg-ocx-bg overflow-hidden transition-all duration-700 ease-in-out",
-            {
-              "max-h-80": isHovered,
-              "max-h-0": !isHovered,
-            }
-          )}
-        >
-          <div className="text-ocx-fg px-4 md:px-10 lg:px-40">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              <div>
-                <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Platform</span>
-                <ul className="space-y-2">
-                  {platformItems.map((pItem) => (
-                    <li
-                      className="py-1 hover:bg-ocx-bg-muted text-ocx-fg-primary hover:text-ocx-bright-blue px-2 rounded-ocx-md cursor-pointer font-body text-sm transition-colors duration-ocx-fast"
-                      key={pItem.name}
-                    >
-                      <Link href={pItem.link}>{pItem.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <span className="text-ocx-fg-accent text-xs font-display uppercase tracking-ocx-caps mb-4 mt-4 block">Company</span>
-                <ul className="space-y-2">
-                  {companyItems.map((cItem) => (
-                    <li
-                      className="py-1 hover:bg-ocx-bg-muted text-ocx-fg-primary hover:text-ocx-bright-blue px-2 rounded-ocx-md cursor-pointer font-body text-sm transition-colors duration-ocx-fast"
-                      key={cItem.name}
-                    >
-                      <Link href={cItem.link}>{cItem.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 };

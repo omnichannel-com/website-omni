@@ -9,7 +9,7 @@ const channels = [
 
 export default function ImageSection() {
   return (
-    <section className="scroll-section py-16 md:py-24 lg:py-32 bg-ocx-whisper relative overflow-hidden">
+    <section className="py-16 md:py-24 lg:py-32 bg-ocx-whisper relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-5xl mx-auto">
           <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">
