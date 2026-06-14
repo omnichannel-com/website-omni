@@ -109,3 +109,105 @@ out/                — Generated static export (gitignored)
 - PostHog analytics
 - Pagefind search
 - Playwright (e2e tests)
+
+## Managing Cloudflare Deployments
+
+### List all deployments
+
+```bash
+wrangler pages deployment list --project-name=omnichannel-web
+```
+
+Shows all branch previews and production deployments with their IDs, URLs, and timestamps.
+
+### View deployment details
+
+```bash
+wrangler pages deployment describe <deployment-id> --project-name=omnichannel-c
+```
+
+Useful for checking which files were included and the exact build output for a deployment.
+
+### View realtime logs
+
+```bash
+wrangler pages deployment tail --project-name=omnichannel-cx
+```
+
+Stream live request logs from the current production deployment. Helpful for debugging 404s or errors after publishing.
+
+### Roll back to a previous deployment
+
+Cloudflare Pages does not have a direct "rollback" command, but you can redeploy any previous build:
+
+```bash
+# Find the deployment ID from the list
+wrangler pages deployment list --project-name=omnichannel-cx
+
+# Redeploy that specific build to production
+wrangler pages deploy out --project-name=omnichannel-cx --branch=main --commit-dirty=true
+```
+
+Alternatively, revert the Git commit and redeploy from `main`.
+
+### Delete a branch preview
+
+```bash
+# Delete a specific branch's preview deployment
+wrangler pages deployment delete --project-name=omnichannel-cx --branch=preview-australia-copy
+```
+
+### Change the production branch
+
+If you initially set the wrong branch as production:
+
+```bash
+wrangler pages project modify omnichannel-cx --production-branch=main
+```
+
+### Add a custom domain
+
+1. In the Cloudflare dashboard, go to **Pages > omnichannel-cx > Custom domains**.
+2. Add your domain (e.g., `omnichannel.cx`).
+3. Cloudflare auto-configures DNS and issues an SSL certificate.
+
+### Set environment variables / secrets
+
+```bash
+# Add a secret (e.g., PostHog API key)
+wrangler pages secret put POSTHOG_API_KEY --project-name=omnichannel-cx
+
+# List all secrets
+wrangler pages secret list --project-name=omnichannel-cx
+
+# Delete a secret
+wrangler pages secret delete POSTHOG_API_KEY --project-name=omnichannel-cx
+```
+
+Secrets are encrypted and only available to the build step and edge functions (not the static site itself unless explicitly passed through).
+
+### Check project status
+
+```bash
+wrangler pages project list
+wrangler pages project get omnichannel-cx
+```
+
+Shows project settings, production branch, and latest deployment info.
+
+### Deployment command reference
+
+| Command | Purpose |
+|---------|---------|
+| `wrangler pages deploy out --branch=main` | Production deploy |
+| `wrangler pages deploy out --branch=<feature>` | Preview deploy |
+| `wrangler pages deploy out --branch=main --commit-dirty=true` | Force deploy with uncommitted changes |
+| `wrangler pages deployment list` | List all deployments |
+| `wrangler pages deployment describe <id>` | Show deployment details |
+| `wrangler pages deployment tail` | Stream live logs |
+| `wrangler pages deployment delete --branch=<name>` | Delete a branch preview |
+| `wrangler pages project get <name>` | Show project settings |
+| `wrangler pages project modify <name> --production-branch=<branch>` | Change production branch |
+| `wrangler pages secret put <key>` | Add an encrypted secret |
+| `wrangler pages secret list` | List secrets |
+| `wrangler pages secret delete <key>` | Remove a secret |
