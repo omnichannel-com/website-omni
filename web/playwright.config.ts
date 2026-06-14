@@ -22,7 +22,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npx serve out -l 3000",
+    command: "python3 -m http.server 3000 --directory out",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 60000,

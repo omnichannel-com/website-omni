@@ -35,7 +35,7 @@ export default function HeroSection() {
 
           {/* Subhead */}
           <p className="font-serif italic font-medium text-xl sm:text-2xl md:text-3xl lg:text-ocx-2xl leading-ocx-snug text-white/90 mb-6 md:mb-8 max-w-3xl">
-            From where you are today to AI with your people in control.
+            From where you are today to AI Native with your people in control.
           </p>
 
           {/* Lede - canonical definition */}
