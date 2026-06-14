@@ -5,7 +5,9 @@ Sync Impact Report
 - Sections added: Core Principles, Technology Standards, Development Workflow, Governance
 - Templates requiring updates: none (initial creation)
 - Follow-up TODOs: RATIFICATION_DATE set to 2026-06-02 based on first commit context; amend if project has an earlier formal adoption date.
-- Amendments: v1.1.0 — Added `uv` as preferred Python/dependency management tool.
+- Amendments:
+  - v1.1.0 — Added `uv` as preferred Python/dependency management tool.
+  - v1.2.0 — Added CI/CD principle: Cloudflare Pages branch previews for copy validation before production deploy.
 -->
 
 # website-omni Constitution
@@ -78,6 +80,7 @@ Rationale: Tokens ensure that any change to the brand (e.g., a color refresh) pr
 - **Build**: None for static pages; any build step must be documented in `plan.md` and approved.
 - **Python / Dependencies**: `uv` is the preferred tool for Python environment and dependency management whenever possible. Use `uv tool install` for CLI tools, `uv pip` for packages, and `uv run` for scripts. Fall back to `pip` or `conda` only when `uv` does not support the required workflow.
 - **Preview**: `npx http-server` or equivalent for local preview.
+- **CI/CD**: Cloudflare Pages with branch previews. Every feature branch MUST be deployed to a preview URL (`*.pages.dev`) for stakeholder copy review before merging to `main`.
 
 ## Development Workflow
 
@@ -87,6 +90,7 @@ Rationale: Tokens ensure that any change to the brand (e.g., a color refresh) pr
 4. Any deviation from the brand guide MUST be flagged in the spec with a substitution marker (e.g., `🚩 Substitution — Lucide used pending house icon set`).
 5. Code review MUST verify: (a) token usage, (b) contrast compliance, (c) focus state presence, (d) copy tone.
 6. Commit after each completed task or logical group.
+7. **Deploy workflow**: Build (`npm run build`) → Deploy preview (`wrangler pages deploy out --branch=<feature>`) → Validate copy on preview URL → Merge to `main` → Auto-deploy production.
 
 ## Governance
 
@@ -100,4 +104,4 @@ This constitution supersedes all other style guides and conventions for the webs
 - **Compliance review**: Every plan and spec MUST reference the relevant principles. Violations MUST be justified in the Complexity Tracking table of `plan.md`.
 - **Ratification**: This constitution is ratified when accepted by the project lead.
 
-**Version**: 1.1.0 | **Ratified**: 2026-06-02 | **Last Amended**: 2026-06-02
+**Version**: 1.2.0 | **Ratified**: 2026-06-02 | **Last Amended**: 2026-06-14
