@@ -36,7 +36,7 @@ Fired by PostHog automatically when initialized with `capture_pageview: true`.
   "properties": {
     "$current_url": string,
     "$pathname": string,
-    "$host": "omni-channel.com"
+    "$host": "omnichannel.cx"
   }
 }
 ```

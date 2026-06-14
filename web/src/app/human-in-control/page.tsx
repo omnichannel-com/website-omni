@@ -8,9 +8,9 @@ import OversightModels from "@/components/human-in-control/oversight-models";
 import FaqAccordion from "@/components/ui/faq-accordion";
 
 const AUTHOR_NAME = "Graeme Provan";
-const AUTHOR_URL = "https://www.linkedin.com/in/graemeprovan";
+const AUTHOR_URL = "https://www.linkedin.com/in/provan";
 const PUBLISHED = "2026-06-10";
-const MODIFIED = "2026-06-11";
+const MODIFIED = "2026-06-14";
 
 const FAQS = [
   {

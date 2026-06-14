@@ -66,7 +66,7 @@ export function organizationSchema(): OrganizationSchema {
       "A customer experience and service operations consultancy. We help organisations transform CX, adopt AI safely, and keep humans in control.",
     sameAs: [
       "https://www.linkedin.com/company/omnichannel-cx",
-      "https://www.linkedin.com/in/graemeprovan",
+      "https://www.linkedin.com/in/provan",
     ],
     areaServed: [
       { "@type": "Country", name: "Australia" },

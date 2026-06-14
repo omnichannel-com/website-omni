@@ -39,6 +39,9 @@ out/
 build/
 dist/
 
+# Generated search index (rebuilt on every npm run build)
+web/public/pagefind/
+
 # ============================================
 # Python
 # ============================================

@@ -62,9 +62,9 @@ export default function AboutPage() {
               Operators, not theorists
             </h2>
             <p className="text-ocx-fg text-lg md:text-xl leading-ocx-base mb-5">
-              omnichannel is an independent customer experience and service operations consultancy
-              for banking, insurance, telecoms, and utilities. We help organisations transform
-              CX, adopt AI safely, and keep humans in control.
+              Omnichannel is an independent customer experience and service operations consultancy
+              for all industries and verticals. We help businesses transform their
+              experiences, adopt AI safely, and keep humans in control.
             </p>
             <p className="text-ocx-fg text-lg md:text-xl leading-ocx-base mb-5">
               We have sized queues, watched SLAs slip, and run operations under pressure. We
@@ -72,7 +72,7 @@ export default function AboutPage() {
               tell you when you do not need something.
             </p>
             <p className="text-ocx-fg-muted text-lg md:text-xl leading-ocx-base">
-              Every engagement starts with your business outcomes and ends with your team more
+              Every engagement starts with your customers and your business outcomes, we end with your team more
               capable than when we arrived.
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function AboutPage() {
                 </h3>
                 <p className="font-body text-sm text-ocx-fg leading-ocx-base">
                   We are experienced consultants with a proven track record of success in delivering
-                  transformative customer experience solutions.
+                  transformative experience orchestration solutions.
                 </p>
               </div>
               <div className="flex flex-col gap-3">
@@ -103,8 +103,8 @@ export default function AboutPage() {
                   Australian Roots
                 </h3>
                 <p className="font-body text-sm text-ocx-fg leading-ocx-base">
-                  Based in Australia, we leverage our local market knowledge to provide tailored
-                  solutions that resonate with your target audience.
+                  Based in Australia, we leverage our local market knowledge and global perspectives to provide tailored
+                  and measurable business outcomes.
                 </p>
               </div>
               <div className="flex flex-col gap-3">
@@ -133,14 +133,14 @@ export default function AboutPage() {
               Business first. Technology second. People always.
             </h2>
             <p className="text-ocx-fg text-lg md:text-xl leading-ocx-base mb-5">
-              We believe AI should make your team more capable, not less necessary. We believe
-              every automated decision should have a human gate. We believe the best technology
-              is the technology your people can run after we leave.
+              We believe Agentic AI should make your team more capable, not less necessary. We believe
+              every automated decision should have human oversight. We believe the best technology
+              is the technology your people operate after we leave.
             </p>
             <p className="text-ocx-fg-muted text-lg md:text-xl leading-ocx-base">
-              Human in control is not a feature. It is an operating model. AI prepares the work;
-              a person with authority approves it. That is the only safe path to scale in
-              regulated, high-stakes operations.
+              Human in control is not a feature. It is an operating model. Agentic AI prepares the work;
+              a person with authority approves it. That is the only safe path to scale in 
+              regulated and non-regulated, high-stakes operations.
             </p>
           </div>
         </div>
@@ -157,19 +157,19 @@ export default function AboutPage() {
               Graeme Provan
             </h2>
             <p className="text-ocx-fg text-lg md:text-xl leading-ocx-base mb-5">
-              Graeme has run customer service and operations teams in regulated industries across
-              banking, insurance, and utilities. He founded omnichannel to help organisations
+              Graeme has optimised customer experience and operations teams in regulated and unregulated industries across
+              the globe. Working with some of the world's largest telecommunications, banking, insurance, and utilities businesses along with startups, media, FMCG, transportation, B2B, B2C and B2B2C organisations. He founded omnichannel to help organisations
               adopt AI without losing the human judgment that makes service safe and effective.
             </p>
             <p className="text-ocx-fg text-lg md:text-xl leading-ocx-base mb-5">
               <span className="font-semibold text-ocx-fg-primary">LinkedIn:</span>{" "}
               <a
-                href="https://www.linkedin.com/in/graemeprovan"
+                href="https://www.linkedin.com/in/provan"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-ocx-bright-blue hover:underline"
               >
-                linkedin.com/in/graemeprovan
+                linkedin.com/in/provan
               </a>
             </p>
             <p className="text-ocx-fg-muted text-base leading-ocx-base">

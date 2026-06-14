@@ -1,6 +1,6 @@
 /**
  * Quiz data - 4 questions, 4 options each, scored 1–4.
- * Sourced from web/blog/files/omnichannel-website-brief.html
+ * 
  */
 
 export interface QuizOption {

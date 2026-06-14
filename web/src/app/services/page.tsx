@@ -52,7 +52,7 @@ export default function ServicesPage() {
               Adopt AI without losing control.
             </h1>
             <p className="font-serif italic font-medium text-xl sm:text-2xl md:text-3xl text-white/90 mb-8 max-w-3xl">
-              The consultancy that has run the operation, not just advised on it.
+              The consultancy that has designed, built, supported, developed and run the operation, not just advised on it.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <Link

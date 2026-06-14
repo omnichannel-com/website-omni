@@ -90,9 +90,9 @@ export default function PrivacyPolicy() {
               Contact
             </h2>
             <p className="text-lg leading-ocx-base">
-              Data controller: Graeme Provan, omnichannel.
+              Data controller: Graeme Provan, Omnichannel PTY LTD.
               <br />
-              Email: privacy@omnichannel.cx
+              
             </p>
           </section>
         </div>

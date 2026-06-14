@@ -37,7 +37,7 @@ The website is an existing **Next.js 16** app configured for **static HTML expor
 **Navigation**: Sticky top bar with wordmark ("omnichannel."), links to "What we do", "How to start", "FAQ", and a primary CTA "Book a call".
 
 **Sections (in order)**:
-1. **Hero** (aurora gradient, dark text): Eyebrow "Customer experience & service operations consultancy", headline "Transform your customer experience and your service operations.", subhead "From where you are today to AI with your people in control.", lede paragraph, two CTAs ("Book a working session" linking to Calendly and "Take the two-minute check"), industry tags (Banking & finance, Insurance, Telecoms, Utilities).
+1. **Hero** (aurora gradient, dark text): Eyebrow "Customer experience & service operations consultancy", headline "Transform your customer experience and your service operations.", subhead "From where you are today to tomorrows AI Native organisation with your people in control.", lede paragraph, two CTAs ("Book a working session" linking to Calendly and "Take the two-minute check"), industry tags (Banking & finance, Insurance, Telecoms, Utilities).
 2. **The Challenge**: Problem statement for executives under pressure to improve service, cut cost, and adopt AI safely.
 3. **What we do** (6 cards): Maturity Review & AI readiness; CX strategy & design; Operational performance; Contact centre & platform advisory; AI & automation (human in control); Training & capability.
 4. **How to start** (3 cards): Transform or optimise; Plan or review; Fix one thing.
@@ -100,7 +100,7 @@ The website is an existing **Next.js 16** app configured for **static HTML expor
 2. **How Is Human in Control Different from Human in the Loop?** — comparison table of three terms (HITL, HOTL, Human in Control) covering agent autonomy and human role. No throat-clearing; answer first.
 3. **Why Does Human in Control Matter?** — three numbered reasons: Accountability, Trust, Error containment.
 4. **What Does Human in Control Look Like in Practice?** — four observable properties: Visibility, Decision rights, Intervention, Attribution.
-5. **How Omni-Channel.com Runs Human in Control** — operational data section (placeholder until real numbers available). Must contain actual intervention rates, approval thresholds, failure cases, median response time.
+5. **How omnichannel.cx Runs Human in Control** — operational data section (placeholder until real numbers available). Must contain actual intervention rates, approval thresholds, failure cases, median response time.
 6. **Frequently Asked Questions** (flexible number): Is human in control the same as human oversight; Does it slow agents down; Who is accountable when an agent makes a mistake; Is it required by regulation.
 7. **Footer**: Same as main page.
 
@@ -275,7 +275,7 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **FR-005**: All pages MUST share the same CSS custom properties and component classes so visual consistency is maintained
 - **FR-006**: The FAQ section MUST contain entries that match the Schema.org structured data exactly; the count is flexible and may expand without spec amendment
 - **FR-007**: The industry cards MUST name the relevant regulator for each sector (FCA, APRA, ASIC, ACMA, AER, Ofcom, Ofgem, EWOV) and reference SOC controls and Privacy Principles where applicable
-- **FR-008**: The footer on all pages MUST contain the tagline "AI does the work. You make the call.", link to `omni-channel.com`, and link to the Privacy Policy (`/privacy.html`); `omnichannel.cx` MUST redirect to `omni-channel.com` and MUST NOT be linked directly
+- **FR-008**: The footer on all pages MUST contain the tagline "AI does the work. You make the call.", link to `omnichannel.cx`, and link to the Privacy Policy (`/privacy.html`); `omnichannel.cx` MUST redirect to `omnichannel.cx` and MUST NOT be linked directly
 - **FR-009**: No page MUST mention a product demo, free trial, "omnichannel platform", or future SaaS offering. The site is consultancy-only.
 - **FR-009a**: Every booking CTA ("Book a working session", "Book a call", "Request a Maturity Review") MUST link to the same Calendly URL: `https://calendly.com/graeme-omnichannel/30min`
 - **FR-009b**: Old SaaS pages (`/pricing`, `/landing-page`, `/contact`, `/disclaimer`, `/terms-of-service`) MUST be moved to `web/src/app/_archive/` and excluded from the build and sitemap
@@ -290,20 +290,20 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **FR-018**: The pillar page MUST include FAQPage Schema.org JSON-LD with Question/Answer pairs matching the current FAQ section, plus Article schema with `author`, `datePublished`, and `dateModified`
 - **FR-019**: The robots.txt on the canonical domain MUST explicitly allow AI crawlers: GPTBot, OAI-SearchBot, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, CCBot, Amazonbot, Applebot-Extended
 - **FR-020**: An `llms.txt` file MUST exist at the domain root (`web/public/llms.txt`) with consultancy positioning (not SaaS), short-form canonical definition, and links to pillar, glossary, and company pages
-- **FR-021**: The canonical domain MUST consolidate on `omni-channel.com`; `omnichannel.cx` MUST 301-redirect page-for-page
+- **FR-021**: The canonical domain MUST consolidate on `omnichannel.cx`; `omnichannel.cx` MUST 301-redirect page-for-page
 - **FR-022**: The pillar page MUST link back to the homepage and to a glossary page; every cluster article MUST link to the pillar page
 - **FR-023**: The homepage title and description MUST include "human in control" alongside the consultancy positioning
 - **FR-024**: The pillar page's `dateModified` MUST be refreshed with genuine updates at least quarterly
 - **FR-025**: A cookie consent banner MUST appear on first visit to any page, offering "Accept" and "Decline" buttons; declining MUST prevent PostHog initialisation (FR-014 already covers graceful degradation)
 - **FR-026**: The Privacy Policy page (`/privacy.html`) MUST be reachable from the footer of every page and explain PostHog tracking, user rights under UK ICO and Australian Privacy Act, and how to withdraw consent
 - **FR-027**: The pillar page and every cluster article MUST include Open Graph (`og:title`, `og:description`, `og:type=article`, `og:url`) and Twitter Card (`twitter:card=summary_large_image`) tags
-- **FR-028**: Every page MUST include a self-referencing canonical `<link rel="canonical">` tag pointing to its `omni-channel.com` URL
-- **FR-029**: The Organization Schema.org JSON-LD MUST be updated from SaaS product positioning to consultancy positioning, with name "omnichannel" and URL `omni-channel.com`
+- **FR-028**: Every page MUST include a self-referencing canonical `<link rel="canonical">` tag pointing to its `omnichannel.cx` URL
+- **FR-029**: The Organization Schema.org JSON-LD MUST be updated from SaaS product positioning to consultancy positioning, with name "omnichannel" and URL `omnichannel.cx`
 - **FR-030**: Every cluster article MUST include Article schema with `author` (Graeme Provan), `datePublished`, and `dateModified` — not just the pillar page
 - **FR-031**: The pillar page MUST include at least 3 external authority links (e.g., NIST AI RMF, EU AI Act, relevant academic or regulatory sources) in the body content to boost topical authority
 - **FR-032**: The pillar page MUST display a table of contents (anchor links to H2/H3 sections) above the first H2 to improve heading extraction by crawlers
 - **FR-033**: The pillar page body content (excluding FAQ) MUST contain minimum 2000 words to signal comprehensive coverage
-- **FR-034**: The canonical definition on the pillar page MUST be wrapped in a container with `id="canonical-definition"` or `<blockquote cite="https://omni-channel.com/human-in-control">` for programmatic extraction by crawlers
+- **FR-034**: The canonical definition on the pillar page MUST be wrapped in a container with `id="canonical-definition"` or `<blockquote cite="https://omnichannel.cx/human-in-control">` for programmatic extraction by crawlers
 
 ### Key Entities
 
@@ -339,13 +339,13 @@ The Omnichannel team understands how visitors interact with the site so they can
 - **SC-014**: The pillar page's `dateModified` is no older than 90 days at any review checkpoint
 - **SC-015**: The cookie consent banner renders on first visit, records the choice in `localStorage`, and declining prevents PostHog from loading without JavaScript errors; the banner does not re-appear on subsequent visits unless consent is withdrawn
 - **SC-016**: Every page has a valid Open Graph `og:title`, `og:description`, and `og:url` tag; the pillar page and cluster articles have `og:type=article`
-- **SC-017**: Every page has a self-referencing canonical URL pointing to `omni-channel.com` (not `omnichannel.cx`)
-- **SC-018**: The Organization schema shows name "omnichannel" with URL `omni-channel.com` — no SaaS product references
+- **SC-017**: Every page has a self-referencing canonical URL pointing to `omnichannel.cx` (not `omnichannel.cx`)
+- **SC-018**: The Organization schema shows name "omnichannel" with URL `omnichannel.cx` — no SaaS product references
 - **SC-019**: Every cluster article contains Article schema with `author`, `datePublished`, and `dateModified` fields
 - **SC-020**: The pillar page contains at least 3 outbound links to authoritative sources (NIST, EU AI Act, academic) and they are functional
 - **SC-021**: The pillar page displays a clickable table of contents above the first H2 section
 - **SC-022**: The pillar page word count (excluding FAQ) is 2000+ words as measured by a standard text analyzer
-- **SC-023**: The canonical definition on the pillar page is programmatically extractable via `document.getElementById('canonical-definition')` or `document.querySelector('blockquote[cite*="omni-channel.com"]')`
+- **SC-023**: The canonical definition on the pillar page is programmatically extractable via `document.getElementById('canonical-definition')` or `document.querySelector('blockquote[cite*="omnichannel.cx"]')`
 
 ## Assumptions
 
@@ -361,6 +361,6 @@ The Omnichannel team understands how visitors interact with the site so they can
 - Real operational data for the "How we run it" section may not be available immediately; placeholder claims must be marked and replaced before the pillar is promoted
 - The content cluster assumes a publishing cadence of one piece every 2–3 weeks after the pillar + comparison article launch
 - Author attribution requires a real bio page for Graeme Provan; if not yet built, the LinkedIn URL serves as the author reference
-- Domain consolidation (`omni-channel.com` vs `omnichannel.cx`) may require DNS and hosting coordination outside the scope of this spec
+- Domain consolidation (`omnichannel.cx` vs `omnichannel.cx`) may require DNS and hosting coordination outside the scope of this spec
 - AI crawler bot names (GPTBot, ClaudeBot, etc.) are not stable contracts; the robots.txt allowlist may need updating as vendors rename or add new bots
 - PostHog analytics are conditional on visitor consent; the site must function fully without tracking if declined

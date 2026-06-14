@@ -203,7 +203,7 @@
 - [x] T067 [P] [US-AEO] Create comparison table section: HITL vs HOTL vs Human in Control
 - [x] T068 [P] [US-AEO] Create "Why Does Human in Control Matter?" section (3 numbered reasons)
 - [x] T069 [P] [US-AEO] Create "What Does Human in Control Look Like in Practice?" section (4 observable properties)
-- [x] T070 [P] [US-AEO] Create "How Omni-Channel.com Runs Human in Control" section with placeholder operational data (marked for replacement)
+- [x] T070 [P] [US-AEO] Create "How omnichannel.cx Runs Human in Control" section with placeholder operational data (marked for replacement)
 - [x] T071 [P] [US-AEO] Create pillar FAQ section with Schema.org FAQPage JSON-LD
 - [x] T072 [P] [US-AEO] Add table of contents component with anchor links to all H2/H3 sections
 - [x] T073 [P] [US-AEO] Add external authority links (NIST AI RMF, EU AI Act, academic sources) to body content
@@ -281,7 +281,7 @@
 
 **Purpose**: Address critical SEO/AEO gaps in domain consistency, geo-targeting, and keyword coverage.
 
-- [x] T103 [P] Fix all hardcoded domain references across codebase from `omnichannelcx.com` and `omni-channel.com` to `omnichannel.cx`
+- [x] T103 [P] Fix all hardcoded domain references across codebase from `omnichannelcx.com` and `omnichannel.cx` to `omnichannel.cx`
 - [x] T104 [P] Update LinkedIn URL across all files from `omnichannelcx` to `omnichannel-cx`
 - [x] T105 [P] Update `web/public/sitemap.xml`: regenerate with correct domain (`omnichannel.cx`), add all core pages, cluster pages, and geo landing page URLs
 - [x] T106 [P] Update `web/src/lib/schema-org.ts`: add `areaServed` geo signals to Organization schema (Australia, New Zealand, Japan, South Korea, Indonesia, Philippines, Fiji, Asia-Pacific)

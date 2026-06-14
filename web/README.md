@@ -115,7 +115,7 @@ out/                — Generated static export (gitignored)
 ### List all deployments
 
 ```bash
-wrangler pages deployment list --project-name=omnichannel-web
+wrangler pages deployment list --project-name=omnichannel-cx
 ```
 
 Shows all branch previews and production deployments with their IDs, URLs, and timestamps.
@@ -123,7 +123,7 @@ Shows all branch previews and production deployments with their IDs, URLs, and t
 ### View deployment details
 
 ```bash
-wrangler pages deployment describe <deployment-id> --project-name=omnichannel-c
+wrangler pages deployment describe <deployment-id> --project-name=omnichannel-cx
 ```
 
 Useful for checking which files were included and the exact build output for a deployment.

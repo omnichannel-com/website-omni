@@ -11,7 +11,7 @@ interface PageMetadata {
   title: string;                    // Page title + " | omnichannel"
   description: string;              // Meta description (short-form canonical definition for pillar)
   alternates: {
-    canonical: string;              // Self-referencing omni-channel.com URL
+    canonical: string;              // Self-referencing omnichannel.cx URL
   };
   openGraph: {
     title: string;
@@ -77,7 +77,7 @@ dateModified: ISO-8601           # Article schema
 author: "Graeme Provan"          # Article schema + visible attribution
 authorUrl: "https://www.linkedin.com/in/provan/"
 description: string              # Meta description + og:description
-canonicalUrl: string             # omni-channel.com full path
+canonicalUrl: string             # omnichannel.cx full path
 tags: string[]                   # For internal organization
 draft: boolean                   # false for published
 ---
@@ -92,9 +92,9 @@ draft: boolean                   # false for published
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "omnichannel",
-  "url": "https://omni-channel.com",
-  "logo": "https://omni-channel.com/assets/logo-full-color.png",
-  "sameAs": ["https://www.linkedin.com/company/omnichannelcx"],
+  "url": "https://omnichannel.cx",
+  "logo": "https://omnichannel.cx/assets/logo-full-color.png",
+  "sameAs": ["https://www.linkedin.com/company/omnichannel-cx"],
   "description": "Customer experience and service operations consultancy"
 }
 ```
@@ -174,17 +174,17 @@ All CTAs share the same URL. The `text` varies by context but the destination is
 > [Short-form canonical definition]
 
 ## Core concepts
-- [What Is Human in Control?](https://omni-channel.com/human-in-control): ...
-- [Human in Control vs...](https://omni-channel.com/human-in-control-vs-hitl-hotl): ...
-- [Agentic AI Glossary](https://omni-channel.com/glossary): ...
+- [What Is Human in Control?](https://omnichannel.cx/human-in-control): ...
+- [Human in Control vs...](https://omnichannel.cx/human-in-control-vs-hitl-hotl): ...
+- [Agentic AI Glossary](https://omnichannel.cx/glossary): ...
 
 ## Company
-- [OmniChannel Home](https://omni-channel.com/): ...
-- [Services](https://omni-channel.com/services): ...
-- [About](https://omni-channel.com/about): ...
+- [OmniChannel Home](https://omnichannel.cx/): ...
+- [Services](https://omnichannel.cx/services): ...
+- [About](https://omnichannel.cx/about): ...
 
 ## Optional
-- [Checklists](https://omni-channel.com/human-in-control-checklist): ...
+- [Checklists](https://omnichannel.cx/human-in-control-checklist): ...
 ```
 
 ## PostHog Event Schema

@@ -6,7 +6,7 @@ import { articleSchema, safeJsonLd } from "@/lib/schema-org";
 import { ArrowRight, BookOpen } from "lucide-react";
 
 const AUTHOR_NAME = "Graeme Provan";
-const AUTHOR_URL = "https://www.linkedin.com/in/graemeprovan";
+const AUTHOR_URL = "https://www.linkedin.com/in/";
 const PUBLISHED = "2026-06-11";
 const MODIFIED = "2026-06-11";
 
