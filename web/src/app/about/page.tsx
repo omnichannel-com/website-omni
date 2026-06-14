@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe, MapPin, HeartHandshake } from "lucide-react";
 import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 import { CALENDLY_URL } from "@/lib/calendly";
-
 export const metadata: Metadata = {
-  title: "About | Independent CX & Service Operations Consultant | omnichannel",
+  title: "About | Independent CX & Service Operations Consultancy | omnichannel",
   description:
     "Independent customer experience and service operations consultant for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
   alternates: {
     canonical: "https://omnichannel.cx/about",
   },
   openGraph: {
-    title: "About | Independent CX & Service Operations Consultant | omnichannel",
+    title: "About | Independent CX & Service Operations Consultancy | omnichannel",
     description:
       "Independent customer experience and service operations consultant for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
     url: "https://omnichannel.cx/about",
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "About | Independent CX & Service Operations Consultant | omnichannel",
+    title: "About | Independent CX & Service Operations Consultancy | omnichannel",
     description:
       "Independent customer experience and service operations consultant for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
     images: ["/assets/logo-full-color.png"],
@@ -80,8 +79,51 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* What we believe */}
+      {/* Why work with us */}
       <section className="py-16 md:py-24 lg:py-32 bg-ocx-bg-subtle">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="font-display text-ocx-fg-primary text-2xl md:text-3xl lg:text-ocx-3xl font-black tracking-ocx-tight leading-ocx-tight mb-10 text-center">
+              Why work with us
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex flex-col gap-3">
+                <Globe className="w-8 h-8 text-ocx-bright-blue" strokeWidth={1.5} />
+                <h3 className="font-display text-lg font-bold text-ocx-fg-primary">
+                  Global Expertise
+                </h3>
+                <p className="font-body text-sm text-ocx-fg leading-ocx-base">
+                  We are experienced consultants with a proven track record of success in delivering
+                  transformative customer experience solutions.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <MapPin className="w-8 h-8 text-ocx-mauve" strokeWidth={1.5} />
+                <h3 className="font-display text-lg font-bold text-ocx-fg-primary">
+                  Australian Roots
+                </h3>
+                <p className="font-body text-sm text-ocx-fg leading-ocx-base">
+                  Based in Australia, we leverage our local market knowledge to provide tailored
+                  solutions that resonate with your target audience.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <HeartHandshake className="w-8 h-8 text-ocx-bright-blue" strokeWidth={1.5} />
+                <h3 className="font-display text-lg font-bold text-ocx-fg-primary">
+                  Human-Centric Approach
+                </h3>
+                <p className="font-body text-sm text-ocx-fg leading-ocx-base">
+                  We work collaboratively with our clients, taking the time to understand their unique
+                  needs and goals, developing and executing strategies that drive measurable outcomes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What we believe */}
+      <section className="py-16 md:py-24 lg:py-32 bg-ocx-bg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="max-w-3xl mx-auto">
             <span className="font-display text-ocx-fg-accent text-xs md:text-sm uppercase tracking-ocx-caps font-bold">

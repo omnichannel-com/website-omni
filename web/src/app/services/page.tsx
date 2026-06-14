@@ -7,25 +7,25 @@ import Link from "next/link";
 import { ArrowRight, Shield, Users, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "CX & Service Operations Consultant | omnichannel",
+  title: "CX & Service Operations Consultancy | omnichannel",
   description:
-    "Customer experience and service operations consultant. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
+    "Customer experience and service operations consultancy. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
   alternates: {
     canonical: "https://omnichannel.cx/services",
   },
   openGraph: {
-    title: "CX & Service Operations Consultant | omnichannel",
+    title: "CX & Service Operations Consultancy | omnichannel",
     description:
-      "Customer experience and service operations consultant. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
+      "Customer experience and service operations consultancy. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
     url: "https://omnichannel.cx/services",
     type: "website",
     images: ["/assets/logo-full-color.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CX & Service Operations Consultant | omnichannel",
+    title: "CX & Service Operations Consultancy | omnichannel",
     description:
-      "Customer experience and service operations consultant. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
+      "Customer experience and service operations consultancy. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
     images: ["/assets/logo-full-color.png"],
   },
 };
@@ -151,7 +151,7 @@ export default function ServicesPage() {
                 How we work
               </h2>
               <p className="font-body text-base md:text-lg text-ocx-fg leading-ocx-base mb-4">
-                We start with your business outcomes, not a tool we want to sell. We diagnose the
+                We start with your people and business outcomes, not a tool we want to sell. We diagnose the
                 gap across people, process, platform, and policy, then build a plan that closes it
                 in the shortest viable time.
               </p>
@@ -168,8 +168,8 @@ export default function ServicesPage() {
                 {[
                   "Higher customer satisfaction",
                   "Lower cost to serve",
-                  "Safe AI with human control",
-                  "Independent, vendor-free advice",
+                  "Governed AI with human control",
+                  "Independent, vendor-agnostic advice",
                   "A more capable team",
                 ].map((item) => (
                   <li key={item} className="font-body text-base text-ocx-fg">
@@ -206,10 +206,10 @@ export default function ServicesPage() {
                 <span className="font-display font-black text-4xl text-ocx-fg-primary/20">2</span>
                 <div>
                   <h3 className="font-display text-lg font-bold text-ocx-fg-primary mb-2">
-                    Gate by risk so you go faster
+                    Gate by risk so you execute faster
                   </h3>
                   <p className="font-body text-base text-ocx-fg leading-ocx-base">
-                    Low-risk, high-volume work flows through. High-risk, consequential work stops at
+                    Low-risk, high-volume work flows through. High-risk, consequential work passes through
                     a human gate. You move faster where it is safe, and slower where it matters.
                   </p>
                 </div>
@@ -222,7 +222,7 @@ export default function ServicesPage() {
                   </h3>
                   <p className="font-body text-base text-ocx-fg leading-ocx-base">
                     AI removes drudgery. Your people spend their time on judgment, relationship, and
-                    the exceptions that need a human. They become more capable, not less necessary.
+                    the exceptions that need the human touch. They become more capable, not less necessary.
                   </p>
                 </div>
               </div>
@@ -282,7 +282,7 @@ export default function ServicesPage() {
               Get started
             </h2>
             <p className="font-body text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              Book a working session. We will diagnose your current state and give you a clear plan.
+              Book a working session. We will evaluate your current state and give you a clear plan.
             </p>
             <Link
               href={CALENDLY_URL}

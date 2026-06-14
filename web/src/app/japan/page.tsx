@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "japan",
   region: "Japan",
   headline: "Transform CX and service operations in Japan.",
   subhead: "Independent consultancy for FSA-regulated organisations adopting agentic AI safely.",

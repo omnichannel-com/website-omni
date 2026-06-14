@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "fiji",
   region: "Fiji",
   headline: "Transform CX and service operations in Fiji.",
   subhead: "Independent consultancy for RBF-regulated organisations adopting agentic AI safely.",

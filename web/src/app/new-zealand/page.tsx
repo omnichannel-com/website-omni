@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "new-zealand",
   region: "New Zealand",
   headline: "Transform CX and service operations in New Zealand.",
   subhead: "Independent consultancy for RBNZ and FMA-regulated organisations adopting agentic AI safely.",

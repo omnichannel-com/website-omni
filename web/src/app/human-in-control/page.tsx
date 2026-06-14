@@ -31,13 +31,15 @@ const FAQS = [
   {
     question: "Is human in control required by regulation?",
     answer:
-      "The EU AI Act and NIST AI RMF both call for human oversight of high-risk AI systems. Human in control is a practical implementation of that requirement - an operating model, not a compliance checkbox.",
+      "The EU AI Act and NIST AI RMF both call for human oversight of high-risk AI systems. In Australia, the 8 AI Ethics Principles and the National Framework for the Assurance of AI in Government require meaningful human accountability. New Zealand's Public Service AI Framework mandates oversight by accountable humans at every stage. Singapore's Model AI Governance Framework and Japan's AI governance guidelines also emphasise human accountability for consequential decisions. Human in control is a practical implementation of these requirements - an operating model, not a compliance checkbox.",
   },
 ];
 
 const EXTERNAL_LINKS = [
   { text: "NIST AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
   { text: "EU AI Act - human oversight requirements", url: "https://artificial-intelligence-act.com/the-act/" },
+  { text: "Australia's AI Ethics Principles", url: "https://www.industry.gov.au/publications/australias-ai-ethics-principles" },
+  { text: "Singapore Model AI Governance Framework", url: "https://www.imda.gov.sg/about-imda/emerging-tech-and-research/artificial-intelligence/ai-governance" },
   { text: "ISO/IEC 23894 - AI risk management", url: "https://www.iso.org/standard/77304.html" },
 ];
 

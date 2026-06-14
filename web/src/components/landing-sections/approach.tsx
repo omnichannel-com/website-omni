@@ -21,11 +21,11 @@ export default function ApproachSection() {
               Our approach
             </h2>
             <p className="font-body text-base md:text-lg text-ocx-fg leading-ocx-base mb-4">
-              We start with your business outcomes, not with technology. Every engagement begins by
-              understanding what you are trying to achieve for customers and for the bottom line.
+              We start with your people and business outcomes, not with technology. Every engagement begins by
+              understanding the business outcomes you are trying to achieve for customers, employees, and the bottom line.
             </p>
             <p className="font-body text-base md:text-lg text-ocx-fg leading-ocx-base mb-4">
-              Then we diagnose the gap - people, process, platform, or policy - and build a plan
+              Then we diagnose the gap - people, process, platform, or policy - and partner to build the plan
               that closes it in the shortest viable time.
             </p>
             <p className="font-body text-base md:text-lg text-ocx-fg leading-ocx-base">

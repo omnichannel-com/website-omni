@@ -7,6 +7,7 @@ import { CALENDLY_URL } from "@/lib/calendly";
 import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 
 export interface GeoPageData {
+  slug: string;
   region: string;
   headline: string;
   subhead: string;
@@ -23,7 +24,7 @@ export default function GeoPage({ data }: { data: GeoPageData }) {
   const trackCta = (label: string) => {
     capture({
       event: "cta_click",
-      properties: { cta_label: label, page: `/${data.region.toLowerCase().replace(/\s+/g, "-")}`, region: data.region },
+      properties: { cta_label: label, page: `/${data.slug}`, region: data.region },
     });
   };
 

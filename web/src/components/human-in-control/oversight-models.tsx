@@ -128,6 +128,7 @@ export default function OversightModels() {
   useEffect(() => {
     const timers: d3.Timer[] = [];
     const timeouts: number[] = [];
+    let isMounted = true;
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
     // Clear any previous SVG content (StrictMode double-run safety)
@@ -306,6 +307,7 @@ export default function OversightModels() {
             .duration(250)
             .attr("opacity", 0)
             .on("end", () => {
+              if (!isMounted) return;
               const to = window.setTimeout(sendGlance, 2200);
               timeouts.push(to);
             });
@@ -541,6 +543,7 @@ export default function OversightModels() {
             .attr("cx", c.loop.cx)
             .attr("cy", c.loop.cy - c.loop.r)
             .on("end", () => {
+              if (!isMounted) return;
               cmdDot.attr("opacity", 0);
               halo
                 .attr("stroke", c.color)
@@ -550,7 +553,8 @@ export default function OversightModels() {
                 .attr("opacity", 0);
               if (c.label === "approve") {
                 gate.attr("fill", C.controlSoft);
-                window.setTimeout(() => gate.attr("fill", "#fff"), 650);
+                const to = window.setTimeout(() => gate.attr("fill", "#fff"), 650);
+                timeouts.push(to);
                 if (held) held = false;
                 else clearance = true;
               }
@@ -575,6 +579,7 @@ export default function OversightModels() {
     }
 
     return () => {
+      isMounted = false;
       timers.forEach((t) => t.stop());
       timeouts.forEach((id) => window.clearTimeout(id));
       [hitlRef, hotlRef, hootlRef, hicRef].forEach((ref) => {

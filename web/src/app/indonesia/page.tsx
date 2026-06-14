@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "indonesia",
   region: "Indonesia",
   headline: "Transform CX and service operations in Indonesia.",
   subhead: "Independent consultancy for OJK and BI-regulated organisations adopting agentic AI safely.",

@@ -159,7 +159,7 @@ export default function AustraliaPage() {
                 Australia
               </span>
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-ocx-4xl font-black tracking-ocx-tight leading-ocx-tight mb-6 text-white">
-                Australia's best omnichannel CX consultant.
+                Australia's best omnichannel CX consultancy.
               </h1>
               <p className="font-serif italic font-medium text-xl sm:text-2xl md:text-3xl text-white/90 mb-8 max-w-3xl">
                 Independent consultancy for APRA and ASIC-regulated organisations adopting agentic AI safely.

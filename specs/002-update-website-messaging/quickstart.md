@@ -33,6 +33,15 @@ npx serve out
 - `http://localhost:3000/human-in-control`
 - `http://localhost:3000/privacy-policy`
 - `http://localhost:3000/glossary`
+- `http://localhost:3000/apac`
+- `http://localhost:3000/australia`
+- `http://localhost:3000/new-zealand`
+- `http://localhost:3000/asia`
+- `http://localhost:3000/japan`
+- `http://localhost:3000/south-korea`
+- `http://localhost:3000/indonesia`
+- `http://localhost:3000/philippines`
+- `http://localhost:3000/fiji`
 
 ## Validation Scenarios
 
@@ -155,11 +164,14 @@ npm run test
 ## Production Deployment Checklist
 
 Before merging to main:
-- [ ] `omnichannel.cx` DNS configured for 301 redirect to `omni-channel.com`
+- [ ] `omnichannel.cx` DNS configured and serving the site (Cloudflare Pages or other host)
 - [ ] PostHog project key updated for production
 - [ ] Calendly URL confirmed active
-- [ ] `llms.txt` manually verified at domain root
-- [ ] robots.txt validated with a robots.txt tester
-- [ ] All page titles include "omnichannel" or "human in control"
-- [ ] Organization schema points to `omni-channel.com`
-- [ ] No "omnichannel platform" or product references found via grep
+- [x] `llms.txt` created at `web/public/llms.txt` with pillar, glossary, and canonical definition URLs
+- [x] `robots.txt` created at `web/public/robots.txt` with AI crawler allowlist (GPTBot, ClaudeBot, PerplexityBot, etc.)
+- [x] All page titles include "omnichannel" or "human in control"
+- [x] Organization schema points to `omnichannel.cx`
+- [x] No "omnichannel platform" or product references found via grep
+- [x] All 9 geo landing pages (`/apac`, `/australia`, `/new-zealand`, `/asia`, `/japan`, `/south-korea`, `/indonesia`, `/philippines`, `/fiji`) have unique metadata
+- [x] Sitemap includes all geo landing page URLs with correct domain `omnichannel.cx`
+- [x] `areaServed` geo signals present in Organization schema

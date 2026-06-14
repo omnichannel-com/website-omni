@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "south-korea",
   region: "South Korea",
   headline: "Transform CX and service operations in South Korea.",
   subhead: "Independent consultancy for FSC and FSS-regulated organisations adopting agentic AI safely.",

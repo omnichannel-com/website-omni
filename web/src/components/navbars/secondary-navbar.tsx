@@ -49,6 +49,18 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
     { name: "Human in control", link: "/human-in-control" },
   ];
 
+  const aboutSubItems = [
+    { name: "Australia", link: "/australia" },
+    { name: "New Zealand", link: "/new-zealand" },
+    { name: "Japan", link: "/japan" },
+    { name: "South Korea", link: "/south-korea" },
+    { name: "Indonesia", link: "/indonesia" },
+    { name: "Philippines", link: "/philippines" },
+    { name: "Fiji", link: "/fiji" },
+    { name: "Asia", link: "/asia" },
+    { name: "APAC", link: "/apac" },
+  ];
+
   const signUpHandler = () => {
     capture({ event: "cta_click", properties: { cta_label: "book_call_nav", page: activePath } });
     window.open(CALENDLY_URL, "_blank", "noopener,noreferrer");
@@ -82,45 +94,45 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
           </Link>
         </div>
         <div className="flex items-center gap-3 md:gap-7">
-          <ul className="flex items-center space-x-3 md:space-x-7">
-            {isMobile ? (
-              isMobileMenuOpen ? (
-                <X
-                  onClick={toggleMobileMenu}
-                  className="text-ocx-fg-primary w-6 h-6 cursor-pointer"
-                />
-              ) : (
-                <Menu
-                  onClick={toggleMobileMenu}
-                  className="text-ocx-fg-primary w-6 h-6 cursor-pointer"
-                />
-              )
+          {isMobile ? (
+            isMobileMenuOpen ? (
+              <X
+                onClick={toggleMobileMenu}
+                className="text-ocx-fg-primary w-6 h-6 cursor-pointer"
+              />
             ) : (
-              <>
-                {navItems.map((item) => {
-                  const isActive = activePath === item.link;
-                  return (
-                    <li
-                      key={item.name}
-                      className={clsx(
-                        "relative navitems group text-sm font-body",
-                        { "text-ocx-fg-primary font-bold": isActive }
-                      )}
-                    >
-                      <Link href={item.link}>{item.name}</Link>
-                    </li>
-                  );
-                })}
+              <Menu
+                onClick={toggleMobileMenu}
+                className="text-ocx-fg-primary w-6 h-6 cursor-pointer"
+              />
+            )
+          ) : (
+            <ul className="flex items-center space-x-3 md:space-x-7">
+              {navItems.map((item) => {
+                const isActive = activePath === item.link;
+                return (
+                  <li
+                    key={item.name}
+                    className={clsx(
+                      "relative navitems group text-sm font-body",
+                      { "text-ocx-fg-primary font-bold": isActive }
+                    )}
+                  >
+                    <Link href={item.link}>{item.name}</Link>
+                  </li>
+                );
+              })}
 
+              <li>
                 <button
                   onClick={signUpHandler}
                   className="bg-[var(--btn-primary-bg)] text-[var(--btn-primary-fg)] font-display font-semibold text-sm px-6 py-2 rounded-ocx-pill hover:bg-[var(--btn-primary-bg-hover)] transition-colors duration-ocx-fast"
                 >
                   Book a call
                 </button>
-              </>
-            )}
-          </ul>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
 
@@ -138,8 +150,8 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                   })}
                 >
                   <div className="flex items-center justify-between w-full">
-                    <Link href={item.link}>
-                      <span className="flex-grow text-left font-body" onClick={toggleMobileMenu}>
+                    <Link href={item.link} onClick={toggleMobileMenu}>
+                      <span className="flex-grow text-left font-body">
                         {item.name}
                       </span>
                     </Link>
@@ -156,12 +168,14 @@ const SecondaryNavbar: React.FC<SecondaryNavbarProps> = ({ isSticky }) => {
                     <div className="nav-drop text-sm z-[50] w-full bg-ocx-bg-subtle overflow-y-auto transition-all duration-700 ease-in-out">
                       <div className="text-ocx-fg px-4 py-2">
                         <ul className="space-y-2">
-                          {navItems.map((subItem) => (
+                          {aboutSubItems.map((subItem) => (
                             <li
                               className="py-1 hover:bg-ocx-bg-muted px-2 rounded-ocx-md cursor-pointer font-body text-sm"
                               key={subItem.name}
                             >
-                              <Link href={subItem.link}>{subItem.name}</Link>
+                              <Link href={subItem.link} onClick={toggleMobileMenu}>
+                                {subItem.name}
+                              </Link>
                             </li>
                           ))}
                         </ul>

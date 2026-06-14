@@ -13,8 +13,8 @@ function BlogHero() {
             omnichannel CX <span className="ocx-gradient-text">Insights</span>
           </h1>
 
-          <p className="text-lg md:text-2xl text-center px-4 max-w-full md:max-w-[600px]">
-          Explore insights, tips, and trends in tech, business, and innovation. Stay informed with our fresh articles.
+          <p className="text-lg md:text-2xl text-center px-4 max-w-full md:max-w-[700px]">
+            Industry insights, case studies, and thought leadership on customer experience trends and best practices.
           </p>
 
         </div>

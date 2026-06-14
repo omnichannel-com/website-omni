@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "philippines",
   region: "the Philippines",
   headline: "Transform CX and service operations in the Philippines.",
   subhead: "Independent consultancy for BSP and SEC-regulated organisations adopting agentic AI safely.",

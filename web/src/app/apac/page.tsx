@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 const DATA = {
+  slug: "apac",
   region: "Asia-Pacific",
   headline: "Transform CX and service operations across APAC.",
   subhead: "From Australia to Japan, New Zealand to Indonesia — we help regulated organisations adopt agentic AI safely.",
