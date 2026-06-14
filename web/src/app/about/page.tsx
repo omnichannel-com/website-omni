@@ -5,25 +5,25 @@ import StickyScrollLayout from "@/components/layouts/StickyScrollLayout";
 import { CALENDLY_URL } from "@/lib/calendly";
 
 export const metadata: Metadata = {
-  title: "About | Independent CX & Service Operations Consultancy | omnichannel",
+  title: "About | Independent CX & Service Operations Consultant | omnichannel",
   description:
-    "Independent customer experience and service operations consultancy for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
+    "Independent customer experience and service operations consultant for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
   alternates: {
     canonical: "https://omnichannel.cx/about",
   },
   openGraph: {
-    title: "About | Independent CX & Service Operations Consultancy | omnichannel",
+    title: "About | Independent CX & Service Operations Consultant | omnichannel",
     description:
-      "Independent customer experience and service operations consultancy for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
+      "Independent customer experience and service operations consultant for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
     url: "https://omnichannel.cx/about",
     type: "website",
     images: ["/assets/logo-full-color.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About | Independent CX & Service Operations Consultancy | omnichannel",
+    title: "About | Independent CX & Service Operations Consultant | omnichannel",
     description:
-      "Independent customer experience and service operations consultancy for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
+      "Independent customer experience and service operations consultant for APAC, Australia, New Zealand, Japan, South Korea, and beyond. Human in control means AI agents do the work; a human keeps the final say.",
     images: ["/assets/logo-full-color.png"],
   },
 };

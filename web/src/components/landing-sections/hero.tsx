@@ -41,7 +41,11 @@ export default function HeroSection() {
           {/* Lede - canonical definition */}
           <p className="font-body text-base md:text-lg lg:text-xl leading-ocx-base text-white/80 mb-10 md:mb-12 max-w-2xl">
             Human in control means AI agents do the work; a human keeps the final say. We help
-            organisations transform CX, adopt AI safely, and keep humans in control.
+            organisations transform CX, adopt AI safely, and keep humans in control.{" "}
+            <Link href="/australia" className="underline underline-offset-4 hover:text-white transition-colors">
+              Australia's best omnichannel CX consultant
+            </Link>{" "}
+            for banking, insurance, telecoms, and utilities.
           </p>
 
           {/* CTAs */}

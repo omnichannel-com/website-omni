@@ -7,25 +7,25 @@ import Link from "next/link";
 import { ArrowRight, Shield, Users, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "CX & Service Operations Consultancy | omnichannel",
+  title: "CX & Service Operations Consultant | omnichannel",
   description:
-    "Customer experience and service operations consultancy. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
+    "Customer experience and service operations consultant. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
   alternates: {
     canonical: "https://omnichannel.cx/services",
   },
   openGraph: {
-    title: "CX & Service Operations Consultancy | omnichannel",
+    title: "CX & Service Operations Consultant | omnichannel",
     description:
-      "Customer experience and service operations consultancy. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
+      "Customer experience and service operations consultant. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
     url: "https://omnichannel.cx/services",
     type: "website",
     images: ["/assets/logo-full-color.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CX & Service Operations Consultancy | omnichannel",
+    title: "CX & Service Operations Consultant | omnichannel",
     description:
-      "Customer experience and service operations consultancy. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
+      "Customer experience and service operations consultant. Maturity Review, CX strategy, AI with human control, and operational performance — across APAC, Australia, and New Zealand.",
     images: ["/assets/logo-full-color.png"],
   },
 };
