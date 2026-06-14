@@ -17,6 +17,9 @@ desktop.ini
 *.swo
 *~
 *.tmp
+.idea/
+.vscode/settings.json
+!.vscode/extensions.json
 
 # ============================================
 # Node.js / JavaScript
@@ -63,6 +66,8 @@ pip-delete-this-directory.txt
 coverage/
 *.lcov
 .nyc_output
+test-results/
+playwright-report/
 
 # ============================================
 # Logs
@@ -105,4 +110,3 @@ lerna-debug.log*
 .cache/
 .temp/
 tmp/
-.env.local
